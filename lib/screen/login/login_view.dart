@@ -1,17 +1,260 @@
 import 'package:flutter/material.dart';
+import 'package:reprohealth_app/component/button_component.dart';
+import 'package:reprohealth_app/component/text_form_component.dart';
+import 'package:reprohealth_app/screen/choice/choice_view.dart';
+import 'package:reprohealth_app/screen/forgot_password/forgot_password_view.dart';
+import 'package:reprohealth_app/theme/theme.dart';
 
-class LoginView extends StatelessWidget {
+class LoginView extends StatefulWidget {
   const LoginView({super.key});
 
   @override
+  State<LoginView> createState() => _LoginViewState();
+}
+
+class _LoginViewState extends State<LoginView> {
+  final _formKey = GlobalKey<FormState>();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  bool rememberMe = false;
+  bool passwordVisible = true;
+
+  void toggleRememberMe() {
+    setState(() {
+      rememberMe = !rememberMe;
+    });
+  }
+
+  @override
+  void initState() {
+    passwordVisible = false;
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Column(
-        children: [
-          Text('Halo'),
-          Text('Hai'),
-        ],
-      )
+    return Scaffold(
+      backgroundColor: const Color(0xFFFBFBFB),
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const ChoiceView(),
+              ),
+              (route) => false,
+            );
+          },
+          icon: const Icon(
+            Icons.arrow_back,
+            color: Colors.black,
+            size: 24,
+          ),
+        ),
+      ),
+      body: Form(
+        key: _formKey,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Center(
+              child: Image.asset(
+                'assets/logo_reprohealt.png',
+                height: 153,
+                width: 144,
+              ),
+            ),
+            const SizedBox(
+              height: 36,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(
+                left: 16,
+                bottom: 6,
+              ),
+              child: Text(
+                'Masuk',
+                style: semiBold24Grey400,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(
+                left: 16,
+                bottom: 16,
+              ),
+              child: Text(
+                'Masuk Untuk Menggunakan Aplikasi',
+                style: regular10Grey300,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(
+                left: 16,
+              ),
+              child: Text(
+                'Email',
+                style: medium14Grey400,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 16,
+                vertical: 6,
+              ),
+              child: TextFormComponent(
+                controller: emailController,
+                errortext: 'Email anda tidak valid! contoh: johndoe@gmail.com',
+                hintText: 'Masukkan Email Anda',
+                prefixIcon: Icons.email_outlined,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(
+                left: 16,
+              ),
+              child: Text(
+                'Kata Sandi',
+                style: medium14Grey400,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 16,
+                vertical: 6,
+              ),
+              child: TextFormComponent(
+                controller: passwordController,
+                obscureText: !passwordVisible,
+                errortext:
+                    'Kata sandi salah, silahkan masukkan kata sandi yang benar',
+                hintText: 'Kata Sandi',
+                prefixIcon: Icons.lock_outline,
+                suffixIcon: IconButton(
+                  onPressed: () {
+                    setState(() {
+                      passwordVisible = !passwordVisible;
+                    });
+                  },
+                  icon: Icon(
+                    passwordVisible ? Icons.visibility : Icons.visibility_off,
+                    color: grey200,
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 8,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      GestureDetector(
+                        onTap: toggleRememberMe,
+                        child: Container(
+                          margin: const EdgeInsets.only(
+                            left: 4,
+                            right: 12,
+                          ),
+                          height: 24,
+                          width: 24,
+                          decoration: BoxDecoration(
+                            color: rememberMe ? green500 : null,
+                            borderRadius: BorderRadius.circular(6),
+                            border: !rememberMe
+                                ? Border.all(
+                                    width: 2,
+                                    color: grey300,
+                                  )
+                                : null,
+                          ),
+                          child: rememberMe
+                              ? Center(
+                                  child: Icon(
+                                    Icons.check,
+                                    color: grey10,
+                                  ),
+                                )
+                              : null,
+                        ),
+                      ),
+                      Text(
+                        'Ingat Saya',
+                        style: regular10Grey300,
+                      ),
+                    ],
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const ForgotPasswordView(),
+                        ),
+                      );
+                    },
+                    child: Text(
+                      'Lupa Kata Sandi ?',
+                      style: regular10Green500,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(
+                top: 48,
+                left: 16,
+                right: 16,
+                bottom: 12,
+              ),
+              child: ButtonComponent(
+                labelText: 'Masuk',
+                labelStyle: semiBold12Primary,
+                backgroundColor: green500,
+                onPressed: () {
+                  if (_formKey.currentState!.validate()) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Processing Data')),
+                    );
+                    emailController.clear();
+                    passwordController.clear();
+                  }
+                },
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Belum Mempunyai Akun?',
+                  style: regular10Grey400,
+                ),
+                TextButton(
+                  onPressed: () {},
+                  child: Text(
+                    'Daftar',
+                    style: regular10Green500,
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
