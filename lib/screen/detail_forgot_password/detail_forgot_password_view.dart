@@ -47,103 +47,105 @@ class _DetailForgotPasswordViewState extends State<DetailForgotPasswordView> {
         key: _formKey,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 24, bottom: 6),
-                child: Text(
-                  'Buat Kata Sandi Baru',
-                  style: semiBold24Grey500,
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 24, bottom: 6),
+                  child: Text(
+                    'Buat Kata Sandi Baru',
+                    style: semiBold24Grey500,
+                  ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(
-                  bottom: 12,
+                Padding(
+                  padding: const EdgeInsets.only(
+                    bottom: 12,
+                  ),
+                  child: Text(
+                    'Kata sandi harus berbeda dari sebelumnya!',
+                    style: regular10Grey500,
+                  ),
                 ),
-                child: Text(
-                  'Kata sandi harus berbeda dari sebelumnya!',
-                  style: regular10Grey500,
+                Text(
+                  'Kata Sandi Baru',
+                  style: medium14Grey400,
                 ),
-              ),
-              Text(
-                'Kata Sandi Baru',
-                style: medium14Grey400,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 6,
-                ),
-                child: TextFormComponent(
-                  controller: passwordController,
-                  obscureText: !passwordVisible,
-                  errortext:
-                      'Kata sandi tidak boleh kosong, silahkan masukkan kata sandi anda',
-                  hintText: 'Kata Sandi',
-                  prefixIcon: Icons.lock_outline,
-                  suffixIcon: IconButton(
-                    onPressed: () {
-                      setState(() {
-                        passwordVisible = !passwordVisible;
-                      });
-                    },
-                    icon: Icon(
-                      passwordVisible ? Icons.visibility : Icons.visibility_off,
-                      color: grey200,
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 6,
+                  ),
+                  child: TextFormComponent(
+                    controller: passwordController,
+                    obscureText: !passwordVisible,
+                    errortext:
+                        'Kata sandi tidak boleh kosong, silahkan masukkan kata sandi anda',
+                    hintText: 'Kata Sandi',
+                    prefixIcon: Icons.lock_outline,
+                    suffixIcon: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          passwordVisible = !passwordVisible;
+                        });
+                      },
+                      icon: Icon(
+                        passwordVisible ? Icons.visibility : Icons.visibility_off,
+                        color: grey200,
+                      ),
                     ),
                   ),
                 ),
-              ),
-              Text(
-                'Konfirmasi Kata Sandi',
-                style: medium14Grey400,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 6,
+                Text(
+                  'Konfirmasi Kata Sandi',
+                  style: medium14Grey400,
                 ),
-                child: TextFormComponent(
-                  controller: confirmPasswordController,
-                  obscureText: !passwordVisible,
-                  errortext:
-                      'Kata sandi tidak boleh kosong, silahkan masukkan kata sandi anda',
-                  hintText: 'konfirmasi Kata Sandi',
-                  prefixIcon: Icons.lock_outline,
-                  suffixIcon: IconButton(
-                    onPressed: () {
-                      setState(() {
-                        passwordVisible = !passwordVisible;
-                      });
-                    },
-                    icon: Icon(
-                      passwordVisible ? Icons.visibility : Icons.visibility_off,
-                      color: grey200,
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 6,
+                  ),
+                  child: TextFormComponent(
+                    controller: confirmPasswordController,
+                    obscureText: !passwordVisible,
+                    errortext:
+                        'Kata sandi tidak boleh kosong, silahkan masukkan kata sandi anda',
+                    hintText: 'konfirmasi Kata Sandi',
+                    prefixIcon: Icons.lock_outline,
+                    suffixIcon: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          passwordVisible = !passwordVisible;
+                        });
+                      },
+                      icon: Icon(
+                        passwordVisible ? Icons.visibility : Icons.visibility_off,
+                        color: grey200,
+                      ),
                     ),
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(
-                  top: 42,
+                Padding(
+                  padding: const EdgeInsets.only(
+                    top: 42,
+                  ),
+                  child: ButtonComponent(
+                    labelText: 'Kirim',
+                    labelStyle: semiBold12Primary,
+                    backgroundColor: green500,
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const LoginView(),
+                          ),
+                          (route) => false,
+                        );
+                      }
+                    },
+                  ),
                 ),
-                child: ButtonComponent(
-                  labelText: 'Kirim',
-                  labelStyle: semiBold12Primary,
-                  backgroundColor: green500,
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const LoginView(),
-                        ),
-                        (route) => false,
-                      );
-                    }
-                  },
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

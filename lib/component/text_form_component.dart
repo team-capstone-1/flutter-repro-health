@@ -31,7 +31,7 @@ class TextFormComponent extends StatelessWidget {
       decoration: InputDecoration(
         border: const OutlineInputBorder(),
         contentPadding: const EdgeInsets.symmetric(
-          vertical: 12.0,
+          vertical: 18.0,
           horizontal: 16.0,
         ),
         focusedBorder: OutlineInputBorder(
