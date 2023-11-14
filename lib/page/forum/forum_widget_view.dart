@@ -1,10 +1,10 @@
-import 'package:capstone_flutter_test/home/forum_lihat.dart';
-import 'package:capstone_flutter_test/models/forum_models.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:reprohealth_app/models/forum_models.dart';
+import 'package:reprohealth_app/screen/tabbar/forum_tabbar_lihat_view.dart';
 
-class ForumPageViewModel with ChangeNotifier {
+class ForumWidgetView with ChangeNotifier {
   TextEditingController searchController = TextEditingController();
 
   List<String> kategoriListMap = [];
@@ -67,7 +67,7 @@ Widget buildHeader() {
   );
 }
 
-Widget buildSearchBar(ForumPageViewModel viewModel) {
+Widget buildSearchBar(ForumWidgetView viewModel) {
   return Padding(
     padding: const EdgeInsets.symmetric(horizontal: 16),
     child: Row(
@@ -123,7 +123,7 @@ Widget buildSearchBar(ForumPageViewModel viewModel) {
 }
 
 Widget buildCategories(BuildContext context) {
-  return Consumer<ForumPageViewModel>(
+  return Consumer<ForumWidgetView>(
     builder: (context, viewModel, _) {
       final List<String> categories = [
         'Terbaru',
@@ -222,7 +222,7 @@ Widget buildTabbar() {
                         ListView.builder(
                           itemCount: 2,
                           itemBuilder: (context, index) {
-                            return ForumCard(forum: myForum);
+                            return ForumTabbarLihatView(forum: myForum);
                           },
                         ),
                         Container(
