@@ -1,7 +1,8 @@
+import 'package:email_otp/email_otp.dart';
 import 'package:flutter/material.dart';
 import 'package:reprohealth_app/component/button_component.dart';
 import 'package:reprohealth_app/component/text_form_component.dart';
-import 'package:reprohealth_app/screen/detail_forgot_password/detail_forgot_password_view.dart';
+import 'package:reprohealth_app/screen/forgot_password/otp_view.dart';
 import 'package:reprohealth_app/theme/theme.dart';
 
 class ForgotPasswordView extends StatefulWidget {
@@ -14,6 +15,7 @@ class ForgotPasswordView extends StatefulWidget {
 class _ForgotPasswordViewState extends State<ForgotPasswordView> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController emailController = TextEditingController();
+  EmailOTP myauth = EmailOTP();
 
   @override
   void dispose() {
@@ -94,7 +96,8 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                 ),
                 child: TextFormComponent(
                   controller: emailController,
-                  errortext: 'Email anda tidak valid! contoh: johndoe@gmail.com',
+                  errortext:
+                      'Email anda tidak valid! contoh: johndoe@gmail.com',
                   hintText: 'Masukkan Email Anda',
                   prefixIcon: Icons.email_outlined,
                 ),
@@ -107,15 +110,29 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                   labelText: 'Kirim',
                   labelStyle: semiBold12Primary,
                   backgroundColor: green500,
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
+                  onPressed: () async {
+                    myauth.setConfig(
+                      appEmail: "muhammadalbert16@gmail.com",
+                      appName: "Email OTP",
+                      userEmail: emailController.text,
+                      otpLength: 5,
+                      otpType: OTPType.digitsOnly,
+                    );
+                    if (_formKey.currentState!.validate() &&
+                        await myauth.sendOTP() == true) {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const DetailForgotPasswordView(),
+                          builder: (context) => OtpView(
+                            myauth: myauth,
+                          ),
                         ),
                       );
                       emailController.clear();
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        content: Text("Oops, OTP send failed"),
+                      ));
                     }
                   },
                 ),

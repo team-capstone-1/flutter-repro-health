@@ -73,7 +73,7 @@ class _OnboardingViewState extends State<OnboardingView> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(top: 50, bottom: 70),
+                    padding: const EdgeInsets.only(top: 86, bottom: 70),
                     child: data.image,
                   ),
                   SizedBox(

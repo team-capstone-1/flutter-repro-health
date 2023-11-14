@@ -63,8 +63,8 @@ class _DetailForgotPasswordViewState extends State<DetailForgotPasswordView> {
                     bottom: 12,
                   ),
                   child: Text(
-                    'Kata sandi harus berbeda dari sebelumnya!',
-                    style: regular10Grey500,
+                    'Kata sandi baru anda harus unik dari yang digunakan sebelumnya',
+                    style: regular12Grey500,
                   ),
                 ),
                 Text(
@@ -95,6 +95,7 @@ class _DetailForgotPasswordViewState extends State<DetailForgotPasswordView> {
                     ),
                   ),
                 ),
+                const SizedBox(height: 12,),
                 Text(
                   'Konfirmasi Kata Sandi',
                   style: medium14Grey400,
