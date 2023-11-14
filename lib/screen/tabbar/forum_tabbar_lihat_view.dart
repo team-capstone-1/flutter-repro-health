@@ -1,11 +1,11 @@
-import 'package:capstone_flutter_test/models/forum_models.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:reprohealth_app/models/forum_models.dart';
 
-class ForumCard extends StatelessWidget {
+class ForumTabbarLihatView extends StatelessWidget {
   final ForumModel forum;
 
-  const ForumCard({Key? key, required this.forum}) : super(key: key);
+  const ForumTabbarLihatView({Key? key, required this.forum}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

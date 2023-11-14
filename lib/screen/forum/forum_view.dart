@@ -1,16 +1,16 @@
-import 'package:capstone_flutter_test/items/forum_items.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:reprohealth_app/page/forum/forum_widget_view.dart';
 
-class ForumPage extends StatelessWidget {
-  const ForumPage({Key? key}) : super(key: key);
+class ForumView extends StatelessWidget {
+  const ForumView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => ForumPageViewModel(),
+      create: (_) => ForumWidgetView(),
       child: Scaffold(
-        body: Consumer<ForumPageViewModel>(
+        body: Consumer<ForumWidgetView>(
           builder: (context, viewModel, _) {
             return ListView(
               children: [

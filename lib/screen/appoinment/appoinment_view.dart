@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class AppoinmentPage extends StatelessWidget {
-  const AppoinmentPage({super.key});
+class AppoinmentView extends StatelessWidget {
+  const AppoinmentView({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class CurrentIndexProvider with ChangeNotifier {
+class NavbarComponent with ChangeNotifier {
   int _currentIndex = 0;
 
   int get currentIndex => _currentIndex;
@@ -22,10 +22,9 @@ Widget customBottomNav() {
           child: ClipRRect(
             child: BottomNavigationBar(
               backgroundColor: Colors.white,
-              currentIndex:
-                  Provider.of<CurrentIndexProvider>(context).currentIndex,
+              currentIndex: Provider.of<NavbarComponent>(context).currentIndex,
               onTap: (value) {
-                Provider.of<CurrentIndexProvider>(context, listen: false)
+                Provider.of<NavbarComponent>(context, listen: false)
                     .updateIndex(value);
               },
               type: BottomNavigationBarType.fixed,
@@ -38,11 +37,11 @@ Widget customBottomNav() {
                     child: Image.asset(
                       'assets/Appoinment.png',
                       width: 100,
-                      color: Provider.of<CurrentIndexProvider>(context)
-                                  .currentIndex ==
-                              0
-                          ? const Color(0xff14C6A4)
-                          : const Color(0xff989898),
+                      color:
+                          Provider.of<NavbarComponent>(context).currentIndex ==
+                                  0
+                              ? const Color(0xff14C6A4)
+                              : const Color(0xff989898),
                     ),
                   ),
                   label: '',
@@ -55,11 +54,11 @@ Widget customBottomNav() {
                     child: Image.asset(
                       'assets/Article.png',
                       width: 100,
-                      color: Provider.of<CurrentIndexProvider>(context)
-                                  .currentIndex ==
-                              1
-                          ? const Color(0xff14C6A4)
-                          : const Color(0xff989898),
+                      color:
+                          Provider.of<NavbarComponent>(context).currentIndex ==
+                                  1
+                              ? const Color(0xff14C6A4)
+                              : const Color(0xff989898),
                     ),
                   ),
                   label: '',
@@ -72,11 +71,11 @@ Widget customBottomNav() {
                     child: Image.asset(
                       'assets/Forum.png',
                       width: 100,
-                      color: Provider.of<CurrentIndexProvider>(context)
-                                  .currentIndex ==
-                              2
-                          ? const Color(0xff14C6A4)
-                          : const Color(0xff989898),
+                      color:
+                          Provider.of<NavbarComponent>(context).currentIndex ==
+                                  2
+                              ? const Color(0xff14C6A4)
+                              : const Color(0xff989898),
                     ),
                   ),
                   label: '',
@@ -89,11 +88,11 @@ Widget customBottomNav() {
                     child: Image.asset(
                       'assets/Riwayat.png',
                       width: 100,
-                      color: Provider.of<CurrentIndexProvider>(context)
-                                  .currentIndex ==
-                              3
-                          ? const Color(0xff14C6A4)
-                          : const Color(0xff989898),
+                      color:
+                          Provider.of<NavbarComponent>(context).currentIndex ==
+                                  3
+                              ? const Color(0xff14C6A4)
+                              : const Color(0xff989898),
                     ),
                   ),
                   label: '',
@@ -106,11 +105,11 @@ Widget customBottomNav() {
                     child: Image.asset(
                       'assets/Profile.png',
                       width: 100,
-                      color: Provider.of<CurrentIndexProvider>(context)
-                                  .currentIndex ==
-                              4
-                          ? const Color(0xff14C6A4)
-                          : const Color(0xff989898),
+                      color:
+                          Provider.of<NavbarComponent>(context).currentIndex ==
+                                  4
+                              ? const Color(0xff14C6A4)
+                              : const Color(0xff989898),
                     ),
                   ),
                   label: '',
