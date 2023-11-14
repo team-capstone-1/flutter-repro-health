@@ -11,10 +11,10 @@ class HomeView extends StatefulWidget {
   const HomeView({super.key});
 
   @override
-  State<HomeView> createState() => _MainPageState();
+  State<HomeView> createState() => _HomeViewState();
 }
 
-class _MainPageState extends State<HomeView> {
+class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(

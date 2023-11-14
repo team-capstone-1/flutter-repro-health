@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:reprohealth_app/component/button_component.dart';
 import 'package:reprohealth_app/screen/login/login_view.dart';
+import 'package:reprohealth_app/screen/register/register_view.dart';
 import 'package:reprohealth_app/theme/theme.dart';
 
 class ChoiceView extends StatelessWidget {
@@ -77,7 +78,14 @@ class ChoiceView extends StatelessWidget {
               backgroundColor: Colors.transparent,
               elevation: 0,
               border: BorderSide(width: 1.5, color: green500),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const RegisterView(),
+                  ),
+                );
+              },
             ),
           ),
         ],
