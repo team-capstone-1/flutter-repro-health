@@ -54,7 +54,7 @@ class TextFormComponent extends StatelessWidget {
             color: negative,
           ),
           borderRadius: BorderRadius.circular(6),
-        ),        
+        ),
         errorStyle: regular8Negative,
         hintText: hintText,
         hintStyle: regular12Grey300,

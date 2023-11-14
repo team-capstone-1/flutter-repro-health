@@ -3,6 +3,7 @@ import 'package:reprohealth_app/component/button_component.dart';
 import 'package:reprohealth_app/component/text_form_component.dart';
 import 'package:reprohealth_app/screen/choice/choice_view.dart';
 import 'package:reprohealth_app/screen/forgot_password/forgot_password_view.dart';
+import 'package:reprohealth_app/screen/home/home_view.dart';
 import 'package:reprohealth_app/screen/register/register_view.dart';
 import 'package:reprohealth_app/theme/theme.dart';
 
@@ -123,6 +124,7 @@ class _LoginViewState extends State<LoginView> {
               ),
               Padding(
                 padding: const EdgeInsets.only(
+                  top: 24,
                   left: 16,
                 ),
                 child: Text(
@@ -230,11 +232,15 @@ class _LoginViewState extends State<LoginView> {
                   backgroundColor: green500,
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Processing Data')),
-                      );
                       emailController.clear();
                       passwordController.clear();
+                      Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const HomeView(),
+                        ),
+                        (route) => false,
+                      );
                     }
                   },
                 ),
