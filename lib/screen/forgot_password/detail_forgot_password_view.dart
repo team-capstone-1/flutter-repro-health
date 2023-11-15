@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:reprohealth_app/component/button_component.dart';
 import 'package:reprohealth_app/component/text_form_component.dart';
-import 'package:reprohealth_app/screen/login/login_view.dart';
+import 'package:reprohealth_app/constant/routes_navigation.dart';
 import 'package:reprohealth_app/theme/theme.dart';
 
 class DetailForgotPasswordView extends StatefulWidget {
@@ -89,13 +89,17 @@ class _DetailForgotPasswordViewState extends State<DetailForgotPasswordView> {
                         });
                       },
                       icon: Icon(
-                        passwordVisible ? Icons.visibility : Icons.visibility_off,
+                        passwordVisible
+                            ? Icons.visibility
+                            : Icons.visibility_off,
                         color: grey200,
                       ),
                     ),
                   ),
                 ),
-                const SizedBox(height: 12,),
+                const SizedBox(
+                  height: 12,
+                ),
                 Text(
                   'Konfirmasi Kata Sandi',
                   style: medium14Grey400,
@@ -118,7 +122,9 @@ class _DetailForgotPasswordViewState extends State<DetailForgotPasswordView> {
                         });
                       },
                       icon: Icon(
-                        passwordVisible ? Icons.visibility : Icons.visibility_off,
+                        passwordVisible
+                            ? Icons.visibility
+                            : Icons.visibility_off,
                         color: grey200,
                       ),
                     ),
@@ -134,11 +140,9 @@ class _DetailForgotPasswordViewState extends State<DetailForgotPasswordView> {
                     backgroundColor: green500,
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                        Navigator.pushAndRemoveUntil(
+                        Navigator.pushNamedAndRemoveUntil(
                           context,
-                          MaterialPageRoute(
-                            builder: (context) => const LoginView(),
-                          ),
+                          RoutesNavigation.loginView,
                           (route) => false,
                         );
                       }

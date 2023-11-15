@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:reprohealth_app/component/button_component.dart';
-import 'package:reprohealth_app/screen/login/login_view.dart';
-import 'package:reprohealth_app/screen/register/register_view.dart';
+import 'package:reprohealth_app/constant/assets_constants.dart';
+import 'package:reprohealth_app/constant/routes_navigation.dart';
 import 'package:reprohealth_app/theme/theme.dart';
 
 class ChoiceView extends StatelessWidget {
@@ -21,7 +21,7 @@ class ChoiceView extends StatelessWidget {
               right: 60.76,
               bottom: 43.69,
             ),
-            child: Image.asset("assets/onboarding.png"),
+            child: Image.asset(Assets.assetsOnboarding),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -58,11 +58,9 @@ class ChoiceView extends StatelessWidget {
               labelStyle: semiBold12Primary,
               backgroundColor: green500,
               onPressed: () {
-                Navigator.push(
+                Navigator.pushNamed(
                   context,
-                  MaterialPageRoute(
-                    builder: (context) => const LoginView(),
-                  ),
+                  RoutesNavigation.loginView,
                 );
               },
             ),
@@ -79,11 +77,9 @@ class ChoiceView extends StatelessWidget {
               elevation: 0,
               border: BorderSide(width: 1.5, color: green500),
               onPressed: () {
-                Navigator.push(
+                Navigator.pushNamed(
                   context,
-                  MaterialPageRoute(
-                    builder: (context) => const RegisterView(),
-                  ),
+                  RoutesNavigation.registerView,
                 );
               },
             ),
