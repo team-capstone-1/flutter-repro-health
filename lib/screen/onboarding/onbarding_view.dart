@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:reprohealth_app/component/button_component.dart';
+import 'package:reprohealth_app/constant/routes_navigation.dart';
 import 'package:reprohealth_app/models/onboarding_models.dart';
-import 'package:reprohealth_app/screen/choice/choice_view.dart';
 import 'package:reprohealth_app/theme/theme.dart';
 
 class OnboardingView extends StatefulWidget {
@@ -37,11 +37,9 @@ class _OnboardingViewState extends State<OnboardingView> {
         actions: [
           TextButton(
             onPressed: () {
-              Navigator.pushAndRemoveUntil(
+              Navigator.pushNamedAndRemoveUntil(
                 context,
-                MaterialPageRoute(
-                  builder: (context) => const ChoiceView(),
-                ),
+                RoutesNavigation.choiceView,
                 (route) => false,
               );
             },
@@ -124,11 +122,9 @@ class _OnboardingViewState extends State<OnboardingView> {
                   backgroundColor: green500,
                   onPressed: () {
                     if (currentIndex == onBoardingListData.length - 1) {
-                      Navigator.pushAndRemoveUntil(
+                      Navigator.pushNamedAndRemoveUntil(
                         context,
-                        MaterialPageRoute(
-                          builder: (context) => const ChoiceView(),
-                        ),
+                        RoutesNavigation.choiceView,
                         (route) => false,
                       );
                     } else {

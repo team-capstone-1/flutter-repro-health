@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:reprohealth_app/page/forum/forum_widget_view.dart';
+import 'package:reprohealth_app/theme/theme.dart';
 
 class ForumView extends StatelessWidget {
   const ForumView({Key? key}) : super(key: key);
@@ -33,7 +34,7 @@ class ForumView extends StatelessWidget {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {},
-          backgroundColor: const Color(0xff14C6A4),
+          backgroundColor: green500,
           child: const Icon(Icons.edit),
         ),
       ),

@@ -6,6 +6,7 @@ import 'package:reprohealth_app/screen/article/article_view.dart';
 import 'package:reprohealth_app/screen/forum/forum_view.dart';
 import 'package:reprohealth_app/screen/profile/profile_view.dart';
 import 'package:reprohealth_app/screen/riwayat/riwayat_view.dart';
+import 'package:reprohealth_app/theme/theme.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -20,7 +21,7 @@ class _HomeViewState extends State<HomeView> {
     return ChangeNotifierProvider(
       create: (context) => NavbarComponent(),
       child: Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: grey10,
         bottomNavigationBar: customBottomNav(),
         body: Consumer<NavbarComponent>(
           builder: (context, currentIndexProvider, child) {

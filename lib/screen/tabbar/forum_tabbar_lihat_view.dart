@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:reprohealth_app/models/forum_models.dart';
+import 'package:reprohealth_app/theme/theme.dart';
 
 class ForumTabbarLihatView extends StatelessWidget {
   final ForumModel forum;
@@ -21,14 +21,7 @@ class ForumTabbarLihatView extends StatelessWidget {
                 alignment: Alignment.topLeft,
                 child: Row(
                   children: [
-                    Text(
-                      forum.jawab,
-                      style: GoogleFonts.poppins(
-                        fontSize: 10,
-                        fontWeight: FontWeight.w400,
-                        color: const Color(0xff14C6A4),
-                      ),
-                    ),
+                    Text(forum.jawab, style: regular10Green500),
                     const SizedBox(width: 8),
                     Image.asset(
                       forum.iconTitik,
@@ -38,11 +31,7 @@ class ForumTabbarLihatView extends StatelessWidget {
                     const SizedBox(width: 8),
                     Text(
                       forum.unggah,
-                      style: GoogleFonts.poppins(
-                        fontSize: 10,
-                        fontWeight: FontWeight.w400,
-                        color: const Color(0xff989898),
-                      ),
+                      style: regular10Grey200,
                     )
                   ],
                 ),
@@ -54,10 +43,7 @@ class ForumTabbarLihatView extends StatelessWidget {
                 alignment: Alignment.topLeft,
                 child: Text(
                   forum.title,
-                  style: GoogleFonts.poppins(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                      color: Color(0xff0D0D0D)),
+                  style: medium14Grey900,
                 ),
               ),
               const SizedBox(
@@ -68,11 +54,7 @@ class ForumTabbarLihatView extends StatelessWidget {
                 child: Text(
                   forum.subtitle,
                   textAlign: TextAlign.justify,
-                  style: GoogleFonts.poppins(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w400,
-                    color: const Color(0xff4B4B4B),
-                  ),
+                  style: regular10Grey400
                 ),
               ),
               const SizedBox(height: 12),
@@ -86,11 +68,7 @@ class ForumTabbarLihatView extends StatelessWidget {
                   const SizedBox(width: 168),
                   Text(
                     forum.lihat,
-                    style: GoogleFonts.poppins(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w400,
-                      color: const Color(0xff4B4B4B),
-                    ),
+                    style: regular12Grey400,
                   ),
                   const SizedBox(width: 8),
                   Image.asset(

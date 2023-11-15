@@ -2,7 +2,8 @@ import 'package:email_otp/email_otp.dart';
 import 'package:flutter/material.dart';
 import 'package:reprohealth_app/component/button_component.dart';
 import 'package:reprohealth_app/component/text_form_component.dart';
-import 'package:reprohealth_app/screen/forgot_password/otp_view.dart';
+import 'package:reprohealth_app/constant/assets_constants.dart';
+import 'package:reprohealth_app/constant/routes_navigation.dart';
 import 'package:reprohealth_app/theme/theme.dart';
 
 class ForgotPasswordView extends StatefulWidget {
@@ -54,7 +55,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                   right: 65,
                   bottom: 68,
                 ),
-                child: Image.asset('assets/lupa_password.png'),
+                child: Image.asset(Assets.assetsLupaPassword),
               ),
               Padding(
                 padding: const EdgeInsets.only(
@@ -118,15 +119,71 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                       otpLength: 5,
                       otpType: OTPType.digitsOnly,
                     );
+                    var template = '''
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Template</title>
+
+    <style>
+        /* Tambahkan gaya CSS sesuai kebutuhan Anda */
+        body {
+            font-family: 'Arial', sans-serif;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+        }
+
+        .header {
+            text-align: center;
+        }
+
+        .otp-code {
+            font-size: 24px;
+            font-weight: bold;
+            color: #007bff;
+        }
+
+        .footer {
+            margin-top: 20px;
+            text-align: center;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+        <div class="header">
+            <h2>Kode OTP Anda</h2>
+        </div>
+        <div class="otp-code">
+            <p>Thank you for choosing {{app_name}}. Your OTP is {{otp}}.</p>
+        </div>
+        <div class="footer">
+            <p>Jangan berikan kode ini kepada siapa pun. Kode ini berlaku untuk penggunaan sekali.</p>
+        </div>
+    </div>
+</body>
+</html>
+</html>
+''';
+                    myauth.setTemplate(render: template);
+
                     if (_formKey.currentState!.validate() &&
                         await myauth.sendOTP() == true) {
-                      Navigator.push(
+                      Navigator.pushNamed(
                         context,
-                        MaterialPageRoute(
-                          builder: (context) => OtpView(
-                            myauth: myauth,
-                          ),
-                        ),
+                        RoutesNavigation.otpView,
+                        arguments: {
+                          'myauth': myauth,
+                        },
                       );
                       emailController.clear();
                     } else {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:reprohealth_app/component/button_component.dart';
-import 'package:reprohealth_app/screen/login/login_view.dart';
+import 'package:reprohealth_app/constant/assets_constants.dart';
+import 'package:reprohealth_app/constant/routes_navigation.dart';
 import 'package:reprohealth_app/theme/theme.dart';
 
 class SuccessRegisterView extends StatelessWidget {
@@ -14,7 +15,7 @@ class SuccessRegisterView extends StatelessWidget {
         child: Column(
           children: [
             const SizedBox(height: 180),
-            Center(child: Image.asset('assets/success_register.png')),
+            Center(child: Image.asset(Assets.assetsSuccessRegister)),
             const SizedBox(height: 48),
             Text(
               'Daftar Akun Berhasil',
@@ -31,11 +32,9 @@ class SuccessRegisterView extends StatelessWidget {
               labelStyle: semiBold12Primary,
               backgroundColor: green500,
               onPressed: () {
-                Navigator.pushAndRemoveUntil(
+                Navigator.pushNamedAndRemoveUntil(
                   context,
-                  MaterialPageRoute(
-                    builder: (context) => const LoginView(),
-                  ),
+                  RoutesNavigation.loginView,
                   (route) => false,
                 );
               },

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:reprohealth_app/constant/assets_constants.dart';
 
 class OnboardingModels {
   final String title, description;
@@ -14,7 +15,7 @@ class OnboardingModels {
 List<OnboardingModels> onBoardingListData = [
   OnboardingModels(
     image: Image.asset(
-      'assets/onboarding1.png',
+      Assets.assetsOnboarding1,
       height: 281,
       width: 403,
     ),
@@ -24,7 +25,7 @@ List<OnboardingModels> onBoardingListData = [
   ),
   OnboardingModels(
     image: Image.asset(
-      'assets/onboarding2.png',
+      Assets.assetsOnboarding2,
       height: 281,
       width: 403,
     ),
@@ -34,7 +35,7 @@ List<OnboardingModels> onBoardingListData = [
   ),
   OnboardingModels(
     image: Image.asset(
-      'assets/onboarding3.png',
+      Assets.assetsOnboarding3,
       height: 281,
       width: 403,
     ),

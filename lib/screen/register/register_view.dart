@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:reprohealth_app/component/button_component.dart';
 import 'package:reprohealth_app/component/text_form_component.dart';
-import 'package:reprohealth_app/screen/register/success_register_view.dart';
+import 'package:reprohealth_app/constant/assets_constants.dart';
+import 'package:reprohealth_app/constant/routes_navigation.dart';
 import 'package:reprohealth_app/theme/theme.dart';
 
 class RegisterView extends StatefulWidget {
@@ -55,7 +56,7 @@ class _RegisterViewState extends State<RegisterView> {
               children: [
                 Center(
                   child: Image.asset(
-                    'assets/logo_reprohealt.png',
+                    Assets.assetsLogoReprohealt,
                     height: 124,
                     width: 144,
                   ),
@@ -172,11 +173,9 @@ class _RegisterViewState extends State<RegisterView> {
                   backgroundColor: green500,
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
-                      Navigator.pushAndRemoveUntil(
+                      Navigator.pushNamedAndRemoveUntil(
                         context,
-                        MaterialPageRoute(
-                          builder: (context) => const SuccessRegisterView(),
-                        ),
+                        RoutesNavigation.successRegisterView,
                         (route) => false,
                       );
                     }

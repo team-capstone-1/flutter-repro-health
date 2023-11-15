@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:reprohealth_app/component/button_component.dart';
-import 'package:reprohealth_app/screen/forgot_password/detail_forgot_password_view.dart';
+import 'package:reprohealth_app/constant/assets_constants.dart';
+import 'package:reprohealth_app/constant/routes_navigation.dart';
 import 'package:reprohealth_app/screen/forgot_password/widget/otp_widget.dart';
 import 'package:reprohealth_app/theme/theme.dart';
 import 'package:email_otp/email_otp.dart';
 
 class OtpView extends StatefulWidget {
-  final EmailOTP myauth;
-  const OtpView({super.key, required this.myauth});
+  const OtpView({super.key});
 
   @override
   State<OtpView> createState() => _OtpViewState();
@@ -32,6 +32,10 @@ class _OtpViewState extends State<OtpView> {
 
   @override
   Widget build(BuildContext context) {
+    final args =
+        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    final EmailOTP myauth = args['myauth'];
+
     return Scaffold(
       backgroundColor: const Color(0xFFFBFBFB),
       appBar: AppBar(
@@ -56,7 +60,7 @@ class _OtpViewState extends State<OtpView> {
             children: [
               Center(
                 child: Image.asset(
-                  'assets/logo_otp.png',
+                  Assets.assetsLogoOtp,
                   height: 292,
                   width: 226,
                 ),
@@ -98,25 +102,33 @@ class _OtpViewState extends State<OtpView> {
                 labelStyle: semiBold12Primary,
                 backgroundColor: green500,
                 onPressed: () async {
-                  if (await widget.myauth.verifyOTP(
+                  if (await myauth.verifyOTP(
                           otp: otp1Controller.text +
                               otp2Controller.text +
                               otp3Controller.text +
                               otp4Controller.text +
                               otp5Controller.text) ==
                       true) {
-                    Navigator.push(
+                    Navigator.pushNamed(
                       context,
-                      MaterialPageRoute(
-                        builder: (context) => const DetailForgotPasswordView(),
-                      ),
+                      RoutesNavigation.detailForgotPasswordView,
                     );
+                    otp1Controller.clear();
+                    otp2Controller.clear();
+                    otp3Controller.clear();
+                    otp4Controller.clear();
+                    otp5Controller.clear();
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
                         content: Text("Invalid OTP"),
                       ),
                     );
+                    otp1Controller.clear();
+                    otp2Controller.clear();
+                    otp3Controller.clear();
+                    otp4Controller.clear();
+                    otp5Controller.clear();
                   }
                 },
               )
