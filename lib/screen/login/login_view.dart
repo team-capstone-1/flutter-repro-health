@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:reprohealth_app/component/button_component.dart';
 import 'package:reprohealth_app/component/text_form_component.dart';
-import 'package:reprohealth_app/screen/choice/choice_view.dart';
-import 'package:reprohealth_app/screen/forgot_password/forgot_password_view.dart';
-import 'package:reprohealth_app/screen/home/home_view.dart';
-import 'package:reprohealth_app/screen/register/register_view.dart';
+import 'package:reprohealth_app/constant/assets_constants.dart';
+import 'package:reprohealth_app/constant/routes_navigation.dart';
 import 'package:reprohealth_app/theme/theme.dart';
 
 class LoginView extends StatefulWidget {
@@ -49,11 +47,9 @@ class _LoginViewState extends State<LoginView> {
         elevation: 0,
         leading: IconButton(
           onPressed: () {
-            Navigator.pushAndRemoveUntil(
+            Navigator.pushNamedAndRemoveUntil(
               context,
-              MaterialPageRoute(
-                builder: (context) => const ChoiceView(),
-              ),
+              RoutesNavigation.choiceView,
               (route) => false,
             );
           },
@@ -72,7 +68,7 @@ class _LoginViewState extends State<LoginView> {
             children: [
               Center(
                 child: Image.asset(
-                  'assets/logo_reprohealt.png',
+                  Assets.assetsLogoReprohealt,
                   height: 153,
                   width: 144,
                 ),
@@ -204,11 +200,9 @@ class _LoginViewState extends State<LoginView> {
                     ),
                     TextButton(
                       onPressed: () {
-                        Navigator.push(
+                        Navigator.pushNamed(
                           context,
-                          MaterialPageRoute(
-                            builder: (context) => const ForgotPasswordView(),
-                          ),
+                          RoutesNavigation.forgotPasswordView,
                         );
                       },
                       child: Text(
@@ -234,11 +228,9 @@ class _LoginViewState extends State<LoginView> {
                     if (_formKey.currentState!.validate()) {
                       emailController.clear();
                       passwordController.clear();
-                      Navigator.pushAndRemoveUntil(
+                      Navigator.pushNamedAndRemoveUntil(
                         context,
-                        MaterialPageRoute(
-                          builder: (context) => const HomeView(),
-                        ),
+                        RoutesNavigation.homeView,
                         (route) => false,
                       );
                     }
@@ -254,12 +246,7 @@ class _LoginViewState extends State<LoginView> {
                   ),
                   TextButton(
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const RegisterView(),
-                        ),
-                      );
+                      Navigator.pushNamed(context, RoutesNavigation.registerView);
                     },
                     child: Text(
                       'Daftar',

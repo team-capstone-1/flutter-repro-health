@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:reprohealth_app/models/forum_models.dart';
 import 'package:reprohealth_app/screen/tabbar/forum_tabbar_lihat_view.dart';
+import 'package:reprohealth_app/theme/theme.dart';
 
 class ForumWidgetView with ChangeNotifier {
   TextEditingController searchController = TextEditingController();
@@ -41,10 +42,7 @@ Widget buildHeader() {
             alignment: Alignment.centerLeft,
             child: Text(
               'Forum',
-              style: GoogleFonts.poppins(
-                  color: const Color(0xff0E8D74),
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600),
+              style: semiBold16Green700,
             ),
           ),
         ),
@@ -54,11 +52,7 @@ Widget buildHeader() {
             alignment: Alignment.centerLeft,
             child: Text(
               'Cari dan Tanyakan Keluhanmu Disini',
-              style: GoogleFonts.poppins(
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-                color: const Color(0xff0D0D0D),
-              ),
+              style: medium14Grey900,
             ),
           ),
         ),
@@ -78,17 +72,17 @@ Widget buildSearchBar(ForumWidgetView viewModel) {
             width: 328.0,
             height: 48.0,
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: grey10,
               borderRadius: BorderRadius.circular(8.0),
-              border: Border.all(color: Colors.black),
+              border: Border.all(color: grey900),
             ),
             child: Row(
               children: [
-                const Padding(
-                  padding: EdgeInsets.only(left: 10),
+                Padding(
+                  padding: const EdgeInsets.only(left: 10),
                   child: Icon(
                     Icons.search,
-                    color: Colors.black,
+                    color: grey400,
                   ),
                 ),
                 Expanded(
@@ -104,11 +98,7 @@ Widget buildSearchBar(ForumWidgetView viewModel) {
                       ),
                       border: InputBorder.none,
                       hintText: 'Cari Forum Diskusi..',
-                      hintStyle: GoogleFonts.poppins(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                        color: const Color(0xff4B4B4B),
-                      ),
+                      hintStyle: regular14Grey400,
                       alignLabelWithHint: true,
                     ),
                   ),
@@ -144,13 +134,13 @@ Widget buildCategories(BuildContext context) {
                   children: [
                     FilterChip(
                       backgroundColor:
-                          isSelected ? const Color(0xff14C6A4) : Colors.white,
+                          isSelected ? green500 : Colors.white,
                       label: Text(
                         kategori,
                         style: GoogleFonts.poppins(
                           color: isSelected
-                              ? const Color(0xffE8F9F6)
-                              : const Color(0xff14C6A4),
+                              ? green50
+                              : green500,
                           fontWeight: FontWeight.w500,
                           fontSize: 14,
                         ),
@@ -162,8 +152,8 @@ Widget buildCategories(BuildContext context) {
                         borderRadius: BorderRadius.circular(16),
                         side: BorderSide(
                           color: isSelected
-                              ? const Color(0xff0B6D5A)
-                              : const Color(0xff14C6A4),
+                              ? green800
+                              : green500,
                           width: 1.0,
                         ),
                       ),
@@ -191,13 +181,11 @@ Widget buildTabbar() {
         children: [
           SizedBox(
             child: TabBar(
-              labelColor: const Color(0xff0D0D0D),
-              labelStyle: GoogleFonts.poppins(
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-              ),
+              labelColor: grey900,
+              unselectedLabelColor: grey400,
+              labelStyle: regular14Grey900,
               indicatorWeight: 2,
-              indicatorColor: const Color(0xff0B6D5A),
+              indicatorColor: green800,
               tabs: const [
                 Tab(
                   text: 'Lihat Forum',

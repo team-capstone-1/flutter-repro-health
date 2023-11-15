@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:reprohealth_app/screen/onboarding/onbarding_view.dart';
+import 'package:reprohealth_app/constant/assets_constants.dart';
+import 'package:reprohealth_app/constant/routes_navigation.dart';
 
 class SplashView extends StatelessWidget {
   const SplashView({super.key});
@@ -8,9 +9,9 @@ class SplashView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Future.delayed(const Duration(seconds: 3), () {
-      Navigator.pushAndRemoveUntil(
+      Navigator.pushNamedAndRemoveUntil(
         context,
-        MaterialPageRoute(builder: (context) => const OnboardingView()),
+        RoutesNavigation.onboardingView,
         (route) => false,
       );
     });
@@ -24,7 +25,11 @@ class SplashView extends StatelessWidget {
           right: 48.5,
           bottom: 380,
         ),
-        child: SvgPicture.asset('assets/logo_kesamping.svg', height: 85, width: 278,),
+        child: SvgPicture.asset(
+          Assets.assetsLogoKesamping,
+          height: 85,
+          width: 278,
+        ),
       ),
     );
   }
