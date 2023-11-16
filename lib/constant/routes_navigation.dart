@@ -12,6 +12,7 @@ class RoutesNavigation {
   static const String homeView = '/home';
   static const String appointmenView = '/appointment';
   static const String articleView = '/article';
+  static const String bookmarkView = '/bookmark';
   static const String forumView = '/forum';
   static const String riwayatView = '/riwayat';
   static const String profileView = '/profile';

@@ -13,10 +13,25 @@ class ArticleModels {
     required this.date,
   });
 
-  ArticleModels models = ArticleModels(
-      image: 'image',
-      title: 'Manfaat Madu untuk Kesehatan Reproduksi',
-      profilePicture: 'profilePicture',
-      name: 'dr. Farhan M',
-      date: '1 November 2023');
+  static ArticleModels models1 = ArticleModels(
+    image: 'assets/article_thumbnail.png',
+    title: 'Manfaat Madu untuk Kesehatan Reproduksi',
+    profilePicture: 'assets/doctor_image.png',
+    name: 'dr. Farhan M',
+    date: '1 November 2023',
+  );
+  static ArticleModels models2 = ArticleModels(
+    image: 'assets/article_thumbnail.png',
+    title: 'Manfaat Madu untuk Kesehatan Reproduksi',
+    profilePicture: 'assets/doctor_image.png',
+    name: 'dr. Farhan M',
+    date: '1 November 2023',
+  );
+  static ArticleModels models3 = ArticleModels(
+    image: 'assets/article_thumbnail.png',
+    title: 'Manfaat Madu untuk Kesehatan Reproduksi',
+    profilePicture: 'assets/doctor_image.png',
+    name: 'dr. Farhan M',
+    date: '1 November 2023',
+  );
 }

@@ -1,14 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:reprohealth_app/component/text_form_component.dart';
+import 'package:reprohealth_app/constant/routes_navigation.dart';
 import 'package:reprohealth_app/models/article_models.dart';
 import 'package:reprohealth_app/theme/theme.dart';
 
-class ArticleView extends StatelessWidget {
+class ArticleView extends StatefulWidget {
   const ArticleView({super.key});
 
   @override
+  State<ArticleView> createState() => _ArticleViewState();
+}
+
+class _ArticleViewState extends State<ArticleView> {
+  List<bool> isBookmark = [];
+  List<ArticleModels> article = [
+    ArticleModels.models1,
+    ArticleModels.models2,
+    ArticleModels.models3
+  ];
+  TextEditingController controller = TextEditingController();
+  @override
   Widget build(BuildContext context) {
-    TextEditingController controller = TextEditingController();
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -17,7 +29,9 @@ class ArticleView extends StatelessWidget {
         ),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pushNamed(context, RoutesNavigation.bookmarkView);
+            },
             icon: Icon(Icons.bookmark_border, color: green600),
           )
         ],
@@ -37,75 +51,118 @@ class ArticleView extends StatelessWidget {
           ),
           Expanded(
             child: ListView.builder(
-              itemCount: 5,
-              shrinkWrap: true,
+              itemCount: article.length,
               itemBuilder: (context, index) {
-                return Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Row(children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: Image.asset(
-                        'assets/article_thumbnail.png',
-                        width: 87,
-                        height: 87,
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 16,
-                    ),
-                    SizedBox(
-                      width: 225,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Permasalahan Kesehatan Umum pada Organ Reproduksi Perempuan',
-                            style: semiBold12Black,
-                          ),
-                          const SizedBox(
-                            height: 12,
-                          ),
-                          Row(
-                            children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(100),
-                                child: Image.asset(
-                                  'assets/doctor_image.png',
-                                  width: 20,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 6,
-                              ),
-                              Column(
-                                children: [
-                                  Text('dr. Farhan M', style: medium10Black),
-                                  Text(
-                                    '1 November 2023',
-                                    style: regular8Black,
-                                  )
-                                ],
-                              ),
-                              SizedBox(
-                                width: 50,
-                              ),
-                              IconButton(
-                                  onPressed: () {},
-                                  icon: Icon(Icons.bookmark_add_outlined))
-                            ],
-                          )
-                        ],
-                      ),
-                    )
-                  ]),
-                );
+                while (isBookmark.length <= index) {
+                  isBookmark.add(false);
+                }
+                return ArticleCard(
+                    image: article[index].image,
+                    title: article[index].title,
+                    profileImage: article[index].profilePicture,
+                    name: article[index].name,
+                    date: article[index].date,
+                    onPressedIcon: () {
+                      setState(() {
+                        isBookmark[index] = !isBookmark[index];
+                      });
+                    },
+                    isSelected: isBookmark[index],
+                    selectedIcon: Icon(Icons.bookmark, color: green600),
+                    unselectedIcon:
+                        Icon(Icons.bookmark_border, color: green600));
               },
             ),
           )
         ],
       ),
+    );
+  }
+}
+
+class ArticleCard extends StatelessWidget {
+  final String image;
+  final String title;
+  final String profileImage;
+  final String name;
+  final String date;
+  final VoidCallback? onPressedIcon;
+  final bool isSelected;
+  final Icon selectedIcon;
+  final Icon unselectedIcon;
+  const ArticleCard({
+    required this.image,
+    required this.title,
+    required this.profileImage,
+    required this.name,
+    required this.date,
+    this.onPressedIcon,
+    super.key,
+    required this.isSelected,
+    required this.selectedIcon,
+    required this.unselectedIcon,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(16),
+      child: Row(mainAxisSize: MainAxisSize.max, children: [
+        ClipRRect(
+          borderRadius: BorderRadius.circular(10),
+          child: Image.asset(
+            image,
+          ),
+        ),
+        const SizedBox(
+          width: 16,
+        ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              child: Text(
+                title,
+                style: semiBold12Black,
+              ),
+            ),
+            const SizedBox(
+              height: 12,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(100),
+                  child: Image.asset(
+                    profileImage,
+                    width: 20,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                const SizedBox(
+                  width: 6,
+                ),
+                Column(
+                  children: [
+                    Text(name, style: medium10Black),
+                    Text(
+                      date,
+                      style: regular8Black,
+                    )
+                  ],
+                ),
+                const SizedBox(
+                  width: 120,
+                ),
+                IconButton(
+                    onPressed: onPressedIcon,
+                    icon: isSelected ? selectedIcon : unselectedIcon)
+              ],
+            )
+          ],
+        )
+      ]),
     );
   }
 }
