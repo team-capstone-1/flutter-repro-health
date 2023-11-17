@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:reprohealth_app/models/article_models.dart';
+import 'package:reprohealth_app/screen/article/widgets/article_card.dart';
 import 'package:reprohealth_app/theme/theme.dart';
 
 class BookmarkView extends StatefulWidget {
@@ -10,8 +11,24 @@ class BookmarkView extends StatefulWidget {
 }
 
 class _BookmarkViewState extends State<BookmarkView> {
+  bool isDeleting = false;
+  List<bool> selectedItem = [];
   @override
   Widget build(BuildContext context) {
+    List<ArticleModels> bookmarkedItem =
+        ModalRoute.of(context)?.settings.arguments as List<ArticleModels>;
+    if (selectedItem.length != bookmarkedItem.length) {
+      selectedItem =
+          List<bool>.generate(bookmarkedItem.length, (index) => false);
+    }
+    IconButton deleteIconButton = IconButton(
+      onPressed: () {
+        setState(() {
+          isDeleting = !isDeleting;
+        });
+      },
+      icon: Icon(Icons.delete, color: negative),
+    );
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -21,14 +38,31 @@ class _BookmarkViewState extends State<BookmarkView> {
           icon: Icon(Icons.arrow_back, color: secondary),
         ),
         title: Text('Bookmark', style: semiBold16Black),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: Icon(Icons.delete, color: negative),
-          )
-        ],
+        actions: [deleteIconButton],
         backgroundColor: grey10,
         elevation: 0,
+      ),
+      body: ListView.builder(
+        itemCount: bookmarkedItem.length,
+        itemBuilder: (context, index) {
+          return ArticleCard(
+            image: bookmarkedItem[index].image,
+            title: bookmarkedItem[index].title,
+            profileImage: bookmarkedItem[index].profilePicture,
+            name: bookmarkedItem[index].name,
+            date: bookmarkedItem[index].date,
+            showIcon: isDeleting,
+            onPressedIcon: () {
+              setState(() {
+                selectedItem[index] = !selectedItem[index];
+              });
+            },
+            isSelected: selectedItem[index],
+            selectedIcon: Icon(Icons.check_box, color: green600),
+            unselectedIcon:
+                Icon(Icons.check_box_outline_blank, color: green600),
+          );
+        },
       ),
     );
   }

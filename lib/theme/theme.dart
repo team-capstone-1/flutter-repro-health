@@ -55,6 +55,19 @@ TextStyle regular8Black = GoogleFonts.poppins(
   fontWeight: FontWeight.w400,
 );
 
+TextStyle regular8Black400Italic = GoogleFonts.poppins(
+  color: secondary,
+  fontSize: 8,
+  fontWeight: FontWeight.w400,
+  fontStyle: FontStyle.italic,
+);
+
+TextStyle regular10Black = GoogleFonts.poppins(
+  color: secondary,
+  fontSize: 10,
+  fontWeight: FontWeight.w400,
+);
+
 TextStyle regular10Grey200 = GoogleFonts.poppins(
   color: grey200,
   fontSize: 10,
@@ -91,6 +104,12 @@ TextStyle regular10Primary200 = GoogleFonts.poppins(
   fontWeight: FontWeight.w400,
 );
 
+TextStyle regular12Black400 = GoogleFonts.poppins(
+  color: secondary,
+  fontSize: 12,
+  fontWeight: FontWeight.w400,
+);
+
 TextStyle regular12Grey300 = GoogleFonts.poppins(
   color: grey300,
   fontSize: 12,
@@ -122,9 +141,33 @@ TextStyle regular14Grey900 = GoogleFonts.poppins(
 );
 
 // Medium
-TextStyle medium10Black = GoogleFonts.poppins(
+TextStyle medium8Black = GoogleFonts.poppins(
+  color: secondary,
+  fontSize: 8,
+  fontWeight: FontWeight.w500,
+);
+
+TextStyle medium10Black500 = GoogleFonts.poppins(
   color: secondary,
   fontSize: 10,
+  fontWeight: FontWeight.w500,
+);
+
+TextStyle medium12Black = GoogleFonts.poppins(
+  color: secondary,
+  fontSize: 12,
+  fontWeight: FontWeight.w500,
+);
+
+TextStyle medium14Primary = GoogleFonts.poppins(
+  color: primary,
+  fontSize: 14,
+  fontWeight: FontWeight.w500,
+);
+
+TextStyle medium14Green500 = GoogleFonts.poppins(
+  color: green500,
+  fontSize: 14,
   fontWeight: FontWeight.w500,
 );
 
@@ -165,10 +208,10 @@ TextStyle semiBold12Green500 = GoogleFonts.poppins(
   fontWeight: FontWeight.w600,
 );
 
-TextStyle semiBold12Black = GoogleFonts.poppins(
+TextStyle semiBold12Black400 = GoogleFonts.poppins(
   color: secondary,
   fontSize: 12,
-  fontWeight: FontWeight.w600,
+  fontWeight: FontWeight.w400,
 );
 
 TextStyle semiBold14Black = GoogleFonts.poppins(
@@ -192,6 +235,12 @@ TextStyle semiBold16Grey300 = GoogleFonts.poppins(
 TextStyle semiBold16Green700 = GoogleFonts.poppins(
   color: green700,
   fontSize: 16,
+  fontWeight: FontWeight.w600,
+);
+
+TextStyle semiBold20Black = GoogleFonts.poppins(
+  color: secondary,
+  fontSize: 20,
   fontWeight: FontWeight.w600,
 );
 
