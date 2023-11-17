@@ -3,18 +3,19 @@ import 'package:reprohealth_app/theme/theme.dart';
 
 class TextFormComponent extends StatelessWidget {
   final TextEditingController controller;
-  final String errortext, hintText;
+  final String hintText;
   final bool? obscureText;
   final Widget? suffixIcon;
   final IconData? prefixIcon;
+  final String? Function(String?)? validator;
   const TextFormComponent({
     super.key,
     required this.controller,
-    required this.errortext,
     this.obscureText,
     this.suffixIcon,
     required this.hintText,
     this.prefixIcon,
+    this.validator,
   });
 
   @override
@@ -22,12 +23,7 @@ class TextFormComponent extends StatelessWidget {
     return TextFormField(
       controller: controller,
       obscureText: obscureText ?? false,
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return errortext;
-        }
-        return null;
-      },
+      validator: validator,
       decoration: InputDecoration(
         border: const OutlineInputBorder(),
         contentPadding: const EdgeInsets.symmetric(

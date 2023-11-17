@@ -19,6 +19,16 @@ class _DetailForgotPasswordViewState extends State<DetailForgotPasswordView> {
   bool passwordVisible = true;
   final _formKey = GlobalKey<FormState>();
 
+  bool _validatePassword(String password) {
+    if (password.length < 8 ||
+        !password.contains(RegExp(r'[A-Z]')) ||
+        !password.contains(RegExp(r'[a-z]')) ||
+        !password.contains(RegExp(r'[0-9]'))) {
+      return false;
+    }
+    return true;
+  }
+
   @override
   void initState() {
     passwordVisible = false;
@@ -46,56 +56,50 @@ class _DetailForgotPasswordViewState extends State<DetailForgotPasswordView> {
       body: Form(
         key: _formKey,
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
+          padding: const EdgeInsets.all(16),
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 24, bottom: 6),
-                  child: Text(
-                    'Buat Kata Sandi Baru',
-                    style: semiBold24Grey500,
-                  ),
+                Text(
+                  'Buat Kata Sandi Baru',
+                  style: semiBold24Grey500,
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                    bottom: 12,
-                  ),
-                  child: Text(
-                    'Kata sandi baru anda harus unik dari yang digunakan sebelumnya',
-                    style: regular12Grey500,
-                  ),
+                const SizedBox(height: 6),
+                Text(
+                  'Kata sandi baru anda harus unik dari yang digunakan sebelumnya',
+                  style: regular12Grey500,
                 ),
+                const SizedBox(height: 12),
                 Text(
                   'Kata Sandi Baru',
                   style: medium14Grey400,
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 6,
-                  ),
-                  child: TextFormComponent(
-                    controller: passwordController,
-                    obscureText: !passwordVisible,
-                    errortext:
-                        'Kata sandi tidak boleh kosong, silahkan masukkan kata sandi anda',
-                    hintText: 'Kata Sandi',
-                    prefixIcon: Icons.lock_outline,
-                    suffixIcon: IconButton(
-                      onPressed: () {
-                        setState(() {
-                          passwordVisible = !passwordVisible;
-                        });
-                      },
-                      icon: Icon(
-                        passwordVisible
-                            ? Icons.visibility
-                            : Icons.visibility_off,
-                        color: grey200,
-                      ),
+                const SizedBox(height: 6),
+                TextFormComponent(
+                  controller: passwordController,
+                  obscureText: !passwordVisible,
+                  hintText: 'Kata Sandi',
+                  prefixIcon: Icons.lock_outline,
+                  suffixIcon: IconButton(
+                    onPressed: () {
+                      setState(() {
+                        passwordVisible = !passwordVisible;
+                      });
+                    },
+                    icon: Icon(
+                      passwordVisible ? Icons.visibility : Icons.visibility_off,
+                      color: grey200,
                     ),
                   ),
+                  validator: (value) {
+                    if (value == null ||
+                        value.isEmpty ||
+                        !_validatePassword(value)) {
+                      return 'Kata sandi minimal 8 karakter kombinasi huruf besar, huruf kecil, dan angka!';
+                    }
+                    return null;
+                  },
                 ),
                 const SizedBox(
                   height: 12,
@@ -104,50 +108,46 @@ class _DetailForgotPasswordViewState extends State<DetailForgotPasswordView> {
                   'Konfirmasi Kata Sandi',
                   style: medium14Grey400,
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 6,
-                  ),
-                  child: TextFormComponent(
-                    controller: confirmPasswordController,
-                    obscureText: !passwordVisible,
-                    errortext:
-                        'Kata sandi tidak boleh kosong, silahkan masukkan kata sandi anda',
-                    hintText: 'konfirmasi Kata Sandi',
-                    prefixIcon: Icons.lock_outline,
-                    suffixIcon: IconButton(
-                      onPressed: () {
-                        setState(() {
-                          passwordVisible = !passwordVisible;
-                        });
-                      },
-                      icon: Icon(
-                        passwordVisible
-                            ? Icons.visibility
-                            : Icons.visibility_off,
-                        color: grey200,
-                      ),
+                const SizedBox(height: 6),
+                TextFormComponent(
+                  controller: confirmPasswordController,
+                  obscureText: !passwordVisible,
+                  hintText: 'konfirmasi Kata Sandi',
+                  prefixIcon: Icons.lock_outline,
+                  suffixIcon: IconButton(
+                    onPressed: () {
+                      setState(() {
+                        passwordVisible = !passwordVisible;
+                      });
+                    },
+                    icon: Icon(
+                      passwordVisible ? Icons.visibility : Icons.visibility_off,
+                      color: grey200,
                     ),
                   ),
+                  validator: (value) {
+                    if (value == null ||
+                        value.isEmpty ||
+                        value != passwordController.text) {
+                      return 'Kata sandi tidak sama!!';
+                    }
+                    return null;
+                  },
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                    top: 42,
-                  ),
-                  child: ButtonComponent(
-                    labelText: 'Kirim',
-                    labelStyle: semiBold12Primary,
-                    backgroundColor: green500,
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        Navigator.pushNamedAndRemoveUntil(
-                          context,
-                          RoutesNavigation.loginView,
-                          (route) => false,
-                        );
-                      }
-                    },
-                  ),
+                const SizedBox(height: 72),
+                ButtonComponent(
+                  labelText: 'Kirim',
+                  labelStyle: semiBold12Primary,
+                  backgroundColor: green500,
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      Navigator.pushNamedAndRemoveUntil(
+                        context,
+                        RoutesNavigation.loginView,
+                        (route) => false,
+                      );
+                    }
+                  },
                 ),
               ],
             ),

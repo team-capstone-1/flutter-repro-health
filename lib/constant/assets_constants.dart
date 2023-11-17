@@ -27,7 +27,7 @@ class Assets {
 
   /// Assets for assetsLogoReprohealt
   /// assets/logo_reprohealt.png
-  static const String assetsLogoReprohealt = "assets/logo_reprohealt.png";
+  static const String assetsLogoReprohealt = "assets/logo_reprohealth.png";
 
   /// Assets for assetsLupaPassword
   /// assets/lupa_password.png
