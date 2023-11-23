@@ -10,26 +10,26 @@ Color secondary = const Color(0xFF000000);
 Color green50 = const Color(0xFFE8F9F6);
 Color green100 = const Color(0xFFB7EDE2);
 Color green200 = const Color(0xFF94E5D5);
-Color green300 =const Color(0xFF64D9C1);
-Color green400 =const Color(0xFF45D1B5);
-Color green500 =const Color(0xFF17C6A3);
-Color green600 =const Color(0xFF15B494);
-Color green700 =const Color(0xFF108D74);
-Color green800 =const Color(0xFF0D6D5A);
-Color green900 =const Color(0xFF0A5344);
+Color green300 = const Color(0xFF64D9C1);
+Color green400 = const Color(0xFF45D1B5);
+Color green500 = const Color(0xFF17C6A3);
+Color green600 = const Color(0xFF15B494);
+Color green700 = const Color(0xFF108D74);
+Color green800 = const Color(0xFF0D6D5A);
+Color green900 = const Color(0xFF0A5344);
 
 // Grey
 Color grey10 = const Color(0xFFFBFBFB);
 Color grey50 = const Color(0xFFE9E9E9);
 Color grey100 = const Color(0xFFB9B9B9);
 Color grey200 = const Color(0xFF989898);
-Color grey300 =const Color(0xFF686868);
-Color grey400 =const Color(0xFF4B4B4B);
-Color grey500 =const Color(0xFF1E1E1E);
-Color grey600 =const Color(0xFF1B1B1B);
-Color grey700 =const Color(0xFF151515);
-Color grey800 =const Color(0xFF111111);
-Color grey900 =const Color(0xFF0D0D0D);
+Color grey300 = const Color(0xFF686868);
+Color grey400 = const Color(0xFF4B4B4B);
+Color grey500 = const Color(0xFF1E1E1E);
+Color grey600 = const Color(0xFF1B1B1B);
+Color grey700 = const Color(0xFF151515);
+Color grey800 = const Color(0xFF111111);
+Color grey900 = const Color(0xFF0D0D0D);
 
 // Alert
 Color negative = const Color(0xFFFC4547);
@@ -46,6 +46,25 @@ Color positive25 = const Color(0xFFCDF1DC);
 TextStyle regular8Negative = GoogleFonts.poppins(
   color: negative,
   fontSize: 8,
+  fontWeight: FontWeight.w400,
+);
+
+TextStyle regular8Black = GoogleFonts.poppins(
+  color: secondary,
+  fontSize: 8,
+  fontWeight: FontWeight.w400,
+);
+
+TextStyle regular8Black400Italic = GoogleFonts.poppins(
+  color: secondary,
+  fontSize: 8,
+  fontWeight: FontWeight.w400,
+  fontStyle: FontStyle.italic,
+);
+
+TextStyle regular10Black = GoogleFonts.poppins(
+  color: secondary,
+  fontSize: 10,
   fontWeight: FontWeight.w400,
 );
 
@@ -85,6 +104,12 @@ TextStyle regular10Primary200 = GoogleFonts.poppins(
   fontWeight: FontWeight.w400,
 );
 
+TextStyle regular12Black400 = GoogleFonts.poppins(
+  color: secondary,
+  fontSize: 12,
+  fontWeight: FontWeight.w400,
+);
+
 TextStyle regular12Grey300 = GoogleFonts.poppins(
   color: grey300,
   fontSize: 12,
@@ -116,6 +141,36 @@ TextStyle regular14Grey900 = GoogleFonts.poppins(
 );
 
 // Medium
+TextStyle medium8Black = GoogleFonts.poppins(
+  color: secondary,
+  fontSize: 8,
+  fontWeight: FontWeight.w500,
+);
+
+TextStyle medium10Black500 = GoogleFonts.poppins(
+  color: secondary,
+  fontSize: 10,
+  fontWeight: FontWeight.w500,
+);
+
+TextStyle medium12Black = GoogleFonts.poppins(
+  color: secondary,
+  fontSize: 12,
+  fontWeight: FontWeight.w500,
+);
+
+TextStyle medium14Primary = GoogleFonts.poppins(
+  color: primary,
+  fontSize: 14,
+  fontWeight: FontWeight.w500,
+);
+
+TextStyle medium14Green500 = GoogleFonts.poppins(
+  color: green500,
+  fontSize: 14,
+  fontWeight: FontWeight.w500,
+);
+
 TextStyle medium14Grey400 = GoogleFonts.poppins(
   color: grey400,
   fontSize: 14,
@@ -153,9 +208,21 @@ TextStyle semiBold12Green500 = GoogleFonts.poppins(
   fontWeight: FontWeight.w600,
 );
 
+TextStyle semiBold12Black400 = GoogleFonts.poppins(
+  color: secondary,
+  fontSize: 12,
+  fontWeight: FontWeight.w400,
+);
+
 TextStyle semiBold14Black = GoogleFonts.poppins(
   color: secondary,
   fontSize: 14,
+  fontWeight: FontWeight.w600,
+);
+
+TextStyle semiBold16Black = GoogleFonts.poppins(
+  color: secondary,
+  fontSize: 16,
   fontWeight: FontWeight.w600,
 );
 
@@ -168,6 +235,12 @@ TextStyle semiBold16Grey300 = GoogleFonts.poppins(
 TextStyle semiBold16Green700 = GoogleFonts.poppins(
   color: green700,
   fontSize: 16,
+  fontWeight: FontWeight.w600,
+);
+
+TextStyle semiBold20Black = GoogleFonts.poppins(
+  color: secondary,
+  fontSize: 20,
   fontWeight: FontWeight.w600,
 );
 
