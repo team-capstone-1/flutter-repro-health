@@ -2,16 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:reprohealth_app/models/forum_models.dart';
 import 'package:reprohealth_app/theme/theme.dart';
 
-class ForumTabbarLihatView extends StatelessWidget {
+class ForumTabbarPertanyaanView extends StatelessWidget {
   final ForumModel forum;
 
-  const ForumTabbarLihatView({Key? key, required this.forum}) : super(key: key);
+  const ForumTabbarPertanyaanView({Key? key, required this.forum})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: 360.0,
-      height: 198.0,
+      height: 220.0,
       child: Card(
         child: Column(
           children: [
