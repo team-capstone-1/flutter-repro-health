@@ -7,6 +7,7 @@ class TextFormComponent extends StatelessWidget {
   final bool? obscureText;
   final Widget? suffixIcon;
   final IconData? prefixIcon;
+  final Function(String)? onChanged;
   const TextFormComponent({
     super.key,
     required this.controller,
@@ -15,6 +16,7 @@ class TextFormComponent extends StatelessWidget {
     this.suffixIcon,
     required this.hintText,
     this.prefixIcon,
+    this.onChanged,
   });
 
   @override
@@ -28,6 +30,7 @@ class TextFormComponent extends StatelessWidget {
         }
         return null;
       },
+      onChanged: onChanged,
       decoration: InputDecoration(
         border: const OutlineInputBorder(),
         contentPadding: const EdgeInsets.symmetric(

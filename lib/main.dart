@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:reprohealth_app/constant/routes_navigation.dart';
+import 'package:reprohealth_app/screen/appoinment/appoinment_akses_view.dart';
 import 'package:reprohealth_app/screen/appoinment/appoinment_view.dart';
+import 'package:reprohealth_app/screen/appoinment/page_widget/klinik/inter_medika/detail_page/detail_inter_medika.dart';
+import 'package:reprohealth_app/screen/appoinment/page_widget/klinik/inter_medika/detail_page/tabbar/profile/jadwal_dokter/jadwal_dokter1.dart';
+import 'package:reprohealth_app/screen/appoinment/page_widget/maps/maps_page.dart';
+import 'package:reprohealth_app/screen/appoinment/page/appoinment_dasboard_view.dart';
+import 'package:reprohealth_app/screen/appoinment/page/appoinment_klinik_view.dart';
+import 'package:reprohealth_app/screen/appoinment/page/appoinment_spesialis_view.dart';
 import 'package:reprohealth_app/screen/article/article_detail_view.dart';
 import 'package:reprohealth_app/screen/article/article_view.dart';
 import 'package:reprohealth_app/screen/article/bookmark_view.dart';
@@ -55,6 +62,18 @@ class MainApp extends StatelessWidget {
         RoutesNavigation.forumView: (context) => const ForumView(),
         RoutesNavigation.riwayatView: (context) => const RiwayatView(),
         RoutesNavigation.profileView: (context) => const ProfileView(),
+        RoutesNavigation.appoinmentSpesialisView: (context) =>
+            const AppoinmentSpesialisView(),
+        RoutesNavigation.appoinmentKlinikView: (context) =>
+            const AppoinmentKlinikView(),
+        RoutesNavigation.appoinmentAksesView: (context) =>
+            const AppoinmentAksesView(),
+        RoutesNavigation.appoinmentDasboardView: (context) =>
+            const AppoinmentDasboardView(),
+        RoutesNavigation.mapsPage: (context) => const MapsPage(),
+        RoutesNavigation.detailInterMedika: (context) =>
+            const DetailInterMedika(),
+        RoutesNavigation.jadwalDokter1: (context) => const JadwalDokter1(),
       },
     );
   }

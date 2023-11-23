@@ -18,4 +18,11 @@ class RoutesNavigation {
   static const String forumView = '/forum';
   static const String riwayatView = '/riwayat';
   static const String profileView = '/profile';
+  static const String appoinmentSpesialisView = '/appoinmentSpesialisView';
+  static const String appoinmentKlinikView = '/appoinmentKlinikView';
+  static const String appoinmentAksesView = '/appoinmentAksesView';
+  static const String appoinmentDasboardView = '/appoinmentDasboardView';
+  static const String mapsPage = '/mapsPage';
+  static const String detailInterMedika = '/detailInterMedika';
+  static const String jadwalDokter1 = '/jadwalDokter1';
 }

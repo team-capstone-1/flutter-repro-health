@@ -230,7 +230,7 @@ class _LoginViewState extends State<LoginView> {
                       passwordController.clear();
                       Navigator.pushNamedAndRemoveUntil(
                         context,
-                        RoutesNavigation.homeView,
+                        RoutesNavigation.appointmenView,
                         (route) => false,
                       );
                     }
@@ -246,7 +246,8 @@ class _LoginViewState extends State<LoginView> {
                   ),
                   TextButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, RoutesNavigation.registerView);
+                      Navigator.pushNamed(
+                          context, RoutesNavigation.registerView);
                     },
                     child: Text(
                       'Daftar',

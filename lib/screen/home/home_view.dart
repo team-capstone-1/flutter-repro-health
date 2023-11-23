@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:reprohealth_app/component/navbar_component.dart';
-import 'package:reprohealth_app/screen/appoinment/appoinment_view.dart';
+// import 'package:reprohealth_app/screen/appoinment/appoinment_view.dart';
+import 'package:reprohealth_app/screen/appoinment/page/appoinment_dasboard_view.dart';
 import 'package:reprohealth_app/screen/article/article_view.dart';
 import 'package:reprohealth_app/screen/forum/forum_view.dart';
 import 'package:reprohealth_app/screen/profile/profile_view.dart';
@@ -29,7 +30,7 @@ class _HomeViewState extends State<HomeView> {
             return IndexedStack(
               index: currentIndex,
               children: const <Widget>[
-                AppoinmentView(),
+                AppoinmentDasboardView(),
                 ArticleView(),
                 ForumView(),
                 RiwayatView(),
