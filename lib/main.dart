@@ -8,7 +8,10 @@ import 'package:reprohealth_app/screen/appoinment/page_widget/maps/maps_page.dar
 import 'package:reprohealth_app/screen/appoinment/page/appoinment_dasboard_view.dart';
 import 'package:reprohealth_app/screen/appoinment/page/appoinment_klinik_view.dart';
 import 'package:reprohealth_app/screen/appoinment/page/appoinment_spesialis_view.dart';
+import 'package:reprohealth_app/screen/article/article_detail_view.dart';
 import 'package:reprohealth_app/screen/article/article_view.dart';
+import 'package:reprohealth_app/screen/article/bookmark_view.dart';
+import 'package:reprohealth_app/screen/article/comment_view.dart';
 import 'package:reprohealth_app/screen/choice/choice_view.dart';
 import 'package:reprohealth_app/screen/forgot_password/detail_forgot_password_view.dart';
 import 'package:reprohealth_app/screen/forgot_password/forgot_password_view.dart';
@@ -52,6 +55,10 @@ class MainApp extends StatelessWidget {
         RoutesNavigation.homeView: (context) => const HomeView(),
         RoutesNavigation.appointmenView: (context) => const AppoinmentView(),
         RoutesNavigation.articleView: (context) => const ArticleView(),
+        RoutesNavigation.articleDetailView: (context) =>
+            const ArticleDetailView(),
+        RoutesNavigation.bookmarkView: (context) => const BookmarkView(),
+        RoutesNavigation.commentView: (context) => const CommentView(),
         RoutesNavigation.forumView: (context) => const ForumView(),
         RoutesNavigation.riwayatView: (context) => const RiwayatView(),
         RoutesNavigation.profileView: (context) => const ProfileView(),
