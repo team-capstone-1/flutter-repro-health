@@ -25,8 +25,7 @@ flutter:
 
   assets:
     - assets/
-
-flutter_assets:
-  assets_path: assets/
-  output_path: lib/constant/
-  filename: assets_constants.dart
+# flutter_assets:
+#   assets_path: assets/
+#   output_path: lib/constant/
+#   filename: assets_constants.dart

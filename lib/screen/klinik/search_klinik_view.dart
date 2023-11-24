@@ -126,12 +126,14 @@ class _SearchKlinikViewState extends State<SearchKlinikView> {
                         );
                       },
                     ),
-                    const Padding(
+                    Padding(
                       padding: EdgeInsets.symmetric(
                         horizontal: 16,
                         vertical: 24,
                       ),
-                      child: ListSpesialisWidget(),
+                      child: ListSpesialisWidget(
+                        spesialisInterMedikaList: filteredSpesialisList,
+                      ),
                     ),
                   ],
                 ),

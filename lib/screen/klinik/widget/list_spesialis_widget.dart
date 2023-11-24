@@ -4,9 +4,11 @@ import 'package:reprohealth_app/models/spesialis_models.dart';
 import 'package:reprohealth_app/theme/theme.dart';
 
 class ListSpesialisWidget extends StatelessWidget {
+  final List<SpesialisModels> spesialisInterMedikaList;
   const ListSpesialisWidget({
-    super.key,
-  });
+    Key? key,
+    required this.spesialisInterMedikaList,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +18,7 @@ class ListSpesialisWidget extends StatelessWidget {
         mainAxisSpacing: 8,
         crossAxisSpacing: 8,
       ),
-      itemCount: spesialisInterMedikaData.length,
+      itemCount: spesialisInterMedikaList.length,
       itemBuilder: (context, index) {
         return GestureDetector(
           onTap: () {
@@ -31,14 +33,14 @@ class ListSpesialisWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Image.asset(
-                  spesialisInterMedikaData[index].image,
+                  spesialisInterMedikaList[index].image,
                   width: 50.0,
                   height: 50.0,
                   fit: BoxFit.cover,
                 ),
                 const SizedBox(height: 8.0),
                 Text(
-                  spesialisInterMedikaData[index].spesialis,
+                  spesialisInterMedikaList[index].spesialis,
                   style: medium12Grey900,
                   textAlign: TextAlign.center,
                 ),
