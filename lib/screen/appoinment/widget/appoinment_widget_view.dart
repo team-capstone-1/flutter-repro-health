@@ -2,14 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:reprohealth_app/component/text_form_component.dart';
 import 'package:reprohealth_app/constant/routes_navigation.dart';
 import 'package:reprohealth_app/models/klinik_models.dart';
-import 'package:reprohealth_app/screen/appoinment/page_widget/klinik/griya_medika_page.dart';
-import 'package:reprohealth_app/screen/appoinment/page_widget/klinik/inter_medika/inter_medika_page.dart';
-import 'package:reprohealth_app/screen/appoinment/page_widget/spesialis/andrologi_page.dart';
-import 'package:reprohealth_app/screen/appoinment/page_widget/spesialis/embriologi_page.dart';
-import 'package:reprohealth_app/screen/appoinment/page_widget/spesialis/fertilitas_page.dart';
-import 'package:reprohealth_app/screen/appoinment/page_widget/spesialis/ginekologi_page.dart';
-import 'package:reprohealth_app/screen/appoinment/page_widget/spesialis/kandungan_page.dart';
-import 'package:reprohealth_app/screen/appoinment/page_widget/spesialis/obsteri_page.dart';
 import 'package:reprohealth_app/theme/theme.dart';
 
 TextEditingController searchAppoinmentController = TextEditingController();
@@ -46,7 +38,7 @@ Widget title(BuildContext context) {
         ),
         GestureDetector(
           onTap: () {
-            Navigator.pushNamed(context, RoutesNavigation.mapsPage);
+            Navigator.pushNamed(context, RoutesNavigation.mapsView);
           },
           child: Text(
             'Jakarta Pusat',
@@ -91,8 +83,7 @@ Widget spesialisAppoinment(BuildContext context) {
             ),
             GestureDetector(
               onTap: () {
-                Navigator.pushNamed(
-                    context, RoutesNavigation.appoinmentSpesialisView);
+                Navigator.pushNamed(context, RoutesNavigation.spesialisView);
               },
               child: Text(
                 'Lihat Semua',
@@ -116,21 +107,8 @@ Widget spesialisAppoinment(BuildContext context) {
           itemBuilder: (BuildContext context, int index) {
             return GestureDetector(
               onTap: () {
-                List<Widget> pages = [
-                  const EmbriologiPage(),
-                  const KandunganPage(),
-                  const AndrologiPage(),
-                  const FertilitasPage(),
-                  const GinekologiPage(),
-                  const ObsteriPage(),
-                ];
-
-                if (index >= 0 && index < pages.length) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => pages[index]),
-                  );
-                }
+                Navigator.pushNamed(
+                    context, RoutesNavigation.detailSpesialisView);
               },
               child: Card(
                 elevation: 2.0,
@@ -177,8 +155,7 @@ Widget klinikAppoinment(BuildContext context) {
             ),
             GestureDetector(
               onTap: () {
-                Navigator.pushNamed(
-                    context, RoutesNavigation.appoinmentKlinikView);
+                Navigator.pushNamed(context, RoutesNavigation.klinikView);
               },
               child: Text(
                 'Lihat Semua',
@@ -202,17 +179,7 @@ Widget klinikAppoinment(BuildContext context) {
           itemBuilder: (BuildContext context, int index) {
             return GestureDetector(
               onTap: () {
-                List<Widget> pages = [
-                  const GriyaMedikaPage(),
-                  const InterMedikaPage(),
-                ];
-
-                if (index >= 0 && index < pages.length) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => pages[index]),
-                  );
-                }
+                Navigator.pushNamed(context, RoutesNavigation.detailKlinikView);
               },
               child: Card(
                 elevation: 2.0,

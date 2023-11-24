@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:reprohealth_app/models/forum_models.dart';
 import 'package:reprohealth_app/theme/theme.dart';
 
-class ForumTabbarPertanyaanView extends StatelessWidget {
+class PertanyaanSayaWidget extends StatelessWidget {
   final ForumModel forum;
 
-  const ForumTabbarPertanyaanView({Key? key, required this.forum})
-      : super(key: key);
+  const PertanyaanSayaWidget({Key? key, required this.forum}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -68,7 +68,7 @@ class _LoginViewState extends State<LoginView> {
             children: [
               Center(
                 child: Image.asset(
-                  Assets.assetsLogoReprohealt,
+                  Assets.assetsLogoReproHealth,
                   height: 153,
                   width: 144,
                 ),
@@ -230,7 +230,7 @@ class _LoginViewState extends State<LoginView> {
                       passwordController.clear();
                       Navigator.pushNamedAndRemoveUntil(
                         context,
-                        RoutesNavigation.appointmenView,
+                        RoutesNavigation.locationView,
                         (route) => false,
                       );
                     }

@@ -4,8 +4,8 @@ import 'package:provider/provider.dart';
 import 'package:reprohealth_app/component/text_form_component.dart';
 import 'package:reprohealth_app/models/forum_models.dart';
 import 'package:reprohealth_app/screen/forum/widget/forum_widget_view.dart';
-import 'package:reprohealth_app/screen/tabbar/forum_tabbar_lihat_view.dart';
-import 'package:reprohealth_app/screen/tabbar/forum_tabbar_pertanyaan_view.dart';
+import 'package:reprohealth_app/screen/forum/widget/lihat_forum_widget.dart';
+import 'package:reprohealth_app/screen/forum/widget/pertanyaan_saya_widget.dart';
 import 'package:reprohealth_app/theme/theme.dart';
 
 class ForumView extends StatelessWidget {
@@ -76,14 +76,13 @@ class ForumView extends StatelessWidget {
                     ListView.builder(
                       itemCount: 10,
                       itemBuilder: (context, index) {
-                        return ForumTabbarLihatView(forum: forumLihat);
+                        return LihatForumWidget(forum: forumLihat);
                       },
                     ),
                     ListView.builder(
                       itemCount: 10,
                       itemBuilder: (context, index) {
-                        return ForumTabbarPertanyaanView(
-                            forum: forumPertanyaan);
+                        return PertanyaanSayaWidget(forum: forumPertanyaan);
                       },
                     ),
                   ],

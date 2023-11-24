@@ -3,14 +3,14 @@ import 'package:reprohealth_app/component/text_form_component.dart';
 import 'package:reprohealth_app/models/maps_models.dart';
 import 'package:reprohealth_app/theme/theme.dart';
 
-class MapsPage extends StatefulWidget {
-  const MapsPage({super.key});
+class MapsView extends StatefulWidget {
+  const MapsView({super.key});
 
   @override
-  State<MapsPage> createState() => _MapsPageState();
+  State<MapsView> createState() => _MapsViewState();
 }
 
-class _MapsPageState extends State<MapsPage> {
+class _MapsViewState extends State<MapsView> {
   TextEditingController searchMapsController = TextEditingController();
 
   List<MapsModels> filteredMapsData = [];

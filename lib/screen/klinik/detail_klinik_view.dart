@@ -4,8 +4,8 @@ import 'package:reprohealth_app/constant/routes_navigation.dart';
 import 'package:reprohealth_app/models/klinik_inter_medika_models.dart';
 import 'package:reprohealth_app/theme/theme.dart';
 
-class InterMedikaPage extends StatelessWidget {
-  const InterMedikaPage({super.key});
+class DetailKlinikView extends StatelessWidget {
+  const DetailKlinikView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -124,7 +124,7 @@ class InterMedikaPage extends StatelessWidget {
                       backgroundColor: primarygreen500,
                       onPressed: () {
                         Navigator.pushNamed(
-                            context, RoutesNavigation.detailInterMedika);
+                            context, RoutesNavigation.searchKlinikView);
                       },
                     ),
                   ],
