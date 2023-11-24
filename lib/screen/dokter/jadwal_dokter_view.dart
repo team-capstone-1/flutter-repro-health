@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class JadwalDokter1 extends StatelessWidget {
-  const JadwalDokter1({super.key});
+class JadwalDokterView extends StatelessWidget {
+  const JadwalDokterView({super.key});
 
   @override
   Widget build(BuildContext context) {

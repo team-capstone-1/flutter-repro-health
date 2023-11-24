@@ -2,18 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:reprohealth_app/models/dokter_models.dart';
 import 'package:reprohealth_app/theme/theme.dart';
 
-class TabbarDokterInterMedika extends StatefulWidget {
+class ListDokterWidget extends StatelessWidget {
   final DokterModels interMedika;
 
-  const TabbarDokterInterMedika({Key? key, required this.interMedika})
+  const ListDokterWidget({Key? key, required this.interMedika})
       : super(key: key);
 
-  @override
-  State<TabbarDokterInterMedika> createState() =>
-      _TabbarDokterInterMedikaState();
-}
-
-class _TabbarDokterInterMedikaState extends State<TabbarDokterInterMedika> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -39,7 +33,7 @@ class _TabbarDokterInterMedikaState extends State<TabbarDokterInterMedika> {
                           height: 66,
                           width: 66,
                           child: Image.asset(
-                            widget.interMedika.image,
+                            interMedika.image,
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -60,7 +54,7 @@ class _TabbarDokterInterMedikaState extends State<TabbarDokterInterMedika> {
                                 // Nama Dokter
                                 Flexible(
                                   child: Text(
-                                    widget.interMedika.nama,
+                                    interMedika.nama,
                                     style: medium14Grey500,
                                   ),
                                 ),
@@ -78,7 +72,7 @@ class _TabbarDokterInterMedikaState extends State<TabbarDokterInterMedika> {
                                         vertical: 3,
                                       ),
                                       child: Text(
-                                        widget.interMedika.tahun,
+                                        interMedika.tahun,
                                         style: regular8Green50,
                                       ),
                                     ),
@@ -90,7 +84,7 @@ class _TabbarDokterInterMedikaState extends State<TabbarDokterInterMedika> {
 
                             // Dokter Spesialis
                             Text(
-                              widget.interMedika.spesialis,
+                              interMedika.spesialis,
                               style: regular12Grey400,
                             ),
                             const SizedBox(height: 16),
@@ -99,18 +93,18 @@ class _TabbarDokterInterMedikaState extends State<TabbarDokterInterMedika> {
                             Row(
                               children: [
                                 Image.asset(
-                                  widget.interMedika.imageIcon,
+                                  interMedika.imageIcon,
                                   width: 16,
                                   height: 16,
                                 ),
                                 const SizedBox(width: 4),
                                 Text(
-                                  widget.interMedika.rumahSakit,
+                                  interMedika.rumahSakit,
                                   style: regular12Grey900,
                                 ),
                                 const Expanded(child: SizedBox()),
                                 Text(
-                                  widget.interMedika.biaya,
+                                  interMedika.biaya,
                                   style: medium12PrimaryGreen500,
                                 ),
                               ],

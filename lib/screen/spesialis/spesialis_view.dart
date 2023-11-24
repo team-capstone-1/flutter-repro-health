@@ -1,25 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:reprohealth_app/component/text_form_component.dart';
+import 'package:reprohealth_app/constant/routes_navigation.dart';
 import 'package:reprohealth_app/models/spesialis_models.dart';
-import 'package:reprohealth_app/screen/appoinment/page_widget/spesialis/andrologi_page.dart';
-import 'package:reprohealth_app/screen/appoinment/page_widget/spesialis/bedah_reproduksi_page.dart';
-import 'package:reprohealth_app/screen/appoinment/page_widget/spesialis/embriologi_page.dart';
-import 'package:reprohealth_app/screen/appoinment/page_widget/spesialis/fertilitas_page.dart';
-import 'package:reprohealth_app/screen/appoinment/page_widget/spesialis/genetika_reproduksi_page.dart';
-import 'package:reprohealth_app/screen/appoinment/page_widget/spesialis/ginekologi_page.dart';
-import 'package:reprohealth_app/screen/appoinment/page_widget/spesialis/kandungan_page.dart';
-import 'package:reprohealth_app/screen/appoinment/page_widget/spesialis/obsteri_page.dart';
-import 'package:reprohealth_app/screen/appoinment/page_widget/spesialis/psikologi_reproduksi_page.dart';
 import 'package:reprohealth_app/theme/theme.dart';
 
-class AppoinmentSpesialisView extends StatefulWidget {
-  const AppoinmentSpesialisView({Key? key}) : super(key: key);
+class SpesialisView extends StatefulWidget {
+  const SpesialisView({Key? key}) : super(key: key);
 
   @override
-  State<AppoinmentSpesialisView> createState() => _AppoinmentSpesialisView();
+  State<SpesialisView> createState() => _SpesialisView();
 }
 
-class _AppoinmentSpesialisView extends State<AppoinmentSpesialisView> {
+class _SpesialisView extends State<SpesialisView> {
   late TextEditingController searchSpesialisAppoinmentController;
   List<SpesialisModels> filteredSpesialisData = [];
   bool hasSearchResults = true;
@@ -47,28 +39,6 @@ class _AppoinmentSpesialisView extends State<AppoinmentSpesialisView> {
       filteredSpesialisData = searchResults;
       hasSearchResults = searchResults.isNotEmpty;
     });
-  }
-
-  void navigateToPage(int index) {
-    List<Widget> pages = [
-      const EmbriologiPage(),
-      const KandunganPage(),
-      const AndrologiPage(),
-      const FertilitasPage(),
-      const GinekologiPage(),
-      const ObsteriPage(),
-      const GenetikareproduksiPage(),
-      const BedahReproduksiPage(),
-      const PsikologiReproduksiPage(),
-    ];
-    if (index >= 0 && index < pages.length) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => pages[index],
-        ),
-      );
-    }
   }
 
   @override
@@ -135,7 +105,8 @@ class _AppoinmentSpesialisView extends State<AppoinmentSpesialisView> {
               itemBuilder: (BuildContext context, int index) {
                 return GestureDetector(
                   onTap: () {
-                    navigateToPage(index);
+                    Navigator.pushNamed(
+                        context, RoutesNavigation.detailSpesialisView);
                   },
                   child: Card(
                     elevation: 2.0,

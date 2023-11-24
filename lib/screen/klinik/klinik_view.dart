@@ -1,22 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:reprohealth_app/component/text_form_component.dart';
+import 'package:reprohealth_app/constant/routes_navigation.dart';
 import 'package:reprohealth_app/models/klinik_models.dart';
-import 'package:reprohealth_app/screen/appoinment/page_widget/klinik/griya_medika_page.dart';
-import 'package:reprohealth_app/screen/appoinment/page_widget/klinik/inter_medika/inter_medika_page.dart';
-import 'package:reprohealth_app/screen/appoinment/page_widget/klinik/medialys_page.dart';
-import 'package:reprohealth_app/screen/appoinment/page_widget/klinik/mischa_medika_page.dart';
-import 'package:reprohealth_app/screen/appoinment/page_widget/klinik/modern_care_page.dart';
-import 'package:reprohealth_app/screen/appoinment/page_widget/klinik/sejahtera_medika_page.dart';
 import 'package:reprohealth_app/theme/theme.dart';
 
-class AppoinmentKlinikView extends StatefulWidget {
-  const AppoinmentKlinikView({Key? key}) : super(key: key);
+class KlinikView extends StatefulWidget {
+  const KlinikView({Key? key}) : super(key: key);
 
   @override
-  State<AppoinmentKlinikView> createState() => _AppoinmentKlinikViewState();
+  State<KlinikView> createState() => _KlinikViewState();
 }
 
-class _AppoinmentKlinikViewState extends State<AppoinmentKlinikView> {
+class _KlinikViewState extends State<KlinikView> {
   TextEditingController searchKlinikAppoinmentController =
       TextEditingController();
 
@@ -114,23 +109,8 @@ class _AppoinmentKlinikViewState extends State<AppoinmentKlinikView> {
               itemBuilder: (BuildContext context, int index) {
                 return GestureDetector(
                   onTap: () {
-                    List<Widget> pages = [
-                      const GriyaMedikaPage(),
-                      const InterMedikaPage(),
-                      const MischaMedikaPage(),
-                      const MedialysPage(),
-                      const SejahteraMedikaPage(),
-                      const ModernCarePage(),
-                    ];
-
-                    if (index >= 0 && index < pages.length) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => pages[index],
-                        ),
-                      );
-                    }
+                    Navigator.pushNamed(
+                        context, RoutesNavigation.detailKlinikView);
                   },
                   child: Card(
                     elevation: 2.0,

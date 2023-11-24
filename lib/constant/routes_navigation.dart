@@ -18,11 +18,15 @@ class RoutesNavigation {
   static const String forumView = '/forum';
   static const String riwayatView = '/riwayat';
   static const String profileView = '/profile';
-  static const String appoinmentSpesialisView = '/appoinmentSpesialisView';
-  static const String appoinmentKlinikView = '/appoinmentKlinikView';
-  static const String appoinmentAksesView = '/appoinmentAksesView';
-  static const String appoinmentDasboardView = '/appoinmentDasboardView';
-  static const String mapsPage = '/mapsPage';
-  static const String detailInterMedika = '/detailInterMedika';
-  static const String jadwalDokter1 = '/jadwalDokter1';
+  static const String spesialisView = '/spesialis-view';
+  static const String detailSpesialisView = '/detail-spesialis-view';
+  static const String klinikView = '/klinik-view';
+  static const String detailKlinikView = '/detail-klinik-view';
+  static const String searchKlinikView = '/search-klinik-view';
+  static const String detailDokterView = '/detail-dokter-view';
+  static const String locationView = '/location-view';
+  static const String detailLocationView = '/detail-location-view';
+  static const String appoinmentView = '/appoinment-view';
+  static const String mapsView = '/maps-view';
+  static const String jadwalDokterView = '/jadwal-dokter-view';
 }

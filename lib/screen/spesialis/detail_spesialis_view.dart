@@ -1,42 +1,43 @@
 import 'package:flutter/material.dart';
 import 'package:reprohealth_app/component/text_form_component.dart';
+import 'package:reprohealth_app/constant/routes_navigation.dart';
 import 'package:reprohealth_app/models/dokter_models.dart';
 import 'package:reprohealth_app/theme/theme.dart';
 
-class GinekologiPage extends StatefulWidget {
-  const GinekologiPage({super.key});
+class DetailSpesialisView extends StatefulWidget {
+  const DetailSpesialisView({Key? key}) : super(key: key);
 
   @override
-  State<GinekologiPage> createState() => _GinekologiPageState();
+  State<DetailSpesialisView> createState() => _DetailSpesialisViewState();
 }
 
-class _GinekologiPageState extends State<GinekologiPage> {
-  TextEditingController searchGinekologiController = TextEditingController();
+class _DetailSpesialisViewState extends State<DetailSpesialisView> {
+  TextEditingController searchKandunganController = TextEditingController();
 
-  List<DokterModels> filteredDokterGinekologiData = [];
+  List<DokterModels> filteredDokterKandunganData = [];
 
-// Add Data Ginekologi
+// Add Data Dokter kandungan
   @override
   void initState() {
     super.initState();
-    filteredDokterGinekologiData.addAll(dokterGinekologiData);
+    filteredDokterKandunganData.addAll(dokterKandunganData);
   }
 
-// Search Data Dokter Ginekologi
+// Search Data Dokter Kandungan
   void filterSearchDokter(String query) {
     List<DokterModels> searchResults = [];
 
     if (query.isNotEmpty) {
-      searchResults = dokterGinekologiData
+      searchResults = dokterKandunganData
           .where(
               (data) => data.nama.toLowerCase().contains(query.toLowerCase()))
           .toList();
     } else {
-      searchResults.addAll(dokterGinekologiData);
+      searchResults.addAll(dokterKandunganData);
     }
 
     setState(() {
-      filteredDokterGinekologiData = searchResults;
+      filteredDokterKandunganData = searchResults;
     });
   }
 
@@ -58,7 +59,7 @@ class _GinekologiPageState extends State<GinekologiPage> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
             child: TextFormComponent(
-              controller: searchGinekologiController,
+              controller: searchKandunganController,
               errortext: '',
               onChanged: (query) {
                 filterSearchDokter(query);
@@ -68,12 +69,15 @@ class _GinekologiPageState extends State<GinekologiPage> {
             ),
           ),
           Expanded(
-            child: filteredDokterGinekologiData.isNotEmpty
+            child: filteredDokterKandunganData.isNotEmpty
                 ? ListView.builder(
-                    itemCount: filteredDokterGinekologiData.length,
+                    itemCount: filteredDokterKandunganData.length,
                     itemBuilder: (BuildContext context, int index) {
                       return GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.pushNamed(
+                              context, RoutesNavigation.detailDokterView);
+                        },
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 16),
                           child: Card(
@@ -93,7 +97,7 @@ class _GinekologiPageState extends State<GinekologiPage> {
                                         height: 66,
                                         width: 66,
                                         child: Image.asset(
-                                          filteredDokterGinekologiData[index]
+                                          filteredDokterKandunganData[index]
                                               .image,
                                           fit: BoxFit.cover,
                                         ),
@@ -118,7 +122,7 @@ class _GinekologiPageState extends State<GinekologiPage> {
                                               // Nama Dokter
                                               Flexible(
                                                 child: Text(
-                                                  filteredDokterGinekologiData[
+                                                  filteredDokterKandunganData[
                                                           index]
                                                       .nama,
                                                   style: medium14Grey500,
@@ -142,7 +146,7 @@ class _GinekologiPageState extends State<GinekologiPage> {
                                                       vertical: 3,
                                                     ),
                                                     child: Text(
-                                                      filteredDokterGinekologiData[
+                                                      filteredDokterKandunganData[
                                                               index]
                                                           .tahun,
                                                       style: regular8Green50,
@@ -156,7 +160,7 @@ class _GinekologiPageState extends State<GinekologiPage> {
 
                                           // Dokter Spesialis
                                           Text(
-                                            filteredDokterGinekologiData[index]
+                                            filteredDokterKandunganData[index]
                                                 .spesialis,
                                             style: regular12Grey400,
                                           ),
@@ -166,7 +170,7 @@ class _GinekologiPageState extends State<GinekologiPage> {
                                           Row(
                                             children: [
                                               Image.asset(
-                                                filteredDokterGinekologiData[
+                                                filteredDokterKandunganData[
                                                         index]
                                                     .imageIcon,
                                                 width: 16,
@@ -174,14 +178,14 @@ class _GinekologiPageState extends State<GinekologiPage> {
                                               ),
                                               const SizedBox(width: 4),
                                               Text(
-                                                filteredDokterGinekologiData[
+                                                filteredDokterKandunganData[
                                                         index]
                                                     .rumahSakit,
                                                 style: regular12Grey900,
                                               ),
                                               const Expanded(child: SizedBox()),
                                               Text(
-                                                filteredDokterGinekologiData[
+                                                filteredDokterKandunganData[
                                                         index]
                                                     .biaya,
                                                 style: medium12PrimaryGreen500,

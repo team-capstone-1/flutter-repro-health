@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:reprohealth_app/constant/routes_navigation.dart';
-import 'package:reprohealth_app/screen/appoinment/appoinment_akses_view.dart';
+import 'package:reprohealth_app/screen/dokter/detail_dokter_view.dart';
+import 'package:reprohealth_app/screen/dokter/jadwal_dokter_view.dart';
+import 'package:reprohealth_app/screen/klinik/detail_klinik_view.dart';
+import 'package:reprohealth_app/screen/klinik/search_klinik_view.dart';
+import 'package:reprohealth_app/screen/location/detail_location_view.dart';
+import 'package:reprohealth_app/screen/location/location_view.dart';
+import 'package:reprohealth_app/screen/maps/maps_view.dart';
 import 'package:reprohealth_app/screen/appoinment/appoinment_view.dart';
-import 'package:reprohealth_app/screen/appoinment/page_widget/klinik/inter_medika/detail_page/detail_inter_medika.dart';
-import 'package:reprohealth_app/screen/appoinment/page_widget/klinik/inter_medika/detail_page/tabbar/profile/jadwal_dokter/jadwal_dokter1.dart';
-import 'package:reprohealth_app/screen/appoinment/page_widget/maps/maps_page.dart';
-import 'package:reprohealth_app/screen/appoinment/page/appoinment_dasboard_view.dart';
-import 'package:reprohealth_app/screen/appoinment/page/appoinment_klinik_view.dart';
-import 'package:reprohealth_app/screen/appoinment/page/appoinment_spesialis_view.dart';
+import 'package:reprohealth_app/screen/klinik/klinik_view.dart';
+import 'package:reprohealth_app/screen/spesialis/detail_spesialis_view.dart';
+import 'package:reprohealth_app/screen/spesialis/spesialis_view.dart';
 import 'package:reprohealth_app/screen/article/article_detail_view.dart';
 import 'package:reprohealth_app/screen/article/article_view.dart';
 import 'package:reprohealth_app/screen/article/bookmark_view.dart';
@@ -53,7 +56,6 @@ class MainApp extends StatelessWidget {
         RoutesNavigation.detailForgotPasswordView: (context) =>
             const DetailForgotPasswordView(),
         RoutesNavigation.homeView: (context) => const HomeView(),
-        RoutesNavigation.appointmenView: (context) => const AppoinmentView(),
         RoutesNavigation.articleView: (context) => const ArticleView(),
         RoutesNavigation.articleDetailView: (context) =>
             const ArticleDetailView(),
@@ -62,18 +64,23 @@ class MainApp extends StatelessWidget {
         RoutesNavigation.forumView: (context) => const ForumView(),
         RoutesNavigation.riwayatView: (context) => const RiwayatView(),
         RoutesNavigation.profileView: (context) => const ProfileView(),
-        RoutesNavigation.appoinmentSpesialisView: (context) =>
-            const AppoinmentSpesialisView(),
-        RoutesNavigation.appoinmentKlinikView: (context) =>
-            const AppoinmentKlinikView(),
-        RoutesNavigation.appoinmentAksesView: (context) =>
-            const AppoinmentAksesView(),
-        RoutesNavigation.appoinmentDasboardView: (context) =>
-            const AppoinmentDasboardView(),
-        RoutesNavigation.mapsPage: (context) => const MapsPage(),
-        RoutesNavigation.detailInterMedika: (context) =>
-            const DetailInterMedika(),
-        RoutesNavigation.jadwalDokter1: (context) => const JadwalDokter1(),
+        RoutesNavigation.spesialisView: (context) => const SpesialisView(),
+        RoutesNavigation.detailSpesialisView: (context) =>
+            const DetailSpesialisView(),
+        RoutesNavigation.klinikView: (context) => const KlinikView(),
+        RoutesNavigation.detailKlinikView: (context) =>
+            const DetailKlinikView(),
+        RoutesNavigation.searchKlinikView: (context) =>
+            const SearchKlinikView(),
+        RoutesNavigation.detailDokterView: (context) =>
+            const DetailDokterView(),
+        RoutesNavigation.locationView: (context) => const LocationView(),
+        RoutesNavigation.detailLocationView: (context) =>
+            const DetailLocationView(),
+        RoutesNavigation.appoinmentView: (context) => const AppoinmentView(),
+        RoutesNavigation.mapsView: (context) => const MapsView(),
+        RoutesNavigation.jadwalDokterView: (context) =>
+            const JadwalDokterView(),
       },
     );
   }

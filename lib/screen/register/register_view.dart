@@ -56,7 +56,7 @@ class _RegisterViewState extends State<RegisterView> {
               children: [
                 Center(
                   child: Image.asset(
-                    Assets.assetsLogoReprohealt,
+                    Assets.assetsLogoReproHealth,
                     height: 124,
                     width: 144,
                   ),
