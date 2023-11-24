@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:reprohealth_app/constant/routes_navigation.dart';
 import 'package:reprohealth_app/theme/theme.dart';
 
-class AppoinmentAksesView extends StatelessWidget {
-  const AppoinmentAksesView({super.key});
+class DetailLocationView extends StatelessWidget {
+  const DetailLocationView({super.key});
 
   @override
   Widget build(BuildContext context) {

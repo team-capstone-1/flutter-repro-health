@@ -4,8 +4,8 @@ import 'package:reprohealth_app/constant/routes_navigation.dart';
 import 'package:reprohealth_app/models/profile_dokter_models.dart';
 import 'package:reprohealth_app/theme/theme.dart';
 
-class ProfileDokter1 extends StatelessWidget {
-  const ProfileDokter1({super.key});
+class DetailDokterView extends StatelessWidget {
+  const DetailDokterView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -181,7 +181,7 @@ class ProfileDokter1 extends StatelessWidget {
                         backgroundColor: primarygreen500,
                         onPressed: () {
                           Navigator.pushNamed(
-                              context, RoutesNavigation.jadwalDokter1);
+                              context, RoutesNavigation.jadwalDokterView);
                         },
                       ),
                     ),

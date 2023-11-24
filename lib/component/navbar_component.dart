@@ -1,16 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-class NavbarComponent with ChangeNotifier {
-  int _currentIndex = 0;
-
-  int get currentIndex => _currentIndex;
-
-  void updateIndex(int index) {
-    _currentIndex = index;
-    notifyListeners();
-  }
-}
+import 'package:reprohealth_app/screen/home/home_view_models.dart';
 
 Widget customBottomNav() {
   return Container(
@@ -22,9 +12,9 @@ Widget customBottomNav() {
           child: ClipRRect(
             child: BottomNavigationBar(
               backgroundColor: Colors.white,
-              currentIndex: Provider.of<NavbarComponent>(context).currentIndex,
+              currentIndex: Provider.of<HomeViewModels>(context).currentIndex,
               onTap: (value) {
-                Provider.of<NavbarComponent>(context, listen: false)
+                Provider.of<HomeViewModels>(context, listen: false)
                     .updateIndex(value);
               },
               type: BottomNavigationBarType.fixed,
@@ -38,8 +28,7 @@ Widget customBottomNav() {
                       'assets/Appoinment.png',
                       width: 100,
                       color:
-                          Provider.of<NavbarComponent>(context).currentIndex ==
-                                  0
+                          Provider.of<HomeViewModels>(context).currentIndex == 0
                               ? const Color(0xff14C6A4)
                               : const Color(0xff989898),
                     ),
@@ -55,8 +44,7 @@ Widget customBottomNav() {
                       'assets/Article.png',
                       width: 100,
                       color:
-                          Provider.of<NavbarComponent>(context).currentIndex ==
-                                  1
+                          Provider.of<HomeViewModels>(context).currentIndex == 1
                               ? const Color(0xff14C6A4)
                               : const Color(0xff989898),
                     ),
@@ -72,8 +60,7 @@ Widget customBottomNav() {
                       'assets/Forum.png',
                       width: 100,
                       color:
-                          Provider.of<NavbarComponent>(context).currentIndex ==
-                                  2
+                          Provider.of<HomeViewModels>(context).currentIndex == 2
                               ? const Color(0xff14C6A4)
                               : const Color(0xff989898),
                     ),
@@ -89,8 +76,7 @@ Widget customBottomNav() {
                       'assets/Riwayat.png',
                       width: 100,
                       color:
-                          Provider.of<NavbarComponent>(context).currentIndex ==
-                                  3
+                          Provider.of<HomeViewModels>(context).currentIndex == 3
                               ? const Color(0xff14C6A4)
                               : const Color(0xff989898),
                     ),
@@ -106,8 +92,7 @@ Widget customBottomNav() {
                       'assets/Profile.png',
                       width: 100,
                       color:
-                          Provider.of<NavbarComponent>(context).currentIndex ==
-                                  4
+                          Provider.of<HomeViewModels>(context).currentIndex == 4
                               ? const Color(0xff14C6A4)
                               : const Color(0xff989898),
                     ),

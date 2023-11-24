@@ -53,6 +53,10 @@ TextStyle regular8Negative = GoogleFonts.poppins(
 
 TextStyle regular8Grey400 = GoogleFonts.poppins(
   color: grey400,
+  fontSize: 8,
+  fontWeight: FontWeight.w400,
+);
+
 TextStyle regular8Black = GoogleFonts.poppins(
   color: secondary,
   fontSize: 8,
@@ -63,6 +67,7 @@ TextStyle regular8Green50 = GoogleFonts.poppins(
   color: green50,
   fontSize: 8,
   fontWeight: FontWeight.w400,
+);
 
 TextStyle regular8Black400Italic = GoogleFonts.poppins(
   color: secondary,
@@ -186,6 +191,10 @@ TextStyle medium12Grey900 = GoogleFonts.poppins(
 
 TextStyle medium12PrimaryGreen500 = GoogleFonts.poppins(
   color: primarygreen500,
+  fontSize: 8,
+  fontWeight: FontWeight.w500,
+);
+
 TextStyle medium8Black = GoogleFonts.poppins(
   color: secondary,
   fontSize: 8,
@@ -273,6 +282,10 @@ TextStyle semiBold14Grey900 = GoogleFonts.poppins(
 
 TextStyle semiBold16Grey900 = GoogleFonts.poppins(
   color: grey900,
+  fontSize: 16,
+  fontWeight: FontWeight.w600,
+);
+
 TextStyle semiBold16Black = GoogleFonts.poppins(
   color: secondary,
   fontSize: 16,
@@ -298,7 +311,11 @@ TextStyle semiBold16Primary4 = GoogleFonts.poppins(
 );
 
 TextStyle semiBold20Grey900 = GoogleFonts.poppins(
-  color: grey900
+  color: grey900,
+  fontSize: 20,
+  fontWeight: FontWeight.w600,
+);
+
 TextStyle semiBold20Black = GoogleFonts.poppins(
   color: secondary,
   fontSize: 20,
