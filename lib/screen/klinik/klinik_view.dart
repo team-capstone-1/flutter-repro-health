@@ -66,7 +66,6 @@ class _KlinikViewState extends State<KlinikView> {
             ),
             TextFormComponent(
               controller: searchKlinikAppoinmentController,
-              errortext: '',
               onChanged: (query) {
                 filterSearchDokter(query);
               },

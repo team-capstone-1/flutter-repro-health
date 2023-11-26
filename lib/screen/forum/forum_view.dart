@@ -39,7 +39,6 @@ class ForumView extends StatelessWidget {
                     const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
                 child: TextFormComponent(
                   controller: searchController,
-                  errortext: '',
                   hintText: 'Cari Forum Diskusi...',
                   prefixIcon: Icons.search,
                 ),

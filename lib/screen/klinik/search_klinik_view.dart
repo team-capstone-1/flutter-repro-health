@@ -73,7 +73,6 @@ class _SearchKlinikViewState extends State<SearchKlinikView> {
                     const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
                 child: TextFormComponent(
                   controller: searchController,
-                  errortext: '',
                   onChanged: (value) {
                     if (selectIndex == 0) {
                       filterDokterList(value);

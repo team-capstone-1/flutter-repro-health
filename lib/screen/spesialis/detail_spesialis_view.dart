@@ -60,7 +60,6 @@ class _DetailSpesialisViewState extends State<DetailSpesialisView> {
             padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
             child: TextFormComponent(
               controller: searchKandunganController,
-              errortext: '',
               onChanged: (query) {
                 filterSearchDokter(query);
               },

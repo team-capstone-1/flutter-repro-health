@@ -64,7 +64,6 @@ class _MapsViewState extends State<MapsView> {
             ),
             child: TextFormComponent(
               controller: searchMapsController,
-              errortext: '',
               onChanged: (query) {
                 filterSearchMaps(query);
               },

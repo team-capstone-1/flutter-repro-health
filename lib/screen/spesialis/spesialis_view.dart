@@ -62,7 +62,6 @@ class _SpesialisView extends State<SpesialisView> {
             padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
             child: TextFormComponent(
               controller: searchSpesialisAppoinmentController,
-              errortext: '',
               hintText: 'Cari Dokter Spesialis..',
               onChanged: (query) {
                 filterSearchSpesialis(query);

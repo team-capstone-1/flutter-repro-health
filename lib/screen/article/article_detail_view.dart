@@ -213,7 +213,6 @@ class _ArticleDetailViewState extends State<ArticleDetailView> {
                     ),
                     TextFormComponent(
                       controller: controller,
-                      errortext: 'errortext',
                       hintText: 'Tambahkan Komentar...',
                       suffixIcon: IconButton(
                         onPressed: () {},
