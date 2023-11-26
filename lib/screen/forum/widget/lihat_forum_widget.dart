@@ -2,22 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:reprohealth_app/models/forum_models.dart';
 import 'package:reprohealth_app/theme/theme.dart';
 
-class ForumTabbarLihatView extends StatelessWidget {
+class LihatForumWidget extends StatelessWidget {
   final ForumModel forum;
 
-  const ForumTabbarLihatView({Key? key, required this.forum}) : super(key: key);
+  const LihatForumWidget({Key? key, required this.forum}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: 360.0,
-      height: 240.0,
+      height: 198.0,
       child: Card(
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            children: [
-              Align(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(
+                right: 16,
+                left: 16,
+                top: 16,
+                bottom: 8,
+              ),
+              child: Align(
                 alignment: Alignment.topLeft,
                 child: Row(
                   children: [
@@ -36,29 +41,36 @@ class ForumTabbarLihatView extends StatelessWidget {
                   ],
                 ),
               ),
-              const SizedBox(
-                height: 8,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(
+                right: 16,
+                left: 16,
+                bottom: 8,
               ),
-              Align(
+              child: Align(
                 alignment: Alignment.topLeft,
                 child: Text(
                   forum.title,
                   style: medium14Grey900,
                 ),
               ),
-              const SizedBox(
-                height: 8,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(
+                right: 16,
+                left: 16,
+                bottom: 12,
               ),
-              Align(
+              child: Align(
                 alignment: Alignment.topLeft,
-                child: Text(
-                  forum.subtitle,
-                  textAlign: TextAlign.justify,
-                  style: regular10Grey400
-                ),
+                child: Text(forum.subtitle,
+                    textAlign: TextAlign.justify, style: regular10Grey400),
               ),
-              const SizedBox(height: 12),
-              Row(
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Row(
                 children: [
                   Image.asset(
                     forum.image,
@@ -77,9 +89,9 @@ class ForumTabbarLihatView extends StatelessWidget {
                     height: 11.17,
                   ),
                 ],
-              )
-            ],
-          ),
+              ),
+            )
+          ],
         ),
       ),
     );

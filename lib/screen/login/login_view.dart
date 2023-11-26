@@ -3,6 +3,7 @@ import 'package:reprohealth_app/component/button_component.dart';
 import 'package:reprohealth_app/component/text_form_component.dart';
 import 'package:reprohealth_app/constant/assets_constants.dart';
 import 'package:reprohealth_app/constant/routes_navigation.dart';
+import 'package:reprohealth_app/services/auth_services/auth_services.dart';
 import 'package:reprohealth_app/theme/theme.dart';
 
 class LoginView extends StatefulWidget {
@@ -79,7 +80,7 @@ class _LoginViewState extends State<LoginView> {
               children: [
                 Center(
                   child: Image.asset(
-                    Assets.assetsLogoReprohealt,
+                    Assets.assetsLogoReproHealth,
                     height: 153,
                     width: 144,
                   ),
@@ -220,12 +221,17 @@ class _LoginViewState extends State<LoginView> {
                   backgroundColor: green500,
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
-                      emailController.clear();
-                      passwordController.clear();
-                      Navigator.pushNamedAndRemoveUntil(
-                        context,
-                        RoutesNavigation.homeView,
-                        (route) => false,
+                      // emailController.clear();
+                      // passwordController.clear();
+                      // Navigator.pushNamedAndRemoveUntil(
+                      //   context,
+                      //   RoutesNavigation.locationView,
+                      //   (route) => false,
+                      // );
+                      AuthServices().authLogin(
+                        email: emailController.text,
+                        password: passwordController.text,
+                        context: context,
                       );
                     }
                   },
@@ -240,7 +246,9 @@ class _LoginViewState extends State<LoginView> {
                     TextButton(
                       onPressed: () {
                         Navigator.pushNamed(
-                            context, RoutesNavigation.registerView);
+                          context,
+                          RoutesNavigation.registerView,
+                        );
                       },
                       child: Text(
                         'Daftar',

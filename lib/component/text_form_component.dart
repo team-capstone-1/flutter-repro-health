@@ -8,6 +8,7 @@ class TextFormComponent extends StatelessWidget {
   final Widget? suffixIcon;
   final IconData? prefixIcon;
   final String? Function(String?)? validator;
+  final Function(String)? onChanged;
   const TextFormComponent({
     super.key,
     required this.controller,
@@ -16,6 +17,7 @@ class TextFormComponent extends StatelessWidget {
     required this.hintText,
     this.prefixIcon,
     this.validator,
+    this.onChanged,
   });
 
   @override
@@ -24,6 +26,7 @@ class TextFormComponent extends StatelessWidget {
       controller: controller,
       obscureText: obscureText ?? false,
       validator: validator,
+      onChanged: onChanged,
       decoration: InputDecoration(
         border: const OutlineInputBorder(),
         contentPadding: const EdgeInsets.symmetric(

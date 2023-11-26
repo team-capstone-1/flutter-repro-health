@@ -5,10 +5,25 @@ import 'package:reprohealth_app/component/text_form_component.dart';
 import 'package:reprohealth_app/constant/assets_constants.dart';
 import 'package:reprohealth_app/constant/routes_navigation.dart';
 import 'package:reprohealth_app/screen/register/view_model/register_view_model.dart';
+import 'package:reprohealth_app/services/auth_services/auth_services.dart';
 import 'package:reprohealth_app/theme/theme.dart';
 
-class RegisterView extends StatelessWidget {
+class RegisterView extends StatefulWidget {
   const RegisterView({super.key});
+
+  @override
+  State<RegisterView> createState() => _RegisterViewState();
+}
+
+class _RegisterViewState extends State<RegisterView> {
+  // @override
+  // void initState() {
+  //   AuthServices().authRegister(
+  //     email: Provider.of<RegisterViewModel>(context).emailController.text,
+  //     password: Provider.of<RegisterViewModel>(context).passwordController.text,
+  //   );
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +55,7 @@ class RegisterView extends StatelessWidget {
                   children: [
                     Center(
                       child: Image.asset(
-                        Assets.assetsLogoReprohealt,
+                        Assets.assetsLogoReproHealth,
                         height: 124,
                         width: 144,
                       ),
@@ -169,7 +184,8 @@ class RegisterView extends StatelessWidget {
                       validator: (value) {
                         if (value == null ||
                             value.isEmpty ||
-                            value != registerViewModel.passwordController.text) {
+                            value !=
+                                registerViewModel.passwordController.text) {
                           return 'Kata sandi tidak sama!!';
                         }
                         return null;
@@ -183,11 +199,12 @@ class RegisterView extends StatelessWidget {
                       labelStyle: semiBold12Primary,
                       backgroundColor: green500,
                       onPressed: () {
-                        if (registerViewModel.formKey.currentState!.validate()) {
-                          Navigator.pushNamedAndRemoveUntil(
-                            context,
-                            RoutesNavigation.successRegisterView,
-                            (route) => false,
+                        if (registerViewModel.formKey.currentState!
+                            .validate()) {
+                          AuthServices().authRegister(
+                            context: context,
+                            email: registerViewModel.emailController.text,
+                            password: registerViewModel.passwordController.text,
                           );
                         }
                       },
