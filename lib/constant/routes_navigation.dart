@@ -17,7 +17,6 @@ class RoutesNavigation {
   static const String commentView = '/comment';
   static const String forumView = '/forum';
   static const String riwayatView = '/riwayat';
-  static const String profileView = '/profile';
   static const String spesialisView = '/spesialis-view';
   static const String detailSpesialisView = '/detail-spesialis-view';
   static const String klinikView = '/klinik-view';
@@ -29,4 +28,18 @@ class RoutesNavigation {
   static const String appoinmentView = '/appoinment-view';
   static const String mapsView = '/maps-view';
   static const String jadwalDokterView = '/jadwal-dokter-view';
+
+  //profil routes
+  static const String profileView = '/profile';
+  static const String myProfile = '/myprofile';
+  static const String familyProfile = '/family-profile';
+  static const String changePasswordView = '/change-password-profile';
+  static const String aboutUs = '/about-us';
+  static const String pusatBantuanView = '/pusat-bantuan';
+  static const String ketentuanPenggunaView = '/ketentuan-pengguna-view';
+  static const String kebijakanPrivasiView = '/kebijakan-privasi-view';
+  static const String changeProfileView = '/change-profile-view';
+
+
+
 }
