@@ -101,6 +101,7 @@ class ForumView extends StatelessWidget {
                   border: Border.all(color: green500, width: 1.0),
                 ),
                 child: FloatingActionButton(
+                  heroTag: "1",
                   onPressed: () {
                     // First FAB action
                   },
@@ -116,6 +117,7 @@ class ForumView extends StatelessWidget {
                 width: 56.0,
                 height: 56.0,
                 child: FloatingActionButton(
+                  heroTag: "2",
                   onPressed: () {
                     // Second FAB action
                   },
