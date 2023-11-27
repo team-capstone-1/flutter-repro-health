@@ -221,18 +221,13 @@ class _LoginViewState extends State<LoginView> {
                   backgroundColor: green500,
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
-                      // emailController.clear();
-                      // passwordController.clear();
-                      // Navigator.pushNamedAndRemoveUntil(
-                      //   context,
-                      //   RoutesNavigation.locationView,
-                      //   (route) => false,
-                      // );
                       AuthServices().authLogin(
                         email: emailController.text,
                         password: passwordController.text,
                         context: context,
                       );
+                      emailController.clear();
+                      passwordController.clear();
                     }
                   },
                 ),

@@ -206,6 +206,10 @@ class _RegisterViewState extends State<RegisterView> {
                             email: registerViewModel.emailController.text,
                             password: registerViewModel.passwordController.text,
                           );
+                          registerViewModel.nameController.clear();
+                          registerViewModel.emailController.clear();
+                          registerViewModel.passwordController.clear();
+                          registerViewModel.confirmPasswordController.clear();
                         }
                       },
                     ),

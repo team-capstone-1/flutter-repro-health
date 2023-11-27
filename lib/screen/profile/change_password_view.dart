@@ -72,7 +72,6 @@ final _formKey = GlobalKey<FormState>();
                 TextFormComponent(
                   controller: oldPasswordController,
                   obscureText: !passwordVisible,
-                  errortext: 'Kata sandi tidak boleh kosong, silahkan masukkan kata sandi anda',
                   hintText: 'Kata sandi lama',
                   prefixIcon: Icons.lock_outline,
                   suffixIcon: IconButton(
@@ -97,7 +96,6 @@ final _formKey = GlobalKey<FormState>();
                 TextFormComponent(
                   controller: newPasswordController,
                   obscureText: !passwordVisible2,
-                  errortext: 'Kata sandi tidak boleh kosong, silahkan masukkan kata sandi anda',
                   hintText: 'Kata sandi baru',
                   prefixIcon: Icons.lock_outline,
                   suffixIcon: IconButton(
