@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:reprohealth_app/component/button_component.dart';
 import 'package:reprohealth_app/component/text_form_component.dart';
 import 'package:reprohealth_app/constant/assets_constants.dart';
 import 'package:reprohealth_app/constant/routes_navigation.dart';
+import 'package:reprohealth_app/screen/register/view_model/register_view_model.dart';
+import 'package:reprohealth_app/services/auth_services/auth_services.dart';
 import 'package:reprohealth_app/theme/theme.dart';
 
 class RegisterView extends StatefulWidget {
@@ -13,20 +16,14 @@ class RegisterView extends StatefulWidget {
 }
 
 class _RegisterViewState extends State<RegisterView> {
-  final _formKey = GlobalKey<FormState>();
-  final TextEditingController nameController = TextEditingController();
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
-  final TextEditingController confirmPasswordController =
-      TextEditingController();
-
-  bool passwordVisible = true;
-
-  @override
-  void initState() {
-    passwordVisible = false;
-    super.initState();
-  }
+  // @override
+  // void initState() {
+  //   AuthServices().authRegister(
+  //     email: Provider.of<RegisterViewModel>(context).emailController.text,
+  //     password: Provider.of<RegisterViewModel>(context).passwordController.text,
+  //   );
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -46,145 +43,182 @@ class _RegisterViewState extends State<RegisterView> {
           ),
         ),
       ),
-      body: Form(
-        key: _formKey,
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Center(
-                  child: Image.asset(
-                    Assets.assetsLogoReproHealth,
-                    height: 124,
-                    width: 144,
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Text(
-                  'Daftar Akun',
-                  style: semiBold24Grey500,
-                ),
-                const SizedBox(
-                  height: 6,
-                ),
-                Text(
-                  'Masukkan Informasi Pribadi Anda',
-                  style: regular12Grey500,
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Text(
-                  'Nama',
-                  style: medium14Grey500,
-                ),
-                const SizedBox(
-                  height: 6,
-                ),
-                TextFormComponent(
-                  controller: nameController,
-                  errortext: 'Nama tidak boleh kosong',
-                  hintText: 'Masukkan Nama Anda',
-                  prefixIcon: Icons.account_circle_outlined,
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Text(
-                  'Email',
-                  style: medium14Grey500,
-                ),
-                const SizedBox(
-                  height: 6,
-                ),
-                TextFormComponent(
-                  controller: emailController,
-                  errortext: 'Email anda tidak valid!',
-                  hintText: 'Masukkan Email Anda',
-                  prefixIcon: Icons.email_outlined,
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Text(
-                  'Kata Sandi',
-                  style: medium14Grey500,
-                ),
-                const SizedBox(
-                  height: 6,
-                ),
-                TextFormComponent(
-                  controller: passwordController,
-                  obscureText: !passwordVisible,
-                  errortext:
-                      'Kata sandi minimal 8 karakter kombinasi huruf besar, huruf kecil, dan angka!',
-                  hintText: 'Masukkan Kata Sandi Anda',
-                  prefixIcon: Icons.lock_outline,
-                  suffixIcon: IconButton(
-                    onPressed: () {
-                      setState(() {
-                        passwordVisible = !passwordVisible;
-                      });
-                    },
-                    icon: Icon(
-                      passwordVisible ? Icons.visibility : Icons.visibility_off,
-                      color: grey200,
+      body: Consumer<RegisterViewModel>(
+        builder: (context, registerViewModel, child) {
+          return Form(
+            key: registerViewModel.formKey,
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Center(
+                      child: Image.asset(
+                        Assets.assetsLogoReproHealth,
+                        height: 124,
+                        width: 144,
+                      ),
                     ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Text(
-                  'Konfirmasi Kata Sandi',
-                  style: medium14Grey500,
-                ),
-                const SizedBox(
-                  height: 6,
-                ),
-                TextFormComponent(
-                  controller: confirmPasswordController,
-                  obscureText: !passwordVisible,
-                  errortext: 'Kata sandi tidak sama!',
-                  hintText: 'Konfirmasi Kata Sandi Anda',
-                  prefixIcon: Icons.lock_outline,
-                  suffixIcon: IconButton(
-                    onPressed: () {
-                      setState(() {
-                        passwordVisible = !passwordVisible;
-                      });
-                    },
-                    icon: Icon(
-                      passwordVisible ? Icons.visibility : Icons.visibility_off,
-                      color: grey200,
+                    const SizedBox(
+                      height: 20,
                     ),
-                  ),
+                    Text(
+                      'Daftar Akun',
+                      style: semiBold24Grey500,
+                    ),
+                    const SizedBox(
+                      height: 6,
+                    ),
+                    Text(
+                      'Masukkan Informasi Pribadi Anda',
+                      style: regular12Grey500,
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      'Nama',
+                      style: medium14Grey500,
+                    ),
+                    const SizedBox(
+                      height: 6,
+                    ),
+                    TextFormComponent(
+                      controller: registerViewModel.nameController,
+                      hintText: 'Masukkan Nama Anda',
+                      prefixIcon: Icons.account_circle_outlined,
+                      validator: (value) {
+                        if (value == null ||
+                            value.isEmpty ||
+                            !registerViewModel.validateName(value)) {
+                          return 'Nama tidak boleh kosong, diawali dengan huruf besar dan minimal 3 huruf';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      'Email',
+                      style: medium14Grey500,
+                    ),
+                    const SizedBox(
+                      height: 6,
+                    ),
+                    TextFormComponent(
+                      controller: registerViewModel.emailController,
+                      hintText: 'Masukkan Email Anda',
+                      prefixIcon: Icons.email_outlined,
+                      validator: (value) {
+                        if (value == null ||
+                            value.isEmpty ||
+                            !registerViewModel.validateEmail(value)) {
+                          return 'Email anda tidak valid! contoh: johndoe@gmail.com';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      'Kata Sandi',
+                      style: medium14Grey500,
+                    ),
+                    const SizedBox(
+                      height: 6,
+                    ),
+                    TextFormComponent(
+                      controller: registerViewModel.passwordController,
+                      obscureText: !registerViewModel.passwordVisible,
+                      hintText: 'Masukkan Kata Sandi Anda',
+                      prefixIcon: Icons.lock_outline,
+                      suffixIcon: IconButton(
+                        onPressed: () {
+                          registerViewModel.isPasswordVisible();
+                        },
+                        icon: Icon(
+                          registerViewModel.passwordVisible
+                              ? Icons.visibility
+                              : Icons.visibility_off,
+                          color: grey200,
+                        ),
+                      ),
+                      validator: (value) {
+                        if (value == null ||
+                            value.isEmpty ||
+                            !registerViewModel.validatePassword(value)) {
+                          return 'Kata sandi minimal 8 karakter kombinasi huruf besar, huruf kecil, dan angka!';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      'Konfirmasi Kata Sandi',
+                      style: medium14Grey500,
+                    ),
+                    const SizedBox(
+                      height: 6,
+                    ),
+                    TextFormComponent(
+                      controller: registerViewModel.confirmPasswordController,
+                      obscureText: !registerViewModel.passwordVisible,
+                      hintText: 'Konfirmasi Kata Sandi Anda',
+                      prefixIcon: Icons.lock_outline,
+                      suffixIcon: IconButton(
+                        onPressed: () {
+                          registerViewModel.isPasswordVisible();
+                        },
+                        icon: Icon(
+                          registerViewModel.passwordVisible
+                              ? Icons.visibility
+                              : Icons.visibility_off,
+                          color: grey200,
+                        ),
+                      ),
+                      validator: (value) {
+                        if (value == null ||
+                            value.isEmpty ||
+                            value !=
+                                registerViewModel.passwordController.text) {
+                          return 'Kata sandi tidak sama!!';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    ButtonComponent(
+                      labelText: 'Daftar',
+                      labelStyle: semiBold12Primary,
+                      backgroundColor: green500,
+                      onPressed: () {
+                        if (registerViewModel.formKey.currentState!
+                            .validate()) {
+                          AuthServices().authRegister(
+                            context: context,
+                            email: registerViewModel.emailController.text,
+                            password: registerViewModel.passwordController.text,
+                          );
+                          registerViewModel.nameController.clear();
+                          registerViewModel.emailController.clear();
+                          registerViewModel.passwordController.clear();
+                          registerViewModel.confirmPasswordController.clear();
+                        }
+                      },
+                    ),
+                  ],
                 ),
-                const SizedBox(
-                  height: 30,
-                ),
-                ButtonComponent(
-                  labelText: 'Daftar',
-                  labelStyle: semiBold12Primary,
-                  backgroundColor: green500,
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      Navigator.pushNamedAndRemoveUntil(
-                        context,
-                        RoutesNavigation.successRegisterView,
-                        (route) => false,
-                      );
-                    }
-                  },
-                ),
-              ],
+              ),
             ),
-          ),
-        ),
+          );
+        },
       ),
     );
   }

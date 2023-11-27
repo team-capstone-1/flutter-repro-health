@@ -3,6 +3,7 @@ import 'package:reprohealth_app/component/button_component.dart';
 import 'package:reprohealth_app/component/text_form_component.dart';
 import 'package:reprohealth_app/constant/assets_constants.dart';
 import 'package:reprohealth_app/constant/routes_navigation.dart';
+import 'package:reprohealth_app/services/auth_services/auth_services.dart';
 import 'package:reprohealth_app/theme/theme.dart';
 
 class LoginView extends StatefulWidget {
@@ -23,6 +24,15 @@ class _LoginViewState extends State<LoginView> {
     setState(() {
       rememberMe = !rememberMe;
     });
+  }
+
+  bool _validateEmail(String email) {
+    final emailPattern =
+        RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9^`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+    if (!emailPattern.hasMatch(email)) {
+      return false;
+    }
+    return true;
   }
 
   @override
@@ -62,82 +72,69 @@ class _LoginViewState extends State<LoginView> {
       ),
       body: Form(
         key: _formKey,
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Center(
-                child: Image.asset(
-                  Assets.assetsLogoReproHealth,
-                  height: 153,
-                  width: 144,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Center(
+                  child: Image.asset(
+                    Assets.assetsLogoReproHealth,
+                    height: 153,
+                    width: 144,
+                  ),
                 ),
-              ),
-              const SizedBox(
-                height: 36,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(
-                  left: 16,
-                  bottom: 6,
+                const SizedBox(
+                  height: 30,
                 ),
-                child: Text(
+                Text(
                   'Masuk',
                   style: semiBold24Grey400,
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(
-                  left: 16,
-                  bottom: 16,
+                const SizedBox(
+                  height: 6,
                 ),
-                child: Text(
+                Text(
                   'Masuk Untuk Menggunakan Aplikasi',
-                  style: regular10Grey300,
+                  style: regular12Grey500,
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(
-                  left: 16,
+                const SizedBox(
+                  height: 24,
                 ),
-                child: Text(
+                Text(
                   'Email',
                   style: medium14Grey400,
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 6,
+                const SizedBox(
+                  height: 6,
                 ),
-                child: TextFormComponent(
+                TextFormComponent(
                   controller: emailController,
-                  errortext:
-                      'Email anda tidak valid! contoh: johndoe@gmail.com',
                   hintText: 'Masukkan Email Anda',
                   prefixIcon: Icons.email_outlined,
+                  validator: (value) {
+                    if (value == null ||
+                        value.isEmpty ||
+                        !_validateEmail(value)) {
+                      return 'Email anda tidak valid! contoh: johndoe@gmail.com';
+                    }
+                    return null;
+                  },
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(
-                  top: 24,
-                  left: 16,
+                const SizedBox(
+                  height: 24,
                 ),
-                child: Text(
+                Text(
                   'Kata Sandi',
                   style: medium14Grey400,
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 6,
+                const SizedBox(
+                  height: 6,
                 ),
-                child: TextFormComponent(
+                TextFormComponent(
                   controller: passwordController,
                   obscureText: !passwordVisible,
-                  errortext:
-                      'Kata sandi salah, silahkan masukkan kata sandi yang benar',
                   hintText: 'Kata Sandi',
                   prefixIcon: Icons.lock_outline,
                   suffixIcon: IconButton(
@@ -151,14 +148,17 @@ class _LoginViewState extends State<LoginView> {
                       color: grey200,
                     ),
                   ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Kata sandi salah, silahkan masukkan kata sandi yang benar';
+                    }
+                    return null;
+                  },
                 ),
-              ),
-              const SizedBox(
-                height: 8,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Row(
+                const SizedBox(
+                  height: 10,
+                ),
+                Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Row(
@@ -193,7 +193,7 @@ class _LoginViewState extends State<LoginView> {
                           ),
                         ),
                         Text(
-                          'Ingat Saya',
+                          'Ingatkan Saya',
                           style: regular10Grey300,
                         ),
                       ],
@@ -212,51 +212,48 @@ class _LoginViewState extends State<LoginView> {
                     ),
                   ],
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(
-                  top: 48,
-                  left: 16,
-                  right: 16,
-                  bottom: 12,
+                const SizedBox(
+                  height: 54,
                 ),
-                child: ButtonComponent(
+                ButtonComponent(
                   labelText: 'Masuk',
                   labelStyle: semiBold12Primary,
                   backgroundColor: green500,
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
+                      AuthServices().authLogin(
+                        email: emailController.text,
+                        password: passwordController.text,
+                        context: context,
+                      );
                       emailController.clear();
                       passwordController.clear();
-                      Navigator.pushNamedAndRemoveUntil(
-                        context,
-                        RoutesNavigation.locationView,
-                        (route) => false,
-                      );
                     }
                   },
                 ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Belum Mempunyai Akun?',
-                    style: regular10Grey400,
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pushNamed(
-                          context, RoutesNavigation.registerView);
-                    },
-                    child: Text(
-                      'Daftar',
-                      style: regular10Green500,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Belum Mempunyai Akun?',
+                      style: regular10Grey400,
                     ),
-                  ),
-                ],
-              ),
-            ],
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pushNamed(
+                          context,
+                          RoutesNavigation.registerView,
+                        );
+                      },
+                      child: Text(
+                        'Daftar',
+                        style: regular10Green500,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

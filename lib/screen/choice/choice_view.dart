@@ -11,49 +11,36 @@ class ChoiceView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFFBFBFB),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
             margin: const EdgeInsets.only(
               top: 56.57,
               left: 56.1,
               right: 60.76,
-              bottom: 43.69,
             ),
             child: Image.asset(Assets.assetsOnboarding),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Text(
+            const SizedBox(height: 44),
+            Text(
               'Selamat Datang di',
               style: semiBold16Grey300,
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 12,
-            ),
-            child: Text(
+            const SizedBox(height: 12),
+            Text(
               'ReproHealth',
               style: semiBold24Grey400,
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(
-              bottom: 63,
-              right: 18,
-              left: 16,
-            ),
-            child: Text(
+            const SizedBox(height: 12),
+            Text(
               'Dengan akses mudah, informasi terpercaya, dan konsultasi yang nyaman, kami hadir untuk membantu Anda dalam mengakses layanan kesehatan reproduksi.',
               style: regular12Grey400,
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: ButtonComponent(
+            const SizedBox(height: 80),
+            ButtonComponent(
               labelText: 'Masuk',
               labelStyle: semiBold12Primary,
               backgroundColor: green500,
@@ -64,13 +51,10 @@ class ChoiceView extends StatelessWidget {
                 );
               },
             ),
-          ),
-          const SizedBox(
-            height: 16,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: ButtonComponent(
+            const SizedBox(
+              height: 16,
+            ),
+            ButtonComponent(
               labelText: 'Daftar Akun',
               labelStyle: semiBold12Green500,
               backgroundColor: Colors.transparent,
@@ -83,8 +67,8 @@ class ChoiceView extends StatelessWidget {
                 );
               },
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

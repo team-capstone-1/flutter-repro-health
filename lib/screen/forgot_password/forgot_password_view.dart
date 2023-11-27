@@ -18,6 +18,15 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
   final TextEditingController emailController = TextEditingController();
   EmailOTP myauth = EmailOTP();
 
+  bool _validateEmail(String email) {
+    final emailPattern =
+        RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9^`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+    if (!emailPattern.hasMatch(email)) {
+      return false;
+    }
+    return true;
+  }
+
   @override
   void dispose() {
     emailController.dispose();
@@ -44,70 +53,45 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
       ),
       body: Form(
         key: _formKey,
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(
-                  top: 40,
-                  left: 35,
-                  right: 65,
-                  bottom: 68,
-                ),
-                child: Image.asset(Assets.assetsLupaPassword),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(
-                  left: 16,
-                  right: 16,
-                  bottom: 16,
-                ),
-                child: Text(
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 40),
+                Center(child: Image.asset(Assets.assetsLupaPassword, width: 260, height: 216,)),
+                const SizedBox(height: 68),
+                Text(
                   'Lupa Kata Sandi ?',
                   style: semiBold24Grey500,
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(
-                  left: 16,
-                  right: 16,
-                  bottom: 24,
-                ),
-                child: Text(
+                const SizedBox(height: 6),
+                Text(
                   'Jangan khawatir ! Silahkan masukan alamat email yang tertaut pada akun anda.',
-                  style: regular10Grey500,
+                  style: regular12Grey500,
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(
-                  left: 16,
-                  bottom: 6,
-                ),
-                child: Text(
+                const SizedBox(height: 32),
+                Text(
                   'Email',
                   style: medium14Grey400,
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(
-                  left: 16,
-                  right: 16,
-                  bottom: 48,
-                ),
-                child: TextFormComponent(
+                const SizedBox(height: 6),
+                TextFormComponent(
                   controller: emailController,
-                  errortext:
-                      'Email anda tidak valid! contoh: johndoe@gmail.com',
                   hintText: 'Masukkan Email Anda',
                   prefixIcon: Icons.email_outlined,
+                  validator: (value) {
+                    if (value == null ||
+                        value.isEmpty ||
+                        !_validateEmail(value)) {
+                      return 'Email anda tidak valid! contoh: johndoe@gmail.com';
+                    }
+                    return null;
+                  },
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                ),
-                child: ButtonComponent(
+                const SizedBox(height: 32),
+                ButtonComponent(
                   labelText: 'Kirim',
                   labelStyle: semiBold12Primary,
                   backgroundColor: green500,
@@ -120,62 +104,64 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                       otpType: OTPType.digitsOnly,
                     );
                     var template = '''
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Email Template</title>
-
-    <style>
-        /* Tambahkan gaya CSS sesuai kebutuhan Anda */
-        body {
-            font-family: 'Arial', sans-serif;
-        }
-
-        .container {
-            max-width: 600px;
-            margin: auto;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 10px;
-        }
-
-        .header {
-            text-align: center;
-        }
-
-        .otp-code {
-            font-size: 24px;
-            font-weight: bold;
-            color: #007bff;
-        }
-
-        .footer {
-            margin-top: 20px;
-            text-align: center;
-            color: #555;
-        }
-    </style>
-</head>
-<body>
-<div class="container">
-        <div class="header">
-            <h2>Kode OTP Anda</h2>
-        </div>
-        <div class="otp-code">
-            <p>Thank you for choosing {{app_name}}. Your OTP is {{otp}}.</p>
-        </div>
-        <div class="footer">
-            <p>Jangan berikan kode ini kepada siapa pun. Kode ini berlaku untuk penggunaan sekali.</p>
-        </div>
-    </div>
-</body>
-</html>
-</html>
-''';
+            <!DOCTYPE html>
+            <html lang="en">
+            <head>
+              <meta charset="UTF-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1.0">
+              <title>Email Template</title>
+            
+              <style>
+                  /* Tambahkan gaya CSS sesuai kebutuhan Anda */
+                  body {
+              font-family: 'Arial', sans-serif;
+                  }
+            
+                  .container {
+              max-width: 600px;
+              margin: auto;
+              padding: 20px;
+              border: 1px solid #ccc;
+              border-radius: 10px;
+                  }
+            
+                  .header {
+              text-align: center;
+                  }
+            
+                  .otp-code {
+              font-size: 24px;
+              font-weight: bold;
+              color: #007bff;
+                  }
+            
+                  .footer {
+              margin-top: 20px;
+              text-align: center;
+              color: #555;
+                  }
+              </style>
+            </head>
+            <body>
+              <div class="container">
+                  <div class="header">
+              <h2>{{app_name}} Bantuan Reset Password Akun Anda</h2>
+                  </div>
+                  <p>Halo ${emailController.text},</p>
+                  <p>Kami telah menerima permintaan untuk mereset password akun Anda. Untuk melanjutkan proses reset, berikut adalah kode OTP Anda:</p>
+                  <div class="otp-code">
+              <p>Kode OTP: {{otp}}</p>
+                  </div>
+                  <p>Silakan gunakan kode ini untuk mereset password akun Anda.</p>
+                  <p>Jika Anda tidak mengajukan permintaan ini, mohon abaikan email ini. Keamanan akun Anda adalah prioritas kami, jadi pastikan untuk tidak memberikan kode ini kepada siapa pun.</p>
+                  <p>Terima kasih atas perhatiannya.</p>
+                  <p>Hormat kami,<br>ReproHealth</p>
+              </div>
+            </body>
+            </html>
+            ''';
                     myauth.setTemplate(render: template);
-
+            
                     if (_formKey.currentState!.validate() &&
                         await myauth.sendOTP() == true) {
                       Navigator.pushNamed(
@@ -193,8 +179,8 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                     }
                   },
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

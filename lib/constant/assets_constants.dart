@@ -140,7 +140,7 @@ class Assets {
 
   /// Assets for assetsLogoReproHealt
   /// assets/logo_ReproHealt.png
-  static const String assetsLogoReproHealth = "assets/logo_ReproHealt.png";
+  static const String assetsLogoReproHealth = "assets/logo_reprohealth.png";
 
   /// Assets for assetsLogoReproHealthAppoinment
   /// assets/logo_reproHealth_appoinment.png

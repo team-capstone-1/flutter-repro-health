@@ -63,58 +63,40 @@ class _OnboardingViewState extends State<OnboardingView> {
         },
         itemBuilder: (context, int index) {
           final data = onBoardingListData[index];
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 86, bottom: 70),
-                    child: data.image,
-                  ),
-                  SizedBox(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: List.generate(
-                        onBoardingListData.length,
-                        (index) => buildDot(index, context),
+          return Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 86),
+                    data.image,
+                    const SizedBox(height: 70),
+                    SizedBox(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: List.generate(
+                          onBoardingListData.length,
+                          (index) => buildDot(index, context),
+                        ),
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      top: 30,
-                      left: 16,
-                      right: 16,
-                      bottom: 10,
-                    ),
-                    child: Text(
+                    const SizedBox(height: 45 ),
+                    Text(
                       data.title,
                       style: bold24Grey500,
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      left: 16,
-                      right: 16,
-                      bottom: 20,
-                    ),
-                    child: Text(
+                    const SizedBox(height: 10),
+                    Text(
                       data.description,
                       style: regular10Primary200,
                     ),
-                  ),
-                ],
-              ),
-              Padding(
-                padding: const EdgeInsets.only(
-                  left: 16,
-                  right: 16,
-                  bottom: 28,
+                  ],
                 ),
-                child: ButtonComponent(
+                ButtonComponent(
                   labelText: currentIndex == onBoardingListData.length - 1
                       ? 'Mulai'
                       : 'Selanjutnya',
@@ -135,8 +117,8 @@ class _OnboardingViewState extends State<OnboardingView> {
                     }
                   },
                 ),
-              ),
-            ],
+              ],
+            ),
           );
         },
       ),

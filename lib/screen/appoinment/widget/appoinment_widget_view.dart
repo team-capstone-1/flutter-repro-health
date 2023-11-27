@@ -61,7 +61,6 @@ Widget textFieldAppoinment() {
     ),
     child: TextFormComponent(
       controller: searchAppoinmentController,
-      errortext: '',
       hintText: 'Cari Spesialis, Klinik, Dokter',
       prefixIcon: Icons.search,
     ),

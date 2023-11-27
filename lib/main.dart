@@ -34,6 +34,7 @@ import 'package:reprohealth_app/screen/profile/profile_view.dart';
 import 'package:reprohealth_app/screen/profile/pusat_bantuan/pusat_bantuan_view.dart';
 import 'package:reprohealth_app/screen/register/register_view.dart';
 import 'package:reprohealth_app/screen/register/success_register_view.dart';
+import 'package:reprohealth_app/screen/register/view_model/register_view_model.dart';
 import 'package:reprohealth_app/screen/riwayat/riwayat_view.dart';
 import 'package:reprohealth_app/screen/spesialis/detail_spesialis_view.dart';
 import 'package:reprohealth_app/screen/spesialis/spesialis_view.dart';
@@ -50,6 +51,9 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider(
+          create: (context) => RegisterViewModel(),
+        ),
         ChangeNotifierProvider(
           create: (context) => HomeViewModels(),
         ),

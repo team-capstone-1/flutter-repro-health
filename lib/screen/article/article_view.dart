@@ -48,7 +48,6 @@ class _ArticleViewState extends State<ArticleView> {
                 const EdgeInsets.only(top: 24, left: 16, right: 16, bottom: 24),
             child: TextFormComponent(
                 controller: controller,
-                errortext: 'error Text',
                 hintText: 'Cari Artikel',
                 prefixIcon: Icons.search), //change tfc
           ),
