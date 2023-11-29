@@ -64,6 +64,7 @@ class _DetailSpesialisViewState extends State<DetailSpesialisView> {
                 filterSearchDokter(query);
               },
               hintText: 'Cari Dokter Spesialis..',
+              hinstStyle: regular14Grey400,
               prefixIcon: Icons.search,
             ),
           ),
@@ -134,10 +135,11 @@ class _DetailSpesialisViewState extends State<DetailSpesialisView> {
                                                   padding:
                                                       const EdgeInsets.all(4),
                                                   decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              4),
-                                                      color: primarygreen500),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            4),
+                                                    color: green500,
+                                                  ),
                                                   child: Padding(
                                                     padding: const EdgeInsets
                                                         .symmetric(

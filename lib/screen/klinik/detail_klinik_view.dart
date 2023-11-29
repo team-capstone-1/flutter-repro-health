@@ -121,7 +121,7 @@ class DetailKlinikView extends StatelessWidget {
                     ButtonComponent(
                       labelText: 'Selanjutnya',
                       labelStyle: semiBold12Primary,
-                      backgroundColor: primarygreen500,
+                      backgroundColor: green500,
                       onPressed: () {
                         Navigator.pushNamed(
                             context, RoutesNavigation.searchKlinikView);

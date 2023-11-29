@@ -3,27 +3,12 @@ import 'package:provider/provider.dart';
 import 'package:reprohealth_app/component/button_component.dart';
 import 'package:reprohealth_app/component/text_form_component.dart';
 import 'package:reprohealth_app/constant/assets_constants.dart';
-import 'package:reprohealth_app/constant/routes_navigation.dart';
 import 'package:reprohealth_app/screen/register/view_model/register_view_model.dart';
 import 'package:reprohealth_app/services/auth_services/auth_services.dart';
 import 'package:reprohealth_app/theme/theme.dart';
 
-class RegisterView extends StatefulWidget {
+class RegisterView extends StatelessWidget {
   const RegisterView({super.key});
-
-  @override
-  State<RegisterView> createState() => _RegisterViewState();
-}
-
-class _RegisterViewState extends State<RegisterView> {
-  // @override
-  // void initState() {
-  //   AuthServices().authRegister(
-  //     email: Provider.of<RegisterViewModel>(context).emailController.text,
-  //     password: Provider.of<RegisterViewModel>(context).passwordController.text,
-  //   );
-  //   super.initState();
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +40,7 @@ class _RegisterViewState extends State<RegisterView> {
                   children: [
                     Center(
                       child: Image.asset(
-                        Assets.assetsLogoReproHealth,
+                        Assets.assetsLogoReprohealth,
                         height: 124,
                         width: 144,
                       ),
@@ -87,6 +72,7 @@ class _RegisterViewState extends State<RegisterView> {
                     TextFormComponent(
                       controller: registerViewModel.nameController,
                       hintText: 'Masukkan Nama Anda',
+                      hinstStyle: regular12Grey100,
                       prefixIcon: Icons.account_circle_outlined,
                       validator: (value) {
                         if (value == null ||
@@ -110,6 +96,7 @@ class _RegisterViewState extends State<RegisterView> {
                     TextFormComponent(
                       controller: registerViewModel.emailController,
                       hintText: 'Masukkan Email Anda',
+                      hinstStyle: regular12Grey100,
                       prefixIcon: Icons.email_outlined,
                       validator: (value) {
                         if (value == null ||
@@ -134,6 +121,7 @@ class _RegisterViewState extends State<RegisterView> {
                       controller: registerViewModel.passwordController,
                       obscureText: !registerViewModel.passwordVisible,
                       hintText: 'Masukkan Kata Sandi Anda',
+                      hinstStyle: regular12Grey100,
                       prefixIcon: Icons.lock_outline,
                       suffixIcon: IconButton(
                         onPressed: () {
@@ -169,6 +157,7 @@ class _RegisterViewState extends State<RegisterView> {
                       controller: registerViewModel.confirmPasswordController,
                       obscureText: !registerViewModel.passwordVisible,
                       hintText: 'Konfirmasi Kata Sandi Anda',
+                      hinstStyle: regular12Grey100,
                       prefixIcon: Icons.lock_outline,
                       suffixIcon: IconButton(
                         onPressed: () {
@@ -203,6 +192,7 @@ class _RegisterViewState extends State<RegisterView> {
                             .validate()) {
                           AuthServices().authRegister(
                             context: context,
+                            name: registerViewModel.nameController.text,
                             email: registerViewModel.emailController.text,
                             password: registerViewModel.passwordController.text,
                           );

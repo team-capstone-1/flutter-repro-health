@@ -61,7 +61,7 @@ class _ChangeDataProfileState extends State<ChangeDataProfile> {
                           width: 16,
                           margin: const EdgeInsets.only(right: 8),
                           child: Radio(
-                            fillColor: MaterialStateProperty.all(green550),
+                            fillColor: MaterialStateProperty.all(green500),
                             value: "Laki - laki", 
                             groupValue: groupValue, 
                             onChanged: (String? value) {
@@ -77,7 +77,7 @@ class _ChangeDataProfileState extends State<ChangeDataProfile> {
                           width: 16,
                           margin: const EdgeInsets.only(right: 8),
                           child: Radio(
-                            fillColor: MaterialStateProperty.all(green550),
+                            fillColor: MaterialStateProperty.all(green500),
                             value: "Perempuan", 
                             groupValue: groupValue, 
                             onChanged: (String? value) {

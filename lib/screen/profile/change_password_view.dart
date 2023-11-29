@@ -73,6 +73,7 @@ final _formKey = GlobalKey<FormState>();
                   controller: oldPasswordController,
                   obscureText: !passwordVisible,
                   hintText: 'Kata sandi lama',
+                  hinstStyle: regular12Grey200,
                   prefixIcon: Icons.lock_outline,
                   suffixIcon: IconButton(
                     onPressed: () {
@@ -97,6 +98,7 @@ final _formKey = GlobalKey<FormState>();
                   controller: newPasswordController,
                   obscureText: !passwordVisible2,
                   hintText: 'Kata sandi baru',
+                  hinstStyle: regular12Grey200,
                   prefixIcon: Icons.lock_outline,
                   suffixIcon: IconButton(
                     onPressed: () {
@@ -135,7 +137,7 @@ final _formKey = GlobalKey<FormState>();
                         }
                       }
                     },
-                    color: green550
+                    color: green500
                     ),
                 )
               ],

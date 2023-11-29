@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:reprohealth_app/component/button_component.dart';
 import 'package:reprohealth_app/constant/routes_navigation.dart';
-import 'package:reprohealth_app/models/onboarding_models.dart';
+import 'package:reprohealth_app/models/onboarding_models/onboarding_models.dart';
 import 'package:reprohealth_app/theme/theme.dart';
 
 class OnboardingView extends StatefulWidget {

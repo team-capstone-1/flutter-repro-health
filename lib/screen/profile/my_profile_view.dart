@@ -34,7 +34,7 @@ class MyProfile extends StatelessWidget {
               ),
             child: Text("Ubah",
             style: GoogleFonts.poppins(
-              color: green550,
+              color: green500,
               fontSize: 16,
               fontWeight: FontWeight.w600,
               )
@@ -79,7 +79,7 @@ class MyProfile extends StatelessWidget {
                                       BottomSheetWidget.bottomSheet(context);
                                     }, 
                                     icon: Icon(Icons.camera_alt_outlined,
-                                    color: green550,
+                                    color: green500,
                                     )
                                     ),
                                 )
