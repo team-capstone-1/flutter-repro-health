@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:reprohealth_app/constant/routes_navigation.dart';
+import 'package:reprohealth_app/screen/profile/view_model/get_token_view_model.dart';
 
 class AuthServices {
   final String apiRegister = "http://35.194.20.168:8080/users/signup";
@@ -43,6 +45,11 @@ class AuthServices {
           "password": password,
         },
       );
+
+      final getToken = Provider.of<GetTokenViewModel>(context, listen: false);
+      getToken.setToken(response.data['response']['token']);
+
+
       print(response.data);
       Navigator.pushNamedAndRemoveUntil(
         context,

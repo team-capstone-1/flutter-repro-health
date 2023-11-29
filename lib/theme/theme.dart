@@ -22,6 +22,7 @@ Color green800 = const Color(0xFF0D6D5A);
 Color green900 = const Color(0xFF0A5344);
 
 // Grey
+Color grey5 = const Color(0xFFFAFAFA);
 Color grey10 = const Color(0xFFFBFBFB);
 Color grey50 = const Color(0xFFE9E9E9);
 Color grey100 = const Color(0xFFB9B9B9);
@@ -227,6 +228,12 @@ TextStyle medium8Black = GoogleFonts.poppins(
   fontWeight: FontWeight.w500,
 );
 
+TextStyle medium10Grey200 = GoogleFonts.poppins(
+  color: grey200,
+  fontSize: 10,
+  fontWeight: FontWeight.w500,
+);
+
 TextStyle medium10Black500 = GoogleFonts.poppins(
   color: secondary,
   fontSize: 10,
@@ -288,6 +295,13 @@ TextStyle medium16Grey500 = GoogleFonts.poppins(
 );
 
 // Semibold
+TextStyle semiBold12grey5= GoogleFonts.poppins(
+  color: grey5,
+  fontSize: 12,
+  fontWeight: FontWeight.w600,
+);
+
+
 TextStyle semiBold12Primary = GoogleFonts.poppins(
   color: primary,
   fontSize: 12,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:reprohealth_app/component/text_form_component.dart';
 import 'package:reprohealth_app/screen/profile/widget/profile_widget/button_widget.dart';
+import 'package:reprohealth_app/screen/profile/widget/profile_widget/snackbar_widget.dart';
 import 'package:reprohealth_app/theme/theme.dart';
 
 class ChangePasswordView extends StatefulWidget {
@@ -117,21 +118,23 @@ final _formKey = GlobalKey<FormState>();
                   width: double.infinity,
                   height: 40,
                   child: ButtonWidget(
-                    title: "Ubah", 
+                    title: "Ubah",
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
                         if (oldPasswordController.text == newPasswordController.text) {
                             ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text("Kata sandi berhasil diubah!"),
-                            ),
-                          );
+                              CustomSnackBar(
+                                contentText: 'Kata sandi berhasil diubah!',
+                                backgroundColor: positive,
+                              ),
+                            );
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text("Kata sandi yang dimasukkan tidak sesuai!"),
-                            ),
-                          );
+                              CustomSnackBar(
+                                contentText: 'Kata sandi lama yang dimasukkan tidak sesuai!',
+                                backgroundColor: negative ,
+                              ),
+                            );
                         }
                       }
                     },

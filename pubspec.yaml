@@ -17,6 +17,10 @@ dependencies:
   flutter_svg: ^2.0.9
   google_fonts: ^6.1.0
   provider: ^6.1.1
+  animated_snack_bar: ^0.4.0
+  intl: ^0.18.1
+  file_picker: ^6.1.1
+  open_file: ^3.3.2
 
 dev_dependencies:
   flutter_lints: ^2.0.0

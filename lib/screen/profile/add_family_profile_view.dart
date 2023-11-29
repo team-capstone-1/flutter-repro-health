@@ -14,6 +14,7 @@ class AddFamilyProfile extends StatefulWidget {
 
 class _AddFamilyProfileState extends State<AddFamilyProfile> {
 
+
 DropListModel dropListModel = DropListModel([
     OptionItem(id: "1", title: "Anak"),
     OptionItem(id: "2", title: "Pasangan"),
@@ -24,8 +25,10 @@ DropListModel dropListModel = DropListModel([
   ]);
   OptionItem optionItemSelected = OptionItem(title: "Pilih Hubungan");
 
-  TextEditingController controller = TextEditingController();
   TextEditingController nameController = TextEditingController();
+  TextEditingController nomorController = TextEditingController();
+  TextEditingController beratController = TextEditingController();
+  TextEditingController tinggiController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -93,7 +96,10 @@ DropListModel dropListModel = DropListModel([
                   ),
                 ),
               ChangeDataProfile(
-                controller: nameController
+                controller1: nameController,
+                controller2: nomorController,
+                controller3: beratController,
+                controller4: tinggiController,
                 ),
               ],
             ),

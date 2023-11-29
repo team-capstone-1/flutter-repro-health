@@ -50,7 +50,7 @@ class DetailLocationView extends StatelessWidget {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, RoutesNavigation.homeView);
+                      Navigator.pushReplacementNamed(context, RoutesNavigation.homeView);
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: green50,

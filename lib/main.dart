@@ -32,6 +32,10 @@ import 'package:reprohealth_app/screen/profile/ketentuan_pengguna_view.dart';
 import 'package:reprohealth_app/screen/profile/my_profile_view.dart';
 import 'package:reprohealth_app/screen/profile/profile_view.dart';
 import 'package:reprohealth_app/screen/profile/pusat_bantuan/pusat_bantuan_view.dart';
+import 'package:reprohealth_app/screen/profile/view_model/date_picker_view_model.dart';
+import 'package:reprohealth_app/screen/profile/view_model/file_picker_view_model.dart';
+import 'package:reprohealth_app/screen/profile/view_model/get_family_profile_view_model.dart';
+import 'package:reprohealth_app/screen/profile/view_model/get_token_view_model.dart';
 import 'package:reprohealth_app/screen/register/register_view.dart';
 import 'package:reprohealth_app/screen/register/success_register_view.dart';
 import 'package:reprohealth_app/screen/register/view_model/register_view_model.dart';
@@ -56,6 +60,18 @@ class MainApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (context) => HomeViewModels(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => DatePickerViewModel(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => GetTokenViewModel(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => GetFamilyProfileViewModel(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => FilePickerViewModel(),
         ),
       ],
       child: MaterialApp(

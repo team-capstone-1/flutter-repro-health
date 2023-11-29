@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import 'package:reprohealth_app/screen/profile/view_model/date_picker_view_model.dart';
 import 'package:reprohealth_app/screen/profile/widget/profile_widget/text_field_widget.dart';
 import 'package:reprohealth_app/theme/theme.dart';
 
 class ChangeDataProfile extends StatefulWidget {
-  final TextEditingController? controller;
+  final TextEditingController? controller1;
+  final TextEditingController? controller2;
+  final TextEditingController? controller3;
+  final TextEditingController? controller4;
   
   const ChangeDataProfile({
-    super.key, 
-    required this.controller
+    super.key,
+    this.controller1, this.controller2, this.controller3, this.controller4
     });
 
   @override
@@ -17,10 +23,14 @@ class ChangeDataProfile extends StatefulWidget {
 class _ChangeDataProfileState extends State<ChangeDataProfile> {
   String groupValue = "";
   
-  get controller => null;
+  get controller1 => null;
+  get controller2 => null;
+  get controller3 => null;
+  get controller4 => null;
 
   @override
   Widget build(BuildContext context) {
+    final datePickerProvider = Provider.of<DatePickerViewModel>(context);
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Column(
@@ -37,22 +47,61 @@ class _ChangeDataProfileState extends State<ChangeDataProfile> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     TextFieldWidget(
-                      controller: controller, 
+                      controller: controller1, 
                       hintText: "Nama Lengkap",
                       label: "Nama Lengkap",
                       ),
                     const SizedBox(height: 16,),
                     TextFieldWidget(
-                      controller: controller, 
+                      controller: controller2, 
                       hintText: "Nomor Ponsel",
                       label: "Nomor Ponsel",
                       ),
                     const SizedBox(height: 16,),
-                    TextFieldWidget(
-                      controller: controller, 
-                      hintText: "Tanggal Lahir",
-                      label: "Tanggal Lahir",
+                    GestureDetector(
+                      onTap: () async {
+                        final selectDate = await showDatePicker(
+                          context: context,
+                          initialDate: datePickerProvider.currentDate,
+                          firstDate: DateTime(1900),
+                          lastDate: DateTime(datePickerProvider.currentDate.year + 5)
+                          );
+                          if (selectDate != null) {
+                              datePickerProvider.dueDate = selectDate;
+                          }
+                      },
+                      child: Container(
+                        width: double.infinity,
+                        height: 48,
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        decoration: ShapeDecoration(
+                        shape: RoundedRectangleBorder(
+                          side: BorderSide(
+                            width: 1,
+                            color: grey500
+                          ),
+                          borderRadius: BorderRadius.circular(4),
+                          ),
+                        ),
+                        child: Row(
+                          children: [
+                            Text(
+                              DateFormat('dd-MM-yyyy').format(datePickerProvider.dueDate),
+                            ),
+                            Spacer(),
+                            Icon(
+                              Icons.calendar_month,
+                              color: green550,
+                            )
+                          ],
+                        ),
                       ),
+                    ),
+                    // TextFieldWidget(
+                    //   controller: controller, 
+                    //   hintText: "Tanggal Lahir",
+                    //   label: "Tanggal Lahir",
+                    //   ),
                     const SizedBox(height: 16,),
                     const Text("Jenis Kelamin"),
                     Row(
@@ -92,13 +141,13 @@ class _ChangeDataProfileState extends State<ChangeDataProfile> {
                     ),
                     const SizedBox(height: 4),
                     TextFieldWidget(
-                      controller: controller, 
+                      controller: controller3, 
                       hintText: "Berat Badan",
                       label: "Berat Badan",
                       ),
                     const SizedBox(height: 16,),
                     TextFieldWidget(
-                      controller: controller, 
+                      controller: controller4, 
                       hintText: "Tinggi Badan",
                       label: "Tinggi Badan",
                       ),
