@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 import 'package:reprohealth_app/constant/assets_constants.dart';
-import 'package:reprohealth_app/constant/routes_navigation.dart';
+import 'package:reprohealth_app/screen/splash/view_model/splash_view_model.dart';
 
 class SplashView extends StatelessWidget {
   const SplashView({super.key});
@@ -9,11 +10,7 @@ class SplashView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Future.delayed(const Duration(seconds: 3), () {
-      Navigator.pushNamedAndRemoveUntil(
-        context,
-        RoutesNavigation.onboardingView,
-        (route) => false,
-      );
+      Provider.of<SplashViewModel>(context, listen: false).checkLogin(context);
     });
 
     return Scaffold(

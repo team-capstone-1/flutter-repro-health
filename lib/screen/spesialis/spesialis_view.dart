@@ -63,6 +63,7 @@ class _SpesialisView extends State<SpesialisView> {
             child: TextFormComponent(
               controller: searchSpesialisAppoinmentController,
               hintText: 'Cari Dokter Spesialis..',
+              hinstStyle: regular14Grey400,
               onChanged: (query) {
                 filterSearchSpesialis(query);
               },

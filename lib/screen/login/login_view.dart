@@ -80,7 +80,7 @@ class _LoginViewState extends State<LoginView> {
               children: [
                 Center(
                   child: Image.asset(
-                    Assets.assetsLogoReproHealth,
+                    Assets.assetsLogoReprohealth,
                     height: 153,
                     width: 144,
                   ),
@@ -112,6 +112,7 @@ class _LoginViewState extends State<LoginView> {
                 TextFormComponent(
                   controller: emailController,
                   hintText: 'Masukkan Email Anda',
+                  hinstStyle: regular12Grey100,
                   prefixIcon: Icons.email_outlined,
                   validator: (value) {
                     if (value == null ||
@@ -136,6 +137,7 @@ class _LoginViewState extends State<LoginView> {
                   controller: passwordController,
                   obscureText: !passwordVisible,
                   hintText: 'Kata Sandi',
+                  hinstStyle: regular12Grey100,
                   prefixIcon: Icons.lock_outline,
                   suffixIcon: IconButton(
                     onPressed: () {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class HomeViewModels with ChangeNotifier {
+class HomeViewModel with ChangeNotifier {
   int _currentIndex = 0;
 
   int get currentIndex => _currentIndex;

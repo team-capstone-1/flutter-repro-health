@@ -12,15 +12,19 @@ import 'package:reprohealth_app/screen/dokter/jadwal_dokter_view.dart';
 import 'package:reprohealth_app/screen/forgot_password/detail_forgot_password_view.dart';
 import 'package:reprohealth_app/screen/forgot_password/forgot_password_view.dart';
 import 'package:reprohealth_app/screen/forgot_password/otp_view.dart';
+import 'package:reprohealth_app/screen/forum/create_forum_view.dart';
+import 'package:reprohealth_app/screen/forum/detail_forum_view.dart';
 import 'package:reprohealth_app/screen/forum/forum_view.dart';
+import 'package:reprohealth_app/screen/forum/view_model/forum_view_model.dart';
 import 'package:reprohealth_app/screen/home/home_view.dart';
-import 'package:reprohealth_app/screen/home/home_view_models.dart';
+import 'package:reprohealth_app/screen/home/home_view_model.dart';
 import 'package:reprohealth_app/screen/klinik/detail_klinik_view.dart';
 import 'package:reprohealth_app/screen/klinik/klinik_view.dart';
 import 'package:reprohealth_app/screen/klinik/search_klinik_view.dart';
 import 'package:reprohealth_app/screen/location/detail_location_view.dart';
 import 'package:reprohealth_app/screen/location/location_view.dart';
 import 'package:reprohealth_app/screen/login/login_view.dart';
+import 'package:reprohealth_app/screen/login/view_model/login_view_model.dart';
 import 'package:reprohealth_app/screen/maps/maps_view.dart';
 import 'package:reprohealth_app/screen/onboarding/onbarding_view.dart';
 import 'package:reprohealth_app/screen/profile/about_us_view.dart';
@@ -39,6 +43,7 @@ import 'package:reprohealth_app/screen/riwayat/riwayat_view.dart';
 import 'package:reprohealth_app/screen/spesialis/detail_spesialis_view.dart';
 import 'package:reprohealth_app/screen/spesialis/spesialis_view.dart';
 import 'package:reprohealth_app/screen/splash/splash_view.dart';
+import 'package:reprohealth_app/screen/splash/view_model/splash_view_model.dart';
 
 void main() {
   runApp(const MainApp());
@@ -51,12 +56,11 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(
-          create: (context) => RegisterViewModel(),
-        ),
-        ChangeNotifierProvider(
-          create: (context) => HomeViewModels(),
-        ),
+        ChangeNotifierProvider(create: (context) => SplashViewModel()),
+        ChangeNotifierProvider(create: (context) => LoginViewModel()),
+        ChangeNotifierProvider(create: (context) => RegisterViewModel()),
+        ChangeNotifierProvider(create: (context) => HomeViewModel()),
+        ChangeNotifierProvider(create: (context) => ForumViewModel()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -82,6 +86,8 @@ class MainApp extends StatelessWidget {
           RoutesNavigation.bookmarkView: (context) => const BookmarkView(),
           RoutesNavigation.commentView: (context) => const CommentView(),
           RoutesNavigation.forumView: (context) => const ForumView(),
+          RoutesNavigation.detailForumView: (context) => const DetailForumView(),
+          RoutesNavigation.createForumView: (context) => const CreateForumView(),
           RoutesNavigation.riwayatView: (context) => const RiwayatView(),
           RoutesNavigation.spesialisView: (context) => const SpesialisView(),
           RoutesNavigation.detailSpesialisView: (context) =>
@@ -105,13 +111,17 @@ class MainApp extends StatelessWidget {
           RoutesNavigation.profileView: (context) => const ProfileView(),
           RoutesNavigation.myProfile: (context) => const MyProfile(),
           RoutesNavigation.familyProfile: (context) => const FamilyProfile(),
-          RoutesNavigation.changePasswordView: (context) => const ChangePasswordView(),
+          RoutesNavigation.changePasswordView: (context) =>
+              const ChangePasswordView(),
           RoutesNavigation.aboutUs: (context) => const AboutUs(),
-          RoutesNavigation.pusatBantuanView: (context) => const PusatBantuanView(),
-          RoutesNavigation.ketentuanPenggunaView: (context) => const KetentuanPenggunaView(),
-          RoutesNavigation.kebijakanPrivasiView: (context) => const KebijakanPrivasiView(),
-          RoutesNavigation.changeProfileView: (context) => const ChangeProfileView(),
-          
+          RoutesNavigation.pusatBantuanView: (context) =>
+              const PusatBantuanView(),
+          RoutesNavigation.ketentuanPenggunaView: (context) =>
+              const KetentuanPenggunaView(),
+          RoutesNavigation.kebijakanPrivasiView: (context) =>
+              const KebijakanPrivasiView(),
+          RoutesNavigation.changeProfileView: (context) =>
+              const ChangeProfileView(),
         },
       ),
     );

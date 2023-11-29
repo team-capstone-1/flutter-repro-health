@@ -1,39 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:reprohealth_app/theme/theme.dart';
 
-class TextFormComponent extends StatelessWidget {
+class TextFormWidget extends StatelessWidget {
   final TextEditingController controller;
   final int? maxLines;
+  final int? maxLength;
   final String hintText;
   final TextStyle hinstStyle;
-  final bool? obscureText;
-  final Widget? suffixIcon;
-  final IconData? prefixIcon;
   final String? Function(String?)? validator;
-  final Function(String)? onChanged;
   final TextInputType? textInputType;
-  const TextFormComponent({
+  const TextFormWidget({
     super.key,
     required this.controller,
-    this.obscureText,
-    this.suffixIcon,
     required this.hintText,
-    this.prefixIcon,
     this.validator,
-    this.onChanged,
     required this.hinstStyle,
     this.textInputType,
     this.maxLines,
+    this.maxLength,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      maxLines: maxLines ?? 1,
+      maxLines: maxLines,
+      maxLength: maxLength,
       controller: controller,
-      obscureText: obscureText ?? false,
       validator: validator,
-      onChanged: onChanged,
       keyboardType: textInputType,
       decoration: InputDecoration(
         border: const OutlineInputBorder(),
@@ -44,14 +37,14 @@ class TextFormComponent extends StatelessWidget {
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(
             width: 1,
-            color: grey500,
+            color: grey900,
           ),
           borderRadius: BorderRadius.circular(6),
         ),
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(
             width: 1,
-            color: grey200,
+            color: grey900,
           ),
           borderRadius: BorderRadius.circular(6),
         ),
@@ -65,12 +58,6 @@ class TextFormComponent extends StatelessWidget {
         errorStyle: regular8Negative,
         hintText: hintText,
         hintStyle: hinstStyle,
-        prefixIcon: Icon(
-          prefixIcon,
-          size: 24,
-          color: grey200,
-        ),
-        suffixIcon: suffixIcon,
         floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
     );

@@ -64,8 +64,9 @@ class ListDokterWidget extends StatelessWidget {
                                   child: Container(
                                     padding: const EdgeInsets.all(4),
                                     decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(4),
-                                        color: primarygreen500),
+                                      borderRadius: BorderRadius.circular(4),
+                                      color: green500,
+                                    ),
                                     child: Padding(
                                       padding: const EdgeInsets.symmetric(
                                         horizontal: 8,
