@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class RegisterViewModel with ChangeNotifier {
+class RegisterViewModels with ChangeNotifier {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   GlobalKey<FormState> get formKey => _formKey;
 
@@ -30,7 +30,7 @@ class RegisterViewModel with ChangeNotifier {
     super.dispose();
   }
 
-  void isPasswordVisible(){
+  void isPasswordVisible() {
     _passwordVisible = !_passwordVisible;
     notifyListeners();
   }
