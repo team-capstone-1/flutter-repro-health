@@ -4,9 +4,10 @@ class ButtonComponent extends StatelessWidget {
   final String labelText;
   final TextStyle labelStyle;
   final Color backgroundColor;
-  final VoidCallback onPressed;
+  final Function()? onPressed;
   final double? elevation;
   final BorderSide? border;
+
   const ButtonComponent({
     super.key,
     required this.labelText,
