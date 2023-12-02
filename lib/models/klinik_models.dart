@@ -60,20 +60,3 @@ List<KlinikModels> klinikModelsData = [
     jarak: '5,5 km dari posisi anda',
   ),
 ];
-
-List<KlinikModels> klinikDasboardModelsData = [
-  KlinikModels(
-    image: 'assets/foto_klinik.png',
-    namaRumahSakit: 'Griya Medika',
-    icon: Icons.location_on_outlined,
-    jalan: 'Jl. Garuda No 47, Kemayoran, Jakarta Pusat',
-    jarak: '1 km dari posisi anda',
-  ),
-  KlinikModels(
-    image: 'assets/foto_klinik2.png',
-    namaRumahSakit: 'Inter Medika',
-    icon: Icons.location_on_outlined,
-    jalan: 'Jl. K.S. Tubun No.21, Petamburan, Jakarta Pusat',
-    jarak: '2 km dari posisi anda',
-  ),
-];

@@ -22,7 +22,7 @@ class _HomeViewState extends State<HomeView> {
     return Scaffold(
       backgroundColor: grey10,
       bottomNavigationBar: customBottomNav(),
-      body: Consumer<HomeViewModel>(
+      body: Consumer<HomeViewModels>(
         builder: (context, currentIndexProvider, child) {
           int currentIndex = currentIndexProvider.currentIndex;
           return IndexedStack(

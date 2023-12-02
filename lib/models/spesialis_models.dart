@@ -46,26 +46,3 @@ List<SpesialisModels> spesialisModelsData = [
     spesialis: 'Psikologi Reproduksi',
   ),
 ];
-
-List<SpesialisModels> spesialisInterMedikaData = [
-  SpesialisModels(
-    image: 'assets/foto_spesialis2.png',
-    spesialis: 'Kandungan',
-  ),
-  SpesialisModels(
-    image: 'assets/foto_spesialis7.png',
-    spesialis: 'Genetika Reproduksi',
-  ),
-  SpesialisModels(
-    image: 'assets/foto_spesialis3.png',
-    spesialis: 'Andrologi',
-  ),
-  SpesialisModels(
-    image: 'assets/foto_spesialis9.png',
-    spesialis: 'Psikologi Reproduksi',
-  ),
-  SpesialisModels(
-    image: 'assets/foto_spesialis8.png',
-    spesialis: 'Bedah Reproduksi',
-  ),
-];
