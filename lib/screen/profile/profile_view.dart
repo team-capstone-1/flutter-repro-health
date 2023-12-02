@@ -27,8 +27,7 @@ class ProfileView extends StatelessWidget {
         ),
         body: Consumer<FilePickerViewModel>(
           builder: (context, filePickerProvider, child) {
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
+            return ListView(
               children: [
                 Container(
                   width: double.infinity,

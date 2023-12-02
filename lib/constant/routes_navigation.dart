@@ -30,6 +30,7 @@ class RoutesNavigation {
   static const String appoinmentView = '/appoinment-view';
   static const String mapsView = '/maps-view';
   static const String jadwalDokterView = '/jadwal-dokter-view';
+  static const String janjiTemuView = '/janji-temu-view';
 
   //profil routes
   static const String profileView = '/profile';
@@ -43,4 +44,13 @@ class RoutesNavigation {
   static const String changeProfileView = '/change-profile-view';
   static const String addFamilyProfile = '/add-family-profile';
 
+
+  static const String appointmentHistoryDetailView =
+      '/appointment-history-detail-view';
+  static const String rescedhuleView = '/rescedhule-view';
+  static const String refundView = '/refund-view';
+  static const String refundDetailsView = '/refund-details-view';
+  static const String canceAppointmentPaymentAtClinic =
+      '/cancel-appointment-payment-at-clinic';
+  static const String confirmStatusView = '/confirm-status-view';
 }

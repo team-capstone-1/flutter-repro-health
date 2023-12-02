@@ -18,7 +18,7 @@ class ListSpesialisWidget extends StatelessWidget {
         mainAxisSpacing: 8,
         crossAxisSpacing: 8,
       ),
-      itemCount: spesialisInterMedikaList.length,
+      itemCount: spesialisInterMedikaList.length.clamp(0, 5),
       itemBuilder: (context, index) {
         return GestureDetector(
           onTap: () {
