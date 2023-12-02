@@ -42,6 +42,8 @@ class RoutesNavigation {
   static const String ketentuanPenggunaView = '/ketentuan-pengguna-view';
   static const String kebijakanPrivasiView = '/kebijakan-privasi-view';
   static const String changeProfileView = '/change-profile-view';
+  static const String addFamilyProfile = '/add-family-profile';
+
 
   static const String appointmentHistoryDetailView =
       '/appointment-history-detail-view';
