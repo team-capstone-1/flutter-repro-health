@@ -65,6 +65,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.3"
+  date_picker_timeline:
+    dependency: "direct main"
+    description:
+      name: date_picker_timeline
+      sha256: dc754de3a99ad654c5633072cb9edac27e0b2875c81c7286e8c6cf419082a110
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.5"
   device_frame:
     dependency: transitive
     description:
@@ -206,7 +214,7 @@ packages:
     source: hosted
     version: "4.0.2"
   intl:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: intl
       sha256: "3bc132a9dbce73a7e4a21a17d06e1878839ffbf975568bc875c60537824b0c4d"
@@ -221,6 +229,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.8.1"
+  just_the_tooltip:
+    dependency: "direct main"
+    description:
+      name: just_the_tooltip
+      sha256: "7a081133d57285bfb41b331f411006d57b433d7b35772e6155745f6a7a09cb82"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.12"
   lints:
     dependency: transitive
     description:
@@ -365,6 +381,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.1.1"
+  rxdart:
+    dependency: "direct main"
+    description:
+      name: rxdart
+      sha256: "0c7c0cedd93788d996e33041ffecda924cc54389199cde4e6a34b440f50044cb"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.27.7"
   shared_preferences:
     dependency: "direct main"
     description:
