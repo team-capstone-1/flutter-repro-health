@@ -11,11 +11,6 @@ class ForumServices {
     try {
       var response = await Dio().get(apiGetForum);
       return ForumModels.fromJson(response.data);
-      // if (response.statusMessage == 'success get forums') {
-      //   return ForumModels.fromJson(response.data);
-      // } else {
-      //   throw Exception('Failed to load forum list');
-      // }
     } catch (error) {
       throw Exception('Failed to load forum list: $error');
     }
@@ -27,11 +22,6 @@ class ForumServices {
     try {
       var response = await Dio().get(apiGetMyForum);
       return ForumModels.fromJson(response.data);
-      // if (response.statusCode == 200) {
-      //   return ForumModels.fromJson(response.data);
-      // } else {
-      //   throw Exception('Failed to load forum list');
-      // }
     } catch (error) {
       throw Exception('Failed to load fourm list: $error');
     }
@@ -44,7 +34,8 @@ class ForumServices {
     required BuildContext context,
   }) async {
     const String apiCreateForum = "https://dev.reprohealth.my.id/forums";
-    String token = Provider.of<LoginViewModel>(context, listen: false).token ?? '';
+    String token =
+        Provider.of<LoginViewModel>(context, listen: false).token ?? '';
 
     try {
       var response = await Dio().post(
@@ -66,6 +57,45 @@ class ForumServices {
       Navigator.pushNamedAndRemoveUntil(
         context,
         RoutesNavigation.homeView,
+        (route) => false,
+      );
+      return ForumModels.fromJson(response.data);
+    } on DioException catch (e) {
+      throw Exception(e.response);
+    }
+  }
+
+  Future<ForumModels> deleteForum({
+    required String forumId,
+    required String title,
+    required String content,
+    required bool anonymous,
+    required BuildContext context,
+  }) async {
+    final String apiDeleteForum =
+        "https://dev.reprohealth.my.id/forums/$forumId";
+    String token =
+        Provider.of<LoginViewModel>(context, listen: false).token ?? '';
+
+    try {
+      var response = await Dio().delete(
+        apiDeleteForum,
+        data: {
+          "title": title,
+          "content": content,
+          "anonymous": anonymous,
+        },
+        options: Options(
+          headers: {
+            'Content-Type': 'application/json',
+            "Authorization": "Bearer $token",
+          },
+        ),
+      );
+      print(response.data);
+      Navigator.pushNamedAndRemoveUntil(
+        context,
+        RoutesNavigation.detailForumView,
         (route) => false,
       );
       return ForumModels.fromJson(response.data);

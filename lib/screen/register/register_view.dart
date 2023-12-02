@@ -196,6 +196,10 @@ class RegisterView extends StatelessWidget {
                             email: registerViewModel.emailController.text,
                             password: registerViewModel.passwordController.text,
                           );
+                          // AuthServices().createPatientLogin(
+                          //   name: registerViewModel.nameController.text,
+                          //   context: context,
+                          // );
                           registerViewModel.nameController.clear();
                           registerViewModel.emailController.clear();
                           registerViewModel.passwordController.clear();

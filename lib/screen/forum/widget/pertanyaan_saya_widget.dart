@@ -19,129 +19,131 @@ class PertanyaanSayaWidget extends StatelessWidget {
             ? const Center(
                 child: CircularProgressIndicator(),
               )
-            : ListView.builder(
-                itemCount: myForumList.response?.length,
-                itemBuilder: (context, index) {
-                  final myForum = myForumList.response?[index];
-                  return myForum == null
-                      ? const Center(
-                          child: Text('Tidak terdapat pertanyaan'),
-                        )
-                      : SizedBox(
-                          width: 360.0,
-                          height: 220.0,
-                          child: GestureDetector(
-                            onTap: () {},
-                            child: Card(
-                              child: Column(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                      right: 16,
-                                      left: 16,
-                                      top: 16,
-                                      bottom: 8,
-                                    ),
-                                    child: Align(
-                                      alignment: Alignment.topLeft,
-                                      child: Row(
-                                        children: [
-                                          Text(
-                                            myForum.status == true
-                                                ? "Terjawab"
-                                                : "Belum Terjawab",
-                                            style: myForum.status == true
-                                                ? regular10Green500
-                                                : regular10Red,
-                                          ),
-                                          const SizedBox(width: 8),
-                                          Image.asset(
-                                            Assets.assetsEllips,
-                                            width: 2,
-                                            height: 2,
-                                          ),
-                                          const SizedBox(width: 8),
-                                          Text(
-                                            myForum.date.toString(),
-                                            style: regular10Grey200,
-                                          )
-                                        ],
-                                      ),
-                                    ),
+            : myForumList.response?.first == null
+                ? const Center(
+                    child: Text('Tidak terdapat pertanyaan'),
+                  )
+                : ListView.builder(
+                    itemCount: myForumList.response?.length,
+                    itemBuilder: (context, index) {
+                      final myForum = myForumList.response?[index];
+                      return SizedBox(
+                        width: 360.0,
+                        height: 220.0,
+                        child: GestureDetector(
+                          onTap: () {},
+                          child: Card(
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                    right: 16,
+                                    left: 16,
+                                    top: 16,
+                                    bottom: 8,
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                      right: 16,
-                                      left: 16,
-                                      bottom: 8,
-                                    ),
-                                    child: Align(
-                                      alignment: Alignment.topLeft,
-                                      child: Text(
-                                        myForum.title ?? '',
-                                        style: medium14Grey900,
-                                        textAlign: TextAlign.left,
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                      right: 16,
-                                      left: 16,
-                                      bottom: 12,
-                                    ),
-                                    child: Align(
-                                      alignment: Alignment.topLeft,
-                                      child: Text(
-                                        myForum.content ?? '',
-                                        textAlign: TextAlign.justify,
-                                        style: regular10Grey400,
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 16),
+                                  child: Align(
+                                    alignment: Alignment.topLeft,
                                     child: Row(
                                       children: [
+                                        Text(
+                                          myForum?.status == true
+                                              ? "Terjawab"
+                                              : "Belum Terjawab",
+                                          style: myForum?.status == true
+                                              ? regular10Green500
+                                              : regular10Red,
+                                        ),
+                                        const SizedBox(width: 8),
                                         Image.asset(
-                                          Assets.assetsPhotoProfilPertanyaan,
-                                          width: 53.82,
-                                          height: 32,
+                                          Assets.assetsEllips,
+                                          width: 2,
+                                          height: 2,
                                         ),
-                                        const SizedBox(width: 168),
-                                        GestureDetector(
-                                          onTap: () {
-                                            Navigator.pushNamed(
-                                                context,
-                                                RoutesNavigation
-                                                    .detailForumView);
-                                          },
-                                          child: Row(
-                                            children: [
-                                              Text(
-                                                'Lihat Pertanyaan',
-                                                style: regular12Grey400,
-                                              ),
-                                              const SizedBox(width: 8),
-                                              Image.asset(
-                                                Assets.assetsNextIcon,
-                                                width: 6.59,
-                                                height: 11.17,
-                                              ),
-                                            ],
-                                          ),
-                                        ),
+                                        const SizedBox(width: 8),
+                                        Text(
+                                          myForum?.date.toString() ?? '',
+                                          style: regular10Grey200,
+                                        )
                                       ],
                                     ),
-                                  )
-                                ],
-                              ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                    right: 16,
+                                    left: 16,
+                                    bottom: 8,
+                                  ),
+                                  child: Align(
+                                    alignment: Alignment.topLeft,
+                                    child: Text(
+                                      myForum?.title ?? '',
+                                      style: medium14Grey900,
+                                      textAlign: TextAlign.left,
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                    right: 16,
+                                    left: 16,
+                                    bottom: 12,
+                                  ),
+                                  child: Align(
+                                    alignment: Alignment.topLeft,
+                                    child: Text(
+                                      myForum?.content ?? '',
+                                      textAlign: TextAlign.justify,
+                                      style: regular10Grey400,
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 16,
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Image.asset(
+                                        Assets.assetsPhotoProfilPertanyaan,
+                                        width: 53.82,
+                                        height: 32,
+                                      ),
+                                      const SizedBox(width: 168),
+                                      GestureDetector(
+                                        onTap: () {
+                                          Navigator.pushNamed(
+                                            context,
+                                            RoutesNavigation.detailForumView,
+                                            arguments: myForum,
+                                          );
+                                        },
+                                        child: Row(
+                                          children: [
+                                            Text(
+                                              'Lihat Pertanyaan',
+                                              style: regular12Grey400,
+                                            ),
+                                            const SizedBox(width: 8),
+                                            Image.asset(
+                                              Assets.assetsNextIcon,
+                                              width: 6.59,
+                                              height: 11.17,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              ],
                             ),
                           ),
-                        );
-                },
-              );
+                        ),
+                      );
+                    },
+                  );
       },
     );
   }
