@@ -30,6 +30,7 @@ class RoutesNavigation {
   static const String appoinmentView = '/appoinment-view';
   static const String mapsView = '/maps-view';
   static const String jadwalDokterView = '/jadwal-dokter-view';
+  static const String janjiTemuView = '/janji-temu-view';
 
   //profil routes
   static const String profileView = '/profile';
@@ -42,7 +43,6 @@ class RoutesNavigation {
   static const String kebijakanPrivasiView = '/kebijakan-privasi-view';
   static const String changeProfileView = '/change-profile-view';
 
-  // riwayat transaksi
   static const String appointmentHistoryDetailView =
       '/appointment-history-detail-view';
   static const String rescedhuleView = '/rescedhule-view';

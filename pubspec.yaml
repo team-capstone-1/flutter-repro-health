@@ -19,8 +19,9 @@ dependencies:
   flutter_svg: ^2.0.9
   google_fonts: ^6.1.0
   intl: ^0.18.1
-  just_the_tooltip: ^0.0.12
   provider: ^6.1.1
+  rxdart: ^0.27.7
+  just_the_tooltip: ^0.0.12
   shared_preferences: ^2.2.2
 
 dev_dependencies:
@@ -33,7 +34,6 @@ flutter:
 
   assets:
     - assets/
-
 # flutter_assets:
 #   assets_path: assets/
 #   output_path: lib/constant/

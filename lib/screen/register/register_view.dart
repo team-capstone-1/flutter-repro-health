@@ -28,7 +28,7 @@ class RegisterView extends StatelessWidget {
           ),
         ),
       ),
-      body: Consumer<RegisterViewModel>(
+      body: Consumer<RegisterViewModels>(
         builder: (context, registerViewModel, child) {
           return Form(
             key: registerViewModel.formKey,

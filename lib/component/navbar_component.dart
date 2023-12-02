@@ -12,9 +12,9 @@ Widget customBottomNav() {
           child: ClipRRect(
             child: BottomNavigationBar(
               backgroundColor: Colors.white,
-              currentIndex: Provider.of<HomeViewModel>(context).currentIndex,
+              currentIndex: Provider.of<HomeViewModels>(context).currentIndex,
               onTap: (value) {
-                Provider.of<HomeViewModel>(context, listen: false)
+                Provider.of<HomeViewModels>(context, listen: false)
                     .updateIndex(value);
               },
               type: BottomNavigationBarType.fixed,
@@ -28,7 +28,7 @@ Widget customBottomNav() {
                       'assets/Appoinment.png',
                       width: 100,
                       color:
-                          Provider.of<HomeViewModel>(context).currentIndex == 0
+                          Provider.of<HomeViewModels>(context).currentIndex == 0
                               ? const Color(0xff14C6A4)
                               : const Color(0xff989898),
                     ),
@@ -44,7 +44,7 @@ Widget customBottomNav() {
                       'assets/Article.png',
                       width: 100,
                       color:
-                          Provider.of<HomeViewModel>(context).currentIndex == 1
+                          Provider.of<HomeViewModels>(context).currentIndex == 1
                               ? const Color(0xff14C6A4)
                               : const Color(0xff989898),
                     ),
@@ -60,7 +60,7 @@ Widget customBottomNav() {
                       'assets/Forum.png',
                       width: 100,
                       color:
-                          Provider.of<HomeViewModel>(context).currentIndex == 2
+                          Provider.of<HomeViewModels>(context).currentIndex == 2
                               ? const Color(0xff14C6A4)
                               : const Color(0xff989898),
                     ),
@@ -76,7 +76,7 @@ Widget customBottomNav() {
                       'assets/Riwayat.png',
                       width: 100,
                       color:
-                          Provider.of<HomeViewModel>(context).currentIndex == 3
+                          Provider.of<HomeViewModels>(context).currentIndex == 3
                               ? const Color(0xff14C6A4)
                               : const Color(0xff989898),
                     ),
@@ -92,7 +92,7 @@ Widget customBottomNav() {
                       'assets/Profile.png',
                       width: 100,
                       color:
-                          Provider.of<HomeViewModel>(context).currentIndex == 4
+                          Provider.of<HomeViewModels>(context).currentIndex == 4
                               ? const Color(0xff14C6A4)
                               : const Color(0xff989898),
                     ),
