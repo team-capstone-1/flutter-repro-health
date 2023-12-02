@@ -99,7 +99,7 @@ class KlinikAppoinmentWidget extends StatelessWidget {
                                           .filteredDasboardKlinikData[index]
                                           .icon,
                                       size: 10,
-                                      color: primarygreen500,
+                                      color: green500,
                                     ),
                                     Text(
                                       appoinmentViewModel

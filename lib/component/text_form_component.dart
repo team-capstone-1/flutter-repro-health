@@ -3,12 +3,15 @@ import 'package:reprohealth_app/theme/theme.dart';
 
 class TextFormComponent extends StatelessWidget {
   final TextEditingController controller;
+  final int? maxLines;
   final String hintText;
+  final TextStyle hinstStyle;
   final bool? obscureText;
   final Widget? suffixIcon;
   final IconData? prefixIcon;
   final String? Function(String?)? validator;
   final Function(String)? onChanged;
+  final TextInputType? textInputType;
   const TextFormComponent({
     super.key,
     required this.controller,
@@ -18,15 +21,20 @@ class TextFormComponent extends StatelessWidget {
     this.prefixIcon,
     this.validator,
     this.onChanged,
+    required this.hinstStyle,
+    this.textInputType,
+    this.maxLines,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      maxLines: maxLines ?? 1,
       controller: controller,
       obscureText: obscureText ?? false,
       validator: validator,
       onChanged: onChanged,
+      keyboardType: textInputType,
       decoration: InputDecoration(
         border: const OutlineInputBorder(),
         contentPadding: const EdgeInsets.symmetric(
@@ -56,7 +64,7 @@ class TextFormComponent extends StatelessWidget {
         ),
         errorStyle: regular8Negative,
         hintText: hintText,
-        hintStyle: regular12Grey300,
+        hintStyle: hinstStyle,
         prefixIcon: Icon(
           prefixIcon,
           size: 24,

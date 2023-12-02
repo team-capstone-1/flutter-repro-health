@@ -80,6 +80,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                 TextFormComponent(
                   controller: emailController,
                   hintText: 'Masukkan Email Anda',
+                  hinstStyle: regular12Grey100,
                   prefixIcon: Icons.email_outlined,
                   validator: (value) {
                     if (value == null ||

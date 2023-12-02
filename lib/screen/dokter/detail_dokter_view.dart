@@ -56,7 +56,7 @@ class DetailDokterView extends StatelessWidget {
                               borderRadius: BorderRadius.circular(
                                 3,
                               ),
-                              color: primarygreen500,
+                              color: green500,
                             ),
                             child: Text(
                               '5 Tahun',
@@ -178,7 +178,7 @@ class DetailDokterView extends StatelessWidget {
                       child: ButtonComponent(
                         labelText: 'Jadwalkan',
                         labelStyle: semiBold12Primary,
-                        backgroundColor: primarygreen500,
+                        backgroundColor: green500,
                         onPressed: () {
                           Navigator.pushNamed(
                               context, RoutesNavigation.jadwalDokterView);

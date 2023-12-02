@@ -105,7 +105,7 @@ class JadwalDokterViewState extends State<JadwalDokterView> {
           ButtonComponent(
             labelText: 'Lanjut ke Data Pemesanan',
             labelStyle: semiBold12Grey10,
-            backgroundColor: primarygreen500,
+            backgroundColor: green500,
             onPressed: () {
               // Bottom Sheet
               showModalBottomSheet(
@@ -181,7 +181,7 @@ class JadwalDokterViewState extends State<JadwalDokterView> {
                                       ),
                                       const Spacer(),
                                       Radio(
-                                        activeColor: primarygreen500,
+                                        activeColor: green500,
                                         value: 0,
                                         groupValue: selectedPemesan,
                                         onChanged: (value) {
@@ -239,7 +239,7 @@ class JadwalDokterViewState extends State<JadwalDokterView> {
                                       ),
                                       const Spacer(),
                                       Radio(
-                                        activeColor: primarygreen500,
+                                        activeColor: green500,
                                         value: 1,
                                         groupValue: selectedPemesan,
                                         onChanged: (value) {
@@ -262,7 +262,7 @@ class JadwalDokterViewState extends State<JadwalDokterView> {
                               ButtonComponent(
                                 labelText: 'Selanjutnya',
                                 labelStyle: semiBold12Grey10,
-                                backgroundColor: primarygreen500,
+                                backgroundColor: green500,
                                 onPressed: () {
                                   // String selectedProfile =
                                   //     pemesan[selectedPemesanIndex];

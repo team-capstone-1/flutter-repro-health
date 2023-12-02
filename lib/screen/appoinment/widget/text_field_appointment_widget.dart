@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:reprohealth_app/component/text_form_component.dart';
 import 'package:reprohealth_app/screen/appoinment/view_models/appoinment_view_model.dart';
+import 'package:reprohealth_app/theme/theme.dart';
 
 class TextFieldAppointmentWidget extends StatelessWidget {
   const TextFieldAppointmentWidget({super.key});
@@ -20,6 +21,7 @@ class TextFieldAppointmentWidget extends StatelessWidget {
           return TextFormComponent(
             controller: appoinmentViewModel.searchAppoinmentController,
             hintText: 'Cari Spesialis, Klinik, Dokter',
+            hinstStyle: regular14Grey400,
             prefixIcon: Icons.search,
             onChanged: (query) {
               appoinmentViewModel.filterSearchKlinik(query);

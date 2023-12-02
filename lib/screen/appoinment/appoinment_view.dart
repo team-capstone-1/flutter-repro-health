@@ -45,7 +45,7 @@ class AppoinmentView extends StatelessWidget {
               bottom: 8,
             ),
             child: IconButton(
-              color: primarygreen500,
+              color: green500,
               icon: const Icon(Icons.notifications_none),
               onPressed: () {},
             ),

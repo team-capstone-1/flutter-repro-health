@@ -16,6 +16,8 @@ class RoutesNavigation {
   static const String bookmarkView = '/bookmark';
   static const String commentView = '/comment';
   static const String forumView = '/forum';
+  static const String detailForumView = '/detail-forum-view';
+  static const String createForumView = '/create-forum-view';
   static const String riwayatView = '/riwayat';
   static const String spesialisView = '/spesialis-view';
   static const String detailSpesialisView = '/detail-spesialis-view';
@@ -40,4 +42,13 @@ class RoutesNavigation {
   static const String ketentuanPenggunaView = '/ketentuan-pengguna-view';
   static const String kebijakanPrivasiView = '/kebijakan-privasi-view';
   static const String changeProfileView = '/change-profile-view';
+
+  static const String appointmentHistoryDetailView =
+      '/appointment-history-detail-view';
+  static const String rescedhuleView = '/rescedhule-view';
+  static const String refundView = '/refund-view';
+  static const String refundDetailsView = '/refund-details-view';
+  static const String canceAppointmentPaymentAtClinic =
+      '/cancel-appointment-payment-at-clinic';
+  static const String confirmStatusView = '/confirm-status-view';
 }

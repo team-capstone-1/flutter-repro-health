@@ -39,6 +39,7 @@ class SpesialisView extends StatelessWidget {
                   controller:
                       spesialisViewModel.searchSpesialisAppoinmentController,
                   hintText: 'Cari Dokter Spesialis..',
+                  hinstStyle: regular14Grey400,
                   onChanged: (query) {
                     spesialisViewModel.filterSearchSpesialis(query);
                   },

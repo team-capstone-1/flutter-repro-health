@@ -47,9 +47,11 @@ class _ArticleViewState extends State<ArticleView> {
             padding:
                 const EdgeInsets.only(top: 24, left: 16, right: 16, bottom: 24),
             child: TextFormComponent(
-                controller: controller,
-                hintText: 'Cari Artikel',
-                prefixIcon: Icons.search), //change tfc
+              controller: controller,
+              hintText: 'Cari Artikel',
+              hinstStyle: regular14Grey400,
+              prefixIcon: Icons.search,
+            ), //change tfc
           ),
           Expanded(
             child: ListView.builder(

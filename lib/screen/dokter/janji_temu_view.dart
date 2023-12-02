@@ -105,7 +105,7 @@ class JanjiTemuView extends StatelessWidget {
                             RegExp(r'[a-zA-Z]'),
                             '',
                           ),
-                          style: semiBold12PrimaryGreen500,
+                          style: semiBold12Green500,
                         ),
                       ],
                     ),
@@ -209,7 +209,7 @@ class JanjiTemuView extends StatelessWidget {
           ButtonComponent(
             labelText: 'Pilih Metode Pembayaran',
             labelStyle: semiBold12Grey10,
-            backgroundColor: primarygreen500,
+            backgroundColor: green500,
             onPressed: () {},
           ),
           const SizedBox(

@@ -35,7 +35,7 @@ class PilihSesiWidget extends StatelessWidget {
                         border: Border.all(
                           color: pilihSesiViewModel.selectedSession ==
                                   sessionsListData
-                              ? primarygreen500
+                              ? green500
                               : const Color.fromARGB(255, 82, 82, 82),
                         ),
                       ),
@@ -51,7 +51,7 @@ class PilihSesiWidget extends StatelessWidget {
                           Flexible(
                             flex: 3,
                             child: Radio(
-                              activeColor: primarygreen500,
+                              activeColor: green500,
                               value: sessionsListData,
                               groupValue: pilihSesiViewModel.selectedSession,
                               onChanged: (value) {

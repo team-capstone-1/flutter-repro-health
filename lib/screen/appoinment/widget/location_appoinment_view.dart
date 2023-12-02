@@ -13,7 +13,7 @@ class LocationAppoinmentWidget extends StatelessWidget {
         children: [
           Icon(
             Icons.location_on_outlined,
-            color: primarygreen500,
+            color: green500,
           ),
           GestureDetector(
             onTap: () {

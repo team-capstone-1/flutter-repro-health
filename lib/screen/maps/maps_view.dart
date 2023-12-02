@@ -43,6 +43,7 @@ class MapsView extends StatelessWidget {
                     mapsViewModel.filterSearchMaps(query);
                   },
                   hintText: 'Cari Lokasi..',
+                  hinstStyle: semiBold12Green500,
                   prefixIcon: Icons.search,
                 ),
               ),
@@ -52,7 +53,7 @@ class MapsView extends StatelessWidget {
                   children: [
                     Icon(
                       Icons.location_on_outlined,
-                      color: primarygreen500,
+                      color: green500,
                     ),
                     Text(
                       'Jakarta Pusat',

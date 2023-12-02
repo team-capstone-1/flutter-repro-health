@@ -51,6 +51,7 @@ class DetailSpesialisView extends StatelessWidget {
                     detailSpesialisViewModel.filterSearchDokter(query);
                   },
                   hintText: 'Cari Dokter Spesialis..',
+                  hinstStyle: regular14Grey400,
                   prefixIcon: Icons.search,
                 ),
               ),
@@ -125,8 +126,7 @@ class DetailSpesialisView extends StatelessWidget {
                                                           borderRadius:
                                                               BorderRadius
                                                                   .circular(4),
-                                                          color:
-                                                              primarygreen500),
+                                                          color: green500),
                                                       child: Padding(
                                                         padding:
                                                             const EdgeInsets

@@ -214,6 +214,7 @@ class _ArticleDetailViewState extends State<ArticleDetailView> {
                     TextFormComponent(
                       controller: controller,
                       hintText: 'Tambahkan Komentar...',
+                      hinstStyle: regular10Grey400,
                       suffixIcon: IconButton(
                         onPressed: () {},
                         icon: const Icon(Icons.send),

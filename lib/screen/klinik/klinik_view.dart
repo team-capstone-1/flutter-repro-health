@@ -43,6 +43,7 @@ class KlinikView extends StatelessWidget {
                     klinikViewModel.filterSearchDokter(query);
                   },
                   hintText: 'Cari Dokter Spesialis..',
+                  hinstStyle: regular14Grey400,
                   prefixIcon: Icons.search,
                 ),
                 if (!klinikViewModel.hasSearchResults)
@@ -55,13 +56,6 @@ class KlinikView extends StatelessWidget {
                           'assets/search_tidak_ditemukan.png',
                           width: 176,
                           height: 183,
-                        ),
-                        const SizedBox(
-                          height: 29,
-                        ),
-                        Text(
-                          'Tidak Ditemukan',
-                          style: medium16Grey500,
                         ),
                       ],
                     ),
@@ -128,7 +122,7 @@ class KlinikView extends StatelessWidget {
                                         klinikViewModel
                                             .filteredKlinikData[index].icon,
                                         size: 10,
-                                        color: primarygreen500,
+                                        color: green500,
                                       ),
                                       Text(
                                         klinikViewModel

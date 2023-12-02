@@ -38,7 +38,7 @@ class PilihTanggalWidget extends StatelessWidget {
                 },
                 child: Icon(
                   Icons.calendar_month,
-                  color: primarygreen500,
+                  color: green500,
                 ),
               )
             ],

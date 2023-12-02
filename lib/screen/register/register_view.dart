@@ -40,7 +40,7 @@ class RegisterView extends StatelessWidget {
                   children: [
                     Center(
                       child: Image.asset(
-                        Assets.assetsLogoReproHealth,
+                        Assets.assetsLogoReprohealth,
                         height: 124,
                         width: 144,
                       ),
@@ -72,6 +72,7 @@ class RegisterView extends StatelessWidget {
                     TextFormComponent(
                       controller: registerViewModel.nameController,
                       hintText: 'Masukkan Nama Anda',
+                      hinstStyle: regular12Grey100,
                       prefixIcon: Icons.account_circle_outlined,
                       validator: (value) {
                         if (value == null ||
@@ -95,6 +96,7 @@ class RegisterView extends StatelessWidget {
                     TextFormComponent(
                       controller: registerViewModel.emailController,
                       hintText: 'Masukkan Email Anda',
+                      hinstStyle: regular12Grey100,
                       prefixIcon: Icons.email_outlined,
                       validator: (value) {
                         if (value == null ||
@@ -119,6 +121,7 @@ class RegisterView extends StatelessWidget {
                       controller: registerViewModel.passwordController,
                       obscureText: !registerViewModel.passwordVisible,
                       hintText: 'Masukkan Kata Sandi Anda',
+                      hinstStyle: regular12Grey100,
                       prefixIcon: Icons.lock_outline,
                       suffixIcon: IconButton(
                         onPressed: () {
@@ -154,6 +157,7 @@ class RegisterView extends StatelessWidget {
                       controller: registerViewModel.confirmPasswordController,
                       obscureText: !registerViewModel.passwordVisible,
                       hintText: 'Konfirmasi Kata Sandi Anda',
+                      hinstStyle: regular12Grey100,
                       prefixIcon: Icons.lock_outline,
                       suffixIcon: IconButton(
                         onPressed: () {
@@ -188,6 +192,7 @@ class RegisterView extends StatelessWidget {
                             .validate()) {
                           AuthServices().authRegister(
                             context: context,
+                            name: registerViewModel.nameController.text,
                             email: registerViewModel.emailController.text,
                             password: registerViewModel.passwordController.text,
                           );

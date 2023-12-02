@@ -180,7 +180,7 @@ class SelectDropListState extends State<SelectDropList>
                     optionItemSelected.title,
                     style: optionItemSelected.id == '0' ||
                           optionItemSelected.id == null
-                          ? regular12Grey2004
+                          ? regular12Grey200
                           : regular12Grey400,
                   ),
                 )),
