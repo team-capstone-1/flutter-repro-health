@@ -13,7 +13,9 @@ class DetailSpesialisView extends StatelessWidget {
   Widget build(BuildContext context) {
     Provider.of<DetailSpesialisViewModel>(context, listen: false)
         .getDokterList();
-
+    final detailSpesialisViewModel =
+        Provider.of<DetailSpesialisViewModel>(context);
+        
     return Scaffold(
       backgroundColor: grey10,
       appBar: AppBar(
@@ -29,9 +31,6 @@ class DetailSpesialisView extends StatelessWidget {
         stream: Provider.of<DetailSpesialisViewModel>(context).searchStream,
         builder: (context, snapshot) {
           String query = snapshot.data ?? '';
-
-          final detailSpesialisViewModel =
-              Provider.of<DetailSpesialisViewModel>(context);
 
           detailSpesialisViewModel.filterSearchDokter(query);
 
