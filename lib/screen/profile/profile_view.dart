@@ -4,36 +4,20 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:reprohealth_app/constant/routes_navigation.dart';
+import 'package:reprohealth_app/screen/login/view_model/login_view_model.dart';
 import 'package:reprohealth_app/screen/profile/view_model/file_picker_view_model.dart';
 import 'package:reprohealth_app/screen/profile/view_model/get_family_profile_view_model.dart';
-import 'package:reprohealth_app/screen/profile/view_model/get_token_view_model.dart';
 import 'package:reprohealth_app/screen/profile/widget/profile_widget/button_widget.dart';
 import 'package:reprohealth_app/screen/profile/widget/profile_widget/profile_menu_widget.dart';
-import 'package:reprohealth_app/services/profile_service/profile_service.dart';
 import 'package:reprohealth_app/theme/theme.dart';
+import 'package:reprohealth_app/utils/shared_preferences_utils.dart';
 
-class ProfileView extends StatefulWidget {
+class ProfileView extends StatelessWidget {
   const ProfileView({super.key});
 
   @override
-  State<ProfileView> createState() => _ProfileViewState();
-}
-
-class _ProfileViewState extends State<ProfileView> {
-
-  late ProfileService _profileService;
-
-  @override
-  void initState() {
-    super.initState();
-    _profileService =
-    ProfileService(Provider.of<GetTokenViewModel>(context, listen: false));
-    Provider.of<GetFamilyProfileViewModel>(context, listen: false).fetchProfileData(_profileService);
-  }
-
-  @override
   Widget build(BuildContext context) {
-    var profileProvider = Provider.of<GetFamilyProfileViewModel>(context);
+    Provider.of<GetFamilyProfileViewModel>(context, listen: false).fetchProfileData(context: context);
     return Scaffold(
         backgroundColor: const Color(0xffE9E9E9),
         appBar: AppBar(
@@ -42,7 +26,7 @@ class _ProfileViewState extends State<ProfileView> {
           title: Text('Profil', style: semiBold16Grey500),
         ),
         body: Consumer<FilePickerViewModel>(
-          builder: (context, filePickerProvider, _) {
+          builder: (context, filePickerProvider, child) {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -61,38 +45,42 @@ class _ProfileViewState extends State<ProfileView> {
                               radius: 30,
                               backgroundColor: Color(0xFFB9B9B9),
                               backgroundImage:
-                                filePickerProvider.result != null && filePickerProvider.result!.paths.isNotEmpty
-                                  ? Image.file(File(filePickerProvider
-                                      .result!.paths[0]
-                                      .toString())).image
-                                  : null,
+                                  filePickerProvider.result != null &&
+                                          filePickerProvider
+                                              .result!.paths.isNotEmpty
+                                      ? Image.file(File(filePickerProvider
+                                              .result!.paths[0]
+                                              .toString()))
+                                          .image
+                                      : null,
                             ),
                           ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(profileProvider.profileModel.response.isNotEmpty
-                                    ? profileProvider
-                                        .profileModel.response.first.name
-                                    : '-',
-                                  style: GoogleFonts.poppins(
-                                    color: const Color(0xFF1E1E1E),
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w600,
-                                  )),
-                              const SizedBox(
-                                height: 8,
-                              ),
-                              Text(profileProvider.profileModel.response.isNotEmpty
-                                    ? profileProvider
-                                        .profileModel.response.first.telephoneNumber
-                                    : '-',
-                                  style: GoogleFonts.poppins(
-                                    color: const Color(0xFF1E1E1E),
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w400,
-                                  )),
-                            ],
+                          Consumer<GetFamilyProfileViewModel>(
+                            builder: (context, getFamilyProfileViewModel, child) {
+                              final myProfile =  getFamilyProfileViewModel.profileList?.response?.last;
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                      myProfile?.name?? "-",
+                                      style: GoogleFonts.poppins(
+                                        color: const Color(0xFF1E1E1E),
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w600,
+                                      )),
+                                  const SizedBox(
+                                    height: 8,
+                                  ),
+                                  Text(
+                                      myProfile?.telephoneNumber?? "-",
+                                      style: GoogleFonts.poppins(
+                                        color: const Color(0xFF1E1E1E),
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w400,
+                                      )),
+                                ],
+                              );
+                            },
                           ),
                         ],
                       ),
@@ -194,7 +182,12 @@ class _ProfileViewState extends State<ProfileView> {
                                   height: 40,
                                   child: ButtonWidget(
                                       title: "Ya, Keluar",
-                                      onPressed: () {
+                                      onPressed: () async {
+                                        Provider.of<LoginViewModel>(context,
+                                                listen: false)
+                                            .removeToken();
+                                        await SharedPreferencesUtils()
+                                            .removeToken();
                                         Navigator.pushNamedAndRemoveUntil(
                                           context,
                                           RoutesNavigation.loginView,
@@ -212,7 +205,7 @@ class _ProfileViewState extends State<ProfileView> {
                                       onPressed: () {
                                         Navigator.pop(context);
                                       },
-                                      color: green550),
+                                      color: green500),
                                 ),
                               ],
                             ),

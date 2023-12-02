@@ -2,31 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:reprohealth_app/screen/profile/view_model/date_picker_view_model.dart';
+import 'package:reprohealth_app/screen/profile/view_model/post_family_profile_view_model.dart';
 import 'package:reprohealth_app/screen/profile/widget/profile_widget/text_field_widget.dart';
 import 'package:reprohealth_app/theme/theme.dart';
 
-class ChangeDataProfile extends StatefulWidget {
+class ChangeDataProfile extends StatelessWidget {
   final TextEditingController? controller1;
   final TextEditingController? controller2;
   final TextEditingController? controller3;
   final TextEditingController? controller4;
-  
-  const ChangeDataProfile({
-    super.key,
-    this.controller1, this.controller2, this.controller3, this.controller4
-    });
 
-  @override
-  State<ChangeDataProfile> createState() => _ChangeDataProfileState();
-}
+  ChangeDataProfile({
+    Key? key,
+    this.controller1,
+    this.controller2,
+    this.controller3,
+    this.controller4,
+  }) : super(key: key);
 
-class _ChangeDataProfileState extends State<ChangeDataProfile> {
-  String groupValue = "";
-  
-  get controller1 => null;
-  get controller2 => null;
-  get controller3 => null;
-  get controller4 => null;
+  late final ValueNotifier<String> groupValue = ValueNotifier("");
 
   @override
   Widget build(BuildContext context) {
@@ -67,8 +61,8 @@ class _ChangeDataProfileState extends State<ChangeDataProfile> {
                           lastDate: DateTime(datePickerProvider.currentDate.year + 5)
                           );
                           if (selectDate != null) {
-                              datePickerProvider.dueDate = selectDate;
-                          }
+                             datePickerProvider.dueDate = selectDate;
+                        }
                       },
                       child: Container(
                         width: double.infinity,
@@ -86,57 +80,67 @@ class _ChangeDataProfileState extends State<ChangeDataProfile> {
                         child: Row(
                           children: [
                             Text(
-                              DateFormat('dd-MM-yyyy').format(datePickerProvider.dueDate),
+                              DateFormat('dd/MM/yyyy',).format(datePickerProvider.dueDate,),
+                              style: regular12Grey500,
                             ),
                             Spacer(),
                             Icon(
                               Icons.calendar_month,
-                              color: green550,
+                              color: green500,
                             )
                           ],
                         ),
                       ),
                     ),
-                    // TextFieldWidget(
-                    //   controller: controller, 
-                    //   hintText: "Tanggal Lahir",
-                    //   label: "Tanggal Lahir",
-                    //   ),
                     const SizedBox(height: 16,),
-                    const Text("Jenis Kelamin"),
+                    Text("Jenis Kelamin",
+                    style: regular12Grey500,
+                    ),
                     Row(
                       children: [
-                        Container(
-                          width: 16,
-                          margin: const EdgeInsets.only(right: 8),
-                          child: Radio(
-                            fillColor: MaterialStateProperty.all(green550),
-                            value: "Laki - laki", 
-                            groupValue: groupValue, 
-                            onChanged: (String? value) {
-                              setState(() {
-                                groupValue = value ?? "";
-                              });
-                            }
-                          ),
+                        ValueListenableBuilder<String>(
+                          valueListenable: groupValue,
+                          builder: (context, value, _) {
+                            return Container(
+                              width: 16,
+                              margin: const EdgeInsets.only(right: 8),
+                              child: Radio(
+                                fillColor: MaterialStateProperty.all(green500),
+                                value: "male",
+                                groupValue: value,
+                                onChanged: (String? value) {
+                                  groupValue.value = value ?? "";
+                                  Provider.of<PostFamilyProfileViewModel>(context, listen: false).gender = value ?? "";
+                                },
+                              ),
+                            );
+                          },
                         ),
-                        const Text("Laki - laki"),
-                        const SizedBox(width: 16,),
-                        Container(
-                          width: 16,
-                          margin: const EdgeInsets.only(right: 8),
-                          child: Radio(
-                            fillColor: MaterialStateProperty.all(green550),
-                            value: "Perempuan", 
-                            groupValue: groupValue, 
-                            onChanged: (String? value) {
-                              setState(() {
-                                groupValue = value ?? "";
-                              });
-                            }
-                          ),
+                        Text("Laki - laki",
+                        style: regular12Grey500,
                         ),
-                        const Text("Perempuan"),
+                        const SizedBox(width: 16),
+                        ValueListenableBuilder<String>(
+                          valueListenable: groupValue,
+                          builder: (context, value, _) {
+                            return Container(
+                              width: 16,
+                              margin: const EdgeInsets.only(right: 8),
+                              child: Radio(
+                                fillColor: MaterialStateProperty.all(green500),
+                                value: "female",
+                                groupValue: value,
+                                onChanged: (String? value) {
+                                  groupValue.value = value ?? "";
+                                  Provider.of<PostFamilyProfileViewModel>(context, listen: false).gender = value ?? "";
+                                },
+                              ),
+                            );
+                          },
+                        ),
+                        Text("Perempuan",
+                        style: regular12Grey500,
+                        ),
                       ],
                     ),
                     const SizedBox(height: 4),

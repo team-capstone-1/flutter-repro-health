@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 import 'package:reprohealth_app/component/text_form_component.dart';
-import 'package:reprohealth_app/models/forum_models.dart';
-import 'package:reprohealth_app/screen/forum/widget/forum_widget_view.dart';
+import 'package:reprohealth_app/constant/routes_navigation.dart';
+import 'package:reprohealth_app/screen/forum/widget/categories_widget.dart';
 import 'package:reprohealth_app/screen/forum/widget/lihat_forum_widget.dart';
 import 'package:reprohealth_app/screen/forum/widget/pertanyaan_saya_widget.dart';
 import 'package:reprohealth_app/theme/theme.dart';
@@ -14,36 +13,38 @@ class ForumView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final TextEditingController searchController = TextEditingController();
-
-    return ChangeNotifierProvider(
-      create: (_) => ForumWidgetView(),
-      child: DefaultTabController(
-        initialIndex: 0,
-        length: 2,
-        child: Scaffold(
-          appBar: AppBar(
-            automaticallyImplyLeading: false,
-            title: Text(
-              'Forum',
-              style: semiBold16Green700,
-            ),
-            elevation: 0,
-            backgroundColor: grey10,
+    return DefaultTabController(
+      initialIndex: 0,
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          title: Text(
+            'Forum',
+            style: semiBold16Green700,
           ),
-          body: Column(
+          elevation: 0,
+          backgroundColor: grey10,
+        ),
+        body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              buildHeader(),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-                child: TextFormComponent(
-                  controller: searchController,
-                  hintText: 'Cari Forum Diskusi...',
-                  prefixIcon: Icons.search,
-                ),
+              Text(
+                "Cari dan Tanyakan Keluhanmu Disini",
+                style: medium14Grey900,
               ),
-              buildCategories(context),
+              const SizedBox(height: 24),
+              TextFormComponent(
+                controller: searchController,
+                hintText: 'Cari Forum Diskusi...',
+                hinstStyle: regular14Grey400,
+                prefixIcon: Icons.search,
+              ),
+              const SizedBox(height: 24),
+              const CategoriesWidget(),
+              const SizedBox(height: 24),
               TabBar(
                 labelStyle: medium14Grey400,
                 labelColor: grey900,
@@ -69,63 +70,58 @@ class ForumView extends StatelessWidget {
                   ),
                 ],
               ),
-              Expanded(
+              const Expanded(
                 child: TabBarView(
                   children: [
-                    ListView.builder(
-                      itemCount: 10,
-                      itemBuilder: (context, index) {
-                        return LihatForumWidget(forum: forumLihat);
-                      },
-                    ),
-                    ListView.builder(
-                      itemCount: 10,
-                      itemBuilder: (context, index) {
-                        return PertanyaanSayaWidget(forum: forumPertanyaan);
-                      },
-                    ),
+                    LihatForumWidget(),
+                    PertanyaanSayaWidget(),
                   ],
                 ),
               ),
             ],
           ),
-          floatingActionButton: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Container(
-                width: 40.0,
-                height: 40.0,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(color: green500, width: 1.0),
-                ),
-                child: FloatingActionButton(
-                  heroTag: "1",
-                  onPressed: () {
-                    // First FAB action
-                  },
-                  backgroundColor: Colors.white,
-                  child: Icon(
-                    Icons.edit,
-                    color: green500,
-                  ),
+        ),
+        floatingActionButton: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            FloatingActionButton(
+              heroTag: "1",
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(100),
+                side: BorderSide(
+                  width: 1.5,
+                  color: green500,
                 ),
               ),
-              const SizedBox(height: 16),
-              SizedBox(
-                width: 56.0,
-                height: 56.0,
-                child: FloatingActionButton(
-                  heroTag: "2",
-                  onPressed: () {
-                    // Second FAB action
-                  },
-                  backgroundColor: green500,
-                  child: const Icon(Icons.message_outlined),
-                ),
+              onPressed: () {
+                // First FAB action
+              },
+              backgroundColor: Colors.white,
+              child: Icon(
+                Icons.smart_toy,
+                color: green500,
               ),
-            ],
-          ),
+            ),
+            const SizedBox(height: 16),
+            FloatingActionButton(
+              heroTag: "2",
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(100),
+              ),
+              onPressed: () {
+                // Second FAB action
+                Navigator.pushNamed(
+                  context,
+                  RoutesNavigation.createForumView,
+                );
+              },
+              backgroundColor: green500,
+              child: Icon(
+                Icons.edit,
+                color: grey10,
+              ),
+            ),
+          ],
         ),
       ),
     );

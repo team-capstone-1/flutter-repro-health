@@ -2,13 +2,15 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:reprohealth_app/constant/routes_navigation.dart';
-import 'package:reprohealth_app/screen/profile/view_model/get_token_view_model.dart';
+import 'package:reprohealth_app/screen/login/view_model/login_view_model.dart';
+import 'package:reprohealth_app/utils/shared_preferences_utils.dart';
 
 class AuthServices {
-  final String apiRegister = "http://35.194.20.168:8080/users/signup";
-  final String apiLogin = "http://35.194.20.168:8080/users/login";
+  final String apiRegister = "https://dev.reprohealth.my.id/users/signup";
+  final String apiLogin = "https://dev.reprohealth.my.id/users/login";
 
   Future<void> authRegister({
+    required String name,
     required String email,
     required String password,
     required BuildContext context,
@@ -17,6 +19,7 @@ class AuthServices {
       var response = await Dio().post(
         apiRegister,
         data: {
+          "name": name,
           "email": email,
           "password": password,
         },
@@ -45,10 +48,10 @@ class AuthServices {
           "password": password,
         },
       );
-
-      final getToken = Provider.of<GetTokenViewModel>(context, listen: false);
-      getToken.setToken(response.data['response']['token']);
-
+      
+      final token = response.data['response']['token'];
+      await SharedPreferencesUtils().addToken(token);
+      Provider.of<LoginViewModel>(context, listen: false).saveToken(token);
 
       print(response.data);
       Navigator.pushNamedAndRemoveUntil(

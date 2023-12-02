@@ -80,6 +80,7 @@ class _DetailForgotPasswordViewState extends State<DetailForgotPasswordView> {
                   controller: passwordController,
                   obscureText: !passwordVisible,
                   hintText: 'Kata Sandi',
+                  hinstStyle: regular12Grey100,
                   prefixIcon: Icons.lock_outline,
                   suffixIcon: IconButton(
                     onPressed: () {
@@ -113,6 +114,7 @@ class _DetailForgotPasswordViewState extends State<DetailForgotPasswordView> {
                   controller: confirmPasswordController,
                   obscureText: !passwordVisible,
                   hintText: 'konfirmasi Kata Sandi',
+                  hinstStyle: regular12Grey100,
                   prefixIcon: Icons.lock_outline,
                   suffixIcon: IconButton(
                     onPressed: () {

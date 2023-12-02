@@ -68,12 +68,12 @@ class _LocationViewState extends State<LocationView> {
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor:
-                          isButtonPressed ? primarygreen500 : green50,
+                          isButtonPressed ? green500 : green50,
                       shadowColor: Colors.white,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0),
                         side: BorderSide(
-                          color: isButtonPressed ? green50 : primarygreen500,
+                          color: isButtonPressed ? green50 : green500,
                         ),
                       ),
                       minimumSize: const Size(192, 36),
@@ -81,7 +81,7 @@ class _LocationViewState extends State<LocationView> {
                     child: Text(
                       'Aktifkan Lokasi',
                       style: GoogleFonts.poppins(
-                        color: isButtonPressed ? primary : primarygreen500,
+                        color: isButtonPressed ? primary : green500,
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
                       ),
@@ -102,12 +102,12 @@ class _LocationViewState extends State<LocationView> {
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor:
-                          isButtonPressed ? green50 : primarygreen500,
+                          isButtonPressed ? green50 : green500,
                       shadowColor: Colors.white,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0),
                         side: BorderSide(
-                          color: isButtonPressed ? primarygreen500 : green50,
+                          color: isButtonPressed ? green500 : green50,
                         ),
                       ),
                       minimumSize: const Size(192, 36),
@@ -115,7 +115,7 @@ class _LocationViewState extends State<LocationView> {
                     child: Text(
                       'Cari Lokasi',
                       style: GoogleFonts.poppins(
-                        color: isButtonPressed ? primarygreen500 : primary,
+                        color: isButtonPressed ? green500 : primary,
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
                       ),

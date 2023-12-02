@@ -43,7 +43,7 @@ class _AppoinmentViewState extends State<AppoinmentView> {
               bottom: 8,
             ),
             child: IconButton(
-              color: primarygreen500,
+              color: green500,
               icon: const Icon(Icons.notifications_none),
               onPressed: () {},
             ),

@@ -34,7 +34,7 @@ Widget title(BuildContext context) {
       children: [
         Icon(
           Icons.location_on_outlined,
-          color: primarygreen500,
+          color: green500,
         ),
         GestureDetector(
           onTap: () {
@@ -62,6 +62,7 @@ Widget textFieldAppoinment() {
     child: TextFormComponent(
       controller: searchAppoinmentController,
       hintText: 'Cari Spesialis, Klinik, Dokter',
+      hinstStyle: regular14Grey400,
       prefixIcon: Icons.search,
     ),
   );
@@ -221,7 +222,7 @@ Widget klinikAppoinment(BuildContext context) {
                               Icon(
                                 filteredDasboardKlinikData[index].icon,
                                 size: 10,
-                                color: primarygreen500,
+                                color: green500,
                               ),
                               Text(
                                 filteredDasboardKlinikData[index].jarak,

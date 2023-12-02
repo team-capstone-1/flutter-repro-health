@@ -28,7 +28,7 @@ class DetailLocationView extends StatelessWidget {
                     ),
                     child: Icon(
                       Icons.location_on_outlined,
-                      color: primarygreen500,
+                      color: green500,
                       size: 36,
                     ),
                   ),
@@ -58,7 +58,7 @@ class DetailLocationView extends StatelessWidget {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0),
                         side: BorderSide(
-                          color: primarygreen500,
+                          color: green500,
                         ),
                       ),
                       minimumSize: const Size(292, 36),
@@ -76,7 +76,7 @@ class DetailLocationView extends StatelessWidget {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0),
                         side: BorderSide(
-                          color: primarygreen500,
+                          color: green500,
                         ),
                       ),
                       minimumSize: const Size(292, 36),
@@ -94,7 +94,7 @@ class DetailLocationView extends StatelessWidget {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0),
                         side: BorderSide(
-                          color: primarygreen500,
+                          color: green500,
                         ),
                       ),
                       minimumSize: const Size(292, 36),

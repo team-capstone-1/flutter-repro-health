@@ -68,6 +68,7 @@ class _MapsViewState extends State<MapsView> {
                 filterSearchMaps(query);
               },
               hintText: 'Cari Lokasi..',
+              hinstStyle: regular14Grey400,
               prefixIcon: Icons.search,
             ),
           ),
@@ -77,7 +78,7 @@ class _MapsViewState extends State<MapsView> {
               children: [
                 Icon(
                   Icons.location_on_outlined,
-                  color: primarygreen500,
+                  color: green500,
                 ),
                 Text(
                   'Jakarta Pusat',

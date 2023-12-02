@@ -70,6 +70,7 @@ class _KlinikViewState extends State<KlinikView> {
                 filterSearchDokter(query);
               },
               hintText: 'Cari Dokter Spesialis..',
+              hinstStyle: regular14Grey400,
               prefixIcon: Icons.search,
             ),
             if (!hasSearchResults)
@@ -152,7 +153,7 @@ class _KlinikViewState extends State<KlinikView> {
                                   Icon(
                                     filteredKlinikData[index].icon,
                                     size: 10,
-                                    color: primarygreen500,
+                                    color: green500,
                                   ),
                                   Text(
                                     filteredKlinikData[index].jarak,

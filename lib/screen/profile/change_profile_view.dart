@@ -80,7 +80,7 @@ class _ChangeProfileViewState extends State<ChangeProfileView> {
               child: ButtonWidget(
                 title: "Simpan",
                 onPressed: () {},
-                color: green550
+                color: green500
                 ),
             ),
           )

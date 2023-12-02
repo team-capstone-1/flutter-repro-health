@@ -1,8 +1,13 @@
 import 'package:dropdown_model_list/drop_down/model.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:reprohealth_app/constant/routes_navigation.dart';
+import 'package:reprohealth_app/screen/profile/view_model/date_picker_view_model.dart';
+import 'package:reprohealth_app/screen/profile/view_model/post_family_profile_view_model.dart';
 import 'package:reprohealth_app/screen/profile/widget/profile_widget/button_widget.dart';
 import 'package:reprohealth_app/screen/profile/widget/profile_widget/change_data_profile_view.dart';
 import 'package:reprohealth_app/screen/profile/widget/profile_widget/select_drop_list.dart';
+import 'package:reprohealth_app/screen/profile/widget/profile_widget/snackbar_widget.dart';
 import 'package:reprohealth_app/theme/theme.dart';
 
 class AddFamilyProfile extends StatefulWidget {
@@ -15,16 +20,6 @@ class AddFamilyProfile extends StatefulWidget {
 class _AddFamilyProfileState extends State<AddFamilyProfile> {
 
 
-DropListModel dropListModel = DropListModel([
-    OptionItem(id: "1", title: "Anak"),
-    OptionItem(id: "2", title: "Pasangan"),
-    OptionItem(id: "3", title: "Orang Tua"),
-    OptionItem(id: "4", title: "Kakak"),
-    OptionItem(id: "5", title: "Adik"),
-
-  ]);
-  OptionItem optionItemSelected = OptionItem(title: "Pilih Hubungan");
-
   TextEditingController nameController = TextEditingController();
   TextEditingController nomorController = TextEditingController();
   TextEditingController beratController = TextEditingController();
@@ -32,6 +27,8 @@ DropListModel dropListModel = DropListModel([
 
   @override
   Widget build(BuildContext context) {
+    final postFamilyProfile = Provider.of<PostFamilyProfileViewModel>(context);
+    final datePickerProvider = Provider.of<DatePickerViewModel>(context); 
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: const Color(0xffE9E9E9),
@@ -75,8 +72,8 @@ DropListModel dropListModel = DropListModel([
                         paddingLeft: 0,
                         paddingRight: 0,
                         paddingBottom: 0,
-                        itemSelected: optionItemSelected,
-                        dropListModel: dropListModel,
+                        itemSelected: postFamilyProfile.optionItemSelected,
+                        dropListModel: postFamilyProfile.dropListModel,
                         showIcon: false,
                         showArrowIcon: true,
                         showBorder: true,
@@ -87,7 +84,7 @@ DropListModel dropListModel = DropListModel([
                         containerPadding: const EdgeInsets.only(right: 16,),
                         icon: const Icon(Icons.person, color: Colors.black),
                         onOptionSelected: (optionItem) {
-                          optionItemSelected = optionItem;
+                          postFamilyProfile.optionItemSelected = optionItem;
                           setState(() {});
                           },
                         ),
@@ -96,10 +93,10 @@ DropListModel dropListModel = DropListModel([
                   ),
                 ),
               ChangeDataProfile(
-                controller1: nameController,
-                controller2: nomorController,
-                controller3: beratController,
-                controller4: tinggiController,
+                controller1: postFamilyProfile.nameController,
+                controller2: postFamilyProfile.nomorController,
+                controller3: postFamilyProfile.beratController,
+                controller4: postFamilyProfile.tinggiController,
                 ),
               ],
             ),
@@ -114,8 +111,25 @@ DropListModel dropListModel = DropListModel([
                 height: 40,
                 child: ButtonWidget(
                   title: "Simpan",
-                  onPressed: () {},
-                  color: green550,
+                  onPressed: () {
+                    var familyProfileNotifier = Provider.of<PostFamilyProfileViewModel>(context, listen: false);
+                    familyProfileNotifier.saveProfileData(context);
+                    postFamilyProfile.nameController.clear();
+                    postFamilyProfile.nomorController.clear();
+                    postFamilyProfile.beratController.clear();
+                    postFamilyProfile.tinggiController.clear();
+                    postFamilyProfile.optionItemSelected = OptionItem(title: "Pilih Hubungan");
+                    datePickerProvider.dueDate =DateTime.now();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      CustomSnackBar(
+                        contentText: 'Profil keluarga berhasil dibuat!',
+                        backgroundColor: positive,
+                      )
+                    );
+                    Navigator.pop(context);
+                    Navigator.pushReplacementNamed(context, RoutesNavigation.familyProfile);
+                  },
+                  color: green500,
                 ),
               ),
             ),

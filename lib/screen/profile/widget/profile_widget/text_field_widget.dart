@@ -28,7 +28,7 @@ class TextFieldWidget extends StatelessWidget {
         decoration: InputDecoration(
           errorText: errorText,
           hintText: hintText,
-          hintStyle: regular12Grey2004,
+          hintStyle: regular12Grey200,
           border: const OutlineInputBorder(),
           // floatingLabelBehavior: FloatingLabelBehavior.always,
         ),
