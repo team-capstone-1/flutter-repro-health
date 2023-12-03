@@ -29,6 +29,7 @@ class BottomSheetWidget {
               GestureDetector(
                 onTap: () {
                   filePickerProvider.pickFile();
+                  Navigator.pop(context);
                 },
                 child: Text("Pilih dari galeri",
                 style: medium12Grey500

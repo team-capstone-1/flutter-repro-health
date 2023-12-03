@@ -1,17 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:reprohealth_app/constant/routes_navigation.dart';
 import 'package:reprohealth_app/screen/profile/add_family_profile_view.dart';
+import 'package:reprohealth_app/screen/profile/edit_family_profile_view%20copy.dart';
 import 'package:reprohealth_app/screen/profile/view_model/get_family_profile_view_model.dart';
 import 'package:reprohealth_app/screen/profile/widget/profile_widget/button_widget.dart';
 import 'package:reprohealth_app/theme/theme.dart';
 
-class FamilyProfile extends StatelessWidget {
+class FamilyProfile extends StatefulWidget {
   const FamilyProfile({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  State<FamilyProfile> createState() => _FamilyProfileState();
+}
+
+class _FamilyProfileState extends State<FamilyProfile> {
+
+  @override
+  void initState() {
+    super.initState();
     Provider.of<GetFamilyProfileViewModel>(context, listen: false).fetchProfileData(context: context);
+  }
+
+
+  @override
+  Widget build(BuildContext context) {
     var profileProvider = Provider.of<GetFamilyProfileViewModel>(context);
     return Scaffold(
         appBar: AppBar(
@@ -35,10 +49,13 @@ class FamilyProfile extends StatelessWidget {
               Visibility(
                 visible: profileProvider.profileList!.response!.isNotEmpty,
                 child: TextButton(
-                  onPressed: () => Navigator.pushNamed(
-                    context,
-                    RoutesNavigation.addFamilyProfile,
-                  ),
+                  onPressed: () {
+                    Navigator.popAndPushNamed(
+                      context,
+                      RoutesNavigation.addFamilyProfile,
+                    );
+                  },
+                  
                   child: Text(
                     "Tambah",
                     style: semiBold16Green500,
@@ -97,7 +114,23 @@ class FamilyProfile extends StatelessWidget {
                         itemBuilder: (context, index) {
                           var profileData = listFamily?.response?[index];
                           return GestureDetector(
-                            onTap: () {},
+                            onTap: () {
+                              Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => EditFamilyProfile(
+                                  idPatients: profileData?.id,
+                                  relation: profileData?.relation,
+                                  date: DateFormat('dd/MM/yyyy').format(profileData?.dateOfBirth?? DateTime.now()),
+                                  nameController: profileData?.name,
+                                  nomorController: profileData?.telephoneNumber,
+                                  beratController: profileData?.weight,
+                                  tinggiController: profileData?.height,
+
+                                ),
+                              ),
+                            );
+                            },
                             child: Padding(
                               padding: EdgeInsets.only(
                                   left: 16,

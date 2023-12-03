@@ -458,6 +458,12 @@ TextStyle semiBold14Grey500 = GoogleFonts.poppins(
   fontWeight: FontWeight.w600,
 );
 
+TextStyle semiBold16negative = GoogleFonts.poppins(
+  color: negative,
+  fontSize: 16,
+  fontWeight: FontWeight.w600,
+);
+
 TextStyle semiBold16Green500 = GoogleFonts.poppins(
   color: green500,
   fontSize: 16,

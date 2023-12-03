@@ -11,13 +11,15 @@ class ChangeDataProfile extends StatelessWidget {
   final TextEditingController? controller2;
   final TextEditingController? controller3;
   final TextEditingController? controller4;
+  final TextEditingController? dateController;
 
   ChangeDataProfile({
     Key? key,
     this.controller1,
     this.controller2,
     this.controller3,
-    this.controller4,
+    this.controller4, 
+    this.dateController, 
   }) : super(key: key);
 
   late final ValueNotifier<String> groupValue = ValueNotifier("");
@@ -58,10 +60,11 @@ class ChangeDataProfile extends StatelessWidget {
                           context: context,
                           initialDate: datePickerProvider.currentDate,
                           firstDate: DateTime(1900),
-                          lastDate: DateTime(datePickerProvider.currentDate.year + 5)
+                          lastDate: DateTime(datePickerProvider.currentDate.year + 10)
                           );
                           if (selectDate != null) {
-                             datePickerProvider.dueDate = selectDate;
+                            datePickerProvider.dueDate = selectDate;
+                            dateController?.text = DateFormat('dd/MM/yyyy').format(selectDate);
                         }
                       },
                       child: Container(
@@ -80,7 +83,7 @@ class ChangeDataProfile extends StatelessWidget {
                         child: Row(
                           children: [
                             Text(
-                              DateFormat('dd/MM/yyyy',).format(datePickerProvider.dueDate,),
+                              dateController?.text ?? "",
                               style: regular12Grey500,
                             ),
                             Spacer(),
@@ -145,7 +148,7 @@ class ChangeDataProfile extends StatelessWidget {
                     ),
                     const SizedBox(height: 4),
                     TextFieldWidget(
-                      controller: controller3, 
+                      controller: controller3,
                       hintText: "Berat Badan",
                       label: "Berat Badan",
                       ),

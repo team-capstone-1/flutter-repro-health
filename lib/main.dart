@@ -48,9 +48,11 @@ import 'package:reprohealth_app/screen/profile/my_profile_view.dart';
 import 'package:reprohealth_app/screen/profile/profile_view.dart';
 import 'package:reprohealth_app/screen/profile/pusat_bantuan/pusat_bantuan_view.dart';
 import 'package:reprohealth_app/screen/profile/view_model/date_picker_view_model.dart';
+import 'package:reprohealth_app/screen/profile/view_model/delete_family_profile_view_model.dart';
 import 'package:reprohealth_app/screen/profile/view_model/file_picker_view_model.dart';
 import 'package:reprohealth_app/screen/profile/view_model/get_family_profile_view_model.dart';
 import 'package:reprohealth_app/screen/profile/view_model/post_family_profile_view_model.dart';
+import 'package:reprohealth_app/screen/profile/view_model/put_family_profile_view_model.dart';
 import 'package:reprohealth_app/screen/refund/refund_view.dart';
 import 'package:reprohealth_app/screen/refund_details/refund_details_view.dart';
 import 'package:reprohealth_app/screen/register/register_view.dart';
@@ -93,6 +95,12 @@ class MainApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (context) => PostFamilyProfileViewModel(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => PutFamilyProfileViewModel(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => DeleteProfileFamilyViewModel(),
         ),
         ChangeNotifierProvider(
           create: (context) => HomeViewModels(),
