@@ -26,6 +26,7 @@ dependencies:
   rxdart: ^0.27.7
   just_the_tooltip: ^0.0.12
   shared_preferences: ^2.2.2
+  cached_network_image: ^3.3.0
 
 
 dev_dependencies:

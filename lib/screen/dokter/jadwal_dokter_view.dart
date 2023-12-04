@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:reprohealth_app/component/button_component.dart';
 import 'package:reprohealth_app/constant/routes_navigation.dart';
-import 'package:reprohealth_app/models/dokter_models.dart';
 import 'package:reprohealth_app/screen/dokter/widget/pilih_sesi_widget.dart';
 import 'package:reprohealth_app/screen/dokter/widget/pilih_tanggal_widget.dart';
 import 'package:reprohealth_app/screen/klinik/widget/list_dokter_widget.dart';
@@ -55,15 +54,7 @@ class JadwalDokterViewState extends State<JadwalDokterView> {
           ),
           // Profil Dokter
           ListDokterWidget(
-            interMedika: DokterModelsLama(
-              image: 'assets/dr_nuke_spesialis.png',
-              nama: 'Dr. Nuke Nugrahanti SpOG',
-              spesialis: 'Dokter Kandungan',
-              imageIcon: 'assets/klinik.png',
-              rumahSakit: 'Inter Medika',
-              tahun: '5 tahun',
-              biaya: '70.000',
-            ),
+            
           ),
           const SizedBox(
             height: 24,

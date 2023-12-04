@@ -11,4 +11,14 @@ class DokterServices {
       throw Exception('Failed to load forum list: $error');
     }
   }
+
+  Future<DokterModels> getDokterByClinics({required String clinicsId}) async {
+    String apiGetDokterByClinics = "https://dev.reprohealth.my.id/clinics/$clinicsId/doctors";
+    try {
+      var response = await Dio().get(apiGetDokterByClinics);
+      return DokterModels.fromJson(response.data);
+    } catch (error) {
+      throw Exception('Failed to load forum list: $error');
+    }
+  }
 }

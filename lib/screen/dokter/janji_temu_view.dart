@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:reprohealth_app/component/button_component.dart';
 import 'package:reprohealth_app/models/data_pemesanan_models.dart';
-import 'package:reprohealth_app/models/dokter_models.dart';
 import 'package:reprohealth_app/models/janji_temu_models.dart';
 import 'package:reprohealth_app/screen/klinik/widget/list_dokter_widget.dart';
 import 'package:reprohealth_app/theme/theme.dart';
@@ -37,15 +36,7 @@ class JanjiTemuView extends StatelessWidget {
           ),
           // Profil Dokter
           ListDokterWidget(
-            interMedika: DokterModelsLama(
-              image: 'assets/dr_nuke_spesialis.png',
-              nama: 'Dr. Nuke Nugrahanti SpOG',
-              spesialis: 'Dokter Kandungan',
-              imageIcon: 'assets/klinik.png',
-              rumahSakit: 'Inter Medika',
-              tahun: '5 tahun',
-              biaya: '70.000',
-            ),
+            
           ),
           const Padding(
             padding: EdgeInsets.only(

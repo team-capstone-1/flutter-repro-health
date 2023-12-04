@@ -1,17 +1,14 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:reprohealth_app/component/button_component.dart';
 import 'package:reprohealth_app/constant/assets_constants.dart';
 import 'package:reprohealth_app/constant/routes_navigation.dart';
-import 'package:reprohealth_app/screen/login/view_model/login_view_model.dart';
 import 'package:reprohealth_app/theme/theme.dart';
 import 'package:reprohealth_app/utils/shared_preferences_utils.dart';
 
 class AuthServices {
   final String apiRegister = "https://dev.reprohealth.my.id/users/signup";
   final String apiLogin = "https://dev.reprohealth.my.id/users/login";
-  final String apiCreatePatient = "https://dev.reprohealth.my.id/patients";
 
   Future<void> authRegister({
     required String name,
@@ -29,11 +26,6 @@ class AuthServices {
         },
       );
       print(response.data);
-      Navigator.pushNamedAndRemoveUntil(
-        context,
-        RoutesNavigation.successRegisterView,
-        (route) => false,
-      );
     } on DioException catch (e) {
       throw Exception(e.response);
     }
@@ -55,7 +47,6 @@ class AuthServices {
 
       final token = response.data['response']['token'];
       await SharedPreferencesUtils().addToken(token);
-      Provider.of<LoginViewModel>(context, listen: false).saveToken(token);
 
       print(response.data);
       Navigator.pushNamedAndRemoveUntil(
@@ -99,30 +90,4 @@ class AuthServices {
       throw Exception(e.response);
     }
   }
-
-  // Future<void> createPatientLogin({
-  //   required String name,
-  //   required BuildContext context,
-  // }) async {
-  //   String token =
-  //       Provider.of<LoginViewModel>(context, listen: false).token ?? '';
-  //   try {
-  //     var response = await Dio().post(
-  //       apiCreatePatient,
-  //       data: {
-  //         "name": name,
-  //         "date_of_birth": DateTime.now(),
-  //       },
-  //       options: Options(
-  //         headers: {
-  //           'Content-Type': 'application/json',
-  //           "Authorization": "Bearer $token",
-  //         },
-  //       ),
-  //     );
-  //     print(response.data);
-  //   } on DioException catch (e) {
-  //     throw Exception(e.response);
-  //   }
-  // }
 }

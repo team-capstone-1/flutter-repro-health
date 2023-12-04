@@ -1,9 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:reprohealth_app/constant/routes_navigation.dart';
 import 'package:reprohealth_app/models/forum_models/forum_models.dart';
-import 'package:reprohealth_app/screen/login/view_model/login_view_model.dart';
+import 'package:reprohealth_app/utils/shared_preferences_utils.dart';
 
 class ForumServices {
   Future<ForumModels> getListForum() async {
@@ -28,20 +27,20 @@ class ForumServices {
   }
 
   Future<ForumModels> createForum({
+    required String patientId,
     required String title,
     required String content,
     required bool anonymous,
     required BuildContext context,
   }) async {
     const String apiCreateForum = "https://dev.reprohealth.my.id/forums";
-    String token =
-        Provider.of<LoginViewModel>(context, listen: false).token ?? '';
+    String token = await SharedPreferencesUtils().getToken();
 
     try {
       var response = await Dio().post(
         apiCreateForum,
         data: {
-          "patient_id": "0c3255e5-c998-4a14-9484-e815a6359de4",
+          "patient_id": patientId,
           "title": title,
           "content": content,
           "anonymous": anonymous,
@@ -74,8 +73,7 @@ class ForumServices {
   }) async {
     final String apiDeleteForum =
         "https://dev.reprohealth.my.id/forums/$forumId";
-    String token =
-        Provider.of<LoginViewModel>(context, listen: false).token ?? '';
+    String token = await SharedPreferencesUtils().getToken();
 
     try {
       var response = await Dio().delete(

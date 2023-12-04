@@ -1,6 +1,6 @@
 class DokterModels {
   String? message;
-  List<ResponseData>? response;
+  List<ResponseDataDokter>? response;
 
   DokterModels({
     this.message,
@@ -11,8 +11,8 @@ class DokterModels {
         message: json["message"],
         response: json["response"] == null
             ? []
-            : List<ResponseData>.from(
-                json["response"]!.map((x) => ResponseData.fromJson(x))),
+            : List<ResponseDataDokter>.from(
+                json["response"]!.map((x) => ResponseDataDokter.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -23,7 +23,7 @@ class DokterModels {
       };
 }
 
-class ResponseData {
+class ResponseDataDokter {
   String? id;
   String? name;
   String? email;
@@ -36,7 +36,7 @@ class ResponseData {
   List<WorkHistory>? workHistories;
   List<Education>? educations;
 
-  ResponseData({
+  ResponseDataDokter({
     this.id,
     this.name,
     this.email,
@@ -50,7 +50,7 @@ class ResponseData {
     this.educations,
   });
 
-  factory ResponseData.fromJson(Map<String, dynamic> json) => ResponseData(
+  factory ResponseDataDokter.fromJson(Map<String, dynamic> json) => ResponseDataDokter(
         id: json["id"],
         name: json["name"],
         email: json["email"],

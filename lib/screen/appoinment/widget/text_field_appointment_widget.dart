@@ -24,8 +24,8 @@ class TextFieldAppointmentWidget extends StatelessWidget {
             hinstStyle: regular14Grey400,
             prefixIcon: Icons.search,
             onChanged: (query) {
-              appoinmentViewModel.filterSearchKlinik(query);
-              appoinmentViewModel.filterSearchSpesialis(query);
+              appoinmentViewModel.filterSearchClinics(query);
+              appoinmentViewModel.filterSearchSpecialist(query);
             },
           );
         },

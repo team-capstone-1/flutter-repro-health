@@ -8,8 +8,9 @@ class DetailForumView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final args = ModalRoute.of(context)!.settings.arguments as ResponseData;
-    final ResponseData detailForum = args;
+    final args = ModalRoute.of(context)!.settings.arguments as ResponseData?;
+    final ResponseData? detailForum = args;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -29,12 +30,12 @@ class DetailForumView extends StatelessWidget {
           children: [
             const SizedBox(height: 24),
             Text(
-              detailForum.title ?? '',
+              detailForum?.title ?? '',
               style: semiBold16Grey900,
             ),
             const SizedBox(height: 24),
             Text(
-              detailForum.content ?? '',
+              detailForum?.content ?? '',
               style: regular12Grey900,
               textAlign: TextAlign.justify,
             ),
@@ -58,7 +59,7 @@ class DetailForumView extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 48),
-            Column(
+            detailForum?.forumReplies?.isNotEmpty == true ? Column(
               children: [
                 Container(
                   padding: const EdgeInsets.symmetric(
@@ -80,7 +81,7 @@ class DetailForumView extends StatelessWidget {
                         style: regular12Grey900,
                       ),
                       Text(
-                        detailForum.forumReplies?[0].doctor?.name ?? '',
+                        detailForum?.forumReplies?.first.doctor?.name ?? '',
                         style: medium12Green700,
                       ),
                     ],
@@ -94,12 +95,12 @@ class DetailForumView extends StatelessWidget {
                   color: green50,
                   width: double.infinity,
                   child: Text(
-                    detailForum.forumReplies?[0].content ?? '',
+                    detailForum?.forumReplies?.first.content ?? '',
                     style: regular12Grey900,
                   ),
                 ),
               ],
-            )
+            ) : const SizedBox()
           ],
         ),
       ),

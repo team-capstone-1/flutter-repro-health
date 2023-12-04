@@ -1,9 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:reprohealth_app/component/text_form_component.dart';
+import 'package:reprohealth_app/constant/assets_constants.dart';
 import 'package:reprohealth_app/constant/routes_navigation.dart';
-import 'package:reprohealth_app/models/klinik_models.dart';
-import 'package:reprohealth_app/screen/klinik/view_models/klinik_view_model.dart';
+import 'package:reprohealth_app/screen/klinik/view_models/clinics_view_model.dart';
 import 'package:reprohealth_app/theme/theme.dart';
 
 class KlinikView extends StatelessWidget {
@@ -11,9 +12,7 @@ class KlinikView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Provider.of<KlinikViewModel>(context, listen: false)
-        .filteredKlinikData
-        .addAll(klinikModelsData);
+    Provider.of<ClinicsViewModel>(context, listen: false).getClinicsList();
 
     return Scaffold(
       appBar: AppBar(
@@ -28,8 +27,9 @@ class KlinikView extends StatelessWidget {
         ),
         iconTheme: IconThemeData(color: primary4),
       ),
-      body: Consumer<KlinikViewModel>(
-        builder: (context, klinikViewModel, child) {
+      body: Consumer<ClinicsViewModel>(
+        builder: (context, clinicsViewModel, child) {
+          final filteredClinicsData = clinicsViewModel.filteredClinicsList;
           return Padding(
             padding: const EdgeInsets.all(16),
             child: ListView(
@@ -38,31 +38,31 @@ class KlinikView extends StatelessWidget {
                   height: 24,
                 ),
                 TextFormComponent(
-                  controller: klinikViewModel.searchKlinikAppoinmentController,
+                  controller: clinicsViewModel.searchKlinikAppoinmentController,
                   onChanged: (query) {
-                    klinikViewModel.filterSearchDokter(query);
+                    clinicsViewModel.filterSearchClinics(query);
                   },
                   hintText: 'Cari Dokter Spesialis..',
                   hinstStyle: regular14Grey400,
                   prefixIcon: Icons.search,
                 ),
-                if (!klinikViewModel.hasSearchResults)
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.6,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.asset(
-                          'assets/search_tidak_ditemukan.png',
-                          width: 176,
-                          height: 183,
+                filteredClinicsData == null
+                    ? SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.6,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              Assets.assetsSearchTidakDitemukan,
+                              width: 176,
+                              height: 183,
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                  ),
-                const SizedBox(
-                  height: 24,
-                ),
+                      )
+                    : const SizedBox(
+                        height: 24,
+                      ),
                 GridView.builder(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
@@ -71,12 +71,16 @@ class KlinikView extends StatelessWidget {
                     crossAxisSpacing: 8,
                     mainAxisSpacing: 8,
                   ),
-                  itemCount: klinikViewModel.filteredKlinikData.length,
+                  itemCount: filteredClinicsData?.length,
                   itemBuilder: (BuildContext context, int index) {
+                    final clinics = filteredClinicsData?[index];
                     return GestureDetector(
                       onTap: () {
                         Navigator.pushNamed(
-                            context, RoutesNavigation.detailKlinikView);
+                          context,
+                          RoutesNavigation.detailKlinikView,
+                          arguments: clinics,
+                        );
                       },
                       child: Card(
                         elevation: 2.0,
@@ -89,12 +93,13 @@ class KlinikView extends StatelessWidget {
                           children: [
                             ClipRRect(
                               borderRadius: BorderRadius.circular(4.0),
-                              child: Image.asset(
-                                klinikViewModel.filteredKlinikData[index].image,
-                                width: double.infinity,
-                                height: 80.0,
-                                fit: BoxFit.cover,
-                              ),
+                              child: CachedNetworkImage(
+                              imageUrl: clinics?.image ?? '',
+                              placeholder: (context, url) =>
+                                  const CircularProgressIndicator(),
+                              errorWidget: (context, url, error) =>
+                                  const Center(child: Icon(Icons.error, size: 50,),),
+                            ),
                             ),
                             Padding(
                               padding: const EdgeInsets.all(8),
@@ -102,13 +107,11 @@ class KlinikView extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    klinikViewModel.filteredKlinikData[index]
-                                        .namaRumahSakit,
+                                    clinics?.name ?? '',
                                     style: semiBold14Grey900,
                                   ),
                                   Text(
-                                    klinikViewModel
-                                        .filteredKlinikData[index].jalan,
+                                    clinics?.location ?? '',
                                     style: regular10Grey900,
                                     maxLines: 2,
                                     overflow: TextOverflow.ellipsis,
@@ -119,14 +122,12 @@ class KlinikView extends StatelessWidget {
                                   Row(
                                     children: [
                                       Icon(
-                                        klinikViewModel
-                                            .filteredKlinikData[index].icon,
+                                        Icons.location_on_outlined,
                                         size: 10,
                                         color: green500,
                                       ),
                                       Text(
-                                        klinikViewModel
-                                            .filteredKlinikData[index].jarak,
+                                        "5 Meter",
                                         style: regular8Grey400,
                                       ),
                                     ],

@@ -1,14 +1,13 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:reprohealth_app/models/profile_models.dart';
-import 'package:reprohealth_app/screen/login/view_model/login_view_model.dart';
+import 'package:reprohealth_app/utils/shared_preferences_utils.dart';
 
 class ProfileService {
   final String apiUrl = 'https://dev.reprohealth.my.id/patients';
 
   Future<ProfileModel> getProfileModel({required BuildContext context}) async {
-    final String token = Provider.of<LoginViewModel>(context, listen: false).token ?? "";
+    final String token = await SharedPreferencesUtils().getToken();
     try {
       final response = await Dio().get(
         apiUrl,
@@ -19,7 +18,6 @@ class ProfileService {
             },
         ),
       );
-      print(response.data);
       return ProfileModel.fromMap(response.data);
     } on DioException catch (e) {
       throw Exception(e.response);
@@ -30,7 +28,7 @@ class ProfileService {
     required BuildContext context,
     required FormData formData,
   }) async {
-    final String token = Provider.of<LoginViewModel>(context, listen: false).token ?? "";
+    final String token = await SharedPreferencesUtils().getToken();
 
     try {
       final response = await Dio().post(
@@ -42,7 +40,6 @@ class ProfileService {
           },
         ),
       );
-
       print(response.data);
     } on DioException catch (e) {
       if (e.response != null) {
