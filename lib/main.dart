@@ -36,6 +36,8 @@ import 'package:reprohealth_app/screen/login/login_view.dart';
 import 'package:reprohealth_app/screen/login/view_model/login_view_model.dart';
 import 'package:reprohealth_app/screen/maps/maps_view.dart';
 import 'package:reprohealth_app/screen/maps/maps_view_models/maps_view_model.dart';
+import 'package:reprohealth_app/screen/metode_pembayaran/confirmation_splash_view.dart';
+import 'package:reprohealth_app/screen/metode_pembayaran/payment_method_view.dart';
 import 'package:reprohealth_app/screen/onboarding/onbarding_view.dart';
 import 'package:reprohealth_app/screen/profile/about_us_view.dart';
 import 'package:reprohealth_app/screen/profile/add_family_profile_view.dart';
@@ -48,9 +50,11 @@ import 'package:reprohealth_app/screen/profile/my_profile_view.dart';
 import 'package:reprohealth_app/screen/profile/profile_view.dart';
 import 'package:reprohealth_app/screen/profile/pusat_bantuan/pusat_bantuan_view.dart';
 import 'package:reprohealth_app/screen/profile/view_model/date_picker_view_model.dart';
+import 'package:reprohealth_app/screen/profile/view_model/delete_family_profile_view_model.dart';
 import 'package:reprohealth_app/screen/profile/view_model/file_picker_view_model.dart';
 import 'package:reprohealth_app/screen/profile/view_model/get_family_profile_view_model.dart';
 import 'package:reprohealth_app/screen/profile/view_model/post_family_profile_view_model.dart';
+import 'package:reprohealth_app/screen/profile/view_model/put_family_profile_view_model.dart';
 import 'package:reprohealth_app/screen/refund/refund_view.dart';
 import 'package:reprohealth_app/screen/refund_details/refund_details_view.dart';
 import 'package:reprohealth_app/screen/register/register_view.dart';
@@ -93,6 +97,12 @@ class MainApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (context) => PostFamilyProfileViewModel(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => PutFamilyProfileViewModel(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => DeleteProfileFamilyViewModel(),
         ),
         ChangeNotifierProvider(
           create: (context) => HomeViewModels(),
@@ -178,13 +188,19 @@ class MainApp extends StatelessWidget {
           RoutesNavigation.profileView: (context) => const ProfileView(),
           RoutesNavigation.myProfile: (context) => const MyProfile(),
           RoutesNavigation.familyProfile: (context) => const FamilyProfile(),
-          RoutesNavigation.changePasswordView: (context) => const ChangePasswordView(),
+          RoutesNavigation.changePasswordView: (context) =>
+              const ChangePasswordView(),
           RoutesNavigation.aboutUs: (context) => const AboutUs(),
-          RoutesNavigation.pusatBantuanView: (context) => const PusatBantuanView(),
-          RoutesNavigation.ketentuanPenggunaView: (context) => const KetentuanPenggunaView(),
-          RoutesNavigation.kebijakanPrivasiView: (context) => const KebijakanPrivasiView(),
-          RoutesNavigation.changeProfileView: (context) => const ChangeProfileView(),
-          RoutesNavigation.addFamilyProfile: (context) => const AddFamilyProfile(),
+          RoutesNavigation.pusatBantuanView: (context) =>
+              const PusatBantuanView(),
+          RoutesNavigation.ketentuanPenggunaView: (context) =>
+              const KetentuanPenggunaView(),
+          RoutesNavigation.kebijakanPrivasiView: (context) =>
+              const KebijakanPrivasiView(),
+          RoutesNavigation.changeProfileView: (context) =>
+              const ChangeProfileView(),
+          RoutesNavigation.addFamilyProfile: (context) =>
+              const AddFamilyProfile(),
 
           // riwayat transaksi
           RoutesNavigation.appointmentHistoryDetailView: (context) =>
@@ -197,6 +213,12 @@ class MainApp extends StatelessWidget {
               const CancelAppointmentPaymentAtClicic(),
           RoutesNavigation.confirmStatusView: (context) =>
               const ConfirmStatusView(),
+
+          // payment method
+          RoutesNavigation.paymentMethodView: (context) =>
+              const PaymentMethodView(),
+          RoutesNavigation.confirmSplashView: (context) =>
+              const ConfirmationSplashView(),
         },
       ),
     );

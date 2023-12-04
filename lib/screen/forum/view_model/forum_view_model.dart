@@ -14,6 +14,8 @@ class ForumViewModel with ChangeNotifier {
 
   List<String> kategoriListMap = [];
 
+  List<Response>? searchResults;
+
   String _searchText = '';
   String get searchText => _searchText;
 
@@ -53,5 +55,18 @@ class ForumViewModel with ChangeNotifier {
     } catch (e) {
       print(e);
     }
+  }
+
+  void searchForum(String query) {
+    if (query.isEmpty) {
+      searchResults = null;
+    } else {
+      searchResults = forumList?.response?.where((forum) {
+        return forum.title?.toLowerCase().contains(query.toLowerCase()) ==
+                true ||
+            forum.content?.toLowerCase().contains(query.toLowerCase()) == true;
+      }).toList();
+    }
+    notifyListeners();
   }
 }

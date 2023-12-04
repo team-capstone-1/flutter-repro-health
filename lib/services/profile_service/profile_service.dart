@@ -53,5 +53,75 @@ class ProfileService {
       throw Exception(e.message);
     }
   }
+
+
+  Future<ProfileModel> getProfileModelId({
+    required BuildContext context, 
+    required String idPatients
+    }) async {
+    final String token = Provider.of<LoginViewModel>(context, listen: false).token ?? "";
+    try {
+      final response = await Dio().get(
+        'https://dev.reprohealth.my.id/patients/$idPatients',
+        options: Options(
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer $token'
+            },
+        ),
+      );
+      print(response.data);
+      return ProfileModel.fromMap(response.data);
+    } on DioException catch (e) {
+      throw Exception(e.response);
+    }
+  }
+
+  Future<ProfileModel> putProfileModel({
+    required BuildContext context,
+    required String idPatients,
+    required FormData formData,
+    }) async {
+    final String token = Provider.of<LoginViewModel>(context, listen: false).token ?? "";
+    try {
+      final response = await Dio().put(
+        'https://dev.reprohealth.my.id/patients/$idPatients',
+        data: formData,
+        options: Options(
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer $token'
+            },
+        ),
+      );
+      print(response.data);
+      return ProfileModel.fromMap(response.data);
+    } on DioException catch (e) {
+      throw Exception(e.response);
+    }
+  }
+
+  Future<ProfileModel> deleteProfileModelId({
+    required BuildContext context, 
+    required String idPatients
+    }) async {
+    final String token = Provider.of<LoginViewModel>(context, listen: false).token ?? "";
+    try {
+      final response = await Dio().delete(
+        'https://dev.reprohealth.my.id/patients/$idPatients',
+        options: Options(
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer $token'
+            },
+        ),
+      );
+      print(response.data);
+      return ProfileModel.fromMap(response.data);
+    } on DioException catch (e) {
+      throw Exception(e.response);
+    }
+  }
+
 }
 
