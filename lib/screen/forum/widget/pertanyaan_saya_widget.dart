@@ -17,10 +17,10 @@ class _PertanyaanSayaWidgetState extends State<PertanyaanSayaWidget> {
   @override
   void initState() {
     // Provider.of<ForumViewModel>(context).getProfile(context: context);
-    Provider.of<ForumViewModel>(context, listen: false)
-        .getMyForumList();
+    Provider.of<ForumViewModel>(context, listen: false).getMyForumList();
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<ForumViewModel>(
@@ -178,7 +178,7 @@ class _PertanyaanSayaWidgetState extends State<PertanyaanSayaWidget> {
                                         ),
                                         const SizedBox(width: 8),
                                         Text(
-                                          myForum.date.toString() ?? '',
+                                          myForum.date.toString(),
                                           style: regular10Grey200,
                                         )
                                       ],

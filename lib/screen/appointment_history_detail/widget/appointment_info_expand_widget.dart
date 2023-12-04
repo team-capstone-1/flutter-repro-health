@@ -13,8 +13,6 @@ class AppointmentInfoExpandWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    int doctorIndex = 0;
-
     return Container(
       margin: const EdgeInsets.only(bottom: 4),
       color: grey10,
