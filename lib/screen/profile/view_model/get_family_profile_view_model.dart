@@ -4,6 +4,7 @@ import 'package:reprohealth_app/services/profile_service/profile_service.dart';
 import 'package:reprohealth_app/utils/shared_preferences_utils.dart';
 
 class GetFamilyProfileViewModel extends ChangeNotifier {
+
   final ProfileService _profileServices = ProfileService();
   ProfileService? get profileService  => _profileServices;
 
@@ -23,6 +24,25 @@ class GetFamilyProfileViewModel extends ChangeNotifier {
     } catch (e) {
       print('Error fetching profile data: $e');
       print(_profileList);
+    }
+  }
+
+
+  Future<void> fetchProfileDataId({
+    required BuildContext context, 
+    required idPatients
+    }) async {
+    try {
+      final String token = await SharedPreferencesUtils().getToken();
+      print(token);
+      if (token.isNotEmpty) {
+        _profileList = await _profileServices.getProfileModelId(context: context, idPatients: idPatients);
+        notifyListeners();
+      } else {
+        print('Token is empty!');
+      }
+    } catch (e) {
+      print('Error fetching: $e');
     }
   }
 }

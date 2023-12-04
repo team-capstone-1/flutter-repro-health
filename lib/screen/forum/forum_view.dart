@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:reprohealth_app/component/text_form_component.dart';
 import 'package:reprohealth_app/constant/routes_navigation.dart';
+import 'package:reprohealth_app/screen/forum/view_model/forum_view_model.dart';
 import 'package:reprohealth_app/screen/forum/widget/categories_widget.dart';
 import 'package:reprohealth_app/screen/forum/widget/lihat_forum_widget.dart';
 import 'package:reprohealth_app/screen/forum/widget/pertanyaan_saya_widget.dart';
@@ -12,7 +14,7 @@ class ForumView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController searchController = TextEditingController();
+    final forumViewModel = Provider.of<ForumViewModel>(context, listen: false);
     return DefaultTabController(
       initialIndex: 0,
       length: 2,
@@ -26,60 +28,75 @@ class ForumView extends StatelessWidget {
           elevation: 0,
           backgroundColor: grey10,
         ),
-        body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 16,
+              ),
+              child: Text(
                 "Cari dan Tanyakan Keluhanmu Disini",
                 style: medium14Grey900,
               ),
-              const SizedBox(height: 24),
-              TextFormComponent(
-                controller: searchController,
+            ),
+            const SizedBox(height: 24),
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 16,
+              ),
+              child: TextFormComponent(
+                controller: forumViewModel.searchController,
                 hintText: 'Cari Forum Diskusi...',
                 hinstStyle: regular14Grey400,
                 prefixIcon: Icons.search,
+                onChanged: (query) {
+                  forumViewModel.searchForum(query);
+                },
               ),
-              const SizedBox(height: 24),
-              const CategoriesWidget(),
-              const SizedBox(height: 24),
-              TabBar(
-                labelStyle: medium14Grey400,
-                labelColor: grey900,
-                unselectedLabelColor: grey400,
-                tabs: [
-                  Tab(
-                    child: Text(
-                      'Lihat Forum',
-                      style: GoogleFonts.poppins(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                      ),
+            ),
+            const SizedBox(height: 24),
+            const Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: 16,
+              ),
+              child: CategoriesWidget(),
+            ),
+            const SizedBox(height: 24),
+            TabBar(
+              labelStyle: medium14Grey400,
+              labelColor: grey900,
+              unselectedLabelColor: grey400,
+              tabs: [
+                Tab(
+                  child: Text(
+                    'Lihat Forum',
+                    style: GoogleFonts.poppins(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
-                  Tab(
-                    child: Text(
-                      'Pertanyaan Saya',
-                      style: GoogleFonts.poppins(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                      ),
+                ),
+                Tab(
+                  child: Text(
+                    'Pertanyaan Saya',
+                    style: GoogleFonts.poppins(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
+                ),
+              ],
+            ),
+            const Expanded(
+              child: TabBarView(
+                children: [
+                  LihatForumWidget(),
+                  PertanyaanSayaWidget(),
                 ],
               ),
-              const Expanded(
-                child: TabBarView(
-                  children: [
-                    LihatForumWidget(),
-                    PertanyaanSayaWidget(),
-                  ],
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
         floatingActionButton: Column(
           mainAxisAlignment: MainAxisAlignment.end,

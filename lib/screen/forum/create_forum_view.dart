@@ -144,7 +144,7 @@ class _CreateForumViewState extends State<CreateForumView> {
                 TextFormWidget(
                   controller: messageController,
                   hintText:
-                      """Apa yang ingin kamu tanyakan atau                    ceritakan tentang kesehatan reproduksimu?
+                      """Apa yang ingin kamu tanyakan atau ceritakan tentang kesehatan reproduksimu?
                     
 Tulis pertanyaanmu di sini""",
                   hinstStyle: regular14Grey400,

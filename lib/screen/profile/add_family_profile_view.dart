@@ -1,5 +1,6 @@
 import 'package:dropdown_model_list/drop_down/model.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:reprohealth_app/constant/routes_navigation.dart';
 import 'package:reprohealth_app/screen/profile/view_model/date_picker_view_model.dart';
@@ -19,11 +20,14 @@ class AddFamilyProfile extends StatefulWidget {
 
 class _AddFamilyProfileState extends State<AddFamilyProfile> {
 
+  late final TextEditingController dateController = TextEditingController();
 
-  TextEditingController nameController = TextEditingController();
-  TextEditingController nomorController = TextEditingController();
-  TextEditingController beratController = TextEditingController();
-  TextEditingController tinggiController = TextEditingController();
+  @override
+  void initState() {
+    super.initState();
+    final datePickerProvider = Provider.of<DatePickerViewModel>(context, listen: false);
+    dateController.text = DateFormat('dd/MM/yyyy').format(datePickerProvider.dueDate);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -97,6 +101,7 @@ class _AddFamilyProfileState extends State<AddFamilyProfile> {
                 controller2: postFamilyProfile.nomorController,
                 controller3: postFamilyProfile.beratController,
                 controller4: postFamilyProfile.tinggiController,
+                dateController: dateController,
                 ),
               ],
             ),
@@ -120,14 +125,16 @@ class _AddFamilyProfileState extends State<AddFamilyProfile> {
                     postFamilyProfile.tinggiController.clear();
                     postFamilyProfile.optionItemSelected = OptionItem(title: "Pilih Hubungan");
                     datePickerProvider.dueDate =DateTime.now();
+                    Navigator.popAndPushNamed(
+                      context,
+                      RoutesNavigation.familyProfile,
+                    );
                     ScaffoldMessenger.of(context).showSnackBar(
                       CustomSnackBar(
                         contentText: 'Profil keluarga berhasil dibuat!',
                         backgroundColor: positive,
                       )
                     );
-                    Navigator.pop(context);
-                    Navigator.pushReplacementNamed(context, RoutesNavigation.familyProfile);
                   },
                   color: green500,
                 ),

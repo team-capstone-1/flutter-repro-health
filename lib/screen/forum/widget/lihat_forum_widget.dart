@@ -1,3 +1,4 @@
+import 'package:avatar_stack/avatar_stack.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:reprohealth_app/constant/assets_constants.dart';
@@ -13,15 +14,40 @@ class LihatForumWidget extends StatelessWidget {
     Provider.of<ForumViewModel>(context, listen: false).getForumList();
     return Consumer<ForumViewModel>(
       builder: (context, forumViewModel, child) {
+        // Mendapatkan daftar forum
         final forumList = forumViewModel.forumList;
+
+        // Mendapatkan hasil pencarian daftar forum
+        final searchResults = forumViewModel.searchResults;
+        final displayedList = searchResults ?? forumList?.response;
+
+        // Urutkan forumListnya berdasarkan kriteria yang berbeda
+        forumList?.response?.sort((a, b) {
+          // Terbaru
+          if (forumViewModel.kategoriListMap.contains('Terbaru')) {
+            return b.date?.compareTo(a.date ?? DateTime(0)) ?? 0;
+          }
+
+          // Terlama
+          else if (forumViewModel.kategoriListMap.contains('Terlama')) {
+            return a.date?.compareTo(b.date ?? DateTime(0)) ?? 0;
+          }
+
+          // Populer
+          else if (forumViewModel.kategoriListMap.contains('Populer')) {
+            return (b.view ?? 0).compareTo(a.view ?? 0);
+          }
+          return 0;
+        });
+
         return forumList == null
             ? const Center(
                 child: Text('Tidak terdapat pertanyaan'),
               )
             : ListView.builder(
-                itemCount: forumList.response?.length,
+                itemCount: displayedList?.length,
                 itemBuilder: (context, index) {
-                  final forum = forumList.response?[index];
+                  final forum = displayedList?[index];
                   return SizedBox(
                     width: 360.0,
                     height: 198.0,
@@ -57,9 +83,11 @@ class LihatForumWidget extends StatelessWidget {
                                     ),
                                     const SizedBox(width: 8),
                                     Text(
-                                      "Diunggah 4 hari yang lalu",
+                                      forum?.date != null
+                                          ? "Diunggah ${_calculateDaysAgo(forum!.date!)} yang lalu"
+                                          : '',
                                       style: regular10Grey200,
-                                    )
+                                    ),
                                   ],
                                 ),
                               ),
@@ -73,7 +101,7 @@ class LihatForumWidget extends StatelessWidget {
                               child: Align(
                                 alignment: Alignment.topLeft,
                                 child: Text(
-                                  forum?.title ?? '',
+                                  forum?.title?.toString() ?? '',
                                   style: medium14Grey900,
                                   textAlign: TextAlign.left,
                                 ),
@@ -88,30 +116,36 @@ class LihatForumWidget extends StatelessWidget {
                               child: Align(
                                 alignment: Alignment.topLeft,
                                 child: Text(
-                                  forum?.content ?? '',
+                                  forum?.content?.toString() ?? '',
                                   textAlign: TextAlign.justify,
                                   style: regular10Grey400,
                                 ),
                               ),
                             ),
+                            const Spacer(),
                             Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 16,
+                              ),
                               child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Image.asset(
-                                    Assets.assetsPhotoProfilPertanyaan,
-                                    width: 53.82,
+                                  AvatarStack(
                                     height: 32,
+                                    width: 53.82,
+                                    avatars: [
+                                      for (var n = 0; n < 2; n++)
+                                        const NetworkImage(
+                                          'https://buffer.com/cdn-cgi/image/w=1000,fit=contain,q=90,f=auto/library/content/images/size/w1200/2023/10/free-images.jpg',
+                                        ),
+                                    ],
                                   ),
                                   const SizedBox(width: 168),
                                   GestureDetector(
                                     onTap: () {
-                                      Navigator.pushNamed(
-                                        context,
-                                        RoutesNavigation.detailForumView,
-                                        arguments: forum,
-                                      );
+                                      Navigator.pushNamed(context,
+                                          RoutesNavigation.detailForumView);
                                     },
                                     child: Row(
                                       children: [
@@ -127,10 +161,13 @@ class LihatForumWidget extends StatelessWidget {
                                         ),
                                       ],
                                     ),
-                                  )
+                                  ),
                                 ],
                               ),
-                            )
+                            ),
+                            const SizedBox(
+                              height: 16,
+                            ),
                           ],
                         ),
                       ),
@@ -140,5 +177,17 @@ class LihatForumWidget extends StatelessWidget {
               );
       },
     );
+  }
+
+  String _calculateDaysAgo(DateTime date) {
+    final now = DateTime.now();
+    final difference = now.difference(date);
+    if (difference.inDays > 0) {
+      return '${difference.inDays} hari';
+    } else if (difference.inHours > 0) {
+      return '${difference.inHours} jam';
+    } else {
+      return '${difference.inMinutes} menit';
+    }
   }
 }

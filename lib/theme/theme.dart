@@ -120,6 +120,13 @@ TextStyle regular10Grey500 = GoogleFonts.poppins(
   fontWeight: FontWeight.w400,
 );
 
+//Tambah Admiraldy
+TextStyle regular10Green50 = GoogleFonts.poppins(
+  color: green50,
+  fontSize: 10,
+  fontWeight: FontWeight.w400,
+);
+
 // Tambah Anandito
 TextStyle regular10Grey900 = GoogleFonts.poppins(
   color: grey900,
@@ -339,7 +346,7 @@ TextStyle medium16Grey500 = GoogleFonts.poppins(
 );
 
 // Semibold
-TextStyle semiBold12grey5= GoogleFonts.poppins(
+TextStyle semiBold12grey5 = GoogleFonts.poppins(
   color: grey5,
   fontWeight: FontWeight.w600,
 );
@@ -470,6 +477,12 @@ TextStyle semiBold14Grey500 = GoogleFonts.poppins(
   fontWeight: FontWeight.w600,
 );
 
+TextStyle semiBold16negative = GoogleFonts.poppins(
+  color: negative,
+  fontSize: 16,
+  fontWeight: FontWeight.w600,
+);
+
 TextStyle semiBold16Green500 = GoogleFonts.poppins(
   color: green500,
   fontSize: 16,
@@ -543,6 +556,18 @@ TextStyle semiBold24Grey500 = GoogleFonts.poppins(
 );
 
 // Bold
+TextStyle bold14Green500 = GoogleFonts.poppins(
+  color: green500,
+  fontSize: 14,
+  fontWeight: FontWeight.w700,
+);
+
+TextStyle bold16Black = GoogleFonts.poppins(
+  color: secondary,
+  fontSize: 16,
+  fontWeight: FontWeight.w700,
+);
+
 TextStyle bold24Grey500 = GoogleFonts.poppins(
   color: grey500,
   fontSize: 24,
