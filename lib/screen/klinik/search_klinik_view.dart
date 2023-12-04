@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:reprohealth_app/component/text_form_component.dart';
 import 'package:reprohealth_app/constant/routes_navigation.dart';
-import 'package:reprohealth_app/models/dokter_models.dart';
-import 'package:reprohealth_app/models/spesialis_models.dart';
 import 'package:reprohealth_app/screen/klinik/view_models/search_klinik_view_model.dart';
 import 'package:reprohealth_app/screen/klinik/widget/list_dokter_widget.dart';
 import 'package:reprohealth_app/screen/klinik/widget/list_spesialis_widget.dart';
