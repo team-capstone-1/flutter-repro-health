@@ -65,11 +65,13 @@ class TextFormComponent extends StatelessWidget {
         errorStyle: regular8Negative,
         hintText: hintText,
         hintStyle: hinstStyle,
-        prefixIcon: Icon(
-          prefixIcon,
-          size: 24,
-          color: grey200,
-        ),
+        prefixIcon: prefixIcon != null
+            ? Icon(
+                prefixIcon,
+                size: 24,
+                color: grey200,
+              )
+            : null,
         suffixIcon: suffixIcon,
         floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
