@@ -1,13 +1,14 @@
 class Assets {
   Assets._();
-  
+
   /// Assets for assetsAppoinment
   /// assets/Appoinment.png
   static const String assetsAppoinment = "assets/Appoinment.png";
 
   /// Assets for assetsAppoinmentIsolationMode
   /// assets/appoinment_isolation_mode.png
-  static const String assetsAppoinmentIsolationMode = "assets/appoinment_isolation_mode.png";
+  static const String assetsAppoinmentIsolationMode =
+      "assets/appoinment_isolation_mode.png";
 
   /// Assets for assetsArticle
   /// assets/Article.png
@@ -27,15 +28,18 @@ class Assets {
 
   /// Assets for assetsDrCarolineSpesialis
   /// assets/dr_caroline_spesialis.png
-  static const String assetsDrCarolineSpesialis = "assets/dr_caroline_spesialis.png";
+  static const String assetsDrCarolineSpesialis =
+      "assets/dr_caroline_spesialis.png";
 
   /// Assets for assetsDrClarissaSpesialis
   /// assets/dr_clarissa_spesialis.png
-  static const String assetsDrClarissaSpesialis = "assets/dr_clarissa_spesialis.png";
+  static const String assetsDrClarissaSpesialis =
+      "assets/dr_clarissa_spesialis.png";
 
   /// Assets for assetsDrNugrohoSpesialis
   /// assets/dr_nugroho_spesialis.png
-  static const String assetsDrNugrohoSpesialis = "assets/dr_nugroho_spesialis.png";
+  static const String assetsDrNugrohoSpesialis =
+      "assets/dr_nugroho_spesialis.png";
 
   /// Assets for assetsDrNukeSpesialis
   /// assets/dr_nuke_spesialis.png
@@ -115,7 +119,8 @@ class Assets {
 
   /// Assets for assetsImageProfileDokterNuke
   /// assets/image_profile_dokter_nuke.png
-  static const String assetsImageProfileDokterNuke = "assets/image_profile_dokter_nuke.png";
+  static const String assetsImageProfileDokterNuke =
+      "assets/image_profile_dokter_nuke.png";
 
   /// Assets for assetsIsolationMode
   /// assets/isolation_Mode.png
@@ -135,7 +140,8 @@ class Assets {
 
   /// Assets for assetsLogoReproHealthAppoinment
   /// assets/logo_reproHealth_appoinment.png
-  static const String assetsLogoReproHealthAppoinment = "assets/logo_reproHealth_appoinment.png";
+  static const String assetsLogoReproHealthAppoinment =
+      "assets/logo_reproHealth_appoinment.png";
 
   /// Assets for assetsLogoReprohealth
   /// assets/logo_reprohealth.png
@@ -171,7 +177,8 @@ class Assets {
 
   /// Assets for assetsPhotoProfilPertanyaan
   /// assets/photo_profil_pertanyaan.png
-  static const String assetsPhotoProfilPertanyaan = "assets/photo_profil_pertanyaan.png";
+  static const String assetsPhotoProfilPertanyaan =
+      "assets/photo_profil_pertanyaan.png";
 
   /// Assets for assetsPhotoProfile
   /// assets/photo_profile.png
@@ -191,7 +198,8 @@ class Assets {
 
   /// Assets for assetsSearchTidakDitemukan
   /// assets/search_tidak_ditemukan.png
-  static const String assetsSearchTidakDitemukan = "assets/search_tidak_ditemukan.png";
+  static const String assetsSearchTidakDitemukan =
+      "assets/search_tidak_ditemukan.png";
 
   /// Assets for assetsSuccessRegister
   /// assets/success_register.png
@@ -200,4 +208,8 @@ class Assets {
   /// Assets for assetsTrashCan
   /// assets/trash_can.png
   static const String assetsTrashCan = "assets/trash_can.png";
+
+  static const String assetsBank = "assets/bank.png";
+
+  static const String assetsConfirmSplash = 'assets/confirmation_splash.png';
 }
