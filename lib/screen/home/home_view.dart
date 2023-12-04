@@ -4,6 +4,7 @@ import 'package:reprohealth_app/component/navbar_component.dart';
 import 'package:reprohealth_app/screen/appoinment/appoinment_view.dart';
 import 'package:reprohealth_app/screen/article/article_view.dart';
 import 'package:reprohealth_app/screen/forum/forum_view.dart';
+import 'package:reprohealth_app/screen/forum/view_model/forum_view_model.dart';
 import 'package:reprohealth_app/screen/home/home_view_model.dart';
 import 'package:reprohealth_app/screen/profile/profile_view.dart';
 import 'package:reprohealth_app/screen/riwayat/riwayat_view.dart';
@@ -19,10 +20,12 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
+    Provider.of<ForumViewModel>(context, listen: false)
+        .getProfile(context: context);
     return Scaffold(
       backgroundColor: grey10,
       bottomNavigationBar: customBottomNav(),
-      body: Consumer<HomeViewModel>(
+      body: Consumer<HomeViewModels>(
         builder: (context, currentIndexProvider, child) {
           int currentIndex = currentIndexProvider.currentIndex;
           return IndexedStack(

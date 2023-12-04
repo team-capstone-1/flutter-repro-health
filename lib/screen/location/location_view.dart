@@ -63,7 +63,7 @@ class _LocationViewState extends State<LocationView> {
                           isButtonPressed = !isButtonPressed;
                         },
                       );
-                      Navigator.pushNamed(
+                      Navigator.pushReplacementNamed(
                           context, RoutesNavigation.detailLocationView);
                     },
                     style: ElevatedButton.styleFrom(

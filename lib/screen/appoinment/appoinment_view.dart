@@ -1,24 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:reprohealth_app/models/klinik_models.dart';
-import 'package:reprohealth_app/screen/appoinment/widget/appoinment_widget_view.dart';
+import 'package:provider/provider.dart';
+import 'package:reprohealth_app/screen/appoinment/view_models/appoinment_view_model.dart';
+import 'package:reprohealth_app/screen/appoinment/widget/klinik_appoinment_widget.dart';
+import 'package:reprohealth_app/screen/appoinment/widget/location_appoinment_view.dart';
+import 'package:reprohealth_app/screen/appoinment/widget/spesialis_appointment_widget.dart';
+import 'package:reprohealth_app/screen/appoinment/widget/text_field_appointment_widget.dart';
 import 'package:reprohealth_app/theme/theme.dart';
 
-class AppoinmentView extends StatefulWidget {
+class AppoinmentView extends StatelessWidget {
   const AppoinmentView({super.key});
 
   @override
-  State<AppoinmentView> createState() => _AppoinmentViewState();
-}
-
-class _AppoinmentViewState extends State<AppoinmentView> {
-  @override
-  void initState() {
-    super.initState();
-    filteredDasboardKlinikData.addAll(klinikDasboardModelsData);
-  }
-
-  @override
   Widget build(BuildContext context) {
+    Provider.of<AppoinmentViewModel>(context, listen: false).getClinicsList();
+    Provider.of<AppoinmentViewModel>(context, listen: false).getSpecialistList();
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -52,14 +47,14 @@ class _AppoinmentViewState extends State<AppoinmentView> {
         elevation: 0,
         backgroundColor: grey10,
       ),
-      body: SingleChildScrollView(
+      body: const SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            title(context),
-            textFieldAppoinment(),
-            spesialisAppoinment(context),
-            klinikAppoinment(context),
+            LocationAppoinmentWidget(),
+            TextFieldAppointmentWidget(),
+            SpesialisAppoinmentWidget(),
+            KlinikAppoinmentWidget(),
           ],
         ),
       ),

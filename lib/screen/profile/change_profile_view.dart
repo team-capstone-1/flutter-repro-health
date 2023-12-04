@@ -16,6 +16,8 @@ class _ChangeProfileViewState extends State<ChangeProfileView> {
 
   TextEditingController nameController = TextEditingController();
   TextEditingController nomorController = TextEditingController();
+  TextEditingController beratController = TextEditingController();
+  TextEditingController tinggiController = TextEditingController();
   String groupValue = "";
 
   
@@ -62,7 +64,10 @@ class _ChangeProfileViewState extends State<ChangeProfileView> {
                 ),
               ),
               ChangeDataProfile(
-                controller: nameController,
+                controller1: nameController,
+                controller2: nomorController,
+                controller3: beratController,
+                controller4: tinggiController,
               ),
             ],
           ),
