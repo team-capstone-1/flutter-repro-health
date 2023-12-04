@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:reprohealth_app/screen/riwayat/view_model/riwayat_view_model.dart';
+import 'package:provider/provider.dart';
+import 'package:reprohealth_app/constant/payment_method.dart';
+import 'package:reprohealth_app/models/riwayat_models/history_transaction_models.dart';
 
 import 'package:reprohealth_app/theme/theme.dart';
-import 'package:reprohealth_app/models/riwayat_models/riwayat_models.dart';
+import 'package:reprohealth_app/screen/riwayat/view_model/riwayat_view_model.dart';
 
 class PaymentDetailWidget extends StatelessWidget {
   const PaymentDetailWidget({
@@ -10,7 +12,7 @@ class PaymentDetailWidget extends StatelessWidget {
     required this.appointmentData,
   });
 
-  final Transaction appointmentData;
+  final ResponseData? appointmentData;
 
   @override
   Widget build(BuildContext context) {
@@ -29,14 +31,31 @@ class PaymentDetailWidget extends StatelessWidget {
           //^ Metode Pembayaran
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                "Metode Pembayaran",
-                style: regular12Grey500,
+              Flexible(
+                child: Text(
+                  "Metode Pembayaran",
+                  style: regular12Grey500,
+                ),
               ),
-              Text(
-                appointmentData.paymentMethod ?? "-",
-                style: semiBold12Grey500,
+              Flexible(
+                child: Text(
+                  () {
+                    if (appointmentData?.payment?.isNotEmpty == true) {
+                      if (appointmentData?.payment?.first.method ==
+                          PaymentMethod.transferManual) {
+                        return "Transfer Manual";
+                      } else {
+                        return "Bayar Diklinik";
+                      }
+                    } else {
+                      return "Anda Belum Memilih Metode Pembayaran";
+                    }
+                  }(),
+                  style: semiBold12Grey500,
+                  textAlign: TextAlign.right,
+                ),
               ),
             ],
           ),
@@ -51,7 +70,10 @@ class PaymentDetailWidget extends StatelessWidget {
                 style: regular12Grey500,
               ),
               Text(
-                RiwayatViewModel.convertToIdr(appointmentData.price, 2),
+                Provider.of<RiwayatViewModel>(context).convertToIdr(
+                  appointmentData?.price,
+                  2,
+                ),
                 style: semiBold12Grey500,
               ),
             ],
@@ -67,7 +89,10 @@ class PaymentDetailWidget extends StatelessWidget {
                 style: regular12Grey500,
               ),
               Text(
-                RiwayatViewModel.convertToIdr(appointmentData.adminFee, 2),
+                Provider.of<RiwayatViewModel>(context).convertToIdr(
+                  appointmentData?.adminPrice,
+                  2,
+                ),
                 style: semiBold12Grey500,
               ),
             ],
@@ -83,7 +108,10 @@ class PaymentDetailWidget extends StatelessWidget {
                 style: regular12Grey500,
               ),
               Text(
-                RiwayatViewModel.convertToIdr(appointmentData.totalBill, 2),
+                Provider.of<RiwayatViewModel>(context).convertToIdr(
+                  appointmentData?.total,
+                  2,
+                ),
                 style: semiBold12Grey500,
               ),
             ],

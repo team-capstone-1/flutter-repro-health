@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:just_the_tooltip/just_the_tooltip.dart';
+import 'package:provider/provider.dart';
 
 import 'package:reprohealth_app/constant/routes_navigation.dart';
 import 'package:reprohealth_app/models/riwayat_models/riwayat_models.dart';
@@ -176,8 +177,8 @@ class _RescheduleViewState extends State<RescheduleView> {
                           ),
                           const SizedBox(width: 4),
                           Text(
-                            RiwayatViewModel.convertToIdr(
-                              appointmentData.totalBill ?? 0,
+                            Provider.of<RiwayatViewModel>(context).convertToIdr(
+                              appointmentData.totalBill,
                               2,
                             ),
                             style: medium12Green500,

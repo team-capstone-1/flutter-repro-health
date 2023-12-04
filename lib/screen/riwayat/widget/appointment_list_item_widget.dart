@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:reprohealth_app/constant/payment_status.dart';
 
 import 'package:reprohealth_app/theme/theme.dart';
-import 'package:reprohealth_app/models/riwayat_models/riwayat_models.dart';
+import 'package:reprohealth_app/models/riwayat_models/history_transaction_models.dart';
 
 class AppointmentListItemWidget extends StatelessWidget {
   const AppointmentListItemWidget({
@@ -11,14 +13,13 @@ class AppointmentListItemWidget extends StatelessWidget {
     required this.onPressed,
   });
 
-  final Transaction appointmentData;
+  final ResponseData? appointmentData;
   final bool visibleStatusContainer;
   final Function()? onPressed;
 
   @override
   Widget build(BuildContext context) {
-    int indexDoctor = 0;
-    var doctorData = appointmentData.doctor?[indexDoctor];
+    var concultation = appointmentData?.consultation;
 
     return Container(
       margin: const EdgeInsets.only(bottom: 4),
@@ -32,7 +33,7 @@ class AppointmentListItemWidget extends StatelessWidget {
               //^ Foto Dokter
               ClipOval(
                 child: Image.network(
-                  doctorData?.avatar ??
+                  concultation?.doctor?.profileImage ??
                       "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
                   fit: BoxFit.cover,
                   height: 45,
@@ -45,13 +46,13 @@ class AppointmentListItemWidget extends StatelessWidget {
                 children: [
                   //^ Nama Dokter
                   Text(
-                    doctorData?.name ?? "-",
+                    concultation?.doctor?.name ?? "-",
                     style: semiBold14Grey500,
                   ),
 
                   //^ Spesialis
                   Text(
-                    doctorData?.specialist ?? "-",
+                    concultation?.doctor?.specialist ?? '-',
                     style: regular12Grey200,
                   ),
                 ],
@@ -68,7 +69,7 @@ class AppointmentListItemWidget extends StatelessWidget {
                 children: [
                   //^ Nomer Urut
                   Text(
-                    "Nomer Urut ${appointmentData.queueNumber ?? '-'}",
+                    "Nomer Urut ${appointmentData?.invoice?.substring(17, 19)}",
                     style: semiBold12Green500,
                   ),
 
@@ -82,10 +83,11 @@ class AppointmentListItemWidget extends StatelessWidget {
                       ),
                       decoration: BoxDecoration(
                         color: () {
-                          if (appointmentData.paymentStatus == 'Berhasil') {
+                          if (appointmentData?.paymentStatus ==
+                              PaymentStatus.done) {
                             return positive25;
-                          } else if (appointmentData.paymentStatus ==
-                              'Tertunda') {
+                          } else if (appointmentData?.paymentStatus ==
+                              PaymentStatus.pending) {
                             return warning25;
                           } else {
                             return negative25;
@@ -96,17 +98,22 @@ class AppointmentListItemWidget extends StatelessWidget {
                       alignment: Alignment.center,
                       child: Text(
                         () {
-                          if (appointmentData.paymentStatus == "Berhasil") {
-                            return "Selesai";
+                          if (appointmentData?.paymentStatus ==
+                              PaymentStatus.done) {
+                            return 'Selesai';
+                          } else if (appointmentData?.paymentStatus ==
+                              PaymentStatus.pending) {
+                            return 'Tertunda';
                           } else {
-                            return appointmentData.paymentStatus ?? '-';
+                            return 'Refund';
                           }
                         }(),
                         style: () {
-                          if (appointmentData.paymentStatus == 'Berhasil') {
+                          if (appointmentData?.paymentStatus ==
+                              PaymentStatus.done) {
                             return semiBold10Positive;
-                          } else if (appointmentData.paymentStatus ==
-                              'Tertunda') {
+                          } else if (appointmentData?.paymentStatus ==
+                              PaymentStatus.pending) {
                             return semiBold10Warning;
                           } else {
                             return semiBold10Negative;
@@ -121,21 +128,26 @@ class AppointmentListItemWidget extends StatelessWidget {
 
               //^ Klinik
               Text(
-                appointmentData.clinic ?? "-",
+                concultation?.clinic?.name ?? "-",
                 style: medium14Grey500,
               ),
               const SizedBox(height: 12),
 
               //^ Lokasi
-              Text(
-                appointmentData.location ?? "-",
-                style: medium14Grey300,
+              SizedBox(
+                width: MediaQuery.of(context).size.width / 1.1,
+                child: Text(
+                  appointmentData?.consultation?.clinic?.location ?? '-',
+                  style: medium14Grey300,
+                ),
               ),
               const SizedBox(height: 12),
 
               //^ Jadwal & Sesi
               Text(
-                "${appointmentData.appointmentDate ?? '-'} - ${appointmentData.session ?? '-'}",
+                "${DateFormat('EEEE, d MMMM y', 'id_ID').format(
+                  concultation?.date ?? DateTime.now(),
+                )} - ${appointmentData?.consultation?.session}",
                 style: medium14Grey300,
               ),
             ],

@@ -9,7 +9,7 @@ class ChipAppointmentLengthWidget extends StatelessWidget {
   });
 
   final String text;
-  final int length;
+  final int? length;
 
   @override
   Widget build(BuildContext context) {
@@ -17,19 +17,22 @@ class ChipAppointmentLengthWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(text),
-        Container(
-          margin: const EdgeInsets.only(left: 4),
-          padding: const EdgeInsets.symmetric(
-            vertical: 2,
-            horizontal: 4,
-          ),
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: negative,
-          ),
-          child: Text(
-            length.toString(),
-            style: regular10Negative25,
+        Visibility(
+          visible: length != null && length != 0,
+          child: Container(
+            margin: const EdgeInsets.only(left: 4),
+            padding: const EdgeInsets.symmetric(
+              vertical: 2,
+              horizontal: 4,
+            ),
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: negative,
+            ),
+            child: Text(
+              length.toString(),
+              style: regular10Negative25,
+            ),
           ),
         ),
       ],

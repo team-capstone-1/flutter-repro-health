@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:reprohealth_app/models/riwayat_models/riwayat_models.dart';
 import 'package:reprohealth_app/screen/riwayat/view_model/riwayat_view_model.dart';
 import 'package:reprohealth_app/theme/theme.dart';
@@ -35,7 +36,10 @@ class RefundDetailWidget extends StatelessWidget {
                 style: regular12Grey400,
               ),
               Text(
-                RiwayatViewModel.convertToIdr(appointmentData.totalBill, 2),
+                Provider.of<RiwayatViewModel>(context).convertToIdr(
+                  appointmentData.totalBill,
+                  2,
+                ),
                 style: semiBold12Grey500,
               ),
             ],
@@ -51,7 +55,10 @@ class RefundDetailWidget extends StatelessWidget {
                 style: semiBold14Grey500,
               ),
               Text(
-                "${RiwayatViewModel.convertToIdr(appointmentData.totalBill! - 5000, 2)}*",
+                "${Provider.of<RiwayatViewModel>(context).convertToIdr(
+                  appointmentData.totalBill! - 5000,
+                  2,
+                )}*",
                 style: semiBold14Green500,
               ),
             ],

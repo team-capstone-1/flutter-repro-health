@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
 import 'package:reprohealth_app/constant/routes_navigation.dart';
 import 'package:reprohealth_app/screen/appoinment/appoinment_view.dart';
@@ -46,13 +47,17 @@ import 'package:reprohealth_app/screen/register/success_register_view.dart';
 import 'package:reprohealth_app/screen/register/view_model/register_view_model.dart';
 import 'package:reprohealth_app/screen/reschedule/reschedule_view.dart';
 import 'package:reprohealth_app/screen/riwayat/riwayat_view.dart';
+import 'package:reprohealth_app/screen/riwayat/view_model/riwayat_view_model.dart';
 import 'package:reprohealth_app/screen/spesialis/detail_spesialis_view.dart';
 import 'package:reprohealth_app/screen/spesialis/spesialis_view.dart';
 import 'package:reprohealth_app/screen/splash/splash_view.dart';
 import 'package:reprohealth_app/screen/splash/view_model/splash_view_model.dart';
 
-void main() {
-  runApp(const MainApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await initializeDateFormatting('id_ID', null).then((_) => runApp(
+        const MainApp(),
+      ));
 }
 
 class MainApp extends StatelessWidget {
@@ -67,6 +72,7 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => RegisterViewModel()),
         ChangeNotifierProvider(create: (context) => HomeViewModel()),
         ChangeNotifierProvider(create: (context) => ForumViewModel()),
+        ChangeNotifierProvider(create: (context) => RiwayatViewModel()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

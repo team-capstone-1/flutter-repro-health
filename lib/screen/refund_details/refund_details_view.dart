@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:reprohealth_app/models/riwayat_models/riwayat_models.dart';
 import 'package:reprohealth_app/screen/riwayat/view_model/riwayat_view_model.dart';
 
@@ -53,7 +54,7 @@ class RefundDetailsView extends StatelessWidget {
 
                   //^ Dana sebesar 85.000 akan dikembalikan / berhasil
                   Text(
-                    "Dana sebesar ${RiwayatViewModel.convertToIdr(
+                    "Dana sebesar ${Provider.of<RiwayatViewModel>(context).convertToIdr(
                       appointmentData.totalBill! - 5000,
                       2,
                     )} akan dikembalikan ke rekening Anda. Silahkan dicek secara berkala dalam 14 hari kerja",
@@ -216,7 +217,7 @@ class RefundDetailsView extends StatelessWidget {
                         style: regular12Grey400,
                       ),
                       Text(
-                        RiwayatViewModel.convertToIdr(
+                        Provider.of<RiwayatViewModel>(context).convertToIdr(
                           appointmentData.totalBill! - 5000,
                           2,
                         ),
