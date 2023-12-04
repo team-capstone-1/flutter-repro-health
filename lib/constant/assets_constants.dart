@@ -130,6 +130,10 @@ class Assets {
   /// assets/klinik.png
   static const String assetsKlinik = "assets/klinik.png";
 
+  /// Assets for assetsLoginWrong
+  /// assets/login_wrong.png
+  static const String assetsLoginWrong = "assets/login_wrong.png";
+
   /// Assets for assetsLogoKesamping
   /// assets/logo_kesamping.svg
   static const String assetsLogoKesamping = "assets/logo_kesamping.svg";

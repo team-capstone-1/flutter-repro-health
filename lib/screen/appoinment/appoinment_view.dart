@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:reprohealth_app/models/klinik_models.dart';
-import 'package:reprohealth_app/models/spesialis_models.dart';
 import 'package:reprohealth_app/screen/appoinment/view_models/appoinment_view_model.dart';
 import 'package:reprohealth_app/screen/appoinment/widget/klinik_appoinment_widget.dart';
 import 'package:reprohealth_app/screen/appoinment/widget/location_appoinment_view.dart';
@@ -14,13 +12,8 @@ class AppoinmentView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Provider.of<AppoinmentViewModel>(context, listen: false)
-        .filteredDasboardKlinikData
-        .addAll(klinikModelsData);
-    Provider.of<AppoinmentViewModel>(context, listen: false)
-        .filteredDasboardSpesialisData
-        .addAll(spesialisModelsData);
-
+    Provider.of<AppoinmentViewModel>(context, listen: false).getClinicsList();
+    Provider.of<AppoinmentViewModel>(context, listen: false).getSpecialistList();
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,

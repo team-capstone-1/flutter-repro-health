@@ -44,7 +44,7 @@ class TextFormComponent extends StatelessWidget {
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(
             width: 1,
-            color: grey500,
+            color: green500,
           ),
           borderRadius: BorderRadius.circular(6),
         ),
@@ -52,6 +52,13 @@ class TextFormComponent extends StatelessWidget {
           borderSide: BorderSide(
             width: 1,
             color: grey200,
+          ),
+          borderRadius: BorderRadius.circular(6),
+        ),
+        disabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            width: 1,
+            color: grey500,
           ),
           borderRadius: BorderRadius.circular(6),
         ),

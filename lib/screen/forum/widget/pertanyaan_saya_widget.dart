@@ -6,13 +6,23 @@ import 'package:reprohealth_app/constant/routes_navigation.dart';
 import 'package:reprohealth_app/screen/forum/view_model/forum_view_model.dart';
 import 'package:reprohealth_app/theme/theme.dart';
 
-class PertanyaanSayaWidget extends StatelessWidget {
+class PertanyaanSayaWidget extends StatefulWidget {
   const PertanyaanSayaWidget({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  State<PertanyaanSayaWidget> createState() => _PertanyaanSayaWidgetState();
+}
+
+class _PertanyaanSayaWidgetState extends State<PertanyaanSayaWidget> {
+  @override
+  void initState() {
+    // Provider.of<ForumViewModel>(context).getProfile(context: context);
     Provider.of<ForumViewModel>(context, listen: false)
-        .getMyForumList(patientId: '0c3255e5-c998-4a14-9484-e815a6359de4');
+        .getMyForumList();
+    super.initState();
+  }
+  @override
+  Widget build(BuildContext context) {
     return Consumer<ForumViewModel>(
       builder: (context, forumViewModel, child) {
         final myForumList = forumViewModel.myForumList;
@@ -166,6 +176,11 @@ class PertanyaanSayaWidget extends StatelessWidget {
                                           width: 6.59,
                                           height: 11.17,
                                         ),
+                                        const SizedBox(width: 8),
+                                        Text(
+                                          myForum.date.toString() ?? '',
+                                          style: regular10Grey200,
+                                        )
                                       ],
                                     ),
                                   ),

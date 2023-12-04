@@ -1,10 +1,8 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:reprohealth_app/constant/routes_navigation.dart';
-import 'package:reprohealth_app/screen/login/view_model/login_view_model.dart';
 import 'package:reprohealth_app/screen/profile/view_model/file_picker_view_model.dart';
 import 'package:reprohealth_app/screen/profile/view_model/get_family_profile_view_model.dart';
 import 'package:reprohealth_app/screen/profile/widget/profile_widget/button_widget.dart';
@@ -56,7 +54,7 @@ class ProfileView extends StatelessWidget {
                           ),
                           Consumer<GetFamilyProfileViewModel>(
                             builder: (context, getFamilyProfileViewModel, child) {
-                              final myProfile =  getFamilyProfileViewModel.profileList?.response?.last;
+                              final myProfile =  getFamilyProfileViewModel.profileList?.response?.first;
                               return Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -182,9 +180,6 @@ class ProfileView extends StatelessWidget {
                                   child: ButtonWidget(
                                       title: "Ya, Keluar",
                                       onPressed: () async {
-                                        Provider.of<LoginViewModel>(context,
-                                                listen: false)
-                                            .removeToken();
                                         await SharedPreferencesUtils()
                                             .removeToken();
                                         Navigator.pushNamedAndRemoveUntil(

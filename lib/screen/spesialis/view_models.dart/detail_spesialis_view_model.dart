@@ -12,26 +12,23 @@ class DetailSpesialisViewModel extends ChangeNotifier {
   DokterModels? get dokterList => _dokterList;
 
   final _searchController = BehaviorSubject<String>.seeded('');
-
   Stream<String> get searchStream => _searchController.stream;
 
-  final TextEditingController _searchKandunganController =
+  final TextEditingController _searchDokterController =
       TextEditingController();
-  TextEditingController get searchKandunganController =>
-      _searchKandunganController;
+  TextEditingController get searchDokterController =>
+      _searchDokterController;
 
-  List<ResponseData> _filteredDokterKandunganData = [];
-  List<ResponseData> get filteredDokterKandunganData =>
-      _filteredDokterKandunganData;
+  List<ResponseDataDokter> _filteredDokterData = [];
+  List<ResponseDataDokter> get filteredDokterData =>
+      _filteredDokterData;
 
   DetailSpesialisViewModel() {
-    // Load data when the view model is initialized
     getDokterList();
   }
 
   void filterSearchDokter(String query) {
-    List<ResponseData> searchResults = [];
-
+    List<ResponseDataDokter> searchResults = [];
     if (query.isNotEmpty) {
       searchResults = dokterList?.response
               ?.where((data) =>
@@ -42,11 +39,8 @@ class DetailSpesialisViewModel extends ChangeNotifier {
     } else {
       searchResults.addAll(dokterList?.response ?? []);
     }
-
-    _filteredDokterKandunganData = searchResults;
-
+    _filteredDokterData = searchResults;
     _searchController.add(query);
-
     notifyListeners();
   }
 
@@ -59,9 +53,7 @@ class DetailSpesialisViewModel extends ChangeNotifier {
   Future<void> getDokterList() async {
     try {
       _dokterList = await _dokterServices.getListDokter();
-
-      _filteredDokterKandunganData = _dokterList?.response ?? [];
-
+      _filteredDokterData = _dokterList?.response ?? [];
       notifyListeners();
     } catch (e) {
       print(e);

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:reprohealth_app/component/button_component.dart';
 import 'package:reprohealth_app/constant/routes_navigation.dart';
+import 'package:reprohealth_app/screen/forum/view_model/forum_view_model.dart';
 import 'package:reprohealth_app/screen/forum/widget/text_form_widget.dart';
 import 'package:reprohealth_app/services/forum_services/forum_services.dart';
 import 'package:reprohealth_app/theme/theme.dart';
@@ -198,19 +200,24 @@ Tulis pertanyaanmu di sini""",
                   ],
                 ),
                 const SizedBox(height: 24),
-                ButtonComponent(
-                  labelText: "Kirim",
-                  labelStyle: semiBold12Grey10,
-                  backgroundColor: buttonColor,
-                  onPressed: () {
-                    if (_formKey.currentState?.validate() ?? false) {
-                      ForumServices().createForum(
-                        title: titleController.text,
-                        content: messageController.text,
-                        anonymous: rememberMe,
-                        context: context,
-                      );
-                    }
+                Consumer<ForumViewModel>(
+                  builder: (context, forumViewModel, child) {
+                    return ButtonComponent(
+                                  labelText: "Kirim",
+                                  labelStyle: semiBold12Grey10,
+                                  backgroundColor: buttonColor,
+                                  onPressed: () {
+                                    if (_formKey.currentState?.validate() ?? false) {
+                                      ForumServices().createForum(
+                                        patientId: forumViewModel.profileList?.response?.first.id ?? '',
+                                        title: titleController.text,
+                                        content: messageController.text,
+                                        anonymous: rememberMe,
+                                        context: context,
+                                      );
+                                    }
+                                  },
+                                );
                   },
                 ),
               ],

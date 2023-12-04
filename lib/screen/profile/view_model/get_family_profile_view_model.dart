@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:reprohealth_app/models/profile_models.dart';
-import 'package:reprohealth_app/screen/login/view_model/login_view_model.dart';
 import 'package:reprohealth_app/services/profile_service/profile_service.dart';
+import 'package:reprohealth_app/utils/shared_preferences_utils.dart';
 
 class GetFamilyProfileViewModel extends ChangeNotifier {
 
@@ -14,8 +13,7 @@ class GetFamilyProfileViewModel extends ChangeNotifier {
 
   Future<void> fetchProfileData({required BuildContext context}) async {
     try {
-      final loginViewModel = Provider.of<LoginViewModel>(context, listen: false);
-      final String token = loginViewModel.token ?? "";
+      final String token = await SharedPreferencesUtils().getToken();
       print(token);
       if (token.isNotEmpty) {
         _profileList = await _profileServices.getProfileModel(context: context);
@@ -35,8 +33,7 @@ class GetFamilyProfileViewModel extends ChangeNotifier {
     required idPatients
     }) async {
     try {
-      final loginViewModel = Provider.of<LoginViewModel>(context, listen: false);
-      final String token = loginViewModel.token ?? "";
+      final String token = await SharedPreferencesUtils().getToken();
       print(token);
       if (token.isNotEmpty) {
         _profileList = await _profileServices.getProfileModelId(context: context, idPatients: idPatients);

@@ -228,8 +228,41 @@ class _LoginViewState extends State<LoginView> {
                         password: passwordController.text,
                         context: context,
                       );
-                      emailController.clear();
-                      passwordController.clear();
+                      // emailController.clear();
+                      // passwordController.clear();
+                    } else {
+                      showModalBottomSheet(
+                          context: context,
+                          builder: (context) {
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Image.asset(Assets.assetsLoginWrong),
+                                  const SizedBox(height: 8),
+                                  Text(
+                                    "Proses Masuk Aplikasi Gagal",
+                                    style: semiBold14Grey500,
+                                  ),
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    "Email atau kata sandi yang anda masukkan salah",
+                                    style: regular12Grey300,
+                                  ),
+                                  const SizedBox(height: 16),
+                                  ButtonComponent(
+                                    labelText: "Masuk kembali",
+                                    labelStyle: semiBold12Grey10,
+                                    backgroundColor: green500,
+                                    onPressed: (){
+                                      Navigator.pop(context);
+                                    },
+                                  )
+                                ],
+                              ),
+                            );
+                          });
                     }
                   },
                 ),

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:reprohealth_app/component/text_form_component.dart';
@@ -25,29 +26,18 @@ class DetailSpesialisView extends StatelessWidget {
         backgroundColor: grey10,
         iconTheme: IconThemeData(color: primary4),
       ),
-      body: StreamBuilder<String>(
-        stream: Provider.of<DetailSpesialisViewModel>(context).searchStream,
-        builder: (context, snapshot) {
-          String query = snapshot.data ?? '';
-
-          final detailSpesialisViewModel =
-              Provider.of<DetailSpesialisViewModel>(context);
-
-          detailSpesialisViewModel.filterSearchDokter(query);
-
-          final filteredDokterKandunganData =
-              detailSpesialisViewModel.filteredDokterKandunganData;
-
+      body: Consumer<DetailSpesialisViewModel>(
+        builder: (context, detailSpesialisViewModel, child) {
+          final filteredDokterData =
+              detailSpesialisViewModel.filteredDokterData;
           return Column(
             children: [
               Padding(
                 padding:
                     const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
                 child: TextFormComponent(
-                  controller:
-                      detailSpesialisViewModel.searchKandunganController,
+                  controller: detailSpesialisViewModel.searchDokterController,
                   onChanged: (query) {
-                    // add the query to the BehaviorSubject
                     detailSpesialisViewModel.filterSearchDokter(query);
                   },
                   hintText: 'Cari Dokter Spesialis..',
@@ -56,17 +46,17 @@ class DetailSpesialisView extends StatelessWidget {
                 ),
               ),
               Expanded(
-                child: filteredDokterKandunganData.isNotEmpty
+                child: filteredDokterData.isNotEmpty
                     ? ListView.builder(
-                        itemCount:
-                            filteredDokterKandunganData.length.clamp(0, 3),
+                        itemCount: filteredDokterData.length,
                         itemBuilder: (BuildContext context, int index) {
-                          final dokter = filteredDokterKandunganData[index];
-
+                          final dokter = filteredDokterData[index];
                           return GestureDetector(
                             onTap: () {
                               Navigator.pushNamed(
-                                  context, RoutesNavigation.detailDokterView);
+                                context,
+                                RoutesNavigation.detailDokterView,
+                              );
                             },
                             child: Padding(
                               padding:
@@ -81,15 +71,25 @@ class DetailSpesialisView extends StatelessWidget {
                                     children: [
                                       Padding(
                                         padding: const EdgeInsets.symmetric(
-                                            horizontal: 10),
+                                          horizontal: 10,
+                                        ),
                                         child: Flexible(
                                           child: SizedBox(
                                             height: 66,
                                             width: 66,
                                             child: ClipOval(
-                                              child: Image.network(
-                                                dokter.profileImage ?? '',
-                                                fit: BoxFit.cover,
+                                              child: CachedNetworkImage(
+                                                imageUrl: dokter.profileImage ?? '',
+                                                placeholder: (context, url) =>
+                                                    const CircularProgressIndicator(),
+                                                errorWidget:
+                                                    (context, url, error) =>
+                                                        const Center(
+                                                  child: Icon(
+                                                    Icons.error,
+                                                    size: 50,
+                                                  ),
+                                                ),
                                               ),
                                             ),
                                           ),

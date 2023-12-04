@@ -10,13 +10,13 @@ Color flowkitRed = const Color(0xFFFC5555);
 
 // Green
 Color green50 = const Color(0xFFE8F9F6);
-Color green100 = const Color(0xFFB7EDE2);
+Color green100 = const Color(0xFFB6EDE3);
 Color green200 = const Color(0xFF94E5D5);
 Color green300 = const Color(0xFF64D9C1);
 Color green400 = const Color(0xFF45D1B5);
 Color green500 = const Color(0xFF14C6A4);
 Color green600 = const Color(0xFF15B494);
-Color green700 = const Color(0xFF108D74);
+Color green700 = const Color(0xFF0E8D74);
 Color green800 = const Color(0xFF0D6D5A);
 Color green900 = const Color(0xFF0A5344);
 
@@ -285,6 +285,12 @@ TextStyle medium12Grey500 = GoogleFonts.poppins(
   fontWeight: FontWeight.w500,
 );
 
+TextStyle medium12Green700 = GoogleFonts.poppins(
+  color: green700,
+  fontSize: 12,
+  fontWeight: FontWeight.w500,
+);
+
 TextStyle medium14Grey300 = GoogleFonts.poppins(
   color: grey300,
   fontSize: 14,
@@ -389,6 +395,12 @@ TextStyle semiBold12Primary = GoogleFonts.poppins(
 
 TextStyle semiBold12Grey10 = GoogleFonts.poppins(
   color: grey10,
+  fontSize: 12,
+  fontWeight: FontWeight.w600,
+);
+
+TextStyle semiBold12Grey900 = GoogleFonts.poppins(
+  color: grey900,
   fontSize: 12,
   fontWeight: FontWeight.w600,
 );
