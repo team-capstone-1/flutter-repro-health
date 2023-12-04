@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:reprohealth_app/screen/profile/view_model/file_picker_view_model.dart';
 import 'package:reprohealth_app/theme/theme.dart';
 
 class BottomSheetWidget {
   static void bottomSheet(BuildContext context) {
+    final filePickerProvider = Provider.of<FilePickerViewModel>(context, listen: false);
     showModalBottomSheet(
       context: context,
       builder: (context) {
@@ -24,7 +27,10 @@ class BottomSheetWidget {
               ),
               const SizedBox(height: 8),
               GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  filePickerProvider.pickFile();
+                  Navigator.pop(context);
+                },
                 child: Text("Pilih dari galeri",
                 style: medium12Grey500
                 ),
