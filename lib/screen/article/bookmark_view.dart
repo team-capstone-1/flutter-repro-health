@@ -26,6 +26,7 @@ class _BookmarkViewState extends State<BookmarkView> {
         setState(() {
           isDeleting = !isDeleting;
         });
+        if (isDeleting) {}
       },
       icon: Icon(Icons.delete, color: negative),
     );
@@ -48,8 +49,8 @@ class _BookmarkViewState extends State<BookmarkView> {
           return ArticleCard(
             image: bookmarkedItem[index].image,
             title: bookmarkedItem[index].title,
-            profileImage: bookmarkedItem[index].profilePicture,
-            name: bookmarkedItem[index].name,
+            profileImage: bookmarkedItem[index].doctor.image,
+            name: bookmarkedItem[index].doctor.name,
             date: bookmarkedItem[index].date,
             showIcon: isDeleting,
             onPressedIcon: () {

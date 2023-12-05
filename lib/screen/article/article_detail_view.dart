@@ -105,7 +105,7 @@ class _ArticleDetailViewState extends State<ArticleDetailView> {
                         ClipRRect(
                           borderRadius: BorderRadius.circular(100),
                           child: Image.asset(
-                            article.profilePicture,
+                            article.doctor.image,
                             width: 24,
                             fit: BoxFit.cover,
                           ),
@@ -114,7 +114,7 @@ class _ArticleDetailViewState extends State<ArticleDetailView> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(article.name, style: medium10Black500),
+                            Text(article.doctor.name, style: medium10Black500),
                             Text(
                               'Diunggah pada 18 Agustus 2023 pukul 18.00 WIB',
                               style: regular8Black,
@@ -133,7 +133,7 @@ class _ArticleDetailViewState extends State<ArticleDetailView> {
                         SizedBox(
                           width: 26,
                           child: Text(
-                            article.view.toString(),
+                            article.views.toString(),
                             style: regular8Black,
                           ),
                         ),
@@ -143,7 +143,7 @@ class _ArticleDetailViewState extends State<ArticleDetailView> {
                         SizedBox(
                           width: 26,
                           child: Text(
-                            article.view.toString(),
+                            article.views.toString(),
                             style: regular8Black,
                           ),
                         ),
@@ -153,7 +153,7 @@ class _ArticleDetailViewState extends State<ArticleDetailView> {
                         SizedBox(
                           width: 26,
                           child: Text(
-                            article.view.toString(),
+                            article.views.toString(),
                             style: regular8Black,
                           ),
                         ),
@@ -195,17 +195,6 @@ class _ArticleDetailViewState extends State<ArticleDetailView> {
                           'Komentar (123)',
                           style: medium10Black500,
                         ),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.pushNamed(
-                                context, RoutesNavigation.commentView,
-                                arguments: article);
-                          },
-                          child: Text(
-                            'Lihat Semua',
-                            style: regular8Black,
-                          ),
-                        )
                       ],
                     ),
                     const SizedBox(
@@ -220,62 +209,62 @@ class _ArticleDetailViewState extends State<ArticleDetailView> {
                         icon: const Icon(Icons.send),
                       ),
                     ),
-                    ListView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: article.comments != null ? 3 : 0,
-                      itemBuilder: (context, index) {
-                        if (article.comments != null &&
-                            article.comments!.isEmpty) {
-                          return Text(
-                            'Belum ada Komentar',
-                            style: medium8Black,
-                          );
-                        } else {
-                          return ListTile(
-                            contentPadding: const EdgeInsets.all(0),
-                            title: Row(
-                              children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(100),
-                                  child: Image(
-                                    image: AssetImage(
-                                        article.comments![index].image),
-                                    width: 24,
-                                    height: 24,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                                const SizedBox(width: 8),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Text(
-                                          article.comments![index].name,
-                                          style: medium10Black500,
-                                        ),
-                                        const SizedBox(width: 4),
-                                        Text(
-                                          article.comments![index].time,
-                                          style: regular8Black,
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(height: 4),
-                                    Text(
-                                      article.comments![index].comment,
-                                      style: regular8Black,
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          );
-                        }
-                      },
-                    )
+                    // ListView.builder(
+                    //   shrinkWrap: true,
+                    //   physics: const NeverScrollableScrollPhysics(),
+                    //   itemCount: article.comments != null ? 3 : 0,
+                    //   itemBuilder: (context, index) {
+                    //     if (article.comments != null &&
+                    //         article.comments!.isEmpty) {
+                    //       return Text(
+                    //         'Belum ada Komentar',
+                    //         style: medium8Black,
+                    //       );
+                    //     } else {
+                    //       return ListTile(
+                    //         contentPadding: const EdgeInsets.all(0),
+                    //         title: Row(
+                    //           children: [
+                    //             ClipRRect(
+                    //               borderRadius: BorderRadius.circular(100),
+                    //               child: Image(
+                    //                 image: AssetImage(
+                    //                     article.comments![index].image),
+                    //                 width: 24,
+                    //                 height: 24,
+                    //                 fit: BoxFit.cover,
+                    //               ),
+                    //             ),
+                    //             const SizedBox(width: 8),
+                    //             Column(
+                    //               crossAxisAlignment: CrossAxisAlignment.start,
+                    //               children: [
+                    //                 Row(
+                    //                   children: [
+                    //                     Text(
+                    //                       article.comments![index].name,
+                    //                       style: medium10Black500,
+                    //                     ),
+                    //                     const SizedBox(width: 4),
+                    //                     Text(
+                    //                       article.comments![index].time,
+                    //                       style: regular8Black,
+                    //                     ),
+                    //                   ],
+                    //                 ),
+                    //                 const SizedBox(height: 4),
+                    //                 Text(
+                    //                   article.comments![index].comment,
+                    //                   style: regular8Black,
+                    //                 ),
+                    //               ],
+                    //             ),
+                    //           ],
+                    //         ),
+                    //       );
+                    //     }
+                    //   },
+                    // )
                   ],
                 ),
               ),

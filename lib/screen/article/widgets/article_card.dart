@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:reprohealth_app/theme/theme.dart';
 
 class ArticleCard extends StatelessWidget {
@@ -6,7 +7,7 @@ class ArticleCard extends StatelessWidget {
   final String title;
   final String profileImage;
   final String name;
-  final String date;
+  final DateTime date;
   final VoidCallback? onPressedIcon;
   final bool showIcon;
   final bool isSelected;
@@ -69,7 +70,7 @@ class ArticleCard extends StatelessWidget {
                       children: [
                         Text(name, style: medium10Black500),
                         Text(
-                          date,
+                          DateFormat('dd MMMM yyyy').format(date),
                           style: regular8Black,
                         ),
                       ],

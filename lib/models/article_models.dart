@@ -1,94 +1,104 @@
-import 'package:reprohealth_app/models/comment_models.dart';
+import 'package:dio/dio.dart';
 
 class ArticleModels {
-  String image;
+  String id;
   String title;
-  String profilePicture;
-  String name;
-  String date;
-  List<String> tags;
-  String content;
-  int view;
-  int bookmark;
-  int comment;
+  String tags;
   String reference;
-  List<CommentModels>? comments; // new property
+  DateTime date;
+  String image;
+  String imageDesc;
+  String content;
+  bool published;
+  int views;
+  Doctor doctor;
 
   ArticleModels({
-    required this.image,
+    required this.id,
     required this.title,
-    required this.profilePicture,
-    required this.name,
-    required this.date,
     required this.tags,
-    this.content =
-        ''' Dengan nutrisi yang komprehensif, madu memiliki potensi memberikan sejumlah manfaat signifikan untuk kesehatan reproduksi, baik pada pria maupun wanita. Manfaatnya meliputi peningkatan kesuburan dan bantuan dalam mengatasi berbagai masalah reproduksi umum yang sering dihadapi oleh wanita.
-
-Selain rasanya yang manis, madu juga mengandung nutrisi yang lengkap, seperti antioksidan, flavonoid, asam fenolat, asam amino, enzim, vitamin, dan mineral. Ternyata, manfaat madu tidak hanya terbatas pada kesehatan umum, tetapi juga berperan penting dalam menjaga kesehatan reproduksi baik pada pria maupun wanita.
-
-Madu telah menjadi bagian penting dalam terapi kesuburan dan perencanaan kehamilan selama waktu yang lama. Manfaatnya dapat dirasakan oleh baik pria maupun wanita.
-Bagi pria, madu bahkan dapat berperan dalam mengatasi masalah impotensi. Selain itu, madu juga dapat digunakan untuk meredakan disfungsi ereksi pada pria.
-
-Meskipun madu tidak dapat menyembuhkan kanker, mengkonsumsinya secara rutin dapat membantu mencegah munculnya dan perkembangan sel kanker pada organ reproduksi. Madu memiliki zat antikanker dan antitumor seperti flavonoid, asam fenolat, asam amino, protein, dan enzim.
-
-Mengkonsumsi madu secara rutin juga dapat membantu menyeimbangkan kadar testosteron dalam tubuh, yang pada gilirannya akan meningkatkan kesehatan reproduksi, mengurangi perubahan suasana hati, dan menjaga keseimbangan hormon. ''',
-    this.view = 123,
-    this.bookmark = 123,
-    this.comment = 123,
-    this.reference =
-        'Molecules. Diakses pada 2023. Protective Roles of Honey in Reproductive Health: A Review. Times of India. Diakses pada 2023. Why A Spoonful Of Honey Daily Is A Must Have For Women',
-    this.comments,
+    required this.reference,
+    required this.date,
+    required this.image,
+    required this.imageDesc,
+    required this.content,
+    required this.published,
+    required this.views,
+    required this.doctor,
   });
 
-  static ArticleModels models1 = ArticleModels(
-    image: 'assets/article_thumbnail.png',
-    title: 'Manfaat Madu untuk Kesehatan Reproduksi',
-    profilePicture: 'assets/doctor_image.png',
-    name: 'dr. Farhan M',
-    date: '1 November 2023',
-    tags: ['Reproduksi', 'Makanan Sehat'],
-    comments: [
-      CommentModels(
-          image: 'assets/photo_profile.png',
-          name: 'Ananda P.',
-          time: '45 Menit',
-          comment:
-              'Tulisan yang sangat informatif dan bermanfaat, terima kasih.'),
-      CommentModels(
-          image: 'assets/photo_profile.png',
-          name: 'Putra A.',
-          time: '45 Menit',
-          comment:
-              'Tulisan yang sangat informatif dan bermanfaat, terima kasih.'),
-      CommentModels(
-          image: 'assets/photo_profile.png',
-          name: 'Tony',
-          time: '2 Oktober 2023',
-          comment:
-              'Tulisan yang sangat informatif dan bermanfaat, terima kasih.'),
-      CommentModels(
-          image: 'assets/photo_profile.png',
-          name: 'Tony',
-          time: '45 Menit',
-          comment: '''Tulisan yang sangat informatif dan bermanfaat. 
-Saya sangat menantikan artikel lainnya, terima kasih.'''),
-    ],
-  );
-  static ArticleModels models2 = ArticleModels(
-    image: 'assets/article_thumbnail.png',
-    title: 'Memahami Struktur dan Peran Organ Reproduksi Wanita',
-    profilePicture: 'assets/doctor_image.png',
-    name: 'dr. Farhan M',
-    date: '1 November 2023',
-    tags: ['Kesehatan', 'Reproduksi', 'Wanita'],
-  );
-  static ArticleModels models3 = ArticleModels(
-    image: 'assets/article_thumbnail.png',
-    title:
-        'Memahami Berbagai Fungsi yang Dijalankan oleh Organ Reproduksi Pria',
-    profilePicture: 'assets/doctor_image.png',
-    name: 'dr. Farhan M',
-    date: '1 November 2023',
-    tags: ['Kesehatan', 'Reproduksi', 'Pria'],
-  );
+  factory ArticleModels.fromJson(Map<String, dynamic> json) {
+    return ArticleModels(
+      id: json['id'],
+      title: json['title'],
+      tags: json['tags'],
+      reference: json['reference'],
+      date: DateTime.parse(json['date']),
+      image: json['image'],
+      imageDesc: json['image_desc'],
+      content: json['content'],
+      published: json['published'],
+      views: json['views'],
+      doctor: Doctor.fromJson(json['doctor']),
+    );
+  }
+}
+
+class Doctor {
+  String id;
+  String name;
+  String image;
+
+  Doctor({
+    required this.id,
+    required this.name,
+    required this.image,
+  });
+
+  factory Doctor.fromJson(Map<String, dynamic> json) {
+    return Doctor(
+      id: json['id'],
+      name: json['name'],
+      image: json['image'],
+    );
+  }
+}
+
+class ArticleService {
+  final Dio dio;
+
+  ArticleService(this.dio);
+
+  Future<List<ArticleModels>> getArticles() async {
+    try {
+      final response = await dio.get('https://dev.reprohealth.my.id/articles');
+
+      if (response.statusCode == 200) {
+        final dynamic responseData = response.data;
+
+        if (response.data == null) {
+          throw DioException(
+              requestOptions: response.requestOptions,
+              response: response,
+              error: 'Response is null');
+        }
+
+        final List<dynamic> articleList = responseData['response'];
+
+        List<ArticleModels> articles = articleList
+            .map((articleJson) => ArticleModels.fromJson(articleJson))
+            .toList();
+
+        return articles;
+      } else {
+        throw DioException(
+          requestOptions: response.requestOptions,
+          response: response,
+          type: DioExceptionType.badResponse,
+        );
+      }
+    } catch (e) {
+      throw e;
+    }
+  }
 }

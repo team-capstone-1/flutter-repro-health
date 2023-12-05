@@ -60,50 +60,50 @@ class CommentView extends StatelessWidget {
             const SizedBox(
               height: 24,
             ),
-            Expanded(
-              child: ListView.builder(
-                itemCount: article.comments?.length ?? 0,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 12),
-                    child: Row(
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(100),
-                          child: Image.asset(
-                            article.comments![index].image,
-                            width: 40,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                        const SizedBox(width: 8),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                Text(
-                                  article.comments![index].name,
-                                  style: medium12Black,
-                                ),
-                                const SizedBox(width: 8),
-                                Text(article.comments![index].time,
-                                    style: regular8Black),
-                              ],
-                            ),
-                            const SizedBox(height: 4),
-                            Text(
-                              article.comments![index].comment,
-                              style: regular10Black,
-                            )
-                          ],
-                        )
-                      ],
-                    ),
-                  );
-                },
-              ),
-            )
+            // Expanded(
+            //   child: ListView.builder(
+            //     itemCount: article.comments?.length ?? 0,
+            //     itemBuilder: (context, index) {
+            //       return Padding(
+            //         padding: const EdgeInsets.only(bottom: 12),
+            //         child: Row(
+            //           children: [
+            //             ClipRRect(
+            //               borderRadius: BorderRadius.circular(100),
+            //               child: Image.asset(
+            //                 article.comments![index].image,
+            //                 width: 40,
+            //                 fit: BoxFit.cover,
+            //               ),
+            //             ),
+            //             const SizedBox(width: 8),
+            //             Column(
+            //               crossAxisAlignment: CrossAxisAlignment.start,
+            //               children: [
+            //                 Row(
+            //                   children: [
+            //                     Text(
+            //                       article.comments![index].name,
+            //                       style: medium12Black,
+            //                     ),
+            //                     const SizedBox(width: 8),
+            //                     Text(article.comments![index].time,
+            //                         style: regular8Black),
+            //                   ],
+            //                 ),
+            //                 const SizedBox(height: 4),
+            //                 Text(
+            //                   article.comments![index].comment,
+            //                   style: regular10Black,
+            //                 )
+            //               ],
+            //             )
+            //           ],
+            //         ),
+            //       );
+            //     },
+            //   ),
+            // )
           ],
         ),
       ),
