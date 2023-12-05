@@ -17,8 +17,8 @@ class ListSpesialisWidget extends StatelessWidget {
               child: Text("Data tidak tersedia"),
             )
           : Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: GridView.builder(
+              padding: const EdgeInsets.all(16.0),
+              child: GridView.builder(
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 3,
                   mainAxisSpacing: 8,
@@ -30,7 +30,10 @@ class ListSpesialisWidget extends StatelessWidget {
                   return GestureDetector(
                     onTap: () {
                       Navigator.pushNamed(
-                          context, RoutesNavigation.detailSpesialisView);
+                        context,
+                        RoutesNavigation.detailSpesialisView,
+                        arguments: specialist.id,
+                      );
                     },
                     child: Card(
                       elevation: 2.0,
@@ -58,7 +61,7 @@ class ListSpesialisWidget extends StatelessWidget {
                   );
                 },
               ),
-          );
+            );
     });
   }
 }

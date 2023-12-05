@@ -12,8 +12,11 @@ class DetailSpesialisView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final args =
+        ModalRoute.of(context)!.settings.arguments as String;
+    final String specialistId = args;
     Provider.of<DetailSpesialisViewModel>(context, listen: false)
-        .getDokterList();
+        .getDokterBySpecialist(specialistId: specialistId);
 
     return Scaffold(
       backgroundColor: grey10,
@@ -29,7 +32,7 @@ class DetailSpesialisView extends StatelessWidget {
       body: Consumer<DetailSpesialisViewModel>(
         builder: (context, detailSpesialisViewModel, child) {
           final filteredDokterData =
-              detailSpesialisViewModel.filteredDokterData;
+              detailSpesialisViewModel.filteredDokterBySpecialist;
           return Column(
             children: [
               Padding(
@@ -56,6 +59,7 @@ class DetailSpesialisView extends StatelessWidget {
                               Navigator.pushNamed(
                                 context,
                                 RoutesNavigation.detailDokterView,
+                                arguments: dokter,
                               );
                             },
                             child: Padding(

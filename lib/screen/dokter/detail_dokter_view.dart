@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:reprohealth_app/component/button_component.dart';
+import 'package:reprohealth_app/constant/assets_constants.dart';
 import 'package:reprohealth_app/constant/routes_navigation.dart';
-import 'package:reprohealth_app/models/profile_dokter_models.dart';
+import 'package:reprohealth_app/models/doctor_models/doctor_models.dart';
 import 'package:reprohealth_app/theme/theme.dart';
 
 class DetailDokterView extends StatelessWidget {
@@ -9,6 +10,10 @@ class DetailDokterView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final args =
+        ModalRoute.of(context)!.settings.arguments as ResponseDataDoctor;
+    final ResponseDataDoctor detailDoctor = args;
+
     return Scaffold(
       body: CustomScrollView(
         slivers: [
@@ -36,111 +41,98 @@ class DetailDokterView extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        top: 24,
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            profilDokter1Data[0].namaDokter,
-                            style: semiBold16Grey900,
+                    const SizedBox(height: 24),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          detailDoctor.name ?? '',
+                          style: semiBold16Grey900,
+                        ),
+                        Container(
+                          padding: const EdgeInsets.all(
+                            8,
                           ),
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 8,
-                              vertical: 5,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(
+                              3,
                             ),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(
-                                3,
-                              ),
-                              color: green500,
-                            ),
-                            child: Text(
-                              '5 Tahun',
-                              style: regular8Green50,
-                            ),
+                            color: green500,
                           ),
-                        ],
-                      ),
+                          child: Text(
+                            '5 Tahun',
+                            style: regular8Green50,
+                          ),
+                        ),
+                      ],
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        top: 8,
-                        bottom: 16,
-                      ),
-                      child: Text(profilDokter1Data[0].spesialis),
+                    const SizedBox(height: 8),
+                    Text(
+                      "Dokter ${detailDoctor.specialist?.name}",
+                      style: regular12Grey400,
                     ),
+                    const SizedBox(height: 16),
                     Text(
                       'Informasi Dokter',
                       style: semiBold14Grey900,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        top: 8,
-                        bottom: 16,
-                      ),
-                      child: Column(
-                        children: [
-                          Row(
-                            children: [
-                              Image.asset(
-                                'assets/icon_klinik.png',
-                                width: 15,
-                                height: 15,
-                              ),
-                              const SizedBox(
-                                width: 8,
-                              ),
-                              Expanded(
-                                child: Text(
-                                  profilDokter1Data[0].namaKlinik,
-                                  style: regular12Grey900,
-                                ),
-                              ),
-                            ],
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 8,
+                    const SizedBox(height: 8),
+                    Column(
+                      children: [
+                        Row(
+                          children: [
+                            Image.asset(
+                              Assets.assetsIconKlinik,
+                              width: 15,
+                              height: 15,
                             ),
-                            child: Row(
-                              children: [
-                                const Icon(
-                                  Icons.location_on_outlined,
-                                  size: 15,
-                                ),
-                                const SizedBox(
-                                  width: 8,
-                                ),
-                                Text(
-                                  profilDokter1Data[0].jalan,
-                                  style: regular12Grey900,
-                                )
-                              ],
+                            const SizedBox(
+                              width: 8,
                             ),
-                          ),
-                          Row(
-                            children: [
-                              Image.asset(
-                                'assets/price.png',
-                                width: 15,
-                                height: 15,
+                            Expanded(
+                              child: Text(
+                                detailDoctor.clinic?.name ?? '',
+                                style: regular12Grey900,
                               ),
-                              const SizedBox(
-                                width: 8,
-                              ),
-                              Text(
-                                profilDokter1Data[0].harga,
-                                style: medium12PrimaryGreen500,
-                              )
-                            ],
-                          ),
-                        ],
-                      ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 8),
+                        Row(
+                          children: [
+                            const Icon(
+                              Icons.location_on_outlined,
+                              size: 15,
+                            ),
+                            const SizedBox(
+                              width: 8,
+                            ),
+                            Text(
+                              detailDoctor.clinic?.location ?? '',
+                              style: regular12Grey900,
+                            )
+                          ],
+                        ),
+                        const SizedBox(height: 8),
+                        Row(
+                          children: [
+                            Image.asset(
+                              Assets.assetsPrice,
+                              width: 15,
+                              height: 15,
+                            ),
+                            const SizedBox(
+                              width: 8,
+                            ),
+                            Text(
+                              detailDoctor.price.toString(),
+                              style: medium12PrimaryGreen500,
+                            )
+                          ],
+                        ),
+                      ],
                     ),
+                    const SizedBox(height: 16),
                     Text(
                       'Pendidikan',
                       style: semiBold14Grey900,
@@ -148,11 +140,25 @@ class DetailDokterView extends StatelessWidget {
                     const SizedBox(
                       height: 12,
                     ),
-                    Text(
-                      profilDokter1Data[0].isiPendidikan,
-                      style: regular12Grey900,
-                      textAlign: TextAlign.justify,
-                    ),
+                    detailDoctor.educations?.isNotEmpty == true
+                        ? ListView.builder(
+                          padding: EdgeInsets.zero,
+                          shrinkWrap: true,
+                          itemCount: detailDoctor.educations?.length,
+                          itemBuilder: (context, index) {
+                            final education =
+                                detailDoctor.educations?[index];
+                            return Text(
+                              "${index+1}. ${education?.university} - ${education?.educationProgram}",
+                              style: regular12Grey900,
+                              textAlign: TextAlign.justify,
+                            );
+                          },
+                        )
+                        : Text(
+                            "Belum terdapat riwayat pendidikan",
+                            style: regular12Grey900,
+                          ),
                     const SizedBox(
                       height: 16,
                     ),
@@ -163,27 +169,38 @@ class DetailDokterView extends StatelessWidget {
                     const SizedBox(
                       height: 12,
                     ),
-                    Text(
-                      profilDokter1Data[0].isiPekerjaan,
-                      style: regular12Grey900,
-                      textAlign: TextAlign.justify,
-                    ),
+                    detailDoctor.educations?.isNotEmpty == true
+                        ? ListView.builder(
+                          padding: EdgeInsets.zero,
+                          shrinkWrap: true,
+                          itemCount: detailDoctor.workHistories?.length,
+                          itemBuilder: (context, index) {
+                            final workHistory =
+                                detailDoctor.workHistories?[index];
+                            return Text(
+                              "${index+1}. ${workHistory?.workplace} - ${workHistory?.position}",
+                              style: regular12Grey900,
+                              textAlign: TextAlign.justify,
+                            );
+                          },
+                        )
+                        : Text(
+                            "Belum terdapat riwayat perkerjaan",
+                            style: regular12Grey900,
+                          ),
                     const SizedBox(
                       height: 12,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        bottom: 20,
-                      ),
-                      child: ButtonComponent(
-                        labelText: 'Jadwalkan',
-                        labelStyle: semiBold12Primary,
-                        backgroundColor: green500,
-                        onPressed: () {
-                          Navigator.pushNamed(
-                              context, RoutesNavigation.jadwalDokterView);
-                        },
-                      ),
+                    ButtonComponent(
+                      labelText: 'Jadwalkan',
+                      labelStyle: semiBold12Primary,
+                      backgroundColor: green500,
+                      onPressed: () {
+                        Navigator.pushNamed(
+                          context,
+                          RoutesNavigation.jadwalDokterView,
+                        );
+                      },
                     ),
                   ],
                 ),

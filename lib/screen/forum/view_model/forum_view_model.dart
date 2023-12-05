@@ -146,7 +146,6 @@ class ForumViewModel with ChangeNotifier {
     try {
       _myForumList = await _forumServices.getListMyForum(
           patientId: _profileList?.response?.first.id ?? '');
-      print(_profileList?.response?.first.id);
       notifyListeners();
     } catch (e) {
       print(e);
@@ -172,5 +171,17 @@ class ForumViewModel with ChangeNotifier {
       }).toList();
     }
     notifyListeners();
+  }
+
+  String calculateDaysAgo(DateTime date) {
+    final now = DateTime.now();
+    final difference = now.difference(date);
+    if (difference.inDays > 0) {
+      return '${difference.inDays} hari';
+    } else if (difference.inHours > 0) {
+      return '${difference.inHours} jam';
+    } else {
+      return '${difference.inMinutes} menit';
+    }
   }
 }
