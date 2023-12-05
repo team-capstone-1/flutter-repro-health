@@ -84,7 +84,7 @@ class LihatForumWidget extends StatelessWidget {
                                     const SizedBox(width: 8),
                                     Text(
                                       forum?.date != null
-                                          ? "Diunggah ${_calculateDaysAgo(forum!.date!)} yang lalu"
+                                          ? "Diunggah ${forumViewModel.calculateDaysAgo(forum!.date!)} yang lalu"
                                           : '',
                                       style: regular10Grey200,
                                     ),
@@ -144,8 +144,11 @@ class LihatForumWidget extends StatelessWidget {
                                   const SizedBox(width: 168),
                                   GestureDetector(
                                     onTap: () {
-                                      Navigator.pushNamed(context,
-                                          RoutesNavigation.detailForumView);
+                                      Navigator.pushNamed(
+                                        context,
+                                        RoutesNavigation.detailForumView,
+                                        arguments: forum,
+                                      );
                                     },
                                     child: Row(
                                       children: [
@@ -177,17 +180,5 @@ class LihatForumWidget extends StatelessWidget {
               );
       },
     );
-  }
-
-  String _calculateDaysAgo(DateTime date) {
-    final now = DateTime.now();
-    final difference = now.difference(date);
-    if (difference.inDays > 0) {
-      return '${difference.inDays} hari';
-    } else if (difference.inHours > 0) {
-      return '${difference.inHours} jam';
-    } else {
-      return '${difference.inMinutes} menit';
-    }
   }
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:reprohealth_app/models/dokter_models/dokter_models.dart';
+import 'package:reprohealth_app/models/doctor_models/doctor_models.dart';
 import 'package:reprohealth_app/models/specialist_models/specialist_models.dart';
-import 'package:reprohealth_app/services/dokter_services/dokter_services.dart';
+import 'package:reprohealth_app/services/doctor_services/doctor_services.dart';
 import 'package:reprohealth_app/services/specialist_services/specialist_services.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -14,11 +14,11 @@ class SearchKlinikViewModel extends ChangeNotifier {
 
   // DOCTOR
   final DokterServices _dokterServices = DokterServices();
-  DokterModels? _dokterList;
-  DokterModels? get dokterList => _dokterList;
+  DoctorModels? _dokterList;
+  DoctorModels? get dokterList => _dokterList;
   
-  List<ResponseDataDokter> _filteredDokter = [];
-  List<ResponseDataDokter> get filteredDokter =>
+  List<ResponseDataDoctor> _filteredDokter = [];
+  List<ResponseDataDoctor> get filteredDokter =>
       _filteredDokter;
 
   Future<void> getListDokterClinics({required String clinicsId}) async {
@@ -32,7 +32,7 @@ class SearchKlinikViewModel extends ChangeNotifier {
   }
 
   void filterSearchDokter(String query) {
-    List<ResponseDataDokter> searchResultsDokter = [];
+    List<ResponseDataDoctor> searchResultsDokter = [];
     if (query.isNotEmpty) {
       searchResultsDokter = dokterList?.response
               ?.where((data) =>

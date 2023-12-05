@@ -16,11 +16,10 @@ class PertanyaanSayaWidget extends StatefulWidget {
 class _PertanyaanSayaWidgetState extends State<PertanyaanSayaWidget> {
   @override
   void initState() {
-    // Provider.of<ForumViewModel>(context).getProfile(context: context);
-    Provider.of<ForumViewModel>(context, listen: false)
-        .getMyForumList();
+    Provider.of<ForumViewModel>(context, listen: false).getMyForumList();
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<ForumViewModel>(
@@ -69,16 +68,11 @@ class _PertanyaanSayaWidgetState extends State<PertanyaanSayaWidget> {
                     child: GestureDetector(
                       onTap: () {},
                       child: Card(
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                right: 16,
-                                left: 16,
-                                top: 16,
-                                bottom: 8,
-                              ),
-                              child: Align(
+                        child: Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: Column(
+                            children: [
+                              Align(
                                 alignment: Alignment.topLeft,
                                 child: Row(
                                   children: [
@@ -98,20 +92,16 @@ class _PertanyaanSayaWidgetState extends State<PertanyaanSayaWidget> {
                                     ),
                                     const SizedBox(width: 8),
                                     Text(
-                                      myForum.date.toString(),
+                                      myForum.date != null
+                                          ? "Diunggah ${forumViewModel.calculateDaysAgo(myForum.date!)} yang lalu"
+                                          : '',
                                       style: regular10Grey200,
-                                    )
+                                    ),
                                   ],
                                 ),
                               ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                right: 16,
-                                left: 16,
-                                bottom: 8,
-                              ),
-                              child: Align(
+                              const SizedBox(height: 8),
+                              Align(
                                 alignment: Alignment.topLeft,
                                 child: Text(
                                   myForum.title ?? '',
@@ -119,14 +109,8 @@ class _PertanyaanSayaWidgetState extends State<PertanyaanSayaWidget> {
                                   textAlign: TextAlign.left,
                                 ),
                               ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                right: 16,
-                                left: 16,
-                                bottom: 12,
-                              ),
-                              child: Align(
+                              const SizedBox(height: 8),
+                              Align(
                                 alignment: Alignment.topLeft,
                                 child: Text(
                                   myForum.content ?? '',
@@ -134,12 +118,9 @@ class _PertanyaanSayaWidgetState extends State<PertanyaanSayaWidget> {
                                   style: regular10Grey400,
                                 ),
                               ),
-                            ),
-                            const Spacer(),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
-                              child: Row(
+                              const SizedBox(height: 12),
+                              const Spacer(),
+                              Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
@@ -153,16 +134,13 @@ class _PertanyaanSayaWidgetState extends State<PertanyaanSayaWidget> {
                                         ),
                                     ],
                                   ),
-                                  // Image.asset(
-                                  //   Assets.assetsPhotoProfilPertanyaan,
-                                  //   width: 53.82,
-                                  //   height: 32,
-                                  // ),
-                                  const SizedBox(width: 168),
                                   GestureDetector(
                                     onTap: () {
-                                      Navigator.pushNamed(context,
-                                          RoutesNavigation.detailForumView);
+                                      Navigator.pushNamed(
+                                        context,
+                                        RoutesNavigation.detailForumView,
+                                        arguments: myForum,
+                                      );
                                     },
                                     child: Row(
                                       children: [
@@ -176,21 +154,16 @@ class _PertanyaanSayaWidgetState extends State<PertanyaanSayaWidget> {
                                           width: 6.59,
                                           height: 11.17,
                                         ),
-                                        const SizedBox(width: 8),
-                                        Text(
-                                          myForum.date.toString() ?? '',
-                                          style: regular10Grey200,
-                                        )
                                       ],
                                     ),
                                   ),
                                 ],
                               ),
-                            ),
-                            const SizedBox(
-                              height: 16,
-                            ),
-                          ],
+                              const SizedBox(
+                                height: 16,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
