@@ -40,11 +40,8 @@ class LihatForumWidget extends StatelessWidget {
           return 0;
         });
 
-        return forumList == null
-            ? const Center(
-                child: Text('Tidak terdapat pertanyaan'),
-              )
-            : ListView.builder(
+        return forumList?.response?.isNotEmpty == true
+            ? ListView.builder(
                 itemCount: displayedList?.length,
                 itemBuilder: (context, index) {
                   final forum = displayedList?[index];
@@ -177,6 +174,12 @@ class LihatForumWidget extends StatelessWidget {
                     ),
                   );
                 },
+              )
+            : Center(
+                child: Text(
+                  'Tidak terdapat pertanyaan',
+                  style: medium14Grey900,
+                ),
               );
       },
     );

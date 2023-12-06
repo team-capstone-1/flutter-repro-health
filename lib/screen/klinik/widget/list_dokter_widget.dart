@@ -101,7 +101,7 @@ class ListDokterWidget extends StatelessWidget {
                                                   vertical: 3,
                                                 ),
                                                 child: Text(
-                                                  "Belum API",
+                                                  "5 Tahun",
                                                   style: regular8Green50,
                                                 ),
                                               ),
@@ -134,7 +134,7 @@ class ListDokterWidget extends StatelessWidget {
                                           const Expanded(child: SizedBox()),
                                           Text(
                                             dokter.price.toString(),
-                                            style: medium12PrimaryGreen500,
+                                            style: medium12Green500,
                                           ),
                                         ],
                                       )
