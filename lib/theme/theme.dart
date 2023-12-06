@@ -231,12 +231,6 @@ TextStyle medium12Grey900 = GoogleFonts.poppins(
   fontWeight: FontWeight.w500,
 );
 
-TextStyle medium12PrimaryGreen500 = GoogleFonts.poppins(
-  color: green500,
-  fontSize: 8,
-  fontWeight: FontWeight.w500,
-);
-
 TextStyle medium8Black = GoogleFonts.poppins(
   color: secondary,
   fontSize: 8,

@@ -12,8 +12,7 @@ class DetailSpesialisView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final args =
-        ModalRoute.of(context)!.settings.arguments as String;
+    final args = ModalRoute.of(context)!.settings.arguments as String;
     final String specialistId = args;
     Provider.of<DetailSpesialisViewModel>(context, listen: false)
         .getDokterBySpecialist(specialistId: specialistId);
@@ -77,22 +76,21 @@ class DetailSpesialisView extends StatelessWidget {
                                         padding: const EdgeInsets.symmetric(
                                           horizontal: 10,
                                         ),
-                                        child: Flexible(
-                                          child: SizedBox(
-                                            height: 66,
-                                            width: 66,
-                                            child: ClipOval(
-                                              child: CachedNetworkImage(
-                                                imageUrl: dokter.profileImage ?? '',
-                                                placeholder: (context, url) =>
-                                                    const CircularProgressIndicator(),
-                                                errorWidget:
-                                                    (context, url, error) =>
-                                                        const Center(
-                                                  child: Icon(
-                                                    Icons.error,
-                                                    size: 50,
-                                                  ),
+                                        child: SizedBox(
+                                          height: 66,
+                                          width: 66,
+                                          child: ClipOval(
+                                            child: CachedNetworkImage(
+                                              imageUrl:
+                                                  dokter.profileImage ?? '',
+                                              placeholder: (context, url) =>
+                                                  const CircularProgressIndicator(),
+                                              errorWidget:
+                                                  (context, url, error) =>
+                                                      const Center(
+                                                child: Icon(
+                                                  Icons.error,
+                                                  size: 50,
                                                 ),
                                               ),
                                             ),
@@ -167,11 +165,12 @@ class DetailSpesialisView extends StatelessWidget {
                                                     style: regular12Grey900,
                                                   ),
                                                   const Expanded(
-                                                      child: SizedBox()),
+                                                    child: SizedBox(),
+                                                  ),
                                                   Text(
                                                     dokter.price.toString(),
                                                     style:
-                                                        medium12PrimaryGreen500,
+                                                        medium12Green500,
                                                   ),
                                                 ],
                                               )

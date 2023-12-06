@@ -14,6 +14,7 @@ import 'package:reprohealth_app/screen/confirm_status/confirm_status_view.dart';
 import 'package:reprohealth_app/screen/dokter/detail_dokter_view.dart';
 import 'package:reprohealth_app/screen/dokter/jadwal_dokter_view.dart';
 import 'package:reprohealth_app/screen/dokter/janji_temu_view.dart';
+import 'package:reprohealth_app/screen/dokter/view_models/janji_temu_view_model.dart';
 import 'package:reprohealth_app/screen/dokter/view_models/pilih_sesi_view_model.dart';
 import 'package:reprohealth_app/screen/dokter/view_models/pilih_tanggal_view_model.dart';
 import 'package:reprohealth_app/screen/forgot_password/detail_forgot_password_view.dart';
@@ -33,6 +34,7 @@ import 'package:reprohealth_app/screen/klinik/view_models/search_klinik_view_mod
 import 'package:reprohealth_app/screen/location/detail_location_view.dart';
 import 'package:reprohealth_app/screen/location/location_view.dart';
 import 'package:reprohealth_app/screen/login/login_view.dart';
+import 'package:reprohealth_app/screen/login/view_model/login_view_model.dart';
 import 'package:reprohealth_app/screen/maps/maps_view.dart';
 import 'package:reprohealth_app/screen/maps/maps_view_models/maps_view_model.dart';
 import 'package:reprohealth_app/screen/metode_pembayaran/confirmation_splash_view.dart';
@@ -79,6 +81,7 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider(create: (context) => LoginViewModels()),
         ChangeNotifierProvider(create: (context) => RegisterViewModels()),
         ChangeNotifierProvider(create: (context) => HomeViewModels()),
         ChangeNotifierProvider(create: (context) => DatePickerViewModel()),
@@ -89,6 +92,11 @@ class MainApp extends StatelessWidget {
             create: (context) => PostFamilyProfileViewModel()),
         ChangeNotifierProvider(create: (context) => HomeViewModels()),
         ChangeNotifierProvider(create: (context) => AppoinmentViewModel()),
+        ChangeNotifierProvider(create: (context) => JanjiTemuViewModel()),
+        ChangeNotifierProvider(create: (context) => JanjiTemuViewModel()),
+        ChangeNotifierProvider(create: (context) => JanjiTemuViewModel()),
+        ChangeNotifierProvider(create: (context) => JanjiTemuViewModel()),
+        ChangeNotifierProvider(create: (context) => JanjiTemuViewModel()),
         ChangeNotifierProvider(create: (context) => SpecialistViewModels()),
         ChangeNotifierProvider(create: (context) => DetailSpesialisViewModel()),
         ChangeNotifierProvider(create: (context) => SearchKlinikViewModel()),

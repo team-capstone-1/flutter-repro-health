@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:reprohealth_app/component/button_component.dart';
 import 'package:reprohealth_app/constant/assets_constants.dart';
@@ -26,9 +27,17 @@ class DetailDokterView extends StatelessWidget {
                 borderRadius: const BorderRadius.vertical(
                   bottom: Radius.circular(24),
                 ),
-                child: Image.asset(
-                  'assets/foto_klinik3.png',
+                child: CachedNetworkImage(
                   fit: BoxFit.cover,
+                  imageUrl: detailDoctor.profileImage ?? '',
+                  placeholder: (context, url) =>
+                      const CircularProgressIndicator(),
+                  errorWidget: (context, url, error) => const Center(
+                    child: Icon(
+                      Icons.error,
+                      size: 50,
+                    ),
+                  ),
                 ),
               ),
             ),
@@ -126,7 +135,7 @@ class DetailDokterView extends StatelessWidget {
                             ),
                             Text(
                               detailDoctor.price.toString(),
-                              style: medium12PrimaryGreen500,
+                              style: medium12Green500,
                             )
                           ],
                         ),
@@ -142,19 +151,18 @@ class DetailDokterView extends StatelessWidget {
                     ),
                     detailDoctor.educations?.isNotEmpty == true
                         ? ListView.builder(
-                          padding: EdgeInsets.zero,
-                          shrinkWrap: true,
-                          itemCount: detailDoctor.educations?.length,
-                          itemBuilder: (context, index) {
-                            final education =
-                                detailDoctor.educations?[index];
-                            return Text(
-                              "${index+1}. ${education?.university} - ${education?.educationProgram}",
-                              style: regular12Grey900,
-                              textAlign: TextAlign.justify,
-                            );
-                          },
-                        )
+                            padding: EdgeInsets.zero,
+                            shrinkWrap: true,
+                            itemCount: detailDoctor.educations?.length,
+                            itemBuilder: (context, index) {
+                              final education = detailDoctor.educations?[index];
+                              return Text(
+                                "${index + 1}. ${education?.university} - ${education?.educationProgram}",
+                                style: regular12Grey900,
+                                textAlign: TextAlign.justify,
+                              );
+                            },
+                          )
                         : Text(
                             "Belum terdapat riwayat pendidikan",
                             style: regular12Grey900,
@@ -171,19 +179,19 @@ class DetailDokterView extends StatelessWidget {
                     ),
                     detailDoctor.educations?.isNotEmpty == true
                         ? ListView.builder(
-                          padding: EdgeInsets.zero,
-                          shrinkWrap: true,
-                          itemCount: detailDoctor.workHistories?.length,
-                          itemBuilder: (context, index) {
-                            final workHistory =
-                                detailDoctor.workHistories?[index];
-                            return Text(
-                              "${index+1}. ${workHistory?.workplace} - ${workHistory?.position}",
-                              style: regular12Grey900,
-                              textAlign: TextAlign.justify,
-                            );
-                          },
-                        )
+                            padding: EdgeInsets.zero,
+                            shrinkWrap: true,
+                            itemCount: detailDoctor.workHistories?.length,
+                            itemBuilder: (context, index) {
+                              final workHistory =
+                                  detailDoctor.workHistories?[index];
+                              return Text(
+                                "${index + 1}. ${workHistory?.workplace} - ${workHistory?.position}",
+                                style: regular12Grey900,
+                                textAlign: TextAlign.justify,
+                              );
+                            },
+                          )
                         : Text(
                             "Belum terdapat riwayat perkerjaan",
                             style: regular12Grey900,
@@ -199,6 +207,7 @@ class DetailDokterView extends StatelessWidget {
                         Navigator.pushNamed(
                           context,
                           RoutesNavigation.jadwalDokterView,
+                          arguments: detailDoctor,
                         );
                       },
                     ),

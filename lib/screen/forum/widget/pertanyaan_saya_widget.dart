@@ -27,14 +27,9 @@ class _PertanyaanSayaWidgetState extends State<PertanyaanSayaWidget> {
         final myForumList = forumViewModel.myForumList;
         final searchResults = forumViewModel.searchResults;
         final displayedList = searchResults ?? myForumList?.response;
-        if (myForumList == null) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        }
 
         // Urutan daftar berdasarkan kategori yang berbeda
-        myForumList.response?.sort((a, b) {
+        myForumList?.response?.sort((a, b) {
           // Terbaru
           if (forumViewModel.kategoriListMap.contains('Terbaru')) {
             return b.date!.compareTo(a.date!);
@@ -54,15 +49,12 @@ class _PertanyaanSayaWidgetState extends State<PertanyaanSayaWidget> {
           return b.date!.compareTo(a.date!);
         });
 
-        return ListView.builder(
-          itemCount: displayedList?.length,
-          itemBuilder: (context, index) {
-            final myForum = displayedList?[index];
-            return myForum == null
-                ? const Center(
-                    child: Text('Tidak terdapat pertanyaan'),
-                  )
-                : SizedBox(
+        return myForumList?.response!.isNotEmpty == true
+            ? ListView.builder(
+                itemCount: displayedList?.length,
+                itemBuilder: (context, index) {
+                  final myForum = displayedList?[index];
+                  return SizedBox(
                     width: 360.0,
                     height: 220.0,
                     child: GestureDetector(
@@ -77,10 +69,10 @@ class _PertanyaanSayaWidgetState extends State<PertanyaanSayaWidget> {
                                 child: Row(
                                   children: [
                                     Text(
-                                      myForum.status == true
+                                      myForum?.status == true
                                           ? "Terjawab"
                                           : "Belum Terjawab",
-                                      style: myForum.status == true
+                                      style: myForum?.status == true
                                           ? regular10Green500
                                           : regular10Red,
                                     ),
@@ -92,8 +84,8 @@ class _PertanyaanSayaWidgetState extends State<PertanyaanSayaWidget> {
                                     ),
                                     const SizedBox(width: 8),
                                     Text(
-                                      myForum.date != null
-                                          ? "Diunggah ${forumViewModel.calculateDaysAgo(myForum.date!)} yang lalu"
+                                      myForum?.date != null
+                                          ? "Diunggah ${forumViewModel.calculateDaysAgo(myForum!.date!)} yang lalu"
                                           : '',
                                       style: regular10Grey200,
                                     ),
@@ -104,7 +96,7 @@ class _PertanyaanSayaWidgetState extends State<PertanyaanSayaWidget> {
                               Align(
                                 alignment: Alignment.topLeft,
                                 child: Text(
-                                  myForum.title ?? '',
+                                  myForum?.title ?? '',
                                   style: medium14Grey900,
                                   textAlign: TextAlign.left,
                                 ),
@@ -113,7 +105,7 @@ class _PertanyaanSayaWidgetState extends State<PertanyaanSayaWidget> {
                               Align(
                                 alignment: Alignment.topLeft,
                                 child: Text(
-                                  myForum.content ?? '',
+                                  myForum?.content ?? '',
                                   textAlign: TextAlign.justify,
                                   style: regular10Grey400,
                                 ),
@@ -168,8 +160,14 @@ class _PertanyaanSayaWidgetState extends State<PertanyaanSayaWidget> {
                       ),
                     ),
                   );
-          },
-        );
+                },
+              )
+            : Center(
+                child: Text(
+                  'Tidak terdapat pertanyaan',
+                  style: medium14Grey900,
+                ),
+              );
       },
     );
   }

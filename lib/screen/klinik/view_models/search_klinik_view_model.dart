@@ -23,8 +23,9 @@ class SearchKlinikViewModel extends ChangeNotifier {
 
   Future<void> getListDokterClinics({required String clinicsId}) async {
     try {
-      _dokterList = await _dokterServices.getDokterByClinics(clinicsId: clinicsId);
-      _filteredDokter = _dokterList?.response ?? [];
+      _dokterList =
+          await _dokterServices.getDokterByClinics(clinicsId: clinicsId);
+      filterSearchDokter(_searchController.value); // Ensure initial filtering
       notifyListeners();
     } catch (e) {
       print(e);
@@ -59,8 +60,10 @@ class SearchKlinikViewModel extends ChangeNotifier {
 
   Future<void> getListSpecialistClinics({required String clinicsId}) async {
     try {
-      _specialistList = await _specialistServices.getListSpecialistClinics(clinicsId: clinicsId);
-      _filteredSpecialist = _specialistList?.response ?? [];
+      _specialistList = await _specialistServices.getListSpecialistClinics(
+          clinicsId: clinicsId);
+      filterSearchSpecialist(
+          _searchController.value); // Ensure initial filtering
       notifyListeners();
     } catch (e) {
       print(e);
