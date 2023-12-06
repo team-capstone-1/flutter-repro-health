@@ -83,7 +83,10 @@ class SearchKlinikView extends StatelessWidget {
                 ),
                 const Expanded(
                   child: TabBarView(
-                    children: [ListDokterWidget(), ListSpesialisWidget()],
+                    children: [
+                      ListDokterWidget(),
+                      ListSpesialisWidget(),
+                    ],
                   ),
                 ),
               ],
