@@ -4,6 +4,7 @@ import 'package:reprohealth_app/constant/assets_constants.dart';
 import 'package:reprohealth_app/constant/routes_navigation.dart';
 import 'package:reprohealth_app/models/forum_models/forum_models.dart';
 import 'package:reprohealth_app/screen/forum/view_model/forum_view_model.dart';
+import 'package:reprohealth_app/screen/profile/widget/profile_widget/snackbar_widget.dart';
 import 'package:reprohealth_app/services/forum_services/forum_services.dart';
 import 'package:reprohealth_app/theme/theme.dart';
 
@@ -12,8 +13,8 @@ class DetailForumView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final args = ModalRoute.of(context)!.settings.arguments as ResponseData?;
-    final ResponseData? detailForum = args;
+    final args = ModalRoute.of(context)!.settings.arguments as ResponseDataForum?;
+    final ResponseDataForum? detailForum = args;
 
     final patientId =
         Provider.of<ForumViewModel>(context).profileList?.response?.first.id;
@@ -28,6 +29,7 @@ class DetailForumView extends StatelessWidget {
               child: Text(
                 'Yakin ingin menghapus forum?',
                 style: semiBold14Black,
+                textAlign: TextAlign.center,
               ),
             ),
             content: Text(
@@ -39,7 +41,7 @@ class DetailForumView extends StatelessWidget {
             actions: <Widget>[
               SizedBox(
                 height: 36,
-                width: 124,
+                width: 110,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: negative,
@@ -50,12 +52,18 @@ class DetailForumView extends StatelessWidget {
                   child: Text('Ya, Hapus', style: semiBold12Grey10),
                   onPressed: () {
                     ForumServices().deleteForum(
-                      forumId: detailForum!.id!,
-                      title: detailForum.title!,
-                      content: detailForum.content!,
-                      anonymous: detailForum.anonymous!,
+                      forumId: detailForum?.id ?? '',
+                      title: detailForum?.title ?? '',
+                      content: detailForum?.content ?? '',
+                      anonymous: detailForum?.anonymous ?? false,
                       context: context,
                     );
+
+                    ScaffoldMessenger.of(context).showSnackBar(CustomSnackBar(
+                      contentText: 'Forum berhasil dihapus',
+                      backgroundColor: positive,
+                    ));
+
                     Navigator.pushNamedAndRemoveUntil(
                       context,
                       RoutesNavigation.homeView,
@@ -66,7 +74,7 @@ class DetailForumView extends StatelessWidget {
               ),
               SizedBox(
                 height: 36,
-                width: 124,
+                width: 110,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: green500,
@@ -94,7 +102,7 @@ class DetailForumView extends StatelessWidget {
         ),
         actions: [
           Visibility(
-            visible: detailForum!.patientId == patientId,
+            visible: detailForum?.patientId == patientId,
             child: IconButton(
               onPressed: showMyDialog,
               icon: Image.asset(Assets.assetsTrashCan),
@@ -108,12 +116,12 @@ class DetailForumView extends StatelessWidget {
           children: [
             const SizedBox(height: 24),
             Text(
-              detailForum.title ?? '',
+              detailForum?.title ?? '',
               style: semiBold16Grey900,
             ),
             const SizedBox(height: 24),
             Text(
-              detailForum.content ?? '',
+              detailForum?.content ?? '',
               style: regular12Grey900,
               textAlign: TextAlign.justify,
             ),
@@ -137,7 +145,7 @@ class DetailForumView extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 48),
-            detailForum.forumReplies?.isNotEmpty == true
+            detailForum?.forumReplies?.isNotEmpty == true
                 ? Column(
                     children: [
                       Container(
@@ -160,7 +168,7 @@ class DetailForumView extends StatelessWidget {
                               style: regular12Grey900,
                             ),
                             Text(
-                              detailForum.forumReplies?.first.doctor?.name ??
+                              detailForum?.forumReplies?.first.doctor?.name ??
                                   '',
                               style: medium12Green700,
                             ),
@@ -175,7 +183,7 @@ class DetailForumView extends StatelessWidget {
                         color: green50,
                         width: double.infinity,
                         child: Text(
-                          detailForum.forumReplies?.first.content ?? '',
+                          detailForum?.forumReplies?.first.content ?? '',
                           style: regular12Grey900,
                         ),
                       ),

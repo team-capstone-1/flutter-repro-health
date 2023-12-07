@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:reprohealth_app/component/button_component.dart';
+import 'package:reprohealth_app/constant/assets_constants.dart';
+import 'package:reprohealth_app/constant/routes_navigation.dart';
+import 'package:reprohealth_app/services/auth_services/auth_services.dart';
+import 'package:reprohealth_app/theme/theme.dart';
 
 class RegisterViewModels with ChangeNotifier {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -58,5 +63,66 @@ class RegisterViewModels with ChangeNotifier {
       return false;
     }
     return true;
+  }
+
+  Future<void> registerAccount({required BuildContext context}) async {
+    try {
+      await AuthServices().authRegister(
+        name: _nameController.text,
+        email: _emailController.text,
+        password: _passwordController.text,
+        context: context,
+      );
+
+      _nameController.clear();
+      _emailController.clear();
+      _passwordController.clear();
+      _confirmPasswordController.clear();
+
+      if (context.mounted) {
+        Navigator.pushNamedAndRemoveUntil(
+          context,
+          RoutesNavigation.successRegisterView,
+          (route) => false,
+        );
+      }
+    } catch (e) {
+      if (context.mounted) {
+        showModalBottomSheet(
+          context: context,
+          builder: (context) {
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Image.asset(Assets.assetsLoginWrong),
+                  const SizedBox(height: 8),
+                  Text(
+                    "Proses Daftar Akun Gagal",
+                    style: semiBold14Grey500,
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    "Email sudah terdaftar di dalam sistem kami!!",
+                    style: regular12Grey300,
+                  ),
+                  const SizedBox(height: 16),
+                  ButtonComponent(
+                    labelText: "Daftar kembali",
+                    labelStyle: semiBold12Grey10,
+                    backgroundColor: green500,
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  )
+                ],
+              ),
+            );
+          },
+        );
+      }
+      print("ini error");
+    }
   }
 }

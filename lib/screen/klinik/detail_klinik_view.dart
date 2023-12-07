@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:reprohealth_app/component/button_component.dart';
 import 'package:reprohealth_app/constant/routes_navigation.dart';
@@ -25,10 +26,17 @@ class DetailKlinikView extends StatelessWidget {
                 borderRadius: const BorderRadius.vertical(
                   bottom: Radius.circular(24),
                 ),
-                child: Image.asset(
-                  'assets/foto_klinik3.png',
-                  // detailClinics.image ?? '',
+                child: CachedNetworkImage(
                   fit: BoxFit.cover,
+                  imageUrl: detailClinics.image ?? '',
+                  placeholder: (context, url) =>
+                      const CircularProgressIndicator(),
+                  errorWidget: (context, url, error) => const Center(
+                    child: Icon(
+                      Icons.error,
+                      size: 60,
+                    ),
+                  ),
                 ),
               ),
             ),
@@ -73,7 +81,7 @@ class DetailKlinikView extends StatelessWidget {
                               ),
                               Expanded(
                                 child: Text(
-                                  detailClinics.location ?? '',
+                                  detailClinics.location ?? '-',
                                   style: regular12Grey900,
                                 ),
                               ),
@@ -93,7 +101,7 @@ class DetailKlinikView extends StatelessWidget {
                                   width: 8,
                                 ),
                                 Text(
-                                  "nomor clinics",
+                                  detailClinics.telephone ?? '-',
                                   style: regular12Grey900,
                                 )
                               ],
@@ -109,7 +117,7 @@ class DetailKlinikView extends StatelessWidget {
                                 width: 8,
                               ),
                               Text(
-                                "email clinics",
+                                detailClinics.email ?? '-',
                                 style: regular12Grey900,
                               )
                             ],

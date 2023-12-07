@@ -20,9 +20,14 @@ import 'package:reprohealth_app/screen/dokter/view_models/pilih_tanggal_view_mod
 import 'package:reprohealth_app/screen/forgot_password/detail_forgot_password_view.dart';
 import 'package:reprohealth_app/screen/forgot_password/forgot_password_view.dart';
 import 'package:reprohealth_app/screen/forgot_password/otp_view.dart';
+import 'package:reprohealth_app/screen/forgot_password/success_change_password.dart';
+import 'package:reprohealth_app/screen/forgot_password/view_model/detail_forgot_password_view_model.dart';
+import 'package:reprohealth_app/screen/forgot_password/view_model/forgot_password_view_model.dart';
+import 'package:reprohealth_app/screen/forgot_password/view_model/otp_view_model.dart';
 import 'package:reprohealth_app/screen/forum/create_forum_view.dart';
 import 'package:reprohealth_app/screen/forum/detail_forum_view.dart';
 import 'package:reprohealth_app/screen/forum/forum_view.dart';
+import 'package:reprohealth_app/screen/forum/view_model/create_forum_view_model.dart';
 import 'package:reprohealth_app/screen/forum/view_model/forum_view_model.dart';
 import 'package:reprohealth_app/screen/home/home_view.dart';
 import 'package:reprohealth_app/screen/home/home_view_model.dart';
@@ -39,7 +44,7 @@ import 'package:reprohealth_app/screen/maps/maps_view.dart';
 import 'package:reprohealth_app/screen/maps/maps_view_models/maps_view_model.dart';
 import 'package:reprohealth_app/screen/metode_pembayaran/confirmation_splash_view.dart';
 import 'package:reprohealth_app/screen/metode_pembayaran/payment_method_view.dart';
-import 'package:reprohealth_app/screen/onboarding/onbarding_view.dart';
+import 'package:reprohealth_app/screen/onboarding/onboarding_view.dart';
 import 'package:reprohealth_app/screen/profile/about_us_view.dart';
 import 'package:reprohealth_app/screen/profile/add_family_profile_view.dart';
 import 'package:reprohealth_app/screen/profile/change_password_view.dart';
@@ -83,6 +88,10 @@ class MainApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (context) => LoginViewModels()),
         ChangeNotifierProvider(create: (context) => RegisterViewModels()),
+        ChangeNotifierProvider(create: (context) => ForgotPasswordViewModel()),
+        ChangeNotifierProvider(create: (context) => OtpViewModel()),
+        ChangeNotifierProvider(
+            create: (context) => DetailForgotPasswordViewModel()),
         ChangeNotifierProvider(create: (context) => HomeViewModels()),
         ChangeNotifierProvider(create: (context) => DatePickerViewModel()),
         ChangeNotifierProvider(
@@ -104,57 +113,30 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => MapsViewModel()),
         ChangeNotifierProvider(create: (context) => PilihSesiViewModel()),
         ChangeNotifierProvider(create: (context) => PilihTanggalViewModel()),
+        ChangeNotifierProvider(create: (context) => HomeViewModels()),
+        ChangeNotifierProvider(create: (context) => DatePickerViewModel()),
         ChangeNotifierProvider(
-          create: (context) => HomeViewModels(),
-        ),
+            create: (context) => GetFamilyProfileViewModel()),
+        ChangeNotifierProvider(create: (context) => FilePickerViewModel()),
         ChangeNotifierProvider(
-          create: (context) => DatePickerViewModel(),
-        ),
+            create: (context) => PostFamilyProfileViewModel()),
         ChangeNotifierProvider(
-          create: (context) => GetFamilyProfileViewModel(),
-        ),
+            create: (context) => PutFamilyProfileViewModel()),
         ChangeNotifierProvider(
-          create: (context) => FilePickerViewModel(),
-        ),
-        ChangeNotifierProvider(
-          create: (context) => PostFamilyProfileViewModel(),
-        ),
-        ChangeNotifierProvider(
-          create: (context) => PutFamilyProfileViewModel(),
-        ),
-        ChangeNotifierProvider(
-          create: (context) => DeleteProfileFamilyViewModel(),
-        ),
-        ChangeNotifierProvider(
-          create: (context) => HomeViewModels(),
-        ),
-        ChangeNotifierProvider(
-          create: (context) => AppoinmentViewModel(),
-        ),
-        ChangeNotifierProvider(
-          create: (context) => SpecialistViewModels(),
-        ),
-        ChangeNotifierProvider(
-          create: (context) => DetailSpesialisViewModel(),
-        ),
-        ChangeNotifierProvider(
-          create: (context) => SearchKlinikViewModel(),
-        ),
-        ChangeNotifierProvider(
-          create: (context) => ClinicsViewModel(),
-        ),
-        ChangeNotifierProvider(
-          create: (context) => MapsViewModel(),
-        ),
-        ChangeNotifierProvider(
-          create: (context) => PilihSesiViewModel(),
-        ),
-        ChangeNotifierProvider(
-          create: (context) => PilihTanggalViewModel(),
-        ),
+            create: (context) => DeleteProfileFamilyViewModel()),
+        ChangeNotifierProvider(create: (context) => HomeViewModels()),
+        ChangeNotifierProvider(create: (context) => AppoinmentViewModel()),
+        ChangeNotifierProvider(create: (context) => SpecialistViewModels()),
+        ChangeNotifierProvider(create: (context) => DetailSpesialisViewModel()),
+        ChangeNotifierProvider(create: (context) => SearchKlinikViewModel()),
+        ChangeNotifierProvider(create: (context) => ClinicsViewModel()),
+        ChangeNotifierProvider(create: (context) => MapsViewModel()),
+        ChangeNotifierProvider(create: (context) => PilihSesiViewModel()),
+        ChangeNotifierProvider(create: (context) => PilihTanggalViewModel()),
         ChangeNotifierProvider(create: (context) => SplashViewModel()),
         ChangeNotifierProvider(create: (context) => HomeViewModels()),
         ChangeNotifierProvider(create: (context) => ForumViewModel()),
+        ChangeNotifierProvider(create: (context) => CreateForumViewModel()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -173,6 +155,8 @@ class MainApp extends StatelessWidget {
           RoutesNavigation.otpView: (context) => const OtpView(),
           RoutesNavigation.detailForgotPasswordView: (context) =>
               const DetailForgotPasswordView(),
+              RoutesNavigation.successChangePassword: (context) =>
+              const SuccessChangePassword(),
           RoutesNavigation.homeView: (context) => const HomeView(),
           RoutesNavigation.articleView: (context) => const ArticleView(),
           RoutesNavigation.articleDetailView: (context) =>

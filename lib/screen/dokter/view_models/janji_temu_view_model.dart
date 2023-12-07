@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:reprohealth_app/constant/routes_navigation.dart';
 import 'package:reprohealth_app/models/appointment_models/appointment_models.dart';
@@ -28,25 +29,31 @@ class JanjiTemuViewModel extends ChangeNotifier {
           await _appointmentServices.getTransactions(patientId: patientId);
       notifyListeners();
     } catch (e) {
-      print(e);
-    } 
+      if (kDebugMode) {
+        print(e);
+      }
+    }
   }
 
   Future<void> getProfile({required BuildContext context}) async {
     try {
       _profileList = await _profileServices.getProfileModel(context: context);
+      notifyListeners();
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
     }
   }
 
-  Future<void> postConsultasion(
-      {required String patientId,
-      required String doctorId,
-      required DateTime date,
-      required String session,
-      required BuildContext context,
-      required ResponseDataProfile? dataProfile}) async {
+  Future<void> postConsultasion({
+    required String patientId,
+    required String doctorId,
+    required DateTime date,
+    required String session,
+    required BuildContext context,
+    required ResponseDataProfile? dataProfile,
+  }) async {
     try {
       final id = await AppointmentServices().postConsultasion(
         patientId: patientId,
@@ -68,7 +75,9 @@ class JanjiTemuViewModel extends ChangeNotifier {
         }
       }
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
     }
   }
 }

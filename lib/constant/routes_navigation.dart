@@ -8,6 +8,7 @@ class RoutesNavigation {
   static const String forgotPasswordView = '/forgot-password';
   static const String otpView = '/otp';
   static const String detailForgotPasswordView = '/detail-forgot-password';
+  static const String successChangePassword = '/success-change-password';
 
   static const String homeView = '/home';
   static const String appointmenView = '/appointment';

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:reprohealth_app/constant/assets_constants.dart';
 import 'package:reprohealth_app/constant/routes_navigation.dart';
+import 'package:reprohealth_app/models/forum_models/forum_models.dart';
 import 'package:reprohealth_app/screen/forum/view_model/forum_view_model.dart';
 import 'package:reprohealth_app/theme/theme.dart';
 
@@ -131,7 +132,7 @@ class _PertanyaanSayaWidgetState extends State<PertanyaanSayaWidget> {
                                       Navigator.pushNamed(
                                         context,
                                         RoutesNavigation.detailForumView,
-                                        arguments: myForum,
+                                        arguments: myForum ?? ResponseDataForum(),
                                       );
                                     },
                                     child: Row(

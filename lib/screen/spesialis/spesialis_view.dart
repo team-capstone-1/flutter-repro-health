@@ -88,7 +88,7 @@ class SpesialisView extends StatelessWidget {
                               Navigator.pushNamed(
                                 context,
                                 RoutesNavigation.detailSpesialisView,
-                                arguments: specialist.id,
+                                arguments: specialist.id ?? String,
                               );
                             },
                             child: Card(

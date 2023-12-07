@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:reprohealth_app/component/button_component.dart';
 import 'package:reprohealth_app/constant/assets_constants.dart';
 import 'package:reprohealth_app/constant/routes_navigation.dart';
@@ -70,7 +71,7 @@ class DetailDokterView extends StatelessWidget {
                           ),
                           child: Text(
                             '5 Tahun',
-                            style: regular8Green50,
+                            style: regular10Green50,
                           ),
                         ),
                       ],
@@ -134,7 +135,9 @@ class DetailDokterView extends StatelessWidget {
                               width: 8,
                             ),
                             Text(
-                              detailDoctor.price.toString(),
+                              NumberFormat.currency(
+                                      locale: 'id_ID', symbol: 'Rp ')
+                                  .format(detailDoctor.price),
                               style: medium12Green500,
                             )
                           ],

@@ -5,7 +5,6 @@ import 'package:reprohealth_app/component/text_form_component.dart';
 import 'package:reprohealth_app/constant/assets_constants.dart';
 import 'package:reprohealth_app/constant/routes_navigation.dart';
 import 'package:reprohealth_app/screen/login/view_model/login_view_model.dart';
-import 'package:reprohealth_app/services/auth_services/auth_services.dart';
 import 'package:reprohealth_app/theme/theme.dart';
 
 class LoginView extends StatefulWidget {
@@ -16,6 +15,12 @@ class LoginView extends StatefulWidget {
 }
 
 class _LoginViewState extends State<LoginView> {
+  @override
+  void initState() {
+    Provider.of<LoginViewModels>(context, listen: false).autoLogin();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final formKey = GlobalKey<FormState>();
@@ -196,11 +201,7 @@ class _LoginViewState extends State<LoginView> {
                       backgroundColor: green500,
                       onPressed: () {
                         if (formKey.currentState!.validate()) {
-                          AuthServices().authLogin(
-                            email: loginViewModels.emailController.text,
-                            password: loginViewModels.passwordController.text,
-                            context: context,
-                          );
+                          loginViewModels.loginAccount(context: context);
                         }
                       },
                     ),

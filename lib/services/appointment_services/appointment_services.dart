@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:reprohealth_app/models/appointment_models/appointment_models.dart';
@@ -45,6 +46,9 @@ class AppointmentServices {
           },
         ),
       );
+      if (kDebugMode) {
+        print(response.data);
+      }
       final consultasionId = response.data['response']['id'];
       return consultasionId;
     } on DioException catch (e) {

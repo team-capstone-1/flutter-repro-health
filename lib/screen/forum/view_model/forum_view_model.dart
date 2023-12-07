@@ -1,92 +1,6 @@
-// import 'package:flutter/material.dart';
-// import 'package:reprohealth_app/models/forum_models/forum_models.dart';
-// import 'package:reprohealth_app/models/profile_models.dart';
-// import 'package:reprohealth_app/services/forum_services/forum_services.dart';
-// import 'package:reprohealth_app/services/profile_service/profile_service.dart';
-
-// class ForumViewModel with ChangeNotifier {
-//   TextEditingController searchController = TextEditingController();
-//   final ForumServices _forumServices = ForumServices();
-//   final ProfileService _profileServices = ProfileService();
-
-//   ProfileModel? _profileList;
-//   ProfileModel? get profileList => _profileList;
-
-//   ForumModels? _forumList;
-//   ForumModels? get forumList => _forumList;
-
-//   ForumModels? _myForumList;
-//   ForumModels? get myForumList => _myForumList;
-
-//   List<String> kategoriListMap = [];
-
-//   List<Response>? searchResults;
-
-//   String _searchText = '';
-//   String get searchText => _searchText;
-
-//   @override
-//   void dispose() {
-//     searchController.dispose();
-//     super.dispose();
-//   }
-
-//   void onSearchChanged(String value) {
-//     _searchText = value;
-//     notifyListeners();
-//   }
-
-//   void toggleCategory(String kategori) {
-//     if (kategoriListMap.contains(kategori)) {
-//       kategoriListMap.remove(kategori);
-//     } else {
-//       kategoriListMap.add(kategori);
-//     }
-//     notifyListeners();
-//   }
-
-//   Future<void> getForumList() async {
-//     try {
-//       _forumList = await _forumServices.getListForum();
-//       notifyListeners();
-//     } catch (e) {
-//       print(e);
-//     }
-//   }
-
-//   Future<void> getMyForumList() async {
-//     try {
-//       _myForumList = await _forumServices.getListMyForum(patientId: _profileList?.response?.first.id ?? '');
-//       print(_profileList?.response?.first.id);
-//       notifyListeners();
-//     } catch (e) {
-//       print(e);
-//     }
-//   }
-
-//   Future<void> getProfile({required BuildContext context}) async {
-//     try {
-//       _profileList = await _profileServices.getProfileModel(context: context);
-//     } catch (e) {
-//       print(e);
-//     }
-//   }
-
-//   void searchForum(String query) {
-//     if (query.isEmpty) {
-//       searchResults = null;
-//     } else {
-//       searchResults = forumList?.response?.where((forum) {
-//         return forum.title?.toLowerCase().contains(query.toLowerCase()) ==
-//                 true ||
-//             forum.content?.toLowerCase().contains(query.toLowerCase()) == true;
-//       }).toList();
-//     }
-//     notifyListeners();
-//   }
-// }
-
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:reprohealth_app/constant/routes_navigation.dart';
 import 'package:reprohealth_app/models/forum_models/forum_models.dart';
 import 'package:reprohealth_app/models/profile_models.dart';
 import 'package:reprohealth_app/services/forum_services/forum_services.dart';
@@ -108,7 +22,7 @@ class ForumViewModel with ChangeNotifier {
 
   List<String> kategoriListMap = [];
 
-  List<ResponseData>? searchResults;
+  List<ResponseDataForum>? searchResults;
 
   String _searchText = '';
   String get searchText => _searchText;
@@ -133,30 +47,39 @@ class ForumViewModel with ChangeNotifier {
     notifyListeners();
   }
 
+  // GET FORUM
   Future<void> getForumList() async {
     try {
       _forumList = await _forumServices.getListForum();
       notifyListeners();
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
     }
   }
 
+  // GET FORUM BY ID
   Future<void> getMyForumList() async {
     try {
       _myForumList = await _forumServices.getListMyForum(
           patientId: _profileList?.response?.first.id ?? '');
       notifyListeners();
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
     }
   }
 
+  // DATA API GET PROFILE
   Future<void> getProfile({required BuildContext context}) async {
     try {
       _profileList = await _profileServices.getProfileModel(context: context);
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
     }
   }
 
@@ -173,6 +96,7 @@ class ForumViewModel with ChangeNotifier {
     notifyListeners();
   }
 
+  // SET DATE FORUM
   String calculateDaysAgo(DateTime date) {
     final now = DateTime.now();
     final difference = now.difference(date);
@@ -182,6 +106,65 @@ class ForumViewModel with ChangeNotifier {
       return '${difference.inHours} jam';
     } else {
       return '${difference.inMinutes} menit';
+    }
+  }
+
+  Future<void> createForum({
+    required String title,
+    required String content,
+    required bool anonymous,
+    required BuildContext context,
+  }) async {
+    try {
+      await ForumServices().createForum(
+        patientId: _profileList?.response?.first.id ?? '',
+        title: title,
+        content: content,
+        anonymous: anonymous,
+        context: context,
+      );
+
+      if (context.mounted) {
+        Navigator.pushNamedAndRemoveUntil(
+          context,
+          RoutesNavigation.homeView,
+          (route) => false,
+        );
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print("Kendala: $e");
+      }
+    }
+  }
+
+  Future<void> deleteForum({
+    required String forumId,
+    required String title,
+    required String content,
+    required bool anonymous,
+    required BuildContext context,
+  }) async {
+    try {
+      await ForumServices().deleteForum(
+        forumId: forumId,
+        title: title,
+        content: content,
+        anonymous: anonymous,
+        context: context,
+      );
+
+      if (context.mounted) {
+        Navigator.pushNamedAndRemoveUntil(
+          context,
+          RoutesNavigation.detailForumView,
+          (route) => false,
+        );
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print("Kendala: $e");
+      }
     }
   }
 }

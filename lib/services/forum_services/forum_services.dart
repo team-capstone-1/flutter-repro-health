@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:reprohealth_app/constant/routes_navigation.dart';
 import 'package:reprohealth_app/models/forum_models/forum_models.dart';
 import 'package:reprohealth_app/utils/shared_preferences_utils.dart';
 
@@ -26,7 +26,7 @@ class ForumServices {
     }
   }
 
-  Future<ForumModels> createForum({
+  Future<void> createForum({
     required String patientId,
     required String title,
     required String content,
@@ -52,19 +52,15 @@ class ForumServices {
           },
         ),
       );
-      print(response.data);
-      Navigator.pushNamedAndRemoveUntil(
-        context,
-        RoutesNavigation.homeView,
-        (route) => false,
-      );
-      return ForumModels.fromJson(response.data);
+      if (kDebugMode) {
+        print(response.data);
+      }
     } on DioException catch (e) {
       throw Exception(e.response);
     }
   }
 
-  Future<ForumModels> deleteForum({
+  Future<void> deleteForum({
     required String forumId,
     required String title,
     required String content,
@@ -90,13 +86,9 @@ class ForumServices {
           },
         ),
       );
-      print(response.data);
-      Navigator.pushNamedAndRemoveUntil(
-        context,
-        RoutesNavigation.detailForumView,
-        (route) => false,
-      );
-      return ForumModels.fromJson(response.data);
+      if (kDebugMode) {
+        print(response.data);
+      }
     } on DioException catch (e) {
       throw Exception(e.response);
     }
