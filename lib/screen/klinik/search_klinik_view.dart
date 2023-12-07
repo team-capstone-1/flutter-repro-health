@@ -7,20 +7,32 @@ import 'package:reprohealth_app/screen/klinik/widget/list_dokter_widget.dart';
 import 'package:reprohealth_app/screen/klinik/widget/list_spesialis_widget.dart';
 import 'package:reprohealth_app/theme/theme.dart';
 
-class SearchKlinikView extends StatelessWidget {
+class SearchKlinikView extends StatefulWidget {
   const SearchKlinikView({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  State<SearchKlinikView> createState() => _SearchKlinikViewState();
+}
+
+class _SearchKlinikViewState extends State<SearchKlinikView> {
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
     final args =
         ModalRoute.of(context)!.settings.arguments as ResponseDataClinics;
     final ResponseDataClinics clinics = args;
 
-    Provider.of<SearchKlinikViewModel>(context)
-        .getListSpecialistClinics(clinicsId: clinics.id ?? '');
-    Provider.of<SearchKlinikViewModel>(context)
-        .getListDokterClinics(clinicsId: clinics.id ?? '');
+    Future.delayed(Duration.zero, () {
+      Provider.of<SearchKlinikViewModel>(context, listen: false)
+          .getListSpecialistClinics(clinicsId: clinics.id ?? '');
+      Provider.of<SearchKlinikViewModel>(context, listen: false)
+          .getListDokterClinics(clinicsId: clinics.id ?? '');
+    });
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return DefaultTabController(
       initialIndex: 0,
       length: 2,

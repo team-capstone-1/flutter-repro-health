@@ -1,16 +1,6 @@
-// To parse this JSON data, do
-//
-//     final profileModel = profileModelFromMap(jsonString);
-
-import 'dart:convert';
-
-ProfileModel profileModelFromMap(String str) => ProfileModel.fromMap(json.decode(str));
-
-String profileModelToMap(ProfileModel data) => json.encode(data.toMap());
-
 class ProfileModel {
     String? message;
-    List<Response>? response;
+    List<ResponseDataProfile>? response;
 
     ProfileModel({
         this.message,
@@ -19,7 +9,7 @@ class ProfileModel {
 
     factory ProfileModel.fromMap(Map<String, dynamic> json) => ProfileModel(
         message: json["message"],
-        response: json["response"] == null ? [] : List<Response>.from(json["response"]!.map((x) => Response.fromMap(x))),
+        response: json["response"] == null ? [] : List<ResponseDataProfile>.from(json["response"]!.map((x) => ResponseDataProfile.fromMap(x))),
     );
 
     Map<String, dynamic> toMap() => {
@@ -28,7 +18,7 @@ class ProfileModel {
     };
 }
 
-class Response {
+class ResponseDataProfile {
     String? id;
     String? userId;
     String? name;
@@ -40,7 +30,7 @@ class Response {
     int? height;
     String? gender;
 
-    Response({
+    ResponseDataProfile({
         this.id,
         this.userId,
         this.name,
@@ -53,7 +43,7 @@ class Response {
         this.gender,
     });
 
-    factory Response.fromMap(Map<String, dynamic> json) => Response(
+    factory ResponseDataProfile.fromMap(Map<String, dynamic> json) => ResponseDataProfile(
         id: json["id"],
         userId: json["user_id"],
         name: json["name"],

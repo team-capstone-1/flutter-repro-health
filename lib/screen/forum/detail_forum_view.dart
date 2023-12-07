@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:reprohealth_app/constant/assets_constants.dart';
+import 'package:reprohealth_app/constant/routes_navigation.dart';
 import 'package:reprohealth_app/models/forum_models/forum_models.dart';
+import 'package:reprohealth_app/screen/forum/view_model/forum_view_model.dart';
+import 'package:reprohealth_app/services/forum_services/forum_services.dart';
 import 'package:reprohealth_app/theme/theme.dart';
 
 class DetailForumView extends StatelessWidget {
@@ -11,6 +15,77 @@ class DetailForumView extends StatelessWidget {
     final args = ModalRoute.of(context)!.settings.arguments as ResponseData?;
     final ResponseData? detailForum = args;
 
+    final patientId =
+        Provider.of<ForumViewModel>(context).profileList?.response?.first.id;
+
+    Future<void> showMyDialog() async {
+      return showDialog<void>(
+        context: context,
+        barrierDismissible: false, // user must tap button!
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Center(
+              child: Text(
+                'Yakin ingin menghapus forum?',
+                style: semiBold14Black,
+              ),
+            ),
+            content: Text(
+              'Forum akan dihapus secara permanen. Semua jawaban dari dokter akan hilang dan tidak dapat dikembalikan lagi.',
+              style: regular12Grey300,
+              textAlign: TextAlign.center,
+            ),
+            actionsAlignment: MainAxisAlignment.center,
+            actions: <Widget>[
+              SizedBox(
+                height: 36,
+                width: 124,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: negative,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  child: Text('Ya, Hapus', style: semiBold12Grey10),
+                  onPressed: () {
+                    ForumServices().deleteForum(
+                      forumId: detailForum!.id!,
+                      title: detailForum.title!,
+                      content: detailForum.content!,
+                      anonymous: detailForum.anonymous!,
+                      context: context,
+                    );
+                    Navigator.pushNamedAndRemoveUntil(
+                      context,
+                      RoutesNavigation.homeView,
+                      (route) => false,
+                    );
+                  },
+                ),
+              ),
+              SizedBox(
+                height: 36,
+                width: 124,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: green500,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  child: Text('Tidak', style: semiBold12Grey10),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ),
+            ],
+          );
+        },
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -18,9 +93,12 @@ class DetailForumView extends StatelessWidget {
           style: semiBold16Grey700,
         ),
         actions: [
-          IconButton(
-            onPressed: () {},
-            icon: Image.asset(Assets.assetsTrashCan),
+          Visibility(
+            visible: detailForum!.patientId == patientId,
+            child: IconButton(
+              onPressed: showMyDialog,
+              icon: Image.asset(Assets.assetsTrashCan),
+            ),
           ),
         ],
       ),
@@ -30,12 +108,12 @@ class DetailForumView extends StatelessWidget {
           children: [
             const SizedBox(height: 24),
             Text(
-              detailForum?.title ?? '',
+              detailForum.title ?? '',
               style: semiBold16Grey900,
             ),
             const SizedBox(height: 24),
             Text(
-              detailForum?.content ?? '',
+              detailForum.content ?? '',
               style: regular12Grey900,
               textAlign: TextAlign.justify,
             ),
@@ -59,48 +137,51 @@ class DetailForumView extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 48),
-            detailForum?.forumReplies?.isNotEmpty == true ? Column(
-              children: [
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 13,
-                    horizontal: 8,
-                  ),
-                  width: double.infinity,
-                  color: green100,
-                  child: Row(
+            detailForum.forumReplies?.isNotEmpty == true
+                ? Column(
                     children: [
-                      const ClipRRect(
-                        child: Icon(Icons.people),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 13,
+                          horizontal: 8,
+                        ),
+                        width: double.infinity,
+                        color: green100,
+                        child: Row(
+                          children: [
+                            const ClipRRect(
+                              child: Icon(Icons.people),
+                            ),
+                            const SizedBox(
+                              width: 8,
+                            ),
+                            Text(
+                              "Dijawab oleh ",
+                              style: regular12Grey900,
+                            ),
+                            Text(
+                              detailForum.forumReplies?.first.doctor?.name ??
+                                  '',
+                              style: medium12Green700,
+                            ),
+                          ],
+                        ),
                       ),
-                      const SizedBox(
-                        width: 8,
-                      ),
-                      Text(
-                        "Dijawab oleh ",
-                        style: regular12Grey900,
-                      ),
-                      Text(
-                        detailForum?.forumReplies?.first.doctor?.name ?? '',
-                        style: medium12Green700,
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 16,
+                          horizontal: 8,
+                        ),
+                        color: green50,
+                        width: double.infinity,
+                        child: Text(
+                          detailForum.forumReplies?.first.content ?? '',
+                          style: regular12Grey900,
+                        ),
                       ),
                     ],
-                  ),
-                ),
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 16,
-                    horizontal: 8,
-                  ),
-                  color: green50,
-                  width: double.infinity,
-                  child: Text(
-                    detailForum?.forumReplies?.first.content ?? '',
-                    style: regular12Grey900,
-                  ),
-                ),
-              ],
-            ) : const SizedBox()
+                  )
+                : const SizedBox()
           ],
         ),
       ),

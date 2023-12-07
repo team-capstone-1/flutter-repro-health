@@ -149,6 +149,7 @@ class _CreateForumViewState extends State<CreateForumView> {
 Tulis pertanyaanmu di sini""",
                   hinstStyle: regular14Grey400,
                   textInputType: TextInputType.multiline,
+                  maxLength: 255,
                   maxLines: 18,
                   validator: (value) {
                     if (value == null || value.isEmpty) {

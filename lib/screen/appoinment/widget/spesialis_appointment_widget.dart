@@ -49,7 +49,7 @@ class SpesialisAppoinmentWidget extends StatelessWidget {
                   crossAxisSpacing: 8.0,
                   mainAxisSpacing: 8.0,
                 ),
-                itemCount: filteredSpecialistData.length,
+                itemCount: filteredSpecialistData.length.clamp(0, 6),
                 itemBuilder: (BuildContext context, int index) {
                   final specialist = filteredSpecialistData[index];
                   return GestureDetector(
@@ -57,6 +57,7 @@ class SpesialisAppoinmentWidget extends StatelessWidget {
                       Navigator.pushNamed(
                         context,
                         RoutesNavigation.detailSpesialisView,
+                        arguments: specialist.id,
                       );
                     },
                     child: Card(

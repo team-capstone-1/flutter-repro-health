@@ -16,11 +16,10 @@ class PertanyaanSayaWidget extends StatefulWidget {
 class _PertanyaanSayaWidgetState extends State<PertanyaanSayaWidget> {
   @override
   void initState() {
-    // Provider.of<ForumViewModel>(context).getProfile(context: context);
-    Provider.of<ForumViewModel>(context, listen: false)
-        .getMyForumList();
+    Provider.of<ForumViewModel>(context, listen: false).getMyForumList();
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<ForumViewModel>(
@@ -28,14 +27,9 @@ class _PertanyaanSayaWidgetState extends State<PertanyaanSayaWidget> {
         final myForumList = forumViewModel.myForumList;
         final searchResults = forumViewModel.searchResults;
         final displayedList = searchResults ?? myForumList?.response;
-        if (myForumList == null) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        }
 
         // Urutan daftar berdasarkan kategori yang berbeda
-        myForumList.response?.sort((a, b) {
+        myForumList?.response?.sort((a, b) {
           // Terbaru
           if (forumViewModel.kategoriListMap.contains('Terbaru')) {
             return b.date!.compareTo(a.date!);
@@ -55,38 +49,30 @@ class _PertanyaanSayaWidgetState extends State<PertanyaanSayaWidget> {
           return b.date!.compareTo(a.date!);
         });
 
-        return ListView.builder(
-          itemCount: displayedList?.length,
-          itemBuilder: (context, index) {
-            final myForum = displayedList?[index];
-            return myForum == null
-                ? const Center(
-                    child: Text('Tidak terdapat pertanyaan'),
-                  )
-                : SizedBox(
+        return myForumList?.response!.isNotEmpty == true
+            ? ListView.builder(
+                itemCount: displayedList?.length,
+                itemBuilder: (context, index) {
+                  final myForum = displayedList?[index];
+                  return SizedBox(
                     width: 360.0,
                     height: 220.0,
                     child: GestureDetector(
                       onTap: () {},
                       child: Card(
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                right: 16,
-                                left: 16,
-                                top: 16,
-                                bottom: 8,
-                              ),
-                              child: Align(
+                        child: Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: Column(
+                            children: [
+                              Align(
                                 alignment: Alignment.topLeft,
                                 child: Row(
                                   children: [
                                     Text(
-                                      myForum.status == true
+                                      myForum?.status == true
                                           ? "Terjawab"
                                           : "Belum Terjawab",
-                                      style: myForum.status == true
+                                      style: myForum?.status == true
                                           ? regular10Green500
                                           : regular10Red,
                                     ),
@@ -98,48 +84,35 @@ class _PertanyaanSayaWidgetState extends State<PertanyaanSayaWidget> {
                                     ),
                                     const SizedBox(width: 8),
                                     Text(
-                                      myForum.date.toString(),
+                                      myForum?.date != null
+                                          ? "Diunggah ${forumViewModel.calculateDaysAgo(myForum!.date!)} yang lalu"
+                                          : '',
                                       style: regular10Grey200,
-                                    )
+                                    ),
                                   ],
                                 ),
                               ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                right: 16,
-                                left: 16,
-                                bottom: 8,
-                              ),
-                              child: Align(
+                              const SizedBox(height: 8),
+                              Align(
                                 alignment: Alignment.topLeft,
                                 child: Text(
-                                  myForum.title ?? '',
+                                  myForum?.title ?? '',
                                   style: medium14Grey900,
                                   textAlign: TextAlign.left,
                                 ),
                               ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                right: 16,
-                                left: 16,
-                                bottom: 12,
-                              ),
-                              child: Align(
+                              const SizedBox(height: 8),
+                              Align(
                                 alignment: Alignment.topLeft,
                                 child: Text(
-                                  myForum.content ?? '',
+                                  myForum?.content ?? '',
                                   textAlign: TextAlign.justify,
                                   style: regular10Grey400,
                                 ),
                               ),
-                            ),
-                            const Spacer(),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
-                              child: Row(
+                              const SizedBox(height: 12),
+                              const Spacer(),
+                              Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
@@ -153,16 +126,13 @@ class _PertanyaanSayaWidgetState extends State<PertanyaanSayaWidget> {
                                         ),
                                     ],
                                   ),
-                                  // Image.asset(
-                                  //   Assets.assetsPhotoProfilPertanyaan,
-                                  //   width: 53.82,
-                                  //   height: 32,
-                                  // ),
-                                  const SizedBox(width: 168),
                                   GestureDetector(
                                     onTap: () {
-                                      Navigator.pushNamed(context,
-                                          RoutesNavigation.detailForumView);
+                                      Navigator.pushNamed(
+                                        context,
+                                        RoutesNavigation.detailForumView,
+                                        arguments: myForum,
+                                      );
                                     },
                                     child: Row(
                                       children: [
@@ -176,27 +146,28 @@ class _PertanyaanSayaWidgetState extends State<PertanyaanSayaWidget> {
                                           width: 6.59,
                                           height: 11.17,
                                         ),
-                                        const SizedBox(width: 8),
-                                        Text(
-                                          myForum.date.toString() ?? '',
-                                          style: regular10Grey200,
-                                        )
                                       ],
                                     ),
                                   ),
                                 ],
                               ),
-                            ),
-                            const SizedBox(
-                              height: 16,
-                            ),
-                          ],
+                              const SizedBox(
+                                height: 16,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
                   );
-          },
-        );
+                },
+              )
+            : Center(
+                child: Text(
+                  'Tidak terdapat pertanyaan',
+                  style: medium14Grey900,
+                ),
+              );
       },
     );
   }
