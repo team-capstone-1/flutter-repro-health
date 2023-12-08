@@ -7,35 +7,56 @@ import 'package:reprohealth_app/models/riwayat_models/history_transaction_models
 import 'package:reprohealth_app/services/riwayat_services/riwayat_services.dart';
 
 class RiwayatViewModel extends ChangeNotifier {
+  String nullImage =
+      "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png";
+
   //^ SERVICES
   final services = RiwayatServices();
 
   //^ MODEL
-  HistoryTransactionModel? _model;
-  HistoryTransactionModel? get model => _model;
+  HistoryTransactionModel? model;
+
+  bool isLoading = false; // isLoading
 
   //^ GET TRANSACTIONS
   Future<void> getTransaction({
     required String patientId,
   }) async {
+    isLoading = true; // loading state
+    notifyListeners();
+
+    // request
     try {
-      _model = await services.getTransaction(
+      // utnda selama 4 detik sebelum melakukan request
+      await Future.delayed(const Duration(seconds: 5));
+
+      model = await services.getTransaction(
         idPatients: patientId,
       );
 
+      isLoading = false; // unLoading state
       notifyListeners();
     } on DioException catch (e) {
+      isLoading = false; // unLoading state
+      notifyListeners();
+
       throw Exception("Failed to get data : ${e.response}");
     }
   }
 
   //^ GET TRANSACTION BY STATUSES
   List<ResponseData> getTransactionsByStatus({required List<String> statuses}) {
-    if (_model != null && _model!.response != null) {
-      return _model!.response!
+    if (model != null && model!.response != null) {
+      isLoading = true; // loading state
+      notifyListeners();
+
+      return model!.response!
           .where((transaction) => statuses.contains(transaction.status))
           .toList();
     } else {
+      isLoading = false; // unLoading state
+      notifyListeners();
+
       return [];
     }
   }

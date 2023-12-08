@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:reprohealth_app/models/riwayat_models/riwayat_models.dart';
+
 import 'package:reprohealth_app/screen/riwayat/view_model/riwayat_view_model.dart';
+import 'package:reprohealth_app/models/riwayat_models/history_transaction_models.dart';
 
 import 'package:reprohealth_app/theme/theme.dart';
 
@@ -11,8 +13,7 @@ class RefundDetailsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final appointmentData =
-        ModalRoute.of(context)?.settings.arguments as Transaction;
-    int indexDoctor = 0;
+        ModalRoute.of(context)?.settings.arguments as ResponseData;
 
     return Scaffold(
       appBar: AppBar(
@@ -46,20 +47,66 @@ class RefundDetailsView extends StatelessWidget {
                   const SizedBox(height: 16),
 
                   //^ Pengembalian Dana sedang diproses / berhasil
-                  Text(
-                    "Pengembalian Dana Sedang Diproses / Berhasil",
-                    style: semiBold16Green500,
-                  ),
-                  const SizedBox(height: 12),
+                  if (appointmentData.refund?.isNotEmpty == true) ...[
+                    if (appointmentData.refund?.first.status ==
+                        'processing') ...[
+                      Text(
+                        "Pengembalian Dana Sedang Diproses",
+                        style: semiBold16Green500,
+                      ),
+                      const SizedBox(height: 12),
+                    ] else ...[
+                      Text(
+                        "Pengembalian Dana Berhasil",
+                        style: semiBold16Green500,
+                      ),
+                      const SizedBox(height: 12),
+                    ],
+                  ] else ...[
+                    const Text('data null'),
+                  ],
 
-                  //^ Dana sebesar 85.000 akan dikembalikan / berhasil
-                  Text(
-                    "Dana sebesar ${Provider.of<RiwayatViewModel>(context).convertToIdr(
-                      appointmentData.totalBill! - 5000,
-                      2,
-                    )} akan dikembalikan ke rekening Anda. Silahkan dicek secara berkala dalam 14 hari kerja",
-                    style: medium12Grey300,
-                  ),
+                  if (appointmentData.refund?.isNotEmpty == true) ...[
+                    //^ Dana sebesar 85.000 akan dikembalikan / berhasil
+                    if (appointmentData.refund?.first.status ==
+                        'processing') ...[
+                      Text(
+                        "Dana sebesar ${Provider.of<RiwayatViewModel>(context).convertToIdr(
+                          appointmentData.total! - 5000,
+                          2,
+                        )} akan dikembalikan ke rekening Anda. Silahkan dicek secara berkala dalam 14 hari kerja",
+                        style: medium12Grey300,
+                      ),
+                    ] else ...[
+                      Text(
+                        "Dana sebesar ${Provider.of<RiwayatViewModel>(context).convertToIdr(
+                          appointmentData.total! - 5000,
+                          2,
+                        )} telah dikembalikan ke rekening Anda. Silahkan dicek secara berkala dalam 14 hari kerja",
+                        style: medium12Grey300,
+                      ),
+                      const SizedBox(height: 8),
+                      RichText(
+                        text: TextSpan(
+                          text: "Apabila dana tidak masuk segera hubungi ",
+                          style: medium12Grey300,
+                          children: [
+                            TextSpan(
+                              text: "help center",
+                              style: medium12Green500,
+                              onEnter: (event) {},
+                            ),
+                            TextSpan(
+                              text: " kami",
+                              style: medium12Grey500,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ]
+                  ] else ...[
+                    const Text('data null'),
+                  ],
                 ],
               ),
             ),
@@ -91,7 +138,8 @@ class RefundDetailsView extends StatelessWidget {
                         style: regular12Grey400,
                       ),
                       Text(
-                        (appointmentData.queueNumber ?? 0).toString(),
+                        (appointmentData.consultation?.queueNumber ?? 0)
+                            .toString(),
                         style: semiBold12Green500,
                       ),
                     ],
@@ -107,7 +155,7 @@ class RefundDetailsView extends StatelessWidget {
                         style: regular12Grey400,
                       ),
                       Text(
-                        appointmentData.doctor?[indexDoctor].name ?? '-',
+                        appointmentData.consultation?.doctor?.name ?? '-',
                         style: semiBold12Grey500,
                       ),
                     ],
@@ -123,7 +171,11 @@ class RefundDetailsView extends StatelessWidget {
                         style: regular12Grey400,
                       ),
                       Text(
-                        appointmentData.appointmentDate ?? '-',
+                        DateFormat.yMMMMd(
+                          'id_ID',
+                        ).format(
+                          appointmentData.consultation?.date ?? DateTime.now(),
+                        ),
                         style: semiBold12Grey500,
                       ),
                     ],
@@ -140,17 +192,27 @@ class RefundDetailsView extends StatelessWidget {
                       ),
                       RichText(
                         text: TextSpan(
-                          text: (appointmentData.session!).replaceAll(
-                            RegExp(r'[().0-9-]'),
-                            '',
+                          text:
+                              appointmentData.consultation?.session?.replaceAll(
+                            appointmentData.consultation!.session![0],
+                            appointmentData.consultation!.session![0]
+                                .toUpperCase(),
                           ),
                           style: semiBold12Grey500,
                           children: [
                             TextSpan(
-                              text: (appointmentData.session!).replaceAll(
-                                RegExp(r'[a-zA-Z]'),
-                                '',
-                              ),
+                              text: () {
+                                if (appointmentData.consultation?.session ==
+                                    'pagi') {
+                                  return " (08.00 - 11.00)";
+                                } else if (appointmentData
+                                        .consultation?.session ==
+                                    'siang') {
+                                  return " (13.00-15.30)";
+                                } else {
+                                  return " (18.30-20.30)";
+                                }
+                              }(),
                               style: semiBold12Green500,
                             ),
                           ],
@@ -169,7 +231,7 @@ class RefundDetailsView extends StatelessWidget {
                         style: regular12Grey400,
                       ),
                       Text(
-                        appointmentData.location ?? '-',
+                        appointmentData.consultation?.clinic?.location ?? '-',
                         style: semiBold12Grey500,
                       ),
                     ],
@@ -201,7 +263,7 @@ class RefundDetailsView extends StatelessWidget {
                         style: regular12Grey400,
                       ),
                       Text(
-                        appointmentData.paymentMethod ?? '-',
+                        appointmentData.payment?.first.method ?? '-',
                         style: semiBold12Grey500,
                       ),
                     ],
@@ -218,7 +280,7 @@ class RefundDetailsView extends StatelessWidget {
                       ),
                       Text(
                         Provider.of<RiwayatViewModel>(context).convertToIdr(
-                          appointmentData.totalBill! - 5000,
+                          appointmentData.total! - 5000,
                           2,
                         ),
                         style: semiBold12Grey500,
@@ -236,7 +298,7 @@ class RefundDetailsView extends StatelessWidget {
                         style: regular12Grey400,
                       ),
                       Text(
-                        "Antoni Julio",
+                        appointmentData.refund?.first.name ?? '-',
                         style: semiBold12Grey500,
                       ),
                     ],
@@ -252,7 +314,9 @@ class RefundDetailsView extends StatelessWidget {
                         style: regular12Grey400,
                       ),
                       Text(
-                        "11-11-2023 12.30",
+                        DateFormat('dd-MM-yyyy HH:mm', 'id_ID').format(
+                          appointmentData.refund?.first.date ?? DateTime.now(),
+                        ),
                         style: semiBold12Grey500,
                       ),
                     ],

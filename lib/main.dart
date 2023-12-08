@@ -10,6 +10,7 @@ import 'package:reprohealth_app/screen/article/article_view.dart';
 import 'package:reprohealth_app/screen/article/bookmark_view.dart';
 import 'package:reprohealth_app/screen/article/comment_view.dart';
 import 'package:reprohealth_app/screen/cancel_appointment_payment_at_clinic/cancel_appointment_payment_at_clinic_view.dart';
+import 'package:reprohealth_app/screen/cancel_appointment_payment_at_clinic/cancel_at_clinic_view_model/cancel_at_clinic_view_model.dart';
 import 'package:reprohealth_app/screen/choice/choice_view.dart';
 import 'package:reprohealth_app/screen/confirm_status/confirm_status_view.dart';
 import 'package:reprohealth_app/screen/dokter/detail_dokter_view.dart';
@@ -56,10 +57,12 @@ import 'package:reprohealth_app/screen/profile/view_model/get_family_profile_vie
 import 'package:reprohealth_app/screen/profile/view_model/post_family_profile_view_model.dart';
 import 'package:reprohealth_app/screen/profile/view_model/put_family_profile_view_model.dart';
 import 'package:reprohealth_app/screen/refund/refund_view.dart';
+import 'package:reprohealth_app/screen/refund/refund_view_model/refund_view_model.dart';
 import 'package:reprohealth_app/screen/refund_details/refund_details_view.dart';
 import 'package:reprohealth_app/screen/register/register_view.dart';
 import 'package:reprohealth_app/screen/register/success_register_view.dart';
 import 'package:reprohealth_app/screen/register/view_model/register_view_model.dart';
+import 'package:reprohealth_app/screen/reschedule/rescedhule_view_model/rescedhule_view_model.dart';
 import 'package:reprohealth_app/screen/reschedule/reschedule_view.dart';
 import 'package:reprohealth_app/screen/riwayat/riwayat_view.dart';
 import 'package:reprohealth_app/screen/riwayat/view_model/riwayat_view_model.dart';
@@ -72,9 +75,11 @@ import 'package:reprohealth_app/screen/splash/view_model/splash_view_model.dart'
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await initializeDateFormatting('id_ID', null).then((_) => runApp(
-        const MainApp(),
-      ));
+  await initializeDateFormatting('id_ID', null).then(
+    (_) => runApp(
+      const MainApp(),
+    ),
+  );
 }
 
 class MainApp extends StatelessWidget {
@@ -101,6 +106,9 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => MapsViewModel()),
         ChangeNotifierProvider(create: (context) => PilihSesiViewModel()),
         ChangeNotifierProvider(create: (context) => PilihTanggalViewModel()),
+        ChangeNotifierProvider(create: (context) => RescedhuleViewModel()),
+        ChangeNotifierProvider(create: (context) => RefundViewModel()),
+        ChangeNotifierProvider(create: (context) => CancelAtClinicViewModel()),
         ChangeNotifierProvider(
           create: (context) => HomeViewModels(),
         ),

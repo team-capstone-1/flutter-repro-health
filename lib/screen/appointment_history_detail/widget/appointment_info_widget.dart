@@ -33,7 +33,10 @@ class AppointmentInfoWidget extends StatelessWidget {
                 style: regular12Grey400,
               ),
               Text(
-                appointmentData?.invoice?.substring(17, 19) ?? '-',
+                appointmentData?.consultation?.queueNumber?.isNotEmpty == true
+                    ? appointmentData?.consultation?.queueNumber.toString() ??
+                        '-'
+                    : "Belum Ada Nomor Antrian",
                 style: semiBold12Green500,
               ),
             ],
@@ -151,9 +154,9 @@ class AppointmentInfoWidget extends StatelessWidget {
                           return " (08.00 - 11.00)";
                         } else if (appointmentData?.consultation?.session ==
                             'siang') {
-                          return "( 13.00-15.30)";
+                          return " (13.00-15.30)";
                         } else {
-                          return "( 18.30-20.30)";
+                          return " (18.30-20.30)";
                         }
                       }(),
                       style: semiBold12Green500,

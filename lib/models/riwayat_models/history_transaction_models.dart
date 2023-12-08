@@ -2,14 +2,6 @@
 //
 //     final historyTransactionModel = historyTransactionModelFromJson(jsonString);
 
-import 'dart:convert';
-
-HistoryTransactionModel historyTransactionModelFromJson(String str) =>
-    HistoryTransactionModel.fromJson(json.decode(str));
-
-String historyTransactionModelToJson(HistoryTransactionModel data) =>
-    json.encode(data.toJson());
-
 class HistoryTransactionModel {
   String? message;
   List<ResponseData>? response;
@@ -111,6 +103,7 @@ class Consultation {
   DateTime? date;
   String? session;
   String? queueNumber;
+  Patient? patient;
   Clinic? clinic;
   Doctor? doctor;
 
@@ -122,6 +115,7 @@ class Consultation {
     this.date,
     this.session,
     this.queueNumber,
+    this.patient,
     this.clinic,
     this.doctor,
   });
@@ -134,6 +128,8 @@ class Consultation {
         date: json["date"] == null ? null : DateTime.parse(json["date"]),
         session: json["session"],
         queueNumber: json["queue_number"],
+        patient:
+            json["patient"] == null ? null : Patient.fromJson(json["patient"]),
         clinic: json["clinic"] == null ? null : Clinic.fromJson(json["clinic"]),
         doctor: json["doctor"] == null ? null : Doctor.fromJson(json["doctor"]),
       );
@@ -146,6 +142,7 @@ class Consultation {
         "date": date?.toIso8601String(),
         "session": session,
         "queue_number": queueNumber,
+        "patient": patient?.toJson(),
         "clinic": clinic?.toJson(),
         "doctor": doctor?.toJson(),
       };
@@ -247,6 +244,66 @@ class Doctor {
       };
 }
 
+class Patient {
+  String? id;
+  String? userId;
+  String? name;
+  String? telephoneNumber;
+  String? profileImage;
+  DateTime? dateOfBirth;
+  String? relation;
+  double? weight;
+  double? height;
+  String? gender;
+  DateTime? createdAt;
+
+  Patient({
+    this.id,
+    this.userId,
+    this.name,
+    this.telephoneNumber,
+    this.profileImage,
+    this.dateOfBirth,
+    this.relation,
+    this.weight,
+    this.height,
+    this.gender,
+    this.createdAt,
+  });
+
+  factory Patient.fromJson(Map<String, dynamic> json) => Patient(
+        id: json["id"],
+        userId: json["user_id"],
+        name: json["name"],
+        telephoneNumber: json["telephone_number"],
+        profileImage: json["profile_image"],
+        dateOfBirth: json["date_of_birth"] == null
+            ? null
+            : DateTime.parse(json["date_of_birth"]),
+        relation: json["relation"],
+        weight: json["weight"]?.toDouble(),
+        height: json["height"]?.toDouble(),
+        gender: json["gender"],
+        createdAt: json["created_at"] == null
+            ? null
+            : DateTime.parse(json["created_at"]),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "user_id": userId,
+        "name": name,
+        "telephone_number": telephoneNumber,
+        "profile_image": profileImage,
+        "date_of_birth": dateOfBirth?.toIso8601String(),
+        "relation": relation,
+        "weight": weight,
+        "height": height,
+        "gender": gender,
+        "created_at": createdAt?.toIso8601String(),
+      };
+}
+
 class Payment {
   String? id;
   String? transactionId;
@@ -287,6 +344,7 @@ class Refund {
   String? id;
   String? transactionId;
   String? name;
+  String? bank;
   String? accountNumber;
   DateTime? date;
   String? status;
@@ -295,6 +353,7 @@ class Refund {
     this.id,
     this.transactionId,
     this.name,
+    this.bank,
     this.accountNumber,
     this.date,
     this.status,
@@ -304,6 +363,7 @@ class Refund {
         id: json["id"],
         transactionId: json["transaction_id"],
         name: json["name"],
+        bank: json["bank"],
         accountNumber: json["account_number"],
         date: json["date"] == null ? null : DateTime.parse(json["date"]),
         status: json["status"],
@@ -313,6 +373,7 @@ class Refund {
         "id": id,
         "transaction_id": transactionId,
         "name": name,
+        "bank": bank,
         "account_number": accountNumber,
         "date": date?.toIso8601String(),
         "status": status,

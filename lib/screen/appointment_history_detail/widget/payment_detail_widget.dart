@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:reprohealth_app/constant/payment_method.dart';
-import 'package:reprohealth_app/models/riwayat_models/history_transaction_models.dart';
 
 import 'package:reprohealth_app/theme/theme.dart';
 import 'package:reprohealth_app/screen/riwayat/view_model/riwayat_view_model.dart';
+import 'package:reprohealth_app/models/riwayat_models/history_transaction_models.dart';
 
 class PaymentDetailWidget extends StatelessWidget {
   const PaymentDetailWidget({
@@ -42,15 +42,21 @@ class PaymentDetailWidget extends StatelessWidget {
               Flexible(
                 child: Text(
                   () {
+                    // jika payment != null
                     if (appointmentData?.payment?.isNotEmpty == true) {
+                      // jika user bayar [TRANSFER MANUAL]
                       if (appointmentData?.payment?.first.method ==
                           PaymentMethod.transferManual) {
                         return "Transfer Manual";
+                        // jika user bayar [DIKLINIK]
                       } else {
                         return "Bayar Diklinik";
                       }
+
+                      // jika payment == nulll
+                      // berarti user belum bayar
                     } else {
-                      return "Anda Belum Memilih Metode Pembayaran";
+                      return "Transfer Manual";
                     }
                   }(),
                   style: semiBold12Grey500,
@@ -105,17 +111,20 @@ class PaymentDetailWidget extends StatelessWidget {
             children: [
               Text(
                 "Total Harga",
-                style: regular12Grey500,
+                style: semiBold14Grey500,
               ),
               Text(
                 Provider.of<RiwayatViewModel>(context).convertToIdr(
                   appointmentData?.total,
                   2,
                 ),
-                style: semiBold12Grey500,
-              ),
+                style: semiBold14Green500,
+              )
             ],
           ),
+          const SizedBox(height: 8),
+
+          Text('*Harga yang harus dibayarkan', style: regular10Grey400),
         ],
       ),
     );

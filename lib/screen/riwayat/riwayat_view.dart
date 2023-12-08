@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:reprohealth_app/constant/routes_navigation.dart';
-
-import 'package:reprohealth_app/screen/riwayat/view_model/riwayat_view_model.dart';
-import 'package:reprohealth_app/screen/riwayat/widget/appointment_list_item_widget.dart';
+import 'package:reprohealth_app/screen/riwayat/widget/shimmer_loading_widget.dart';
 
 import 'package:reprohealth_app/theme/theme.dart';
+import 'package:reprohealth_app/screen/riwayat/widget/tabbar_view_widget.dart';
+import 'package:reprohealth_app/screen/riwayat/view_model/riwayat_view_model.dart';
 import 'package:reprohealth_app/screen/riwayat/widget/chip_appointment_length_widget.dart';
 
 class RiwayatView extends StatefulWidget {
@@ -16,7 +15,7 @@ class RiwayatView extends StatefulWidget {
 }
 
 class _RiwayatViewState extends State<RiwayatView> {
-  final String patientId = "91006a69-9237-42be-80b7-4aabfe88e59e";
+  final String patientId = "e967991b-e9be-428d-9bb9-5ef3daaca27e";
 
   @override
   void initState() {
@@ -32,10 +31,10 @@ class _RiwayatViewState extends State<RiwayatView> {
   @override
   Widget build(BuildContext context) {
     return Consumer<RiwayatViewModel>(
-      builder: (context, transaction, child) {
-        var transactionProcessed = transaction.getProcessedTransactions();
-        var transactionSuccesed = transaction.getSuceesedTransactions();
-        var transactionCancelled = transaction.getCancelledTransactions();
+      builder: (context, controller, child) {
+        var transactionProcessed = controller.getProcessedTransactions();
+        var transactionSuccesed = controller.getSuceesedTransactions();
+        var transactionCancelled = controller.getCancelledTransactions();
 
         return DefaultTabController(
           length: 3,
@@ -81,111 +80,36 @@ class _RiwayatViewState extends State<RiwayatView> {
                 ],
               ),
             ),
-            body: TabBarView(
-              children: [
-                //^ DI PROSES
-                Column(
+            body: Consumer<RiwayatViewModel>(
+              builder: (context, controller, child) {
+                return TabBarView(
                   children: [
-                    Expanded(
-                      child: SizedBox(
-                        child: transactionProcessed.isNotEmpty == true
-                            ? ListView.builder(
-                                shrinkWrap: true,
-                                itemCount: transactionProcessed.length,
-                                itemBuilder: (context, index) {
-                                  var appointmentData =
-                                      transactionProcessed[index];
+                    //^ DI PROSES
+                    controller.isLoading
+                        ? TabBarViewWidget(
+                            transactionData: transactionProcessed,
+                            visibleStatusContainer: true,
+                          )
+                        : const ShimmerLoadingWidget(),
 
-                                  return AppointmentListItemWidget(
-                                    appointmentData: appointmentData,
-                                    visibleStatusContainer: true,
-                                    onPressed: () {
-                                      Navigator.pushNamed(
-                                        context,
-                                        RoutesNavigation
-                                            .appointmentHistoryDetailView,
-                                        arguments: appointmentData,
-                                      );
-                                    },
-                                  );
-                                },
-                              )
-                            : const Center(
-                                child: Text('kosong'),
-                              ),
-                      ),
-                    ),
-                  ],
-                ),
+                    //^ SELESAI
+                    controller.isLoading
+                        ? TabBarViewWidget(
+                            transactionData: transactionSuccesed,
+                            visibleStatusContainer: false,
+                          )
+                        : const ShimmerLoadingWidget(),
 
-                //^ SELESAI
-                Column(
-                  children: [
-                    Expanded(
-                      child: SizedBox(
-                        child: transactionSuccesed.isNotEmpty == true
-                            ? ListView.builder(
-                                shrinkWrap: true,
-                                itemCount: transactionSuccesed.length,
-                                itemBuilder: (context, index) {
-                                  var appointmentData =
-                                      transactionSuccesed[index];
-                                  return AppointmentListItemWidget(
-                                    appointmentData: appointmentData,
-                                    visibleStatusContainer: false,
-                                    onPressed: () {
-                                      Navigator.pushNamed(
-                                        context,
-                                        RoutesNavigation
-                                            .appointmentHistoryDetailView,
-                                        arguments: appointmentData,
-                                      );
-                                    },
-                                  );
-                                },
-                              )
-                            : const Center(
-                                child: Text('kosong'),
-                              ),
-                      ),
-                    ),
+                    //^ BATAL
+                    controller.isLoading
+                        ? TabBarViewWidget(
+                            transactionData: transactionCancelled,
+                            visibleStatusContainer: false,
+                          )
+                        : const ShimmerLoadingWidget(),
                   ],
-                ),
-
-                //^ BATAL
-                Column(
-                  children: [
-                    Expanded(
-                      child: SizedBox(
-                        child: transactionCancelled.isNotEmpty == true
-                            ? ListView.builder(
-                                shrinkWrap: true,
-                                itemCount: transactionCancelled.length,
-                                itemBuilder: (context, index) {
-                                  var appointmentData =
-                                      transactionCancelled[index];
-                                  return AppointmentListItemWidget(
-                                    appointmentData: appointmentData,
-                                    visibleStatusContainer: false,
-                                    onPressed: () {
-                                      Navigator.pushNamed(
-                                        context,
-                                        RoutesNavigation
-                                            .appointmentHistoryDetailView,
-                                        arguments: appointmentData,
-                                      );
-                                    },
-                                  );
-                                },
-                              )
-                            : const Center(
-                                child: Text('kosong'),
-                              ),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
+                );
+              },
             ),
             backgroundColor: grey50,
           ),

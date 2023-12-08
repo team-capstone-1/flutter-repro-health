@@ -8,8 +8,6 @@ class ConfirmStatusView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String statusData = ModalRoute.of(context)?.settings.arguments as String;
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -31,7 +29,7 @@ class ConfirmStatusView extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             Text(
-              statusData,
+              "OKe",
               style: semiBold16Grey700,
             ),
             const SizedBox(height: 10),

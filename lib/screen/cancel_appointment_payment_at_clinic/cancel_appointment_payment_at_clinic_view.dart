@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:reprohealth_app/models/riwayat_models/riwayat_models.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import 'package:reprohealth_app/screen/cancel_appointment_payment_at_clinic/cancel_at_clinic_view_model/cancel_at_clinic_view_model.dart';
 
 import 'package:reprohealth_app/theme/theme.dart';
 import 'package:reprohealth_app/component/button_component.dart';
-import 'package:reprohealth_app/constant/routes_navigation.dart';
+import 'package:reprohealth_app/models/riwayat_models/history_transaction_models.dart';
 
 class CancelAppointmentPaymentAtClicic extends StatelessWidget {
   const CancelAppointmentPaymentAtClicic({super.key});
@@ -12,8 +14,7 @@ class CancelAppointmentPaymentAtClicic extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final appointmentData =
-        ModalRoute.of(context)?.settings.arguments as Transaction;
-    int indexDoctor = 0;
+        ModalRoute.of(context)?.settings.arguments as ResponseData;
 
     return Scaffold(
       body: CustomScrollView(
@@ -47,7 +48,7 @@ class CancelAppointmentPaymentAtClicic extends StatelessWidget {
                   bottom: Radius.circular(24),
                 ),
                 child: Image.network(
-                  appointmentData.doctor?[indexDoctor].avatar ?? '-',
+                  appointmentData.consultation?.doctor?.profileImage ?? '-',
                   fit: BoxFit.cover,
                 ),
               ),
@@ -81,7 +82,8 @@ class CancelAppointmentPaymentAtClicic extends StatelessWidget {
                             style: regular12Grey400,
                           ),
                           Text(
-                            (appointmentData.queueNumber ?? 0).toString(),
+                            (appointmentData.consultation?.queueNumber ?? 0)
+                                .toString(),
                             style: semiBold12Green500,
                           ),
                         ],
@@ -97,7 +99,7 @@ class CancelAppointmentPaymentAtClicic extends StatelessWidget {
                             style: regular12Grey400,
                           ),
                           Text(
-                            appointmentData.doctor?[indexDoctor].name ?? '-',
+                            appointmentData.consultation?.doctor?.name ?? '-',
                             style: semiBold12Grey500,
                           ),
                         ],
@@ -113,7 +115,7 @@ class CancelAppointmentPaymentAtClicic extends StatelessWidget {
                             style: regular12Grey400,
                           ),
                           Text(
-                            appointmentData.doctor?[indexDoctor].specialist ??
+                            appointmentData.consultation?.doctor?.specialist ??
                                 '-',
                             style: semiBold12Grey500,
                           ),
@@ -130,7 +132,10 @@ class CancelAppointmentPaymentAtClicic extends StatelessWidget {
                             style: regular12Grey400,
                           ),
                           Text(
-                            appointmentData.appointmentDate ?? '-',
+                            DateFormat('d MMMM y', 'id_ID').format(
+                              appointmentData.consultation?.date ??
+                                  DateTime.now(),
+                            ),
                             style: semiBold12Grey500,
                           ),
                         ],
@@ -147,13 +152,27 @@ class CancelAppointmentPaymentAtClicic extends StatelessWidget {
                           ),
                           RichText(
                             text: TextSpan(
-                              text: (appointmentData.session ?? '-')
-                                  .replaceAll(RegExp(r'[0-9().-]'), ''),
+                              text: appointmentData.consultation?.session
+                                  ?.replaceAll(
+                                appointmentData.consultation!.session![0],
+                                appointmentData.consultation!.session![0]
+                                    .toUpperCase(),
+                              ),
                               style: semiBold12Grey500,
                               children: [
                                 TextSpan(
-                                  text: (appointmentData.session ?? '-')
-                                      .replaceAll(RegExp(r'[a-zA-Z]'), ''),
+                                  text: () {
+                                    if (appointmentData.consultation?.session ==
+                                        'pagi') {
+                                      return " (08.00 - 11.00)";
+                                    } else if (appointmentData
+                                            .consultation?.session ==
+                                        'siang') {
+                                      return " (13.00-15.30)";
+                                    } else {
+                                      return " (18.30-20.30)";
+                                    }
+                                  }(),
                                   style: semiBold12Green500,
                                 ),
                               ],
@@ -172,7 +191,8 @@ class CancelAppointmentPaymentAtClicic extends StatelessWidget {
                             style: regular12Grey400,
                           ),
                           Text(
-                            appointmentData.location ?? "-",
+                            appointmentData.consultation?.clinic?.location ??
+                                "-",
                             style: semiBold12Grey500,
                           ),
                         ],
@@ -190,25 +210,29 @@ class CancelAppointmentPaymentAtClicic extends StatelessWidget {
       backgroundColor: grey50,
 
       //^ ACTION BUTTON
-      bottomSheet: Container(
-        width: MediaQuery.of(context).size.width,
-        padding: const EdgeInsets.all(16),
-        color: grey10,
-        child: ButtonComponent(
-          labelText: "Batalkan Jadwal",
-          labelStyle: semiBold12Primary,
-          backgroundColor: negative,
-          elevation: 0,
-          onPressed: () {
-            Navigator.pushNamedAndRemoveUntil(
-              context,
-              RoutesNavigation.confirmStatusView,
-              (route) => route.isFirst,
-              arguments: 'Berhasil Membatalkan Janji Temu',
-            );
-          },
-        ),
-      ),
+      bottomSheet: Consumer<CancelAtClinicViewModel>(
+          builder: (context, controller, child) {
+        return Container(
+          width: MediaQuery.of(context).size.width,
+          padding: const EdgeInsets.all(16),
+          color: grey10,
+          child: ButtonComponent(
+            labelText: controller.isLoading ? "Proses ..." : "Batalkan Jadwal",
+            labelStyle: semiBold12Primary,
+            backgroundColor: controller.isLoading ? grey50 : negative,
+            elevation: 0,
+            onPressed: () {
+              // fungsi dijalankan ketika loading == false
+              if (controller.isLoading == false) {
+                controller.cancelTransaction(
+                  idTransactions: appointmentData.id,
+                  context: context,
+                );
+              }
+            },
+          ),
+        );
+      }),
     );
   }
 }

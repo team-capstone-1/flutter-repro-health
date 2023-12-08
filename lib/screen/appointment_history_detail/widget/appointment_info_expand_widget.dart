@@ -39,7 +39,7 @@ class AppointmentInfoExpandWidget extends StatelessWidget {
                 style: regular12Grey400,
               ),
               Text(
-                appointmentData.invoice?.substring(17, 19) ?? '-',
+                appointmentData.consultation?.queueNumber.toString() ?? '-',
                 style: semiBold12Green500,
               ),
             ],

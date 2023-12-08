@@ -1,8 +1,10 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:reprohealth_app/constant/appointment_status.dart';
 import 'package:reprohealth_app/constant/payment_method.dart';
 import 'package:reprohealth_app/constant/payment_status.dart';
+import 'package:reprohealth_app/constant/routes_navigation.dart';
 import 'package:reprohealth_app/models/riwayat_models/history_transaction_models.dart';
 import 'package:reprohealth_app/screen/appointment_history_detail/widget/appointment_info_expand_widget.dart';
 import 'package:reprohealth_app/screen/appointment_history_detail/widget/refund_detail_widget.dart';
@@ -43,10 +45,18 @@ class AppointmentHistoryDetailsView extends StatelessWidget {
           const SizedBox(height: 4),
 
           //^ INFORMASI JANJI TEMU
-          // jika janji temu batal & janji temu dibatalkan
-          // maka akan menampilkan expansion tile
+          // widget expansion tile ditampilkan KETIKA ->
+          // janji temu BATAL && metode pembayaran TRANSFER MANUAL &&
+          // payment status == REFUND
           if (appointmentData.status == AppointmentStatus.batal) ...[
-            AppointmentInfoExpandWidget(appointmentData: appointmentData)
+            if (appointmentData.payment?.first.method ==
+                    PaymentMethod.transferManual &&
+                appointmentData.paymentStatus == PaymentStatus.refund) ...[
+              AppointmentInfoExpandWidget(appointmentData: appointmentData)
+            ] else ...[
+              AppointmentInfoWidget(appointmentData: appointmentData),
+              const SizedBox(height: 4),
+            ]
           ] else ...[
             AppointmentInfoWidget(appointmentData: appointmentData),
             const SizedBox(height: 4),
@@ -55,11 +65,13 @@ class AppointmentHistoryDetailsView extends StatelessWidget {
           //^ RINCIAN PEMBAYARAN
           PaymentDetailWidget(appointmentData: appointmentData),
 
-          // widget ini ditampilkan ketika:
-          // janji temu dibatalkan dengan pembayaran transfer manual
+          // widget ini ditampilkan KETIKA ->
+          // janji temu BATAL && metode pembayaran TRANSFER MANUAL &&
+          // payment status == REFUND
           if (appointmentData.status == AppointmentStatus.batal)
             if (appointmentData.payment?.first.method ==
-                PaymentMethod.transferManual)
+                    PaymentMethod.transferManual &&
+                appointmentData.paymentStatus == PaymentStatus.refund)
               RefundDetailWidget(appointmentData: appointmentData),
 
           const SizedBox(height: 200),
@@ -78,9 +90,9 @@ class AppointmentHistoryDetailsView extends StatelessWidget {
               //^ jika janji temu DIPROSES
               if (appointmentData.status == AppointmentStatus.menunggu ||
                   appointmentData.status == AppointmentStatus.proses) ...[
-                // cek null savety payment
+                // jika payment != null
                 if (appointmentData.payment?.isNotEmpty == true) ...[
-                  //jika pembayaran transfer manual
+                  //jika pembayaran [TRANSFER MANUAL]
                   if (appointmentData.payment?.first.method ==
                       PaymentMethod.transferManual) ...[
                     //jika status pembayaran berhasil
@@ -92,10 +104,13 @@ class AppointmentHistoryDetailsView extends StatelessWidget {
                       buildOneActionButton(context, appointmentData)
                     ]
 
-                    // jika pembayaran bayar diklinik
+                    // jika pembayaran [DIKLINIK]
                   ] else ...[
                     buildTwoActionButton(context, appointmentData)
                   ]
+
+                  // jika payment == null
+                  // berarti menunggu pembayaran
                 ] else ...[
                   buildOneActionButton(context, appointmentData)
                 ],
@@ -127,14 +142,14 @@ class AppointmentHistoryDetailsView extends StatelessWidget {
             //^ jika janji temu DIPROSES
             if (appointmentData?.status == AppointmentStatus.menunggu ||
                 appointmentData?.status == AppointmentStatus.proses) {
-              // cek null safety payment
+              // jika payment != null
               if (appointmentData?.payment?.isNotEmpty == true) {
                 // jika status pembayaran refund
                 if (appointmentData?.paymentStatus == PaymentStatus.refund) {
                   return "Lihat Proses";
                 }
 
-                // jika user belum melakukan create payment
+                // user belum bayar
                 // -> route ke halaman payment
               } else {
                 return "Bayar";
@@ -157,7 +172,38 @@ class AppointmentHistoryDetailsView extends StatelessWidget {
           }() ??
           '-',
       labelStyle: semiBold12Primary,
-      onPressed: () {},
+      onPressed: () {
+        //^ jika janji temu DIPROSES
+        if (appointmentData?.status == AppointmentStatus.menunggu ||
+            appointmentData?.status == AppointmentStatus.proses) {
+          // jika user belum melakukan pembayaran
+          if (appointmentData?.payment?.isEmpty == true) {
+            if (kDebugMode) {
+              print('bayar');
+            }
+
+            // jika user melakukan refund
+          } else if (appointmentData?.paymentStatus == PaymentStatus.refund) {
+            Navigator.pushNamed(
+              context,
+              RoutesNavigation.refundDetailsView,
+              arguments: appointmentData,
+            );
+          }
+
+          //^ jika janji temu SELESAI
+        } else if (appointmentData?.status == AppointmentStatus.selesai) {
+          if (kDebugMode) {
+            print('janji temu lagi');
+          }
+
+          //^ jika janji temu BATAL
+        } else {
+          if (kDebugMode) {
+            print('janji temu lagi');
+          }
+        }
+      },
       elevation: 0,
     );
   }
@@ -176,16 +222,38 @@ class AppointmentHistoryDetailsView extends StatelessWidget {
           child: ButtonComponent(
             backgroundColor: green500,
             labelText: () {
-              // cek null safety payment
-              // kondisi untuk semua metode pembayaran
-              if (appointmentData?.payment?.isNotEmpty == true) {
-                return "Ganti Jadwal";
+              // jika payment empty
+              if (appointmentData?.payment?.isEmpty == true) {
+                return "Bayar";
               } else {
-                return "";
+                return "Ganti Jadwal";
               }
             }(),
             labelStyle: semiBold12Primary,
-            onPressed: () {},
+            onPressed: () {
+              if (appointmentData?.status == AppointmentStatus.menunggu ||
+                  appointmentData?.status == AppointmentStatus.proses) {
+                if (appointmentData?.payment?.isNotEmpty == true) {
+                  //
+                  //^ route ke halaman rescedhule
+                  Navigator.pushNamed(
+                    context,
+                    RoutesNavigation.rescedhuleView,
+                    arguments: appointmentData,
+                  );
+                } else {
+                  if (kDebugMode) {
+                    print('bayar');
+                  }
+                }
+
+                // belum ada event yang memenuhi kondisi ini
+              } else {
+                if (kDebugMode) {
+                  print('-');
+                }
+              }
+            },
             elevation: 0,
           ),
         ),
@@ -197,19 +265,48 @@ class AppointmentHistoryDetailsView extends StatelessWidget {
           child: ButtonComponent(
             backgroundColor: negative,
             labelText: () {
+              // cek null safety untuk paymnet
               if (appointmentData?.payment?.isNotEmpty == true) {
+                // jika user melakukan pembayaran transfer manual
                 if (appointmentData?.payment?.first.method ==
                     PaymentMethod.transferManual) {
                   return "Batal";
+
+                  // jika user melakukan pembayaran diklinik
                 } else {
                   return "Batalkan Jadwal";
                 }
+
+                // jika user belum melakukan create payment
               } else {
-                return "";
+                return "Batalkan Janji Temu";
               }
             }(),
             labelStyle: semiBold12Primary,
-            onPressed: () {},
+            onPressed: () {
+              // cek null safety untuk paymnet
+              if (appointmentData?.payment?.isNotEmpty == true) {
+                // jika user melakukan pembayaran transfer manual
+                if (appointmentData?.payment?.first.method ==
+                    PaymentMethod.transferManual) {
+                  //route ke-> halaman refund
+                  Navigator.pushNamed(
+                    context,
+                    RoutesNavigation.refundView,
+                    arguments: appointmentData,
+                  );
+
+                  // jika user melakukan pembayaran diklinik
+                } else {
+                  //route ke-> halaman batal di klinik
+                  Navigator.pushNamed(
+                    context,
+                    RoutesNavigation.canceAppointmentPaymentAtClinic,
+                    arguments: appointmentData,
+                  );
+                }
+              }
+            },
             elevation: 0,
           ),
         ),
