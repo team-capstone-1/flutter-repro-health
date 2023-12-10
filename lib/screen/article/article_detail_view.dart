@@ -105,7 +105,7 @@ class _ArticleDetailViewState extends State<ArticleDetailView> {
                         ClipRRect(
                           borderRadius: BorderRadius.circular(100),
                           child: Image.asset(
-                            article.doctor.image,
+                            article.image,
                             width: 24,
                             fit: BoxFit.cover,
                           ),
@@ -114,7 +114,7 @@ class _ArticleDetailViewState extends State<ArticleDetailView> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(article.doctor.name, style: medium10Black500),
+                            Text(article.title, style: medium10Black500),
                             Text(
                               'Diunggah pada 18 Agustus 2023 pukul 18.00 WIB',
                               style: regular8Black,

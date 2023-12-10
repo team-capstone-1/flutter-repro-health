@@ -5,8 +5,8 @@ import 'package:reprohealth_app/theme/theme.dart';
 class ArticleCard extends StatelessWidget {
   final String image;
   final String title;
-  final String profileImage;
-  final String name;
+  final String doctorImage;
+  final String doctorName;
   final DateTime date;
   final VoidCallback? onPressedIcon;
   final bool showIcon;
@@ -17,8 +17,8 @@ class ArticleCard extends StatelessWidget {
   const ArticleCard({
     required this.image,
     required this.title,
-    required this.profileImage,
-    required this.name,
+    required this.doctorImage,
+    required this.doctorName,
     required this.date,
     this.onPressedIcon,
     Key? key,
@@ -36,9 +36,19 @@ class ArticleCard extends StatelessWidget {
         mainAxisSize: MainAxisSize.max,
         children: [
           ClipRRect(
-            borderRadius: BorderRadius.circular(10),
-            child: Image.asset(image),
-          ),
+              borderRadius: BorderRadius.circular(10),
+              child: image.isNotEmpty
+                  ? Image.network(
+                      image,
+                      width: 87,
+                      height: 87,
+                      fit: BoxFit.cover,
+                    )
+                  : Container(
+                      color: secondary,
+                      width: 87,
+                      height: 87,
+                    )),
           const SizedBox(width: 16),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -55,20 +65,25 @@ class ArticleCard extends StatelessWidget {
               ),
               Row(
                 children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(100),
-                    child: Image.asset(
-                      profileImage,
-                      width: 20,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
+                  ClipOval(
+                      child: doctorImage.isNotEmpty
+                          ? Image.network(
+                              doctorImage,
+                              width: 20,
+                              height: 20,
+                              fit: BoxFit.cover,
+                            )
+                          : Container(
+                              color: secondary,
+                              width: 20,
+                              height: 20,
+                            )),
                   const SizedBox(width: 6),
                   Container(
                     padding: const EdgeInsets.only(right: 112),
                     child: Column(
                       children: [
-                        Text(name, style: medium10Black500),
+                        Text(doctorName, style: medium10Black500),
                         Text(
                           DateFormat('dd MMMM yyyy').format(date),
                           style: regular8Black,

@@ -49,8 +49,8 @@ class _BookmarkViewState extends State<BookmarkView> {
           return ArticleCard(
             image: bookmarkedItem[index].image,
             title: bookmarkedItem[index].title,
-            profileImage: bookmarkedItem[index].doctor.image,
-            name: bookmarkedItem[index].doctor.name,
+            doctorImage: bookmarkedItem[index].image,
+            doctorName: bookmarkedItem[index].title,
             date: bookmarkedItem[index].date,
             showIcon: isDeleting,
             onPressedIcon: () {

@@ -11,7 +11,8 @@ class ArticleModels {
   String content;
   bool published;
   int views;
-  Doctor doctor;
+  Doctor? doctor;
+  String doctorId;
 
   ArticleModels({
     required this.id,
@@ -25,6 +26,7 @@ class ArticleModels {
     required this.published,
     required this.views,
     required this.doctor,
+    required this.doctorId,
   });
 
   factory ArticleModels.fromJson(Map<String, dynamic> json) {
@@ -39,7 +41,10 @@ class ArticleModels {
       content: json['content'],
       published: json['published'],
       views: json['views'],
-      doctor: Doctor.fromJson(json['doctor']),
+      doctorId: json['doctor_id'] ?? '',
+      doctor: json['doctor'] != null
+          ? Doctor.fromJson(json['doctor'])
+          : Doctor(id: '', name: '', image: ''),
     );
   }
 }
@@ -57,48 +62,72 @@ class Doctor {
 
   factory Doctor.fromJson(Map<String, dynamic> json) {
     return Doctor(
-      id: json['id'],
-      name: json['name'],
-      image: json['image'],
+      id: json['id'] ?? '',
+      name: json['name'] ?? '',
+      image: json['profile_image'] ?? '',
     );
   }
 }
 
-class ArticleService {
-  final Dio dio;
+class ArticleServices {
+  final Dio _dio = Dio();
 
-  ArticleService(this.dio);
-
-  Future<List<ArticleModels>> getArticles() async {
+  Future<List<ArticleModels>> getArticle() async {
     try {
-      final response = await dio.get('https://dev.reprohealth.my.id/articles');
+      Response response =
+          await _dio.get('https://dev.reprohealth.my.id/articles');
+      Map<String, dynamic>? data = response.data;
 
-      if (response.statusCode == 200) {
-        final dynamic responseData = response.data;
+      if (data == null) {
+        throw Exception('Response data is null');
+      }
 
-        if (response.data == null) {
-          throw DioException(
-              requestOptions: response.requestOptions,
-              response: response,
-              error: 'Response is null');
+      print('API Response: $data');
+
+      if (data.containsKey('response')) {
+        if (data['response'] is List<dynamic>) {
+          List<dynamic> articlesData = data['response'];
+          List<ArticleModels> articles = [];
+
+          for (var json in articlesData) {
+            ArticleModels article = ArticleModels.fromJson(json);
+            // Fetch doctor details
+            Doctor doctor = await getDoctorDetails(article.doctorId);
+            // Assign doctor details to the article
+            article.doctor = doctor;
+            // Add the article to the list
+            articles.add(article);
+
+            print('Doctor Details for Article ${article.title}: $doctor');
+          }
+
+          return articles;
+        } else {
+          throw Exception('"response" is not a List<dynamic>');
         }
-
-        final List<dynamic> articleList = responseData['response'];
-
-        List<ArticleModels> articles = articleList
-            .map((articleJson) => ArticleModels.fromJson(articleJson))
-            .toList();
-
-        return articles;
       } else {
-        throw DioException(
-          requestOptions: response.requestOptions,
-          response: response,
-          type: DioExceptionType.badResponse,
-        );
+        throw Exception('Invalid API response: Missing "response" key');
       }
     } catch (e) {
-      throw e;
+      throw Exception('Failed to load articles: $e');
+    }
+  }
+
+  Future<Doctor> getDoctorDetails(String doctorId) async {
+    try {
+      Response response =
+          await _dio.get('https://dev.reprohealth.my.id/doctors/$doctorId');
+      Map<String, dynamic>? data = response.data;
+
+      if (data == null) {
+        throw Exception('Response data is null');
+      }
+
+      print('Fetched Doctor Details: $data');
+
+      return Doctor.fromJson(data);
+    } catch (e) {
+      throw Exception('Failed to load doctor details: $e');
     }
   }
 }
