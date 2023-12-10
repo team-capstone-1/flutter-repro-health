@@ -17,12 +17,23 @@ class _ArticleViewState extends State<ArticleView> {
   List<bool> isBookmark = [];
   List<ArticleModels> bookmarkedItem = [];
   TextEditingController controller = TextEditingController();
-  late Future<List<ArticleModels>> _articlesFuture;
+  List<ArticleModels> allArticles = [];
 
   @override
   void initState() {
     super.initState();
-    _articlesFuture = ArticleServices().getArticle();
+  }
+
+  void _searchArticle(String query) {
+    List<ArticleModels> filteredArticles = allArticles
+        .where((article) =>
+            article.title.toLowerCase().contains(query.toLowerCase()))
+        .toList();
+    setState(() {
+      isBookmark = List.generate(filteredArticles.length, (index) => false);
+      bookmarkedItem
+          .removeWhere((article) => !filteredArticles.contains(article));
+    });
   }
 
   @override
@@ -55,10 +66,11 @@ class _ArticleViewState extends State<ArticleView> {
                 hintText: 'Cari Artikel',
                 hinstStyle: regular14Grey400,
                 prefixIcon: Icons.search,
+                onChanged: _searchArticle,
               ),
             ),
             FutureBuilder<List<ArticleModels>>(
-              future: _articlesFuture,
+              future: ArticleServices().getArticles(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(

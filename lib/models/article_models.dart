@@ -1,4 +1,7 @@
+import 'dart:math';
+
 import 'package:dio/dio.dart';
+import 'package:reprohealth_app/utils/shared_preferences_utils.dart';
 
 class ArticleModels {
   String id;
@@ -70,64 +73,30 @@ class Doctor {
 }
 
 class ArticleServices {
-  final Dio _dio = Dio();
-
-  Future<List<ArticleModels>> getArticle() async {
+  Future<List<ArticleModels>> getArticles() async {
+    String url = 'https://dev.reprohealth.my.id/articles';
     try {
-      Response response =
-          await _dio.get('https://dev.reprohealth.my.id/articles');
-      Map<String, dynamic>? data = response.data;
+      String token = await SharedPreferencesUtils().getToken();
+      var response = await Dio().get(
+        url,
+        options: Options(headers: {'Authorization': 'Bearer $token'}),
+      );
 
-      if (data == null) {
-        throw Exception('Response data is null');
-      }
+      if (response.statusCode == 200) {
+        List<dynamic>? data = response.data?['data'];
 
-      print('API Response: $data');
-
-      if (data.containsKey('response')) {
-        if (data['response'] is List<dynamic>) {
-          List<dynamic> articlesData = data['response'];
-          List<ArticleModels> articles = [];
-
-          for (var json in articlesData) {
-            ArticleModels article = ArticleModels.fromJson(json);
-            // Fetch doctor details
-            Doctor doctor = await getDoctorDetails(article.doctorId);
-            // Assign doctor details to the article
-            article.doctor = doctor;
-            // Add the article to the list
-            articles.add(article);
-
-            print('Doctor Details for Article ${article.title}: $doctor');
-          }
-
+        if (data != null) {
+          List<ArticleModels> articles =
+              data.map((article) => ArticleModels.fromJson(article)).toList();
           return articles;
         } else {
-          throw Exception('"response" is not a List<dynamic>');
+          throw Exception('No data available in the response');
         }
       } else {
-        throw Exception('Invalid API response: Missing "response" key');
+        throw Exception('Failed to load articles: ${response.statusCode}');
       }
     } catch (e) {
       throw Exception('Failed to load articles: $e');
-    }
-  }
-
-  Future<Doctor> getDoctorDetails(String doctorId) async {
-    try {
-      Response response =
-          await _dio.get('https://dev.reprohealth.my.id/doctors/$doctorId');
-      Map<String, dynamic>? data = response.data;
-
-      if (data == null) {
-        throw Exception('Response data is null');
-      }
-
-      print('Fetched Doctor Details: $data');
-
-      return Doctor.fromJson(data);
-    } catch (e) {
-      throw Exception('Failed to load doctor details: $e');
     }
   }
 }

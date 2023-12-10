@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:reprohealth_app/component/text_form_component.dart';
 import 'package:reprohealth_app/constant/routes_navigation.dart';
 import 'package:reprohealth_app/models/article_models.dart';
@@ -19,6 +20,12 @@ class _ArticleDetailViewState extends State<ArticleDetailView> {
   Widget build(BuildContext context) {
     final ArticleModels article =
         ModalRoute.of(context)?.settings.arguments as ArticleModels;
+
+    String formattedDateTime(DateTime dateTime) {
+      String formattedDate = DateFormat('dd MMMM yyyy "pukul" HH:mm "WIB"')
+          .format(dateTime.toLocal());
+      return 'Diunggah pada $formattedDate';
+    }
 
     return Scaffold(
       body: ListView(
@@ -116,7 +123,7 @@ class _ArticleDetailViewState extends State<ArticleDetailView> {
                           children: [
                             Text(article.title, style: medium10Black500),
                             Text(
-                              'Diunggah pada 18 Agustus 2023 pukul 18.00 WIB',
+                              formattedDateTime(article.date),
                               style: regular8Black,
                             ),
                           ],
