@@ -6,7 +6,8 @@ import 'package:reprohealth_app/services/specialist_services/specialist_services
 import 'package:rxdart/rxdart.dart';
 
 class SearchKlinikViewModel extends ChangeNotifier {
-  final TextEditingController _searchClinicsController = TextEditingController();
+  final TextEditingController _searchClinicsController =
+      TextEditingController();
   TextEditingController get searchClinicsController => _searchClinicsController;
 
   final _searchController = BehaviorSubject<String>.seeded('');
@@ -16,10 +17,9 @@ class SearchKlinikViewModel extends ChangeNotifier {
   final DokterServices _dokterServices = DokterServices();
   DoctorModels? _dokterList;
   DoctorModels? get dokterList => _dokterList;
-  
+
   List<ResponseDataDoctor> _filteredDokter = [];
-  List<ResponseDataDoctor> get filteredDokter =>
-      _filteredDokter;
+  List<ResponseDataDoctor> get filteredDokter => _filteredDokter;
 
   Future<void> getListDokterClinics({required String clinicsId}) async {
     try {
@@ -33,18 +33,13 @@ class SearchKlinikViewModel extends ChangeNotifier {
   }
 
   void filterSearchDokter(String query) {
-    List<ResponseDataDoctor> searchResultsDokter = [];
-    if (query.isNotEmpty) {
-      searchResultsDokter = dokterList?.response
-              ?.where((data) =>
-                  data.name?.toLowerCase().contains(query.toLowerCase()) ??
-                  false)
-              .toList() ??
-          [];
-    } else {
-      searchResultsDokter.addAll(dokterList?.response ?? []);
-    }
-    _filteredDokter = searchResultsDokter;
+    print('Search Query Dokter: $query');
+    _filteredDokter = _dokterList?.response
+            ?.where((data) =>
+                data.name?.toLowerCase().contains(query.toLowerCase()) ?? false)
+            .toList() ??
+        [];
+    print('Filtered Dokter: $_filteredDokter');
     _searchController.add(query);
     notifyListeners();
   }
@@ -53,10 +48,9 @@ class SearchKlinikViewModel extends ChangeNotifier {
   final SpecialistServices _specialistServices = SpecialistServices();
   SpecialistModels? _specialistList;
   SpecialistModels? get specialistList => _specialistList;
-  
+
   List<ResponseDataSpecialist> _filteredSpecialist = [];
-  List<ResponseDataSpecialist> get filteredSpecialist =>
-      _filteredSpecialist;
+  List<ResponseDataSpecialist> get filteredSpecialist => _filteredSpecialist;
 
   Future<void> getListSpecialistClinics({required String clinicsId}) async {
     try {
@@ -71,22 +65,16 @@ class SearchKlinikViewModel extends ChangeNotifier {
   }
 
   void filterSearchSpecialist(String query) {
-    List<ResponseDataSpecialist> searchResultsSpecialist = [];
-    if (query.isNotEmpty) {
-      searchResultsSpecialist = specialistList?.response
-              ?.where((data) =>
-                  data.name?.toLowerCase().contains(query.toLowerCase()) ??
-                  false)
-              .toList() ??
-          [];
-    } else {
-      searchResultsSpecialist.addAll(specialistList?.response ?? []);
-    }
-    _filteredSpecialist = searchResultsSpecialist;
+    print('Search Query Specialist: $query');
+    _filteredSpecialist = _specialistList?.response
+            ?.where((data) =>
+                data.name?.toLowerCase().contains(query.toLowerCase()) ?? false)
+            .toList() ??
+        [];
+    print('Filtered Specialist: $_filteredSpecialist');
     _searchController.add(query);
     notifyListeners();
   }
-
 
   // TAB
   int _selectIndex = 0;

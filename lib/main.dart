@@ -23,9 +23,12 @@ import 'package:reprohealth_app/screen/dokter/view_models/pilih_tanggal_view_mod
 import 'package:reprohealth_app/screen/forgot_password/detail_forgot_password_view.dart';
 import 'package:reprohealth_app/screen/forgot_password/forgot_password_view.dart';
 import 'package:reprohealth_app/screen/forgot_password/otp_view.dart';
+import 'package:reprohealth_app/screen/forum/assistant_chat_forum_view.dart';
+import 'package:reprohealth_app/screen/forum/chat_bot_forum_view.dart';
 import 'package:reprohealth_app/screen/forum/create_forum_view.dart';
 import 'package:reprohealth_app/screen/forum/detail_forum_view.dart';
 import 'package:reprohealth_app/screen/forum/forum_view.dart';
+import 'package:reprohealth_app/screen/forum/view_model/chatbot_view_model.dart';
 import 'package:reprohealth_app/screen/forum/view_model/forum_view_model.dart';
 import 'package:reprohealth_app/screen/home/home_view.dart';
 import 'package:reprohealth_app/screen/home/home_view_model.dart';
@@ -182,6 +185,7 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => SplashViewModel()),
         ChangeNotifierProvider(create: (context) => HomeViewModels()),
         ChangeNotifierProvider(create: (context) => ForumViewModel()),
+        ChangeNotifierProvider(create: (context) => ChatbotViewModel()),
         ChangeNotifierProvider(create: (context) => RiwayatViewModel()),
       ],
       child: MaterialApp(
@@ -237,6 +241,12 @@ class MainApp extends StatelessWidget {
           RoutesNavigation.jadwalDokterView: (context) =>
               const JadwalDokterView(),
           RoutesNavigation.janjiTemuView: (context) => const JanjiTemuView(),
+
+          // Forum
+          RoutesNavigation.chatBotForumView: (context) =>
+              const ChatBotForumView(),
+          RoutesNavigation.assistantChatForumView: (context) =>
+              const AssistantChatForumView(),
 
           //profile routes
           RoutesNavigation.profileView: (context) => const ProfileView(),
