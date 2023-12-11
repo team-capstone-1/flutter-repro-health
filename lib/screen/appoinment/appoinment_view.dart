@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:reprohealth_app/constant/routes_navigation.dart';
 import 'package:reprohealth_app/screen/appoinment/view_models/appoinment_view_model.dart';
 import 'package:reprohealth_app/screen/appoinment/widget/klinik_appoinment_widget.dart';
 import 'package:reprohealth_app/screen/appoinment/widget/location_appoinment_view.dart';
@@ -40,7 +41,12 @@ class AppoinmentView extends StatelessWidget {
             child: IconButton(
               color: green500,
               icon: const Icon(Icons.notifications_none),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushNamed(
+                  context,
+                  RoutesNavigation.notificationView
+                  );
+              },
             ),
           ),
         ],

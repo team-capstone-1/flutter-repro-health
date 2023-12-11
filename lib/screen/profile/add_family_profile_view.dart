@@ -2,7 +2,7 @@ import 'package:dropdown_model_list/drop_down/model.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:reprohealth_app/constant/routes_navigation.dart';
+import 'package:reprohealth_app/screen/profile/view_model/change_gender_view_model.dart';
 import 'package:reprohealth_app/screen/profile/view_model/date_picker_view_model.dart';
 import 'package:reprohealth_app/screen/profile/view_model/post_family_profile_view_model.dart';
 import 'package:reprohealth_app/screen/profile/widget/profile_widget/button_widget.dart';
@@ -20,6 +20,7 @@ class AddFamilyProfile extends StatefulWidget {
 
 class _AddFamilyProfileState extends State<AddFamilyProfile> {
 
+  final _formKey = GlobalKey<FormState>();
   late final TextEditingController dateController = TextEditingController();
 
   @override
@@ -27,12 +28,15 @@ class _AddFamilyProfileState extends State<AddFamilyProfile> {
     super.initState();
     final datePickerProvider = Provider.of<DatePickerViewModel>(context, listen: false);
     dateController.text = DateFormat('dd/MM/yyyy').format(datePickerProvider.dueDate);
+    
   }
 
   @override
   Widget build(BuildContext context) {
     final postFamilyProfile = Provider.of<PostFamilyProfileViewModel>(context);
-    final datePickerProvider = Provider.of<DatePickerViewModel>(context); 
+    final datePickerProvider = Provider.of<DatePickerViewModel>(context);
+    final changeGenderViewModel = Provider.of<ChangeGenderViewModel>(context);
+  
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: const Color(0xffE9E9E9),
@@ -46,6 +50,7 @@ class _AddFamilyProfileState extends State<AddFamilyProfile> {
           ),
           onPressed: () {
             Navigator.pop(context);
+            changeGenderViewModel.groupValue.value = "";
           },
         ),
         titleSpacing: 0,
@@ -53,95 +58,102 @@ class _AddFamilyProfileState extends State<AddFamilyProfile> {
         style: semiBold16Primary4,
         ),
       ),
-      body: Stack(
-        children: [
-          Column(
-            children: <Widget> [
-              Padding(
-                padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
-                child: Container(
-                  width: double.infinity,
-                  decoration: const BoxDecoration(
-                    color: Color(0xFFFAFAFA),
-                    ),
-                  child: Center(
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 8, left: 8,),
-                      child: SelectDropList(
-                        space: 16,
-                        borderColor: grey200,
-                        dropboxborderColor: grey500,
-                        dropbBoxborderRadius: BorderRadius.circular(4),
-                        borderRadius: BorderRadius.circular(4),
-                        paddingLeft: 0,
-                        paddingRight: 0,
-                        paddingBottom: 0,
-                        itemSelected: postFamilyProfile.optionItemSelected,
-                        dropListModel: postFamilyProfile.dropListModel,
-                        showIcon: false,
-                        showArrowIcon: true,
-                        showBorder: true,
-                        heightBottomContainer: 166,
-                        paddingTop: 0,
-                        paddingDropItem: const EdgeInsets.only(left: 16, bottom: 16),
-                        suffixIcon: Icons.keyboard_arrow_down,
-                        containerPadding: const EdgeInsets.only(right: 16,),
-                        icon: const Icon(Icons.person, color: Colors.black),
-                        onOptionSelected: (optionItem) {
-                          postFamilyProfile.optionItemSelected = optionItem;
-                          setState(() {});
-                          },
-                        ),
+      body: Form(
+        key: _formKey,
+        child: Stack(
+          children: [
+            Column(
+              children: <Widget> [
+                Padding(
+                  padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
+                  child: Container(
+                    width: double.infinity,
+                    decoration: const BoxDecoration(
+                      color: Color(0xFFFAFAFA),
                       ),
-                    )
-                  ),
-                ),
-              ChangeDataProfile(
-                controller1: postFamilyProfile.nameController,
-                controller2: postFamilyProfile.nomorController,
-                controller3: postFamilyProfile.beratController,
-                controller4: postFamilyProfile.tinggiController,
-                dateController: dateController,
-                ),
-              ],
-            ),
-          Positioned(
-            bottom: 16,
-            left: 0,
-            right: 0,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: SizedBox(
-                width: double.infinity,
-                height: 40,
-                child: ButtonWidget(
-                  title: "Simpan",
-                  onPressed: () {
-                    var familyProfileNotifier = Provider.of<PostFamilyProfileViewModel>(context, listen: false);
-                    familyProfileNotifier.saveProfileData(context);
-                    postFamilyProfile.nameController.clear();
-                    postFamilyProfile.nomorController.clear();
-                    postFamilyProfile.beratController.clear();
-                    postFamilyProfile.tinggiController.clear();
-                    postFamilyProfile.optionItemSelected = OptionItem(title: "Pilih Hubungan");
-                    datePickerProvider.dueDate =DateTime.now();
-                    Navigator.popAndPushNamed(
-                      context,
-                      RoutesNavigation.familyProfile,
-                    );
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      CustomSnackBar(
-                        contentText: 'Profil keluarga berhasil dibuat!',
-                        backgroundColor: positive,
+                    child: Center(
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 8, left: 8,),
+                        child: SelectDropList(
+                          space: 16,
+                          borderColor: grey200,
+                          dropboxborderColor: grey500,
+                          dropbBoxborderRadius: BorderRadius.circular(4),
+                          borderRadius: BorderRadius.circular(4),
+                          paddingLeft: 0,
+                          paddingRight: 0,
+                          paddingBottom: 0,
+                          itemSelected: postFamilyProfile.optionItemSelected,
+                          dropListModel: postFamilyProfile.dropListModel,
+                          showIcon: false,
+                          showArrowIcon: true,
+                          showBorder: true,
+                          heightBottomContainer: 166,
+                          paddingTop: 0,
+                          paddingDropItem: const EdgeInsets.only(left: 16, bottom: 16),
+                          suffixIcon: Icons.keyboard_arrow_down,
+                          containerPadding: const EdgeInsets.only(right: 16,),
+                          icon: const Icon(Icons.person, color: Colors.black),
+                          onOptionSelected: (optionItem) {
+                            postFamilyProfile.optionItemSelected = optionItem;
+                            setState(() {});
+                            },
+                          ),
+                        ),
                       )
-                    );
+                    ),
+                  ),
+                ChangeDataProfile(
+                  controller1: postFamilyProfile.nameController,
+                  controller2: postFamilyProfile.nomorController,
+                  controller3: postFamilyProfile.beratController,
+                  controller4: postFamilyProfile.tinggiController,
+                  dateController: dateController,
+                  onChanged: (String? value) {
+                    changeGenderViewModel.groupValue.value = value ?? "";
+                    Provider.of<PostFamilyProfileViewModel>(context, listen: false).gender = changeGenderViewModel.groupValue.value;
                   },
-                  color: green500,
+                  ),
+                ],
+              ),
+            Positioned(
+              bottom: 16,
+              left: 0,
+              right: 0,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: SizedBox(
+                  width: double.infinity,
+                  height: 40,
+                  child: ButtonWidget(
+                    title: "Simpan",
+                    onPressed: () {
+                      var familyProfileNotifier = Provider.of<PostFamilyProfileViewModel>(context, listen: false);
+                        if (_formKey.currentState!.validate()) {
+                          familyProfileNotifier.saveProfileData(context);
+                          postFamilyProfile.nameController.clear();
+                          postFamilyProfile.nomorController.clear();
+                          postFamilyProfile.beratController.clear();
+                          postFamilyProfile.tinggiController.clear();
+                          changeGenderViewModel.groupValue.value = "";
+                          postFamilyProfile.optionItemSelected = OptionItem(title: "Pilih Hubungan");
+                          datePickerProvider.dueDate =DateTime.now();
+                          Navigator.pop(context);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            CustomSnackBar(
+                              contentText: 'Profil keluarga berhasil dibuat!',
+                              backgroundColor: positive,
+                            )
+                          );
+                        }
+                    },
+                    color: green500,
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

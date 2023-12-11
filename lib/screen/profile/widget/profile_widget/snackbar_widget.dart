@@ -12,7 +12,7 @@ class CustomSnackBar extends SnackBar {
           backgroundColor: Colors.transparent,
           elevation: 0,
           content: Container(
-            padding: EdgeInsets.all(16),
+            padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
               color: backgroundColor,
               borderRadius: BorderRadius.circular(4),

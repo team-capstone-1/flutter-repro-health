@@ -1,6 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:reprohealth_app/models/riwayat_models/riwayat_models.dart';
+import 'package:intl/intl.dart';
+import 'package:reprohealth_app/constant/appointment_status.dart';
+import 'package:reprohealth_app/constant/payment_method.dart';
+import 'package:reprohealth_app/constant/payment_status.dart';
+import 'package:reprohealth_app/models/riwayat_models/history_transaction_models.dart';
 
 import 'package:reprohealth_app/theme/theme.dart';
 
@@ -10,7 +14,7 @@ class PaymentStatusWidget extends StatelessWidget {
     required this.appointmentData,
   });
 
-  final Transaction appointmentData;
+  final ResponseData? appointmentData;
 
   @override
   Widget build(BuildContext context) {
@@ -24,30 +28,31 @@ class PaymentStatusWidget extends StatelessWidget {
           buildItemStatus(),
           const SizedBox(height: 16),
 
-          if (appointmentData.isDoctorAvailable == false)
-            Padding(
-              padding: const EdgeInsets.only(
-                left: 16,
-                right: 16,
-                bottom: 16,
-              ),
-              child: Container(
-                padding: const EdgeInsets.all(8),
-                margin: const EdgeInsets.only(bottom: 4),
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: negative,
-                    width: 1.5,
-                  ),
-                  borderRadius: BorderRadius.circular(4),
-                  color: negative25,
-                ),
-                child: Text(
-                  "Jadwal dokter tidak tersedia pada pilihan janji temu yang kamu pilih",
-                  style: semiBold8Negative,
-                ),
-              ),
-            ),
+          // // ini ditampilkan jika payment == NULL
+          // if (appointmentData?.payment?.isEmpty == true)
+          //   Padding(
+          //     padding: const EdgeInsets.only(
+          //       left: 16,
+          //       right: 16,
+          //       bottom: 16,
+          //     ),
+          //     child: Container(
+          //       padding: const EdgeInsets.all(8),
+          //       margin: const EdgeInsets.only(bottom: 4),
+          //       decoration: BoxDecoration(
+          //         border: Border.all(
+          //           color: negative,
+          //           width: 1.5,
+          //         ),
+          //         borderRadius: BorderRadius.circular(4),
+          //         color: negative25,
+          //       ),
+          //       child: Text(
+          //         "Segera lakukan pembayaran atau membatalkan janji temu",
+          //         style: semiBold8Negative,
+          //       ),
+          //     ),
+          //   ),
 
           //^ Lihat Invoice
           Padding(
@@ -56,7 +61,7 @@ class PaymentStatusWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  appointmentData.invoice ?? "-",
+                  appointmentData?.invoice ?? "-",
                   style: regular14Grey400,
                 ),
                 const SizedBox(height: 12),
@@ -87,7 +92,9 @@ class PaymentStatusWidget extends StatelessWidget {
                   style: regular12Grey400,
                 ),
                 Text(
-                  appointmentData.transactionDate ?? "-",
+                  DateFormat('EEEE, dd MMMM yyyy', 'id_ID').format(
+                    appointmentData?.consultation?.date ?? DateTime.now(),
+                  ),
                   style: semiBold12Grey500,
                 ),
               ],
@@ -108,26 +115,37 @@ class PaymentStatusWidget extends StatelessWidget {
           decoration: BoxDecoration(
             color: () {
               //^ jika janji temu DIPROSES
-              if (appointmentData.appointmentStatus == 'Diproses') {
-                if (appointmentData.paymentStatus == 'Berhasil') {
-                  return positive;
-                } else if (appointmentData.paymentStatus == 'Tertunda') {
-                  return warning;
-                } else if (appointmentData.paymentStatus == 'Refund') {
-                  return negative;
+              if (appointmentData?.status == AppointmentStatus.menunggu ||
+                  appointmentData?.status == AppointmentStatus.proses) {
+                // jika pembayaran [TRANSFER MANUAL]
+                if (appointmentData?.consultation?.paymentMethod ==
+                    PaymentMethod.transferManual) {
+                  // jika user sudah berhasil bayar
+                  if (appointmentData?.paymentStatus == PaymentStatus.done) {
+                    return positive;
+
+                    // jika user belum bayar
+                  } else if (appointmentData?.paymentStatus ==
+                      PaymentStatus.pending) {
+                    return warning;
+
+                    // jika user refund
+                  } else {
+                    return warning;
+                  }
+
+                  // jika pembayaran [DIKLINIK]
                 } else {
-                  return null;
+                  return positive;
                 }
 
                 //^ jika janji temu SELESAI
-              } else if (appointmentData.appointmentStatus == 'Selesai') {
+              } else if (appointmentData?.status == AppointmentStatus.selesai) {
                 return positive;
 
                 //^ jika janji temu BATAL
-              } else if (appointmentData.appointmentStatus == 'Batal') {
-                return negative;
               } else {
-                return null;
+                return negative;
               }
             }(),
             borderRadius: const BorderRadius.horizontal(
@@ -138,61 +156,73 @@ class PaymentStatusWidget extends StatelessWidget {
         const SizedBox(width: 10),
         Text(
           () {
-                //^ jika janji temu DIPROSES
-                if (appointmentData.appointmentStatus == 'Diproses') {
-                  if (appointmentData.paymentMethod == 'Bayar Diklinik') {
-                    return "Janji Temu Tertunda";
-                  } else if (appointmentData.paymentMethod ==
-                          'Transfer Manual' &&
-                      appointmentData.isDoctorAvailable == false) {
-                    return "Janji Temu Tertunda";
-                  } else if (appointmentData.paymentStatus == 'Tertunda') {
-                    return "Menunggu Pembayaran";
-                  } else {
-                    return "Pembayaran ${appointmentData.paymentStatus}";
-                  }
-
-                  //^ jika janji temu SELESAI
-                } else if (appointmentData.appointmentStatus == 'Selesai') {
-                  return "Pembayaran Berhasil";
-
-                  //^ jika janji temu BATAL
-                } else if (appointmentData.appointmentStatus == 'Batal') {
-                  if (appointmentData.paymentStatus == 'Transaksi Gagal') {
-                    return appointmentData.paymentStatus;
-                  } else if (appointmentData.paymentStatus ==
-                      'Janji Temu Dibatalkan') {
-                    return appointmentData.paymentStatus;
-                  } else {
-                    return null;
-                  }
-                } else {
-                  return null;
-                }
-              }() ??
-              '-',
-          style: () {
             //^ jika janji temu DIPROSES
-            if (appointmentData.appointmentStatus == 'Diproses') {
-              if (appointmentData.paymentStatus == 'Berhasil') {
-                return semiBold14Positive;
-              } else if (appointmentData.paymentStatus == 'Tertunda') {
-                return semiBold14Warning;
-              } else if (appointmentData.paymentStatus == 'Refund') {
-                return semiBold14Negative;
+            if (appointmentData?.status == AppointmentStatus.menunggu ||
+                appointmentData?.status == AppointmentStatus.proses) {
+              // jika pembayaran [TRANSFER MANUAL]
+              if (appointmentData?.consultation?.paymentMethod ==
+                  PaymentMethod.transferManual) {
+                // jika user sudah berhasil bayar
+                if (appointmentData?.paymentStatus == PaymentStatus.done) {
+                  return 'Pembayaran Berhasil';
+
+                  // jika user belum bayar
+                } else if (appointmentData?.paymentStatus ==
+                    PaymentStatus.pending) {
+                  return 'Menunggu Pembayaran';
+
+                  // jika user refund
+                } else {
+                  return 'Memproses Pengembalian Dana';
+                }
+
+                // jika pembayaran [DIKLINIK]
               } else {
-                return null;
+                return 'Janji Temu Berhasil';
               }
 
               //^ jika janji temu SELESAI
-            } else if (appointmentData.appointmentStatus == 'Selesai') {
+            } else if (appointmentData?.status == AppointmentStatus.selesai) {
+              return "Janji Temu Berhasil";
+
+              //^ jika janji temu BATAL
+            } else {
+              return "Janji Temu Dibatalkan";
+            }
+          }(),
+          style: () {
+            //^ jika janji temu DIPROSES
+            if (appointmentData?.status == AppointmentStatus.menunggu ||
+                appointmentData?.status == AppointmentStatus.proses) {
+              // jika pembayaran [TRANSFER MANUAL]
+              if (appointmentData?.consultation?.paymentMethod ==
+                  PaymentMethod.transferManual) {
+                // jika user berhasil bayar
+                if (appointmentData?.paymentStatus == PaymentStatus.done) {
+                  return semiBold14Positive;
+
+                  // jika user belum bayar
+                } else if (appointmentData?.paymentStatus ==
+                    PaymentStatus.pending) {
+                  return semiBold14Warning;
+
+                  // jika user refund
+                } else {
+                  return semiBold14Warning;
+                }
+
+                // jika pembayaran [DIKLINIK]
+              } else {
+                return semiBold14Positive;
+              }
+
+              //^ jika janji temu SELESAI
+            } else if (appointmentData?.status == AppointmentStatus.selesai) {
               return semiBold14Positive;
 
               //^ jika janji temu BATAL
-            } else if (appointmentData.appointmentStatus == 'Batal') {
-              return semiBold14Negative;
             } else {
-              return null;
+              return semiBold14Negative;
             }
           }(),
         ),

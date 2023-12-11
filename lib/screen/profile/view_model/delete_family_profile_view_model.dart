@@ -9,7 +9,7 @@ class DeleteProfileFamilyViewModel extends ChangeNotifier {
       await _profileService.deleteProfileModelId(context: context, idPatients: idPatients);
       notifyListeners();
     } catch (e) {
-      print('Error while deleting profile: $e');
+      e;
       rethrow;
     }
   }
