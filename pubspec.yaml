@@ -12,7 +12,7 @@ dependencies:
   cached_network_image: ^3.3.0
   date_picker_timeline: ^1.2.5
   device_preview: ^1.1.0
-  dio: ^5.3.4
+  dio:
   dotted_border: ^2.1.0
   dropdown_model_list: ^1.1.6
   email_otp: ^2.1.1
@@ -32,6 +32,8 @@ dependencies:
   provider: ^6.1.1
   rxdart: ^0.27.7
   shared_preferences: ^2.2.2
+  flutter_html: ^3.0.0-beta.2
+  html: ^0.15.4
   shimmer: ^3.0.0
 
 dev_dependencies:
