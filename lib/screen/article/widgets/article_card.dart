@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:reprohealth_app/theme/theme.dart';
 
 class ArticleCard extends StatelessWidget {
   final String image;
   final String title;
-  final String profileImage;
-  final String name;
-  final String date;
+  final String doctorImage;
+  final String doctorName;
+  final DateTime date;
   final VoidCallback? onPressedIcon;
   final bool showIcon;
   final bool isSelected;
@@ -16,8 +17,8 @@ class ArticleCard extends StatelessWidget {
   const ArticleCard({
     required this.image,
     required this.title,
-    required this.profileImage,
-    required this.name,
+    required this.doctorImage,
+    required this.doctorName,
     required this.date,
     this.onPressedIcon,
     Key? key,
@@ -29,67 +30,81 @@ class ArticleCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16),
-      child: Row(
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          ClipRRect(
+    return Row(
+      mainAxisSize: MainAxisSize.max,
+      children: [
+        ClipRRect(
             borderRadius: BorderRadius.circular(10),
-            child: Image.asset(image),
-          ),
-          const SizedBox(width: 16),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                width: 225,
-                child: Text(
-                  title,
-                  style: semiBold12Black400,
-                ),
+            child: image.isNotEmpty
+                ? Image.network(
+                    image,
+                    width: 87,
+                    height: 87,
+                    fit: BoxFit.cover,
+                  )
+                : Container(
+                    color: secondary,
+                    width: 87,
+                    height: 87,
+                  )),
+        const SizedBox(width: 16),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              width: 225,
+              child: Text(
+                title,
+                style: semiBold12Black600,
               ),
-              const SizedBox(
-                height: 8,
-              ),
-              Row(
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(100),
-                    child: Image.asset(
-                      profileImage,
-                      width: 20,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  const SizedBox(width: 6),
-                  Container(
-                    padding: const EdgeInsets.only(right: 112),
-                    child: Column(
+            ),
+            const SizedBox(
+              height: 12,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    ClipOval(
+                        child: doctorImage.isNotEmpty
+                            ? Image.network(
+                                doctorImage,
+                                width: 20,
+                                height: 20,
+                                fit: BoxFit.cover,
+                              )
+                            : Container(
+                                color: secondary,
+                                width: 20,
+                                height: 20,
+                              )),
+                    const SizedBox(width: 6),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(name, style: medium10Black500),
+                        Text(doctorName, style: medium10Black500),
                         Text(
-                          date,
+                          DateFormat('dd MMMM yyyy').format(date),
                           style: regular8Black,
                         ),
                       ],
                     ),
-                  ),
-                  const SizedBox(width: 30),
-                  showIcon
-                      ? GestureDetector(
-                          onTap: onPressedIcon,
-                          child: isSelected ? selectedIcon : unselectedIcon,
-                        )
-                      : const SizedBox(
-                          width: 40,
-                        )
-                ],
-              ),
-            ],
-          ),
-        ],
-      ),
+                  ],
+                ),
+                showIcon
+                    ? GestureDetector(
+                        onTap: onPressedIcon,
+                        child: isSelected ? selectedIcon : unselectedIcon,
+                      )
+                    : const SizedBox(
+                        width: 40,
+                      )
+              ],
+            ),
+          ],
+        ),
+      ],
     );
   }
 }

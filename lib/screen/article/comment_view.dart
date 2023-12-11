@@ -3,7 +3,7 @@ import 'package:reprohealth_app/models/article_models.dart';
 import 'package:reprohealth_app/theme/theme.dart';
 
 class CommentView extends StatelessWidget {
-  const CommentView({super.key});
+  const CommentView({Key? key});
 
   @override
   Widget build(BuildContext context) {
@@ -60,50 +60,59 @@ class CommentView extends StatelessWidget {
             const SizedBox(
               height: 24,
             ),
-            Expanded(
-              child: ListView.builder(
-                itemCount: article.comments?.length ?? 0,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 12),
-                    child: Row(
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(100),
-                          child: Image.asset(
-                            article.comments![index].image,
-                            width: 40,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                        const SizedBox(width: 8),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                Text(
-                                  article.comments![index].name,
-                                  style: medium12Black,
-                                ),
-                                const SizedBox(width: 8),
-                                Text(article.comments![index].time,
-                                    style: regular8Black),
-                              ],
-                            ),
-                            const SizedBox(height: 4),
-                            Text(
-                              article.comments![index].comment,
-                              style: regular10Black,
-                            )
-                          ],
-                        )
-                      ],
-                    ),
-                  );
-                },
-              ),
-            )
+            // Expanded(
+            //   child: ListView.builder(
+            //     itemCount: article.comments?.length ?? 0,
+            //     itemBuilder: (context, index) {
+            //       return Padding(
+            //         padding: const EdgeInsets.only(bottom: 12),
+            //         child: Row(
+            //           children: [
+            //             ClipRRect(
+            //               borderRadius: BorderRadius.circular(100),
+            //               // child: Image.network(
+            //               //   article.comments![index].patientDetails
+            //               //           ?.profileImage ??
+            //               //       '',
+            //               //   width: 40,
+            //               //   height: 40,
+            //               //   fit: BoxFit.cover,
+            //               // ),
+            //             ),
+            //             const SizedBox(width: 8),
+            //             Column(
+            //               crossAxisAlignment: CrossAxisAlignment.start,
+            //               children: [
+            //                 Row(
+            //                   children: [
+            //                     // Text(
+            //                     //   article.comments![index].patientDetails
+            //                     //           ?.name ??
+            //                     //       '',
+            //                     //   style: medium12Black,
+            //                     // ),
+            //                     const SizedBox(width: 8),
+            //                     Text(
+            //                       // You need to format the date as needed
+            //                       // article.comments![index].date.toString(),
+            //                       'Timestamp',
+            //                       style: regular8Black,
+            //                     ),
+            //                   ],
+            //                 ),
+            //                 const SizedBox(height: 4),
+            //                 Text(
+            //                   article.comments![index].comment,
+            //                   style: regular10Black,
+            //                 )
+            //               ],
+            //             )
+            //           ],
+            //         ),
+            //       );
+            //     },
+            //   ),
+            // )
           ],
         ),
       ),
