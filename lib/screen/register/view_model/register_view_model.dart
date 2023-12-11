@@ -43,8 +43,7 @@ class RegisterViewModels with ChangeNotifier {
   }
 
   bool validateEmail(String email) {
-    final emailPattern =
-        RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9^`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+    final emailPattern = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9^`{|}~]+@gmail\.com$");
     if (!emailPattern.hasMatch(email)) {
       return false;
     }

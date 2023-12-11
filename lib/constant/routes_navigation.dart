@@ -32,6 +32,10 @@ class RoutesNavigation {
   static const String jadwalDokterView = '/jadwal-dokter-view';
   static const String janjiTemuView = '/janji-temu-view';
 
+  // Forum
+  static const String chatBotForumView = '/chatbot-bot-forum-view';
+  static const String assistantChatForumView = '/assistant-chat-forum-view';
+
   //profil routes
   static const String profileView = '/profile';
   static const String myProfile = '/myprofile';

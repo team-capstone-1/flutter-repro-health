@@ -26,12 +26,12 @@ class DetailForumView extends StatelessWidget {
           return AlertDialog(
             title: Center(
               child: Text(
-                'Yakin ingin membatalkan forum?',
+                'Yakin ingin menghapus forum?',
                 style: semiBold14Black,
               ),
             ),
             content: Text(
-              'Jika Anda meninggalkan halaman ini, keluhan yang sedang Anda buat akan hilang dan tidak dapat dikembalikan lagi.',
+              'Forum akan dihapus secara permanen. Semua jawaban dari dokter akan hilang dan tidak dapat dikembalikan lagi.',
               style: regular12Grey300,
               textAlign: TextAlign.center,
             ),
