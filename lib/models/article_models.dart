@@ -1,7 +1,5 @@
-import 'dart:math';
-
-import 'package:dio/dio.dart';
-import 'package:reprohealth_app/utils/shared_preferences_utils.dart';
+import 'package:reprohealth_app/models/doctor_models/doctor_models.dart';
+import 'package:reprohealth_app/models/profile_models.dart'; // Import your doctor models
 
 class ArticleModels {
   String id;
@@ -14,9 +12,8 @@ class ArticleModels {
   String content;
   bool published;
   int views;
-  Doctor? doctor;
-  String doctorId;
-
+  ResponseDataDoctor? doctor;
+  List<CommentModel> comments = [];
   ArticleModels({
     required this.id,
     required this.title,
@@ -28,11 +25,12 @@ class ArticleModels {
     required this.content,
     required this.published,
     required this.views,
-    required this.doctor,
-    required this.doctorId,
+    this.doctor,
+    required this.comments,
   });
 
-  factory ArticleModels.fromJson(Map<String, dynamic> json) {
+  factory ArticleModels.fromJson(
+      Map<String, dynamic> json, ResponseDataDoctor? doctor) {
     return ArticleModels(
       id: json['id'],
       title: json['title'],
@@ -42,61 +40,46 @@ class ArticleModels {
       image: json['image'],
       imageDesc: json['image_desc'],
       content: json['content'],
-      published: json['published'],
+      published: json['published'] ?? false,
       views: json['views'],
-      doctorId: json['doctor_id'] ?? '',
-      doctor: json['doctor'] != null
-          ? Doctor.fromJson(json['doctor'])
-          : Doctor(id: '', name: '', image: ''),
+      doctor: doctor,
+      comments: json['comments'] != null
+          ? List<CommentModel>.from(
+              json['comments'].map((comment) => CommentModel.fromJson(comment)),
+            )
+          : [],
     );
   }
 }
 
-class Doctor {
+class CommentModel {
   String id;
-  String name;
-  String image;
+  String articleId;
+  String patientId;
+  String comment;
+  DateTime date;
+  ResponseDataProfile? patientDetails;
 
-  Doctor({
+  CommentModel({
     required this.id,
-    required this.name,
-    required this.image,
+    required this.articleId,
+    required this.patientId,
+    required this.comment,
+    required this.date,
+    this.patientDetails,
   });
 
-  factory Doctor.fromJson(Map<String, dynamic> json) {
-    return Doctor(
-      id: json['id'] ?? '',
-      name: json['name'] ?? '',
-      image: json['profile_image'] ?? '',
+  factory CommentModel.fromJson(Map<String, dynamic> json) {
+    return CommentModel(
+      id: json['id'],
+      articleId: json['article_id'],
+      patientId: json['patient_id'],
+      comment: json['comment'],
+      date: DateTime.parse(json['date']),
+      // Assuming that 'patients' is the key for patient details in the JSON
+      patientDetails: json['response']['patients'] != null
+          ? ResponseDataProfile.fromMap(json['response']['patients'])
+          : null,
     );
-  }
-}
-
-class ArticleServices {
-  Future<List<ArticleModels>> getArticles() async {
-    String url = 'https://dev.reprohealth.my.id/articles';
-    try {
-      String token = await SharedPreferencesUtils().getToken();
-      var response = await Dio().get(
-        url,
-        options: Options(headers: {'Authorization': 'Bearer $token'}),
-      );
-
-      if (response.statusCode == 200) {
-        List<dynamic>? data = response.data?['data'];
-
-        if (data != null) {
-          List<ArticleModels> articles =
-              data.map((article) => ArticleModels.fromJson(article)).toList();
-          return articles;
-        } else {
-          throw Exception('No data available in the response');
-        }
-      } else {
-        throw Exception('Failed to load articles: ${response.statusCode}');
-      }
-    } catch (e) {
-      throw Exception('Failed to load articles: $e');
-    }
   }
 }

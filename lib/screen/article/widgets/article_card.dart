@@ -30,58 +30,58 @@ class ArticleCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16),
-      child: Row(
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: image.isNotEmpty
-                  ? Image.network(
-                      image,
-                      width: 87,
-                      height: 87,
-                      fit: BoxFit.cover,
-                    )
-                  : Container(
-                      color: secondary,
-                      width: 87,
-                      height: 87,
-                    )),
-          const SizedBox(width: 16),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                width: 225,
-                child: Text(
-                  title,
-                  style: semiBold12Black400,
-                ),
+    return Row(
+      mainAxisSize: MainAxisSize.max,
+      children: [
+        ClipRRect(
+            borderRadius: BorderRadius.circular(10),
+            child: image.isNotEmpty
+                ? Image.network(
+                    image,
+                    width: 87,
+                    height: 87,
+                    fit: BoxFit.cover,
+                  )
+                : Container(
+                    color: secondary,
+                    width: 87,
+                    height: 87,
+                  )),
+        const SizedBox(width: 16),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              width: 225,
+              child: Text(
+                title,
+                style: semiBold12Black600,
               ),
-              const SizedBox(
-                height: 8,
-              ),
-              Row(
-                children: [
-                  ClipOval(
-                      child: doctorImage.isNotEmpty
-                          ? Image.network(
-                              doctorImage,
-                              width: 20,
-                              height: 20,
-                              fit: BoxFit.cover,
-                            )
-                          : Container(
-                              color: secondary,
-                              width: 20,
-                              height: 20,
-                            )),
-                  const SizedBox(width: 6),
-                  Container(
-                    padding: const EdgeInsets.only(right: 112),
-                    child: Column(
+            ),
+            const SizedBox(
+              height: 12,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    ClipOval(
+                        child: doctorImage.isNotEmpty
+                            ? Image.network(
+                                doctorImage,
+                                width: 20,
+                                height: 20,
+                                fit: BoxFit.cover,
+                              )
+                            : Container(
+                                color: secondary,
+                                width: 20,
+                                height: 20,
+                              )),
+                    const SizedBox(width: 6),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(doctorName, style: medium10Black500),
                         Text(
@@ -90,22 +90,21 @@ class ArticleCard extends StatelessWidget {
                         ),
                       ],
                     ),
-                  ),
-                  const SizedBox(width: 30),
-                  showIcon
-                      ? GestureDetector(
-                          onTap: onPressedIcon,
-                          child: isSelected ? selectedIcon : unselectedIcon,
-                        )
-                      : const SizedBox(
-                          width: 40,
-                        )
-                ],
-              ),
-            ],
-          ),
-        ],
-      ),
+                  ],
+                ),
+                showIcon
+                    ? GestureDetector(
+                        onTap: onPressedIcon,
+                        child: isSelected ? selectedIcon : unselectedIcon,
+                      )
+                    : const SizedBox(
+                        width: 40,
+                      )
+              ],
+            ),
+          ],
+        ),
+      ],
     );
   }
 }
