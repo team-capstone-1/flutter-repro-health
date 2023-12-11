@@ -191,15 +191,11 @@ class RegisterView extends StatelessWidget {
                         if (registerViewModel.formKey.currentState!
                             .validate()) {
                           AuthServices().authRegister(
-                            context: context,
                             name: registerViewModel.nameController.text,
                             email: registerViewModel.emailController.text,
                             password: registerViewModel.passwordController.text,
+                            context: context,
                           );
-                          registerViewModel.nameController.clear();
-                          registerViewModel.emailController.clear();
-                          registerViewModel.passwordController.clear();
-                          registerViewModel.confirmPasswordController.clear();
                         }
                       },
                     ),

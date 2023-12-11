@@ -1,52 +1,46 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:reprohealth_app/models/dokter_models/dokter_models.dart';
-import 'package:reprohealth_app/services/dokter_services/dokter_services.dart';
+import 'package:reprohealth_app/models/doctor_models/doctor_models.dart';
+import 'package:reprohealth_app/services/doctor_services/doctor_services.dart';
 import 'package:rxdart/rxdart.dart';
 
 class DetailSpesialisViewModel extends ChangeNotifier {
   final DokterServices _dokterServices = DokterServices();
 
-  DokterModels? _dokterList;
-  DokterModels? get dokterList => _dokterList;
+  DoctorModels? _dokterBySpecialistList;
+  DoctorModels? get dokterBySpecialistList => _dokterBySpecialistList;
 
   final _searchController = BehaviorSubject<String>.seeded('');
-
   Stream<String> get searchStream => _searchController.stream;
 
-  final TextEditingController _searchKandunganController =
+  final TextEditingController _searchDokterController =
       TextEditingController();
-  TextEditingController get searchKandunganController =>
-      _searchKandunganController;
+  TextEditingController get searchDokterController =>
+      _searchDokterController;
 
-  List<ResponseData> _filteredDokterKandunganData = [];
-  List<ResponseData> get filteredDokterKandunganData =>
-      _filteredDokterKandunganData;
+  List<ResponseDataDoctor> _filteredDokterBySpecialist = [];
+  List<ResponseDataDoctor> get filteredDokterBySpecialist =>
+      _filteredDokterBySpecialist;
 
-  DetailSpesialisViewModel() {
-    // Load data when the view model is initialized
-    getDokterList();
-  }
+  // DetailSpesialisViewModel() {
+  //   getDokterList();
+  // }
 
   void filterSearchDokter(String query) {
-    List<ResponseData> searchResults = [];
-
+    List<ResponseDataDoctor> searchResults = [];
     if (query.isNotEmpty) {
-      searchResults = dokterList?.response
+      searchResults = dokterBySpecialistList?.response
               ?.where((data) =>
                   data.name?.toLowerCase().contains(query.toLowerCase()) ??
                   false)
               .toList() ??
           [];
     } else {
-      searchResults.addAll(dokterList?.response ?? []);
+      searchResults.addAll(dokterBySpecialistList?.response ?? []);
     }
-
-    _filteredDokterKandunganData = searchResults;
-
+    _filteredDokterBySpecialist = searchResults;
     _searchController.add(query);
-
     notifyListeners();
   }
 
@@ -56,12 +50,10 @@ class DetailSpesialisViewModel extends ChangeNotifier {
     super.dispose();
   }
 
-  Future<void> getDokterList() async {
+  Future<void> getDokterBySpecialist({required String specialistId}) async {
     try {
-      _dokterList = await _dokterServices.getListDokter();
-
-      _filteredDokterKandunganData = _dokterList?.response ?? [];
-
+      _dokterBySpecialistList = await _dokterServices.getDokterBySpecialist(specialistId: specialistId);
+      _filteredDokterBySpecialist = _dokterBySpecialistList?.response ?? [];
       notifyListeners();
     } catch (e) {
       print(e);

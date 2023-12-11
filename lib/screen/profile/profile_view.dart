@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:reprohealth_app/constant/routes_navigation.dart';
-import 'package:reprohealth_app/screen/login/view_model/login_view_model.dart';
 import 'package:reprohealth_app/screen/profile/view_model/get_family_profile_view_model.dart';
 import 'package:reprohealth_app/screen/profile/widget/profile_widget/button_widget.dart';
 import 'package:reprohealth_app/screen/profile/widget/profile_widget/profile_menu_widget.dart';
@@ -172,9 +171,6 @@ class ProfileView extends StatelessWidget {
                                   child: ButtonWidget(
                                       title: "Ya, Keluar",
                                       onPressed: () async {
-                                        Provider.of<LoginViewModel>(context,
-                                                listen: false)
-                                            .removeToken();
                                         await SharedPreferencesUtils()
                                             .removeToken();
                                         Navigator.pushNamedAndRemoveUntil(

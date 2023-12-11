@@ -22,7 +22,10 @@ class SpesialisAppoinmentWidget extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.pushNamed(context, RoutesNavigation.spesialisView);
+                  Navigator.pushNamed(
+                    context,
+                    RoutesNavigation.spesialisView,
+                  );
                 },
                 child: Text(
                   'Lihat Semua',
@@ -36,6 +39,8 @@ class SpesialisAppoinmentWidget extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Consumer<AppoinmentViewModel>(
             builder: (context, appoinmentViewModel, child) {
+              final filteredSpecialistData =
+                  appoinmentViewModel.filteredspecialist;
               return GridView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
@@ -44,14 +49,16 @@ class SpesialisAppoinmentWidget extends StatelessWidget {
                   crossAxisSpacing: 8.0,
                   mainAxisSpacing: 8.0,
                 ),
-                itemCount: appoinmentViewModel
-                    .filteredDasboardSpesialisData.length
-                    .clamp(0, 6),
+                itemCount: filteredSpecialistData.length.clamp(0, 6),
                 itemBuilder: (BuildContext context, int index) {
+                  final specialist = filteredSpecialistData[index];
                   return GestureDetector(
                     onTap: () {
                       Navigator.pushNamed(
-                          context, RoutesNavigation.detailSpesialisView);
+                        context,
+                        RoutesNavigation.detailSpesialisView,
+                        arguments: specialist.id,
+                      );
                     },
                     child: Card(
                       elevation: 2.0,
@@ -61,17 +68,15 @@ class SpesialisAppoinmentWidget extends StatelessWidget {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Image.asset(
-                            appoinmentViewModel
-                                .filteredDasboardSpesialisData[index].image,
+                          Image.network(
+                            specialist.image ?? '',
                             width: 50.0,
                             height: 50.0,
                             fit: BoxFit.cover,
                           ),
                           const SizedBox(height: 8.0),
                           Text(
-                            appoinmentViewModel
-                                .filteredDasboardSpesialisData[index].spesialis,
+                            specialist.name ?? '',
                             style: medium12Grey900,
                             textAlign: TextAlign.center,
                           ),

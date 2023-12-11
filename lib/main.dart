@@ -15,6 +15,7 @@ import 'package:reprohealth_app/screen/confirm_status/confirm_status_view.dart';
 import 'package:reprohealth_app/screen/dokter/detail_dokter_view.dart';
 import 'package:reprohealth_app/screen/dokter/jadwal_dokter_view.dart';
 import 'package:reprohealth_app/screen/dokter/janji_temu_view.dart';
+import 'package:reprohealth_app/screen/dokter/view_models/janji_temu_view_model.dart';
 import 'package:reprohealth_app/screen/dokter/view_models/pilih_sesi_view_model.dart';
 import 'package:reprohealth_app/screen/dokter/view_models/pilih_tanggal_view_model.dart';
 import 'package:reprohealth_app/screen/forgot_password/detail_forgot_password_view.dart';
@@ -29,7 +30,7 @@ import 'package:reprohealth_app/screen/home/home_view_model.dart';
 import 'package:reprohealth_app/screen/klinik/detail_klinik_view.dart';
 import 'package:reprohealth_app/screen/klinik/klinik_view.dart';
 import 'package:reprohealth_app/screen/klinik/search_klinik_view.dart';
-import 'package:reprohealth_app/screen/klinik/view_models/klinik_view_model.dart';
+import 'package:reprohealth_app/screen/klinik/view_models/clinics_view_model.dart';
 import 'package:reprohealth_app/screen/klinik/view_models/search_klinik_view_model.dart';
 import 'package:reprohealth_app/screen/location/detail_location_view.dart';
 import 'package:reprohealth_app/screen/location/location_view.dart';
@@ -37,6 +38,8 @@ import 'package:reprohealth_app/screen/login/login_view.dart';
 import 'package:reprohealth_app/screen/login/view_model/login_view_model.dart';
 import 'package:reprohealth_app/screen/maps/maps_view.dart';
 import 'package:reprohealth_app/screen/maps/maps_view_models/maps_view_model.dart';
+import 'package:reprohealth_app/screen/metode_pembayaran/confirmation_splash_view.dart';
+import 'package:reprohealth_app/screen/metode_pembayaran/payment_method_view.dart';
 import 'package:reprohealth_app/screen/notification/notification_view.dart';
 import 'package:reprohealth_app/screen/notification/view_model/get_notification_view_model.dart';
 import 'package:reprohealth_app/screen/onboarding/onbarding_view.dart';
@@ -68,7 +71,7 @@ import 'package:reprohealth_app/screen/riwayat/riwayat_view.dart';
 import 'package:reprohealth_app/screen/spesialis/detail_spesialis_view.dart';
 import 'package:reprohealth_app/screen/spesialis/spesialis_view.dart';
 import 'package:reprohealth_app/screen/spesialis/view_models.dart/detail_spesialis_view_model.dart';
-import 'package:reprohealth_app/screen/spesialis/view_models.dart/spesialis_view_model.dart';
+import 'package:reprohealth_app/screen/spesialis/view_models.dart/specialist_view_model.dart';
 import 'package:reprohealth_app/screen/splash/splash_view.dart';
 import 'package:reprohealth_app/screen/splash/view_model/splash_view_model.dart';
 
@@ -83,9 +86,29 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider(create: (context) => LoginViewModels()),
+        ChangeNotifierProvider(create: (context) => RegisterViewModels()),
+        ChangeNotifierProvider(create: (context) => HomeViewModels()),
+        ChangeNotifierProvider(create: (context) => DatePickerViewModel()),
         ChangeNotifierProvider(
-          create: (context) => RegisterViewModels(),
-        ),
+            create: (context) => GetFamilyProfileViewModel()),
+        ChangeNotifierProvider(create: (context) => FilePickerViewModel()),
+        ChangeNotifierProvider(
+            create: (context) => PostFamilyProfileViewModel()),
+        ChangeNotifierProvider(create: (context) => HomeViewModels()),
+        ChangeNotifierProvider(create: (context) => AppoinmentViewModel()),
+        ChangeNotifierProvider(create: (context) => JanjiTemuViewModel()),
+        ChangeNotifierProvider(create: (context) => JanjiTemuViewModel()),
+        ChangeNotifierProvider(create: (context) => JanjiTemuViewModel()),
+        ChangeNotifierProvider(create: (context) => JanjiTemuViewModel()),
+        ChangeNotifierProvider(create: (context) => JanjiTemuViewModel()),
+        ChangeNotifierProvider(create: (context) => SpecialistViewModels()),
+        ChangeNotifierProvider(create: (context) => DetailSpesialisViewModel()),
+        ChangeNotifierProvider(create: (context) => SearchKlinikViewModel()),
+        ChangeNotifierProvider(create: (context) => ClinicsViewModel()),
+        ChangeNotifierProvider(create: (context) => MapsViewModel()),
+        ChangeNotifierProvider(create: (context) => PilihSesiViewModel()),
+        ChangeNotifierProvider(create: (context) => PilihTanggalViewModel()),
         ChangeNotifierProvider(
           create: (context) => HomeViewModels(),
         ),
@@ -114,7 +137,7 @@ class MainApp extends StatelessWidget {
           create: (context) => AppoinmentViewModel(),
         ),
         ChangeNotifierProvider(
-          create: (context) => SpesialisViewModel(),
+          create: (context) => SpecialistViewModels(),
         ),
         ChangeNotifierProvider(
           create: (context) => DetailSpesialisViewModel(),
@@ -123,7 +146,7 @@ class MainApp extends StatelessWidget {
           create: (context) => SearchKlinikViewModel(),
         ),
         ChangeNotifierProvider(
-          create: (context) => KlinikViewModel(),
+          create: (context) => ClinicsViewModel(),
         ),
         ChangeNotifierProvider(
           create: (context) => MapsViewModel(),
@@ -144,7 +167,6 @@ class MainApp extends StatelessWidget {
           create: (context) => GetNotificationViewModel(),
         ),
         ChangeNotifierProvider(create: (context) => SplashViewModel()),
-        ChangeNotifierProvider(create: (context) => LoginViewModel()),
         ChangeNotifierProvider(create: (context) => HomeViewModels()),
         ChangeNotifierProvider(create: (context) => ForumViewModel()),
       ],
@@ -210,13 +232,19 @@ class MainApp extends StatelessWidget {
           RoutesNavigation.profileView: (context) => const ProfileView(),
           RoutesNavigation.myProfile: (context) => const MyProfile(),
           RoutesNavigation.familyProfile: (context) => const FamilyProfile(),
-          RoutesNavigation.changePasswordView: (context) => const ChangePasswordView(),
+          RoutesNavigation.changePasswordView: (context) =>
+              const ChangePasswordView(),
           RoutesNavigation.aboutUs: (context) => const AboutUs(),
-          RoutesNavigation.pusatBantuanView: (context) => const PusatBantuanView(),
-          RoutesNavigation.ketentuanPenggunaView: (context) => const KetentuanPenggunaView(),
-          RoutesNavigation.kebijakanPrivasiView: (context) => const KebijakanPrivasiView(),
-          RoutesNavigation.changeProfileView: (context) => const ChangeProfileView(),
-          RoutesNavigation.addFamilyProfile: (context) => const AddFamilyProfile(),
+          RoutesNavigation.pusatBantuanView: (context) =>
+              const PusatBantuanView(),
+          RoutesNavigation.ketentuanPenggunaView: (context) =>
+              const KetentuanPenggunaView(),
+          RoutesNavigation.kebijakanPrivasiView: (context) =>
+              const KebijakanPrivasiView(),
+          RoutesNavigation.changeProfileView: (context) =>
+              const ChangeProfileView(),
+          RoutesNavigation.addFamilyProfile: (context) =>
+              const AddFamilyProfile(),
 
           RoutesNavigation.notificationView: (context) => const NotificationView(),
 
@@ -231,6 +259,12 @@ class MainApp extends StatelessWidget {
               const CancelAppointmentPaymentAtClicic(),
           RoutesNavigation.confirmStatusView: (context) =>
               const ConfirmStatusView(),
+
+          // payment method
+          RoutesNavigation.paymentMethodView: (context) =>
+              const PaymentMethodView(),
+          RoutesNavigation.confirmSplashView: (context) =>
+              const ConfirmationSplashView(),
         },
       ),
     );

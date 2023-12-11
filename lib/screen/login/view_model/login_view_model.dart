@@ -1,16 +1,41 @@
 import 'package:flutter/material.dart';
 
-class LoginViewModel extends ChangeNotifier {
-  String? _token = '';
-  String? get token => _token;
+class LoginViewModels extends ChangeNotifier {
+  final TextEditingController _emailController = TextEditingController();
+  TextEditingController get emailController => _emailController;
 
-  void saveToken(String newToken) {
-    _token = newToken;
+  final TextEditingController _passwordController = TextEditingController();
+  TextEditingController get passwordController => _passwordController;
+
+  bool _rememberMe = false;
+  bool get rememberMe => _rememberMe;
+
+  bool _passwordVisible = false;
+  bool get passwordVisible => _passwordVisible;
+
+  void toggleRememberMe() {
+    _rememberMe = !_rememberMe;
     notifyListeners();
   }
 
-  void removeToken() {
-    _token = '';
+  void togglePassword() {
+    _passwordVisible = !_passwordVisible;
     notifyListeners();
+  }
+
+  bool validateEmail(String email) {
+    final emailPattern =
+        RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9^`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+    if (!emailPattern.hasMatch(email)) {
+      return false;
+    }
+    return true;
+  }
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
   }
 }

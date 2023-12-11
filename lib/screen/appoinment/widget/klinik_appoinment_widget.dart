@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:reprohealth_app/constant/routes_navigation.dart';
@@ -22,7 +23,10 @@ class KlinikAppoinmentWidget extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.pushNamed(context, RoutesNavigation.klinikView);
+                  Navigator.pushNamed(
+                    context,
+                    RoutesNavigation.klinikView,
+                  );
                 },
                 child: Text(
                   'Lihat Semua',
@@ -36,6 +40,8 @@ class KlinikAppoinmentWidget extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Consumer<AppoinmentViewModel>(
             builder: (context, appoinmentViewModel, child) {
+              final filteredClinicsData =
+                  appoinmentViewModel.filteredClinicsList;
               return GridView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
@@ -44,13 +50,16 @@ class KlinikAppoinmentWidget extends StatelessWidget {
                   crossAxisSpacing: 8.0,
                   mainAxisSpacing: 8.0,
                 ),
-                itemCount: appoinmentViewModel.filteredDasboardKlinikData.length
-                    .clamp(0, 2),
+                itemCount: filteredClinicsData.length.clamp(0, 2),
                 itemBuilder: (BuildContext context, int index) {
+                  final clinics = filteredClinicsData[index];
                   return GestureDetector(
                     onTap: () {
                       Navigator.pushNamed(
-                          context, RoutesNavigation.detailKlinikView);
+                        context,
+                        RoutesNavigation.detailKlinikView,
+                        arguments: clinics,
+                      );
                     },
                     child: Card(
                       elevation: 2.0,
@@ -63,12 +72,17 @@ class KlinikAppoinmentWidget extends StatelessWidget {
                         children: [
                           ClipRRect(
                             borderRadius: BorderRadius.circular(4.0),
-                            child: Image.asset(
-                              appoinmentViewModel
-                                  .filteredDasboardKlinikData[index].image,
-                              width: double.infinity,
-                              height: 80.0,
-                              fit: BoxFit.cover,
+                            child: CachedNetworkImage(
+                              imageUrl: clinics.image ?? '',
+                              placeholder: (context, url) =>
+                                  const CircularProgressIndicator(),
+                              errorWidget: (context, url, error) =>
+                                  const Center(
+                                child: Icon(
+                                  Icons.error,
+                                  size: 50,
+                                ),
+                              ),
                             ),
                           ),
                           Padding(
@@ -77,14 +91,11 @@ class KlinikAppoinmentWidget extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  appoinmentViewModel
-                                      .filteredDasboardKlinikData[index]
-                                      .namaRumahSakit,
+                                  clinics.name ?? '',
                                   style: semiBold14Grey900,
                                 ),
                                 Text(
-                                  appoinmentViewModel
-                                      .filteredDasboardKlinikData[index].jalan,
+                                  clinics.location ?? '',
                                   style: regular10Grey900,
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
@@ -95,16 +106,12 @@ class KlinikAppoinmentWidget extends StatelessWidget {
                                 Row(
                                   children: [
                                     Icon(
-                                      appoinmentViewModel
-                                          .filteredDasboardKlinikData[index]
-                                          .icon,
+                                      Icons.location_on_outlined,
                                       size: 10,
                                       color: green500,
                                     ),
                                     Text(
-                                      appoinmentViewModel
-                                          .filteredDasboardKlinikData[index]
-                                          .jarak,
+                                      "6 Km",
                                       style: regular8Grey400,
                                     ),
                                   ],

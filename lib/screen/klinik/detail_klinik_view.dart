@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:reprohealth_app/component/button_component.dart';
 import 'package:reprohealth_app/constant/routes_navigation.dart';
-import 'package:reprohealth_app/models/klinik_inter_medika_models.dart';
+import 'package:reprohealth_app/models/clinics_models/clinics_models.dart';
 import 'package:reprohealth_app/theme/theme.dart';
 
 class DetailKlinikView extends StatelessWidget {
@@ -9,6 +9,10 @@ class DetailKlinikView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final args =
+        ModalRoute.of(context)!.settings.arguments as ResponseDataClinics;
+    final ResponseDataClinics detailClinics = args;
+
     return Scaffold(
       body: CustomScrollView(
         slivers: [
@@ -23,6 +27,7 @@ class DetailKlinikView extends StatelessWidget {
                 ),
                 child: Image.asset(
                   'assets/foto_klinik3.png',
+                  // detailClinics.image ?? '',
                   fit: BoxFit.cover,
                 ),
               ),
@@ -42,12 +47,12 @@ class DetailKlinikView extends StatelessWidget {
                         bottom: 16,
                       ),
                       child: Text(
-                        klinikInterMedikaData[0].klinik,
+                        detailClinics.name ?? '',
                         style: semiBold20Grey900,
                       ),
                     ),
                     Text(
-                      klinikInterMedikaData[0].informasi,
+                      "Informasi Klinik",
                       style: semiBold14Grey900,
                     ),
                     Padding(
@@ -67,7 +72,10 @@ class DetailKlinikView extends StatelessWidget {
                                 width: 8,
                               ),
                               Expanded(
-                                child: Text(klinikInterMedikaData[0].jalan),
+                                child: Text(
+                                  detailClinics.location ?? '',
+                                  style: regular12Grey900,
+                                ),
                               ),
                             ],
                           ),
@@ -84,7 +92,10 @@ class DetailKlinikView extends StatelessWidget {
                                 const SizedBox(
                                   width: 8,
                                 ),
-                                Text(klinikInterMedikaData[0].number)
+                                Text(
+                                  "nomor clinics",
+                                  style: regular12Grey900,
+                                )
                               ],
                             ),
                           ),
@@ -97,7 +108,10 @@ class DetailKlinikView extends StatelessWidget {
                               const SizedBox(
                                 width: 8,
                               ),
-                              Text(klinikInterMedikaData[0].email)
+                              Text(
+                                "email clinics",
+                                style: regular12Grey900,
+                              )
                             ],
                           ),
                         ],
@@ -111,7 +125,7 @@ class DetailKlinikView extends StatelessWidget {
                       height: 8,
                     ),
                     Text(
-                      klinikInterMedikaData[0].isiProfil,
+                      detailClinics.profile ?? '',
                       style: regular12Grey900,
                       textAlign: TextAlign.justify,
                     ),
@@ -124,7 +138,10 @@ class DetailKlinikView extends StatelessWidget {
                       backgroundColor: green500,
                       onPressed: () {
                         Navigator.pushNamed(
-                            context, RoutesNavigation.searchKlinikView);
+                          context,
+                          RoutesNavigation.searchKlinikView,
+                          arguments: detailClinics,
+                        );
                       },
                     ),
                   ],

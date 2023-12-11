@@ -4,6 +4,7 @@ import 'package:reprohealth_app/component/text_form_component.dart';
 import 'package:reprohealth_app/screen/profile/widget/profile_widget/button_widget.dart';
 import 'package:reprohealth_app/screen/profile/widget/profile_widget/snackbar_widget.dart';
 import 'package:reprohealth_app/screen/register/view_model/register_view_model.dart';
+import 'package:reprohealth_app/services/profile_service/profile_service.dart';
 import 'package:reprohealth_app/theme/theme.dart';
 
 class ChangePasswordView extends StatefulWidget {
@@ -71,14 +72,14 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
                     ),
                     const SizedBox(height: 16),
                     Text(
-                      "Kata Sandi Lama",
+                      "Kata Sandi Baru",
                       style: medium12Grey500,
                     ),
                     const SizedBox(height: 4),
                     TextFormComponent(
                       controller: oldPasswordController,
                       obscureText: !passwordVisible,
-                      hintText: 'Kata sandi lama',
+                      hintText: 'Kata Sandi Baru',
                       hinstStyle: regular12Grey200,
                       prefixIcon: Icons.lock_outline,
                       validator: (value) {
@@ -143,8 +144,11 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
                           title: "Ubah",
                           onPressed: () {
                             if (registerViewModel.formKey.currentState!.validate()) {
-                              if (oldPasswordController.text ==
-                                  newPasswordController.text) {
+                              if (oldPasswordController.text == newPasswordController.text) {
+                                ProfileService().changePassword(
+                                  newPassword: newPasswordController.text
+                                  );
+                                Navigator.pop(context);
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   CustomSnackBar(
                                     contentText: 'Kata sandi berhasil diubah!',
@@ -155,7 +159,7 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   CustomSnackBar(
                                     contentText:
-                                        'Kata sandi lama yang dimasukkan tidak sesuai!',
+                                        'Kata sandi yang dimasukkan tidak sesuai!',
                                     backgroundColor: negative,
                                   ),
                                 );

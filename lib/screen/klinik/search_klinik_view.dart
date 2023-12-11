@@ -1,16 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:reprohealth_app/component/text_form_component.dart';
-import 'package:reprohealth_app/constant/routes_navigation.dart';
-import 'package:reprohealth_app/models/dokter_models.dart';
-import 'package:reprohealth_app/models/spesialis_models.dart';
+import 'package:reprohealth_app/models/clinics_models/clinics_models.dart';
 import 'package:reprohealth_app/screen/klinik/view_models/search_klinik_view_model.dart';
 import 'package:reprohealth_app/screen/klinik/widget/list_dokter_widget.dart';
 import 'package:reprohealth_app/screen/klinik/widget/list_spesialis_widget.dart';
 import 'package:reprohealth_app/theme/theme.dart';
 
-class SearchKlinikView extends StatelessWidget {
+class SearchKlinikView extends StatefulWidget {
   const SearchKlinikView({Key? key}) : super(key: key);
+
+  @override
+  State<SearchKlinikView> createState() => _SearchKlinikViewState();
+}
+
+class _SearchKlinikViewState extends State<SearchKlinikView> {
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    final args =
+        ModalRoute.of(context)!.settings.arguments as ResponseDataClinics;
+    final ResponseDataClinics clinics = args;
+
+    Future.delayed(Duration.zero, () {
+      Provider.of<SearchKlinikViewModel>(context, listen: false)
+          .getListSpecialistClinics(clinicsId: clinics.id ?? '');
+      Provider.of<SearchKlinikViewModel>(context, listen: false)
+          .getListDokterClinics(clinicsId: clinics.id ?? '');
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,12 +57,12 @@ class SearchKlinikView extends StatelessWidget {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
                   child: TextFormComponent(
-                    controller: searchKlinikViewModel.searchController,
+                    controller: searchKlinikViewModel.searchClinicsController,
                     onChanged: (value) {
                       if (searchKlinikViewModel.selectIndex == 0) {
-                        searchKlinikViewModel.filterDokterList(value);
+                        searchKlinikViewModel.filterSearchDokter(value);
                       } else if (searchKlinikViewModel.selectIndex == 1) {
-                        searchKlinikViewModel.filterSpesialisList(value);
+                        searchKlinikViewModel.filterSearchSpecialist(value);
                       }
                     },
                     hintText: 'Cari Dokter atau Spesialis',
@@ -56,7 +75,7 @@ class SearchKlinikView extends StatelessWidget {
                   labelColor: grey900,
                   unselectedLabelColor: grey400,
                   onTap: (int index) {
-                    searchKlinikViewModel.searchController.clear();
+                    searchKlinikViewModel.searchClinicsController.clear();
                     searchKlinikViewModel.selectIndex = index;
                   },
                   tabs: [
@@ -74,36 +93,9 @@ class SearchKlinikView extends StatelessWidget {
                     ),
                   ],
                 ),
-                Expanded(
+                const Expanded(
                   child: TabBarView(
-                    children: [
-                      ListView.builder(
-                        itemCount:
-                            searchKlinikViewModel.filteredDokterList.length,
-                        itemBuilder: (context, index) {
-                          return GestureDetector(
-                            onTap: () {
-                              Navigator.pushNamed(
-                                  context, RoutesNavigation.detailDokterView);
-                            },
-                            child: ListDokterWidget(
-                              interMedika: searchKlinikViewModel
-                                  .filteredDokterList[index],
-                            ),
-                          );
-                        },
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 24,
-                        ),
-                        child: ListSpesialisWidget(
-                          spesialisInterMedikaList:
-                              searchKlinikViewModel.filteredSpesialisList,
-                        ),
-                      ),
-                    ],
+                    children: [ListDokterWidget(), ListSpesialisWidget()],
                   ),
                 ),
               ],

@@ -1,38 +1,98 @@
 import 'package:flutter/material.dart';
-import 'package:reprohealth_app/models/dokter_models.dart';
-import 'package:reprohealth_app/models/spesialis_models.dart';
+import 'package:reprohealth_app/models/doctor_models/doctor_models.dart';
+import 'package:reprohealth_app/models/specialist_models/specialist_models.dart';
+import 'package:reprohealth_app/services/doctor_services/doctor_services.dart';
+import 'package:reprohealth_app/services/specialist_services/specialist_services.dart';
+import 'package:rxdart/rxdart.dart';
 
 class SearchKlinikViewModel extends ChangeNotifier {
-  final TextEditingController _searchController = TextEditingController();
-  TextEditingController get searchController => _searchController;
+  final TextEditingController _searchClinicsController = TextEditingController();
+  TextEditingController get searchClinicsController => _searchClinicsController;
 
-  List<DokterModelsLama> _filteredDokterList = [];
-  List<DokterModelsLama> get filteredDokterList => _filteredDokterList;
+  final _searchController = BehaviorSubject<String>.seeded('');
+  Stream<String> get searchStream => _searchController.stream;
 
-  List<SpesialisModels> _filteredSpesialisList = [];
-  List<SpesialisModels> get filteredSpesialisList => _filteredSpesialisList;
+  // DOCTOR
+  final DokterServices _dokterServices = DokterServices();
+  DoctorModels? _dokterList;
+  DoctorModels? get dokterList => _dokterList;
+  
+  List<ResponseDataDoctor> _filteredDokter = [];
+  List<ResponseDataDoctor> get filteredDokter =>
+      _filteredDokter;
 
+  Future<void> getListDokterClinics({required String clinicsId}) async {
+    try {
+      _dokterList =
+          await _dokterServices.getDokterByClinics(clinicsId: clinicsId);
+      filterSearchDokter(_searchController.value); // Ensure initial filtering
+      notifyListeners();
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  void filterSearchDokter(String query) {
+    List<ResponseDataDoctor> searchResultsDokter = [];
+    if (query.isNotEmpty) {
+      searchResultsDokter = dokterList?.response
+              ?.where((data) =>
+                  data.name?.toLowerCase().contains(query.toLowerCase()) ??
+                  false)
+              .toList() ??
+          [];
+    } else {
+      searchResultsDokter.addAll(dokterList?.response ?? []);
+    }
+    _filteredDokter = searchResultsDokter;
+    _searchController.add(query);
+    notifyListeners();
+  }
+
+  // SPECIALIST
+  final SpecialistServices _specialistServices = SpecialistServices();
+  SpecialistModels? _specialistList;
+  SpecialistModels? get specialistList => _specialistList;
+  
+  List<ResponseDataSpecialist> _filteredSpecialist = [];
+  List<ResponseDataSpecialist> get filteredSpecialist =>
+      _filteredSpecialist;
+
+  Future<void> getListSpecialistClinics({required String clinicsId}) async {
+    try {
+      _specialistList = await _specialistServices.getListSpecialistClinics(
+          clinicsId: clinicsId);
+      filterSearchSpecialist(
+          _searchController.value); // Ensure initial filtering
+      notifyListeners();
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  void filterSearchSpecialist(String query) {
+    List<ResponseDataSpecialist> searchResultsSpecialist = [];
+    if (query.isNotEmpty) {
+      searchResultsSpecialist = specialistList?.response
+              ?.where((data) =>
+                  data.name?.toLowerCase().contains(query.toLowerCase()) ??
+                  false)
+              .toList() ??
+          [];
+    } else {
+      searchResultsSpecialist.addAll(specialistList?.response ?? []);
+    }
+    _filteredSpecialist = searchResultsSpecialist;
+    _searchController.add(query);
+    notifyListeners();
+  }
+
+
+  // TAB
   int _selectIndex = 0;
   int get selectIndex => _selectIndex;
   set selectIndex(int index) {
     _selectIndex = index;
-    notifyListeners();
-  }
-
-  void filterDokterList(String query) {
-    _filteredDokterList = dokterKandunganData
-        .where((dokter) =>
-            dokter.nama.toLowerCase().contains(query.toLowerCase()) ||
-            dokter.spesialis.toLowerCase().contains(query.toLowerCase()))
-        .toList();
-    notifyListeners();
-  }
-
-  void filterSpesialisList(String query) {
-    _filteredSpesialisList = spesialisModelsData
-        .where((spesialis) =>
-            spesialis.spesialis.toLowerCase().contains(query.toLowerCase()))
-        .toList();
     notifyListeners();
   }
 }
