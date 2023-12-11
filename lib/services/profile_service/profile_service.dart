@@ -5,6 +5,7 @@ import 'package:reprohealth_app/utils/shared_preferences_utils.dart';
 
 class ProfileService {
   final String apiUrl = 'https://dev.reprohealth.my.id/patients';
+  final SharedPreferencesUtils _sharedPreferencesUtils = SharedPreferencesUtils();
 
   Future<ProfileModel> getProfileModel({required BuildContext context}) async {
     final String token = await SharedPreferencesUtils().getToken();
@@ -13,7 +14,7 @@ class ProfileService {
         apiUrl,
         options: Options(
           headers: {
-            'Content-Type': 'application/json', 
+            'Content-Type': 'application/json',
             'Authorization': 'Bearer $token'
             },
         ),
@@ -31,7 +32,7 @@ class ProfileService {
     final String token = await SharedPreferencesUtils().getToken();
 
     try {
-      final response = await Dio().post(
+      await Dio().post(
         apiUrl,
         data: formData,
         options: Options(
@@ -40,12 +41,11 @@ class ProfileService {
           },
         ),
       );
-      print(response.data);
     } on DioException catch (e) {
       if (e.response != null) {
-        print('Error response: ${e.response!.data}');
+        e.response!.data;
       } else {
-        print('Error: $e');
+        e;
       }
       throw Exception(e.message);
     }
@@ -53,7 +53,7 @@ class ProfileService {
 
 
   Future<ProfileModel> getProfileModelId({
-    required BuildContext context, 
+    required BuildContext context,
     required String idPatients
     }) async {
     final String token = await SharedPreferencesUtils().getToken();
@@ -67,7 +67,6 @@ class ProfileService {
             },
         ),
       );
-      print(response.data);
       return ProfileModel.fromMap(response.data);
     } on DioException catch (e) {
       throw Exception(e.response);
@@ -75,7 +74,6 @@ class ProfileService {
   }
 
   Future<ProfileModel> putProfileModel({
-    required BuildContext context,
     required String idPatients,
     required FormData formData,
     }) async {
@@ -91,10 +89,9 @@ class ProfileService {
             },
         ),
       );
-      print(response.data);
       return ProfileModel.fromMap(response.data);
     } on DioException catch (e) {
-      throw Exception(e.response);
+      throw Exception(e.response?.data ?? 'Failed to perform operation');
     }
   }
 
@@ -113,12 +110,31 @@ class ProfileService {
             },
         ),
       );
-      print(response.data);
       return ProfileModel.fromMap(response.data);
     } on DioException catch (e) {
       throw Exception(e.response);
     }
   }
 
+    Future<ProfileModel> changePassword({required String newPassword}) async {
+    final String token = await SharedPreferencesUtils().getToken();
+    try {
+      final response = await Dio().put(
+        'https://dev.reprohealth.my.id/users/change-password',
+        data: {
+          "password": newPassword,
+        },
+        options: Options(
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer $token'
+            },
+        ),
+      );
+      return ProfileModel.fromMap(response.data);
+    } on DioException catch (e) {
+      throw Exception(e.response?.data ?? 'Failed to perform operation');
+    }
+  }
 }
 

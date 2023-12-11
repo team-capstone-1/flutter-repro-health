@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:reprohealth_app/constant/routes_navigation.dart';
 import 'package:reprohealth_app/screen/appoinment/appoinment_view.dart';
@@ -39,6 +40,8 @@ import 'package:reprohealth_app/screen/maps/maps_view.dart';
 import 'package:reprohealth_app/screen/maps/maps_view_models/maps_view_model.dart';
 import 'package:reprohealth_app/screen/metode_pembayaran/confirmation_splash_view.dart';
 import 'package:reprohealth_app/screen/metode_pembayaran/payment_method_view.dart';
+import 'package:reprohealth_app/screen/notification/notification_view.dart';
+import 'package:reprohealth_app/screen/notification/view_model/get_notification_view_model.dart';
 import 'package:reprohealth_app/screen/onboarding/onbarding_view.dart';
 import 'package:reprohealth_app/screen/profile/about_us_view.dart';
 import 'package:reprohealth_app/screen/profile/add_family_profile_view.dart';
@@ -50,10 +53,12 @@ import 'package:reprohealth_app/screen/profile/ketentuan_pengguna_view.dart';
 import 'package:reprohealth_app/screen/profile/my_profile_view.dart';
 import 'package:reprohealth_app/screen/profile/profile_view.dart';
 import 'package:reprohealth_app/screen/profile/pusat_bantuan/pusat_bantuan_view.dart';
+import 'package:reprohealth_app/screen/profile/view_model/change_gender_view_model.dart';
 import 'package:reprohealth_app/screen/profile/view_model/date_picker_view_model.dart';
 import 'package:reprohealth_app/screen/profile/view_model/delete_family_profile_view_model.dart';
 import 'package:reprohealth_app/screen/profile/view_model/file_picker_view_model.dart';
 import 'package:reprohealth_app/screen/profile/view_model/get_family_profile_view_model.dart';
+import 'package:reprohealth_app/screen/profile/view_model/image_picker_view_model.dart';
 import 'package:reprohealth_app/screen/profile/view_model/post_family_profile_view_model.dart';
 import 'package:reprohealth_app/screen/profile/view_model/put_family_profile_view_model.dart';
 import 'package:reprohealth_app/screen/refund/refund_view.dart';
@@ -152,11 +157,30 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => PilihTanggalViewModel(),
         ),
+        ChangeNotifierProvider(
+          create: (context) => ImagePickerViewModel(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => ChangeGenderViewModel(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => GetNotificationViewModel(),
+        ),
         ChangeNotifierProvider(create: (context) => SplashViewModel()),
         ChangeNotifierProvider(create: (context) => HomeViewModels()),
         ChangeNotifierProvider(create: (context) => ForumViewModel()),
       ],
       child: MaterialApp(
+        localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+
+        ],
+        supportedLocales: [
+          const Locale('en'),
+          const Locale('id')
+        ],
         debugShowCheckedModeBanner: false,
         title: 'ReproHealth+',
         initialRoute: RoutesNavigation.splashView,
@@ -221,6 +245,8 @@ class MainApp extends StatelessWidget {
               const ChangeProfileView(),
           RoutesNavigation.addFamilyProfile: (context) =>
               const AddFamilyProfile(),
+
+          RoutesNavigation.notificationView: (context) => const NotificationView(),
 
           // riwayat transaksi
           RoutesNavigation.appointmentHistoryDetailView: (context) =>
