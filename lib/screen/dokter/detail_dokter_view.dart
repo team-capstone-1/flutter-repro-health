@@ -17,31 +17,35 @@ class DetailDokterView extends StatelessWidget {
     final ResponseDataDoctor detailDoctor = args;
 
     return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar(
-            iconTheme: IconThemeData(color: primary4),
-            backgroundColor: primary,
-            expandedHeight: 250,
-            flexibleSpace: FlexibleSpaceBar(
-              background: ClipRRect(
-                borderRadius: const BorderRadius.vertical(
-                  bottom: Radius.circular(24),
-                ),
-                child: CachedNetworkImage(
-                  fit: BoxFit.cover,
-                  imageUrl: detailDoctor.profileImage ?? '',
-                  placeholder: (context, url) =>
-                      const CircularProgressIndicator(),
-                  errorWidget: (context, url, error) => const Center(
-                    child: Icon(
-                      Icons.error,
-                      size: 50,
+      body: Column(
+        children: [
+          CustomScrollView(
+            slivers: [
+              SliverAppBar(
+                iconTheme: IconThemeData(color: primary4),
+                backgroundColor: primary,
+                expandedHeight: 250,
+                flexibleSpace: FlexibleSpaceBar(
+                  background: ClipRRect(
+                    borderRadius: const BorderRadius.vertical(
+                      bottom: Radius.circular(24),
+                    ),
+                    child: CachedNetworkImage(
+                      fit: BoxFit.cover,
+                      imageUrl: detailDoctor.profileImage ?? '',
+                      placeholder: (context, url) =>
+                          const CircularProgressIndicator(),
+                      errorWidget: (context, url, error) => const Center(
+                        child: Icon(
+                          Icons.error,
+                          size: 50,
+                        ),
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
+            ],
           ),
           SliverToBoxAdapter(
             child: Container(

@@ -29,6 +29,9 @@ import 'package:reprohealth_app/screen/forum/create_forum_view.dart';
 import 'package:reprohealth_app/screen/forum/detail_forum_view.dart';
 import 'package:reprohealth_app/screen/forum/forum_view.dart';
 import 'package:reprohealth_app/screen/forum/view_model/create_forum_view_model.dart';
+import 'package:reprohealth_app/screen/forum/assistant_chat_forum_view.dart';
+import 'package:reprohealth_app/screen/forum/chat_bot_forum_view.dart';
+import 'package:reprohealth_app/screen/forum/view_model/chatbot_view_model.dart';
 import 'package:reprohealth_app/screen/forum/view_model/forum_view_model.dart';
 import 'package:reprohealth_app/screen/home/home_view.dart';
 import 'package:reprohealth_app/screen/home/home_view_model.dart';
@@ -189,6 +192,7 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => HomeViewModels()),
         ChangeNotifierProvider(create: (context) => ForumViewModel()),
         ChangeNotifierProvider(create: (context) => CreateForumViewModel()),
+        ChangeNotifierProvider(create: (context) => ChatbotViewModel()),
         ChangeNotifierProvider(create: (context) => RiwayatViewModel()),
       ],
       child: MaterialApp(
@@ -246,6 +250,12 @@ class MainApp extends StatelessWidget {
           RoutesNavigation.jadwalDokterView: (context) =>
               const JadwalDokterView(),
           RoutesNavigation.janjiTemuView: (context) => const JanjiTemuView(),
+
+          // Forum
+          RoutesNavigation.chatBotForumView: (context) =>
+              const ChatBotForumView(),
+          RoutesNavigation.assistantChatForumView: (context) =>
+              const AssistantChatForumView(),
 
           //profile routes
           RoutesNavigation.profileView: (context) => const ProfileView(),

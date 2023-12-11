@@ -112,7 +112,53 @@ class ForumView extends StatelessWidget {
                 ),
               ),
               onPressed: () {
-                // First FAB action
+                // Menampilkan Alert Dialog
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      content: Text(
+                        "Butuh saran tentang kesehatan reproduksi? Bicaralah dengan Repro Assistant",
+                        style: regular14Grey400,
+                      ),
+                      contentPadding: const EdgeInsets.only(
+                        top: 16.0,
+                        left: 16.0,
+                        right: 16.0,
+                      ),
+                      actions: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: Text(
+                                "Tutup",
+                                style: regular12Grey500,
+                              ),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+
+                                Navigator.pushNamed(
+                                  context,
+                                  RoutesNavigation.chatBotForumView,
+                                );
+                              },
+                              child: Text(
+                                "OK",
+                                style: regular12Grey500,
+                              ),
+                            ),
+                          ],
+                        )
+                      ],
+                    );
+                  },
+                );
               },
               backgroundColor: Colors.white,
               child: Icon(
@@ -120,6 +166,29 @@ class ForumView extends StatelessWidget {
                 color: green500,
               ),
             ),
+
+            // FloatingActionButton(
+            //   heroTag: "1",
+            //   shape: RoundedRectangleBorder(
+            //     borderRadius: BorderRadius.circular(100),
+            //     side: BorderSide(
+            //       width: 1.5,
+            //       color: green500,
+            //     ),
+            //   ),
+            //   onPressed: () {
+            //     // First FAB action
+            //     Navigator.pushNamed(
+            //       context,
+            //       RoutesNavigation.chatBotForumView,
+            //     );
+            //   },
+            //   backgroundColor: Colors.white,
+            //   child: Icon(
+            //     Icons.smart_toy,
+            //     color: green500,
+            //   ),
+            // ),
             const SizedBox(height: 16),
             FloatingActionButton(
               heroTag: "2",
