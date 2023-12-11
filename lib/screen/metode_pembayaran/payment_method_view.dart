@@ -136,8 +136,6 @@ class _PaymentMethodState extends State<PaymentMethodView> {
     }
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
