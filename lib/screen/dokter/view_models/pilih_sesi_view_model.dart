@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
 
 class PilihSesiViewModel extends ChangeNotifier {
-  final List<String> _sessions = [
-    "Pagi 08.00-11.00",
-    "Siang 13.00-15.30",
-    "Malam 19.00-20.30",
+  //^ LIST sesi rescedhule
+  //! ISI LIST JANGAN DI GANTI !!!
+  // list sesi rescedhule sudah sesuai dengan request body api
+  List<String> sessions = [
+    "pagi",
+    "siang",
+    "malam",
   ];
 
-  List<String> get sessions => _sessions;
-
-  String _selectedSession = "";
+  //^ SET selectionSession
+  // [SESI] rescedhule yang dipilih oleh user
+  String _selectedSession = '';
   String get selectedSession => _selectedSession;
-
-  void setSelectedSession(String session) {
-    _selectedSession = session;
+  set setSelectedSession(String newSession) {
     notifyListeners();
+    _selectedSession = newSession;
   }
 }

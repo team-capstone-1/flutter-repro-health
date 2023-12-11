@@ -1,9 +1,7 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:reprohealth_app/constant/routes_navigation.dart';
-import 'package:reprohealth_app/screen/profile/view_model/file_picker_view_model.dart';
 import 'package:reprohealth_app/screen/profile/view_model/get_family_profile_view_model.dart';
 import 'package:reprohealth_app/screen/profile/widget/profile_widget/button_widget.dart';
 import 'package:reprohealth_app/screen/profile/widget/profile_widget/profile_menu_widget.dart';
@@ -23,9 +21,12 @@ class ProfileView extends StatelessWidget {
           elevation: 0.0,
           title: Text('Profil', style: semiBold16Grey500),
         ),
-        body: Consumer<FilePickerViewModel>(
-          builder: (context, filePickerProvider, child) {
-            return ListView(
+        body:  Consumer<GetFamilyProfileViewModel>(
+              builder: (context, getFamilyProfileViewModel, child) {
+              final myProfile = getFamilyProfileViewModel.profileList?.response?.isEmpty ?? true
+              ? null
+              : getFamilyProfileViewModel.profileList!.response!.first;
+                return ListView(
               children: [
                 Container(
                   width: double.infinity,
@@ -37,25 +38,17 @@ class ProfileView extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Padding(
-                            padding: EdgeInsets.all(16),
+                            padding: const EdgeInsets.all(16),
                             child: CircleAvatar(
                               radius: 30,
-                              backgroundColor: Color(0xFFB9B9B9),
+                              backgroundColor: const Color(0xFFB9B9B9),
                               backgroundImage:
-                                  filePickerProvider.result != null &&
-                                          filePickerProvider
-                                              .result!.paths.isNotEmpty
-                                      ? Image.file(File(filePickerProvider
-                                              .result!.paths[0]
-                                              .toString()))
-                                          .image
-                                      : null,
+                                  myProfile?.profileImage != null
+                                  ? NetworkImage(myProfile!.profileImage!)
+                                  : null
                             ),
                           ),
-                          Consumer<GetFamilyProfileViewModel>(
-                            builder: (context, getFamilyProfileViewModel, child) {
-                              final myProfile =  getFamilyProfileViewModel.profileList?.response?.first;
-                              return Column(
+                          Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
@@ -76,9 +69,7 @@ class ProfileView extends StatelessWidget {
                                         fontWeight: FontWeight.w400,
                                       )),
                                 ],
-                              );
-                            },
-                          ),
+                              )
                         ],
                       ),
                     ],
@@ -209,7 +200,8 @@ class ProfileView extends StatelessWidget {
                 ),
               ],
             );
-          },
-        ));
+          }
+        )
+      );
   }
 }

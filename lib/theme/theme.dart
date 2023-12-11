@@ -59,6 +59,12 @@ TextStyle regular8Grey400 = GoogleFonts.poppins(
   fontWeight: FontWeight.w400,
 );
 
+TextStyle regular8Grey900 = GoogleFonts.poppins(
+  color: grey900,
+  fontSize: 8,
+  fontWeight: FontWeight.w400,
+);
+
 TextStyle regular8Black = GoogleFonts.poppins(
   color: secondary,
   fontSize: 8,
@@ -228,12 +234,6 @@ TextStyle regular14PrimaryGreen500 = GoogleFonts.poppins(
 TextStyle medium12Grey900 = GoogleFonts.poppins(
   color: grey900,
   fontSize: 12,
-  fontWeight: FontWeight.w500,
-);
-
-TextStyle medium12PrimaryGreen500 = GoogleFonts.poppins(
-  color: green500,
-  fontSize: 8,
   fontWeight: FontWeight.w500,
 );
 

@@ -16,10 +16,9 @@ class PilihSesiWidget extends StatelessWidget {
           itemCount: pilihSesiViewModel.sessions.length,
           itemBuilder: (context, index) {
             var sessionsListData = pilihSesiViewModel.sessions[index];
-
             return GestureDetector(
               onTap: () {
-                pilihSesiViewModel.setSelectedSession(sessionsListData);
+                pilihSesiViewModel.setSelectedSession = sessionsListData;
               },
               child: SizedBox(
                 child: Column(
@@ -55,9 +54,7 @@ class PilihSesiWidget extends StatelessWidget {
                               value: sessionsListData,
                               groupValue: pilihSesiViewModel.selectedSession,
                               onChanged: (value) {
-                                pilihSesiViewModel.setSelectedSession(
-                                  value.toString(),
-                                );
+                                pilihSesiViewModel.setSelectedSession = value!;
                               },
                             ),
                           ),
