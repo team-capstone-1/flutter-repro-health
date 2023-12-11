@@ -66,8 +66,10 @@ class RescedhuleViewModel extends ChangeNotifier {
           context,
           RoutesNavigation.confirmStatusView,
           (route) => route.isFirst,
+          arguments: "Berhasil Mengubah Jadwal",
         );
       });
+      notifyListeners();
     } on DioException catch (e) {
       isLoading = false;
       notifyListeners();

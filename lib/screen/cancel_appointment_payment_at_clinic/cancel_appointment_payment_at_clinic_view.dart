@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:reprohealth_app/screen/cancel_appointment_payment_at_clinic/cancel_at_clinic_view_model/cancel_at_clinic_view_model.dart';
+import 'package:reprohealth_app/screen/riwayat/view_model/riwayat_view_model.dart';
 
 import 'package:reprohealth_app/theme/theme.dart';
 import 'package:reprohealth_app/component/button_component.dart';
@@ -15,6 +16,10 @@ class CancelAppointmentPaymentAtClicic extends StatelessWidget {
   Widget build(BuildContext context) {
     final appointmentData =
         ModalRoute.of(context)?.settings.arguments as ResponseData;
+    var controller = Provider.of<RiwayatViewModel>(
+      context,
+      listen: false,
+    );
 
     return Scaffold(
       body: CustomScrollView(
@@ -48,7 +53,12 @@ class CancelAppointmentPaymentAtClicic extends StatelessWidget {
                   bottom: Radius.circular(24),
                 ),
                 child: Image.network(
-                  appointmentData.consultation?.doctor?.profileImage ?? '-',
+                  appointmentData
+                              .consultation?.doctor?.profileImage?.isNotEmpty ==
+                          true
+                      ? appointmentData.consultation?.doctor?.profileImage ??
+                          '-'
+                      : controller.nullImage,
                   fit: BoxFit.cover,
                 ),
               ),

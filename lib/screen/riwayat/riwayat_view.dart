@@ -7,29 +7,16 @@ import 'package:reprohealth_app/screen/riwayat/widget/tabbar_view_widget.dart';
 import 'package:reprohealth_app/screen/riwayat/view_model/riwayat_view_model.dart';
 import 'package:reprohealth_app/screen/riwayat/widget/chip_appointment_length_widget.dart';
 
-class RiwayatView extends StatefulWidget {
+class RiwayatView extends StatelessWidget {
   const RiwayatView({super.key});
 
   @override
-  State<RiwayatView> createState() => _RiwayatViewState();
-}
-
-class _RiwayatViewState extends State<RiwayatView> {
-  final String patientId = "e967991b-e9be-428d-9bb9-5ef3daaca27e";
-
-  @override
-  void initState() {
-    super.initState();
+  Widget build(BuildContext context) {
     Provider.of<RiwayatViewModel>(
       context,
       listen: false,
-    ).getTransaction(
-      patientId: patientId,
-    );
-  }
+    ).getTransaction();
 
-  @override
-  Widget build(BuildContext context) {
     return Consumer<RiwayatViewModel>(
       builder: (context, controller, child) {
         var transactionProcessed = controller.getProcessedTransactions();
@@ -85,28 +72,43 @@ class _RiwayatViewState extends State<RiwayatView> {
                 return TabBarView(
                   children: [
                     //^ DI PROSES
-                    controller.isLoading
-                        ? TabBarViewWidget(
-                            transactionData: transactionProcessed,
-                            visibleStatusContainer: true,
-                          )
-                        : const ShimmerLoadingWidget(),
+                    if (controller.isLoading == false)
+                      RefreshIndicator(
+                        onRefresh: () => controller.onRefresh(),
+                        color: green500,
+                        child: TabBarViewWidget(
+                          transactionData: transactionProcessed,
+                          visibleStatusContainer: true,
+                        ),
+                      )
+                    else
+                      const ShimmerLoadingWidget(),
 
                     //^ SELESAI
-                    controller.isLoading
-                        ? TabBarViewWidget(
-                            transactionData: transactionSuccesed,
-                            visibleStatusContainer: false,
-                          )
-                        : const ShimmerLoadingWidget(),
+                    if (controller.isLoading == false)
+                      RefreshIndicator(
+                        onRefresh: () => controller.onRefresh(),
+                        color: green500,
+                        child: TabBarViewWidget(
+                          transactionData: transactionSuccesed,
+                          visibleStatusContainer: false,
+                        ),
+                      )
+                    else
+                      const ShimmerLoadingWidget(),
 
                     //^ BATAL
-                    controller.isLoading
-                        ? TabBarViewWidget(
-                            transactionData: transactionCancelled,
-                            visibleStatusContainer: false,
-                          )
-                        : const ShimmerLoadingWidget(),
+                    if (controller.isLoading == false)
+                      RefreshIndicator(
+                        onRefresh: () => controller.onRefresh(),
+                        color: green500,
+                        child: TabBarViewWidget(
+                          transactionData: transactionCancelled,
+                          visibleStatusContainer: false,
+                        ),
+                      )
+                    else
+                      const ShimmerLoadingWidget(),
                   ],
                 );
               },

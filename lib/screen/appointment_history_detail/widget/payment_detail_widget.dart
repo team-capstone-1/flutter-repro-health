@@ -16,6 +16,11 @@ class PaymentDetailWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var controller = Provider.of<RiwayatViewModel>(
+      context,
+      listen: false,
+    );
+
     return Container(
       padding: const EdgeInsets.all(16),
       color: grey10,
@@ -42,21 +47,14 @@ class PaymentDetailWidget extends StatelessWidget {
               Flexible(
                 child: Text(
                   () {
-                    // jika payment != null
-                    if (appointmentData?.payment?.isNotEmpty == true) {
-                      // jika user bayar [TRANSFER MANUAL]
-                      if (appointmentData?.payment?.first.method ==
-                          PaymentMethod.transferManual) {
-                        return "Transfer Manual";
-                        // jika user bayar [DIKLINIK]
-                      } else {
-                        return "Bayar Diklinik";
-                      }
-
-                      // jika payment == nulll
-                      // berarti user belum bayar
-                    } else {
+                    // jika user bayar [TRANSFER MANUAL]
+                    if (appointmentData?.consultation?.paymentMethod ==
+                        PaymentMethod.transferManual) {
                       return "Transfer Manual";
+
+                      // jika user bayar [DIKLINIK]
+                    } else {
+                      return "Bayar Diklinik";
                     }
                   }(),
                   style: semiBold12Grey500,
@@ -76,7 +74,7 @@ class PaymentDetailWidget extends StatelessWidget {
                 style: regular12Grey500,
               ),
               Text(
-                Provider.of<RiwayatViewModel>(context).convertToIdr(
+                controller.convertToIdr(
                   appointmentData?.price,
                   2,
                 ),
@@ -95,7 +93,7 @@ class PaymentDetailWidget extends StatelessWidget {
                 style: regular12Grey500,
               ),
               Text(
-                Provider.of<RiwayatViewModel>(context).convertToIdr(
+                controller.convertToIdr(
                   appointmentData?.adminPrice,
                   2,
                 ),
@@ -114,7 +112,7 @@ class PaymentDetailWidget extends StatelessWidget {
                 style: semiBold14Grey500,
               ),
               Text(
-                Provider.of<RiwayatViewModel>(context).convertToIdr(
+                controller.convertToIdr(
                   appointmentData?.total,
                   2,
                 ),

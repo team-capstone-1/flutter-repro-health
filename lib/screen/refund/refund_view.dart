@@ -51,36 +51,40 @@ class _RefundViewState extends State<RefundView> {
           ),
 
           //^ ACTION BUTTON
-          Consumer<RefundViewModel>(builder: (context, controller, child) {
-            return Container(
-              width: MediaQuery.of(context).size.width,
-              padding: const EdgeInsets.all(16),
-              color: grey10,
-              child: ButtonComponent(
-                labelText:
-                    controller.isLoading ? 'Proses ...' : 'Ajukan Pengembalian',
-                labelStyle: semiBold12Grey10,
-                backgroundColor: negative,
-                elevation: 0,
-                onPressed: controller.isButtonEnabled()
-                    ? () {
-                        if (kDebugMode) {
-                          print(controller.nameValue);
-                          print(controller.selectedBank);
-                          print(controller.accountValue);
-                        }
+          Consumer<RefundViewModel>(
+            builder: (context, controller, child) {
+              return Container(
+                width: MediaQuery.of(context).size.width,
+                padding: const EdgeInsets.all(16),
+                color: grey10,
+                child: ButtonComponent(
+                  labelText: controller.isLoading
+                      ? 'Proses ...'
+                      : 'Ajukan Pengembalian',
+                  labelStyle: semiBold12Grey10,
+                  backgroundColor: negative,
+                  elevation: 0,
+                  onPressed: controller.isButtonEnabled()
+                      ? () {
+                          if (kDebugMode) {
+                            print(controller.nameValue);
+                            print(controller.selectedBank);
+                            print(controller.accountValue);
+                          }
 
-                        // refund
-                        controller.refund(
-                          context: context,
-                          idTransactions: appointmentData?.id,
-                          appointmentData: appointmentData,
-                        );
-                      }
-                    : null,
-              ),
-            );
-          }),
+                          // refund
+                          if (controller.isLoading == false) {
+                            controller.refund(
+                              context: context,
+                              appointmentData: appointmentData,
+                            );
+                          }
+                        }
+                      : null,
+                ),
+              );
+            },
+          ),
         ],
       ),
       backgroundColor: grey50,

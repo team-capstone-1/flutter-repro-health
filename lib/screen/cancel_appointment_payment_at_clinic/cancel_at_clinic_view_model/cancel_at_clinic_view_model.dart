@@ -30,6 +30,7 @@ class CancelAtClinicViewModel extends ChangeNotifier {
           context,
           RoutesNavigation.confirmStatusView,
           (route) => route.isFirst,
+          arguments: 'Berhasil Membatalkan Janji Temu',
         );
       });
     } catch (e) {

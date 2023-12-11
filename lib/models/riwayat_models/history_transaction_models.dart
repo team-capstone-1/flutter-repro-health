@@ -103,6 +103,8 @@ class Consultation {
   DateTime? date;
   String? session;
   String? queueNumber;
+  String? paymentMethod;
+  bool? rescheduled;
   Patient? patient;
   Clinic? clinic;
   Doctor? doctor;
@@ -115,6 +117,8 @@ class Consultation {
     this.date,
     this.session,
     this.queueNumber,
+    this.paymentMethod,
+    this.rescheduled,
     this.patient,
     this.clinic,
     this.doctor,
@@ -128,6 +132,8 @@ class Consultation {
         date: json["date"] == null ? null : DateTime.parse(json["date"]),
         session: json["session"],
         queueNumber: json["queue_number"],
+        paymentMethod: json["payment_method"],
+        rescheduled: json["rescheduled"],
         patient:
             json["patient"] == null ? null : Patient.fromJson(json["patient"]),
         clinic: json["clinic"] == null ? null : Clinic.fromJson(json["clinic"]),
@@ -142,6 +148,8 @@ class Consultation {
         "date": date?.toIso8601String(),
         "session": session,
         "queue_number": queueNumber,
+        "payment_method": paymentMethod,
+        "rescheduled": rescheduled,
         "patient": patient?.toJson(),
         "clinic": clinic?.toJson(),
         "doctor": doctor?.toJson(),
@@ -307,7 +315,6 @@ class Patient {
 class Payment {
   String? id;
   String? transactionId;
-  String? method;
   String? name;
   String? accountNumber;
   String? image;
@@ -315,7 +322,6 @@ class Payment {
   Payment({
     this.id,
     this.transactionId,
-    this.method,
     this.name,
     this.accountNumber,
     this.image,
@@ -324,7 +330,6 @@ class Payment {
   factory Payment.fromJson(Map<String, dynamic> json) => Payment(
         id: json["id"],
         transactionId: json["transaction_id"],
-        method: json["method"],
         name: json["name"],
         accountNumber: json["account_number"],
         image: json["image"],
@@ -333,7 +338,6 @@ class Payment {
   Map<String, dynamic> toJson() => {
         "id": id,
         "transaction_id": transactionId,
-        "method": method,
         "name": name,
         "account_number": accountNumber,
         "image": image,

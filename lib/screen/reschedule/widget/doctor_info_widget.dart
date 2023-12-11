@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:reprohealth_app/screen/riwayat/view_model/riwayat_view_model.dart';
 
 import 'package:reprohealth_app/theme/theme.dart';
 import 'package:reprohealth_app/models/riwayat_models/history_transaction_models.dart';
@@ -13,6 +15,11 @@ class DoctorInfoWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var controller = Provider.of<RiwayatViewModel>(
+      context,
+      listen: false,
+    );
+
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
@@ -74,7 +81,10 @@ class DoctorInfoWidget extends StatelessWidget {
               ),
               const SizedBox(width: 4),
               Text(
-                "03495",
+                controller.convertToIdr(
+                  appointmentData?.price,
+                  2,
+                ),
                 style: medium12Green500,
               ),
             ],

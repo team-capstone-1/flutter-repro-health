@@ -89,25 +89,21 @@ class AppointmentListItemWidget extends StatelessWidget {
                       ),
                       decoration: BoxDecoration(
                         color: () {
-                          if (appointmentData?.payment?.isNotEmpty == true) {
-                            // jika user sudah berhasil bayar
-                            if (appointmentData?.paymentStatus ==
-                                PaymentStatus.done) {
-                              return positive25;
-                              // jika user belum bayar ||
-                              // user belum memilih metode pembayaran
-                            } else if (appointmentData?.paymentStatus ==
-                                PaymentStatus.pending) {
-                              return warning25;
-                              // jika user refund
-                            } else {
-                              return negative25;
-                            }
+                          // jika user sudah berhasil bayar
+                          if (appointmentData?.paymentStatus ==
+                              PaymentStatus.done) {
+                            return positive25;
 
-                            // jika payment == nulll
-                            // berarti menunggu pembayaran
-                          } else {
+                            // jika user belum bayar
+                            // dengan tipe pembayaran [TRANSFER MANUAL]
+                          } else if (appointmentData?.paymentStatus ==
+                              PaymentStatus.pending) {
                             return warning25;
+
+                            // jika user refund
+                            // dengan tipe pembayaran [TRANSFER MANUAL]
+                          } else {
+                            return negative25;
                           }
                         }(),
                         borderRadius: BorderRadius.circular(4),
@@ -115,47 +111,38 @@ class AppointmentListItemWidget extends StatelessWidget {
                       alignment: Alignment.center,
                       child: Text(
                         () {
-                          if (appointmentData?.payment?.isNotEmpty == true) {
-                            // jika user sudah berhasil bayar
-                            if (appointmentData?.paymentStatus ==
-                                PaymentStatus.done) {
-                              return 'Selesai';
-                              // jika user belum bayar ||
-                              // user belum memilih metode pembayaran
-                            } else if (appointmentData?.paymentStatus ==
-                                PaymentStatus.pending) {
-                              return 'Tertunda';
-                              // jika user refund
-                            } else {
-                              return 'Refund';
-                            }
+                          // jika user sudah berhasil bayar
+                          if (appointmentData?.paymentStatus ==
+                              PaymentStatus.done) {
+                            return 'Selesai';
 
-                            // jika payment == nulll
-                            // berarti menunggu pembayaran
-                          } else {
+                            // jika user belum bayar
+                            // dengan tipe pembayaran [TRANSFER MANUAL]
+                          } else if (appointmentData?.paymentStatus ==
+                              PaymentStatus.pending) {
                             return 'Tertunda';
+
+                            // jika user refund
+                            // dengan tipe pembayaran [TRANSFER MANUAL]
+                          } else {
+                            return 'Refund';
                           }
                         }(),
                         style: () {
-                          if (appointmentData?.payment?.isNotEmpty == true) {
-                            // jika user sudah berhasil bayar
-                            if (appointmentData?.paymentStatus ==
-                                PaymentStatus.done) {
-                              return semiBold10Positive;
-                              // jika user belum bayar ||
-                              // user belum memilih metode pembayaran
-                            } else if (appointmentData?.paymentStatus ==
-                                PaymentStatus.pending) {
-                              return semiBold10Warning;
-                              // jika user refund
-                            } else {
-                              return semiBold10Negative;
-                            }
+                          if (appointmentData?.paymentStatus ==
+                              PaymentStatus.done) {
+                            return semiBold10Positive;
 
-                            // jika payment == nulll
-                            // berarti menunggu pembayaran
-                          } else {
+                            // jika user belum bayar
+                            // dengan tipe pembayaran [TRANSFER MANUAL]
+                          } else if (appointmentData?.paymentStatus ==
+                              PaymentStatus.pending) {
                             return semiBold10Warning;
+
+                            // jika user refund
+                            // dengan tipe pembayaran [TRANSFER MANUAL]
+                          } else {
+                            return semiBold10Negative;
                           }
                         }(),
                       ),

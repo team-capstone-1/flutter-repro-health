@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:date_picker_timeline/date_picker_widget.dart';
+import 'package:reprohealth_app/screen/riwayat/view_model/riwayat_view_model.dart';
 
 import 'package:reprohealth_app/theme/theme.dart';
 import 'package:reprohealth_app/screen/reschedule/widget/tooltip_widget.dart';
@@ -19,7 +20,11 @@ class RescheduleView extends StatelessWidget {
   Widget build(BuildContext context) {
     // arguments
     var appointmentData =
-        ModalRoute.of(context)?.settings.arguments as ResponseData?;
+        ModalRoute.of(context)!.settings.arguments as ResponseData?;
+    var controller = Provider.of<RiwayatViewModel>(
+      context,
+      listen: false,
+    );
 
     return Scaffold(
       body: CustomScrollView(
@@ -51,7 +56,12 @@ class RescheduleView extends StatelessWidget {
                   bottom: Radius.circular(24),
                 ),
                 child: Image.network(
-                  appointmentData?.consultation?.doctor?.profileImage ?? '-',
+                  appointmentData?.consultation?.doctor?.profileImage
+                              ?.isNotEmpty ==
+                          true
+                      ? appointmentData?.consultation?.doctor?.profileImage ??
+                          '-'
+                      : controller.nullImage,
                   fit: BoxFit.cover,
                 ),
               ),
@@ -65,11 +75,11 @@ class RescheduleView extends StatelessWidget {
               children: [
                 const SizedBox(height: 16),
 
-                //^ Nama & Informasi Dokter
+                // //^ Nama & Informasi Dokter
                 DoctorInfoWidget(appointmentData: appointmentData),
                 const SizedBox(height: 24),
 
-                //^ Title Pilih Jadwal & Tooltip
+                // //^ Title Pilih Jadwal & Tooltip
                 const TooltipWidget(),
                 const SizedBox(height: 8),
 
@@ -218,7 +228,7 @@ class RescheduleView extends StatelessWidget {
       //^ ACTION BUTTON
       bottomSheet: Consumer<RescedhuleViewModel>(
         builder: (context, controller, child) {
-          var idTransactions = appointmentData?.payment?.first.transactionId;
+          var idTransactions = appointmentData?.id;
 
           return Container(
             padding: const EdgeInsets.all(16),

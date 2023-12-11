@@ -14,49 +14,37 @@ class RiwayatViewModel extends ChangeNotifier {
   final services = RiwayatServices();
 
   //^ MODEL
-  HistoryTransactionModel? model;
+  HistoryTransactionModel? _model;
+  HistoryTransactionModel? get model => _model;
 
   bool isLoading = false; // isLoading
 
   //^ GET TRANSACTIONS
-  Future<void> getTransaction({
-    required String patientId,
-  }) async {
+  Future<void> getTransaction() async {
     isLoading = true; // loading state
     notifyListeners();
 
     // request
     try {
-      // utnda selama 4 detik sebelum melakukan request
-      await Future.delayed(const Duration(seconds: 5));
+      // utnda selama 3 detik sebelum melakukan request
+      await Future.delayed(const Duration(seconds: 3));
 
-      model = await services.getTransaction(
-        idPatients: patientId,
-      );
-
-      isLoading = false; // unLoading state
-      notifyListeners();
+      _model = await services.getTransaction();
     } on DioException catch (e) {
-      isLoading = false; // unLoading state
-      notifyListeners();
-
       throw Exception("Failed to get data : ${e.response}");
+    } finally {
+      isLoading = false; // loading state
+      notifyListeners();
     }
   }
 
   //^ GET TRANSACTION BY STATUSES
   List<ResponseData> getTransactionsByStatus({required List<String> statuses}) {
-    if (model != null && model!.response != null) {
-      isLoading = true; // loading state
-      notifyListeners();
-
+    if (_model != null && _model!.response != null) {
       return model!.response!
           .where((transaction) => statuses.contains(transaction.status))
           .toList();
     } else {
-      isLoading = false; // unLoading state
-      notifyListeners();
-
       return [];
     }
   }
@@ -77,6 +65,10 @@ class RiwayatViewModel extends ChangeNotifier {
   //^ GET CANCELLED TRANSACTIONS - Tabbar Batal
   List<ResponseData> getCancelledTransactions() {
     return getTransactionsByStatus(statuses: [AppointmentStatus.batal]);
+  }
+
+  Future<void> onRefresh() {
+    return getTransaction();
   }
 
   //^ Convert IDR

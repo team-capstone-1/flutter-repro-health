@@ -9,11 +9,9 @@ class RiwayatServices {
   String baseUrl = 'https://dev.reprohealth.my.id';
 
   //^ GET TRANSACTION
-  Future<HistoryTransactionModel> getTransaction({
-    required String idPatients,
-  }) async {
+  Future<HistoryTransactionModel> getTransaction() async {
     //url
-    String url = '$baseUrl/transactions/patients/$idPatients';
+    String url = '$baseUrl/transactions';
     //get token
     String token = await SharedPreferencesUtils().getToken();
     //headers
@@ -34,7 +32,7 @@ class RiwayatServices {
       }
 
       return HistoryTransactionModel.fromJson(response.data);
-    } catch (error) {
+    } on DioException catch (error) {
       throw Exception('Failed to load transaction list: $error');
     }
   }

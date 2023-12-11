@@ -119,7 +119,7 @@ class AppointmentInfoExpandWidget extends StatelessWidget {
                 style: regular12Grey400,
               ),
               Text(
-                DateFormat('d MMMM y', 'id_ID').format(
+                DateFormat('EEEE, d MMMM y', 'id_ID').format(
                   appointmentData.consultation?.date ?? DateTime.now(),
                 ),
                 style: semiBold12Grey500,

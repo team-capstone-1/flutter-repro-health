@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:reprohealth_app/models/riwayat_models/history_transaction_models.dart';
 
 import 'package:reprohealth_app/screen/riwayat/view_model/riwayat_view_model.dart';
-import 'package:reprohealth_app/models/riwayat_models/history_transaction_models.dart';
 
 import 'package:reprohealth_app/theme/theme.dart';
 
@@ -12,8 +12,9 @@ class RefundDetailsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final appointmentData =
-        ModalRoute.of(context)?.settings.arguments as ResponseData;
+    var appointmentData =
+        ModalRoute.of(context)?.settings.arguments as ResponseData?;
+    final controller = Provider.of<RiwayatViewModel>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -47,40 +48,30 @@ class RefundDetailsView extends StatelessWidget {
                   const SizedBox(height: 16),
 
                   //^ Pengembalian Dana sedang diproses / berhasil
-                  if (appointmentData.refund?.isNotEmpty == true) ...[
-                    if (appointmentData.refund?.first.status ==
+                  if (appointmentData?.refund?.isNotEmpty == true) ...[
+                    if (appointmentData?.refund?.first.status ==
                         'processing') ...[
                       Text(
                         "Pengembalian Dana Sedang Diproses",
                         style: semiBold16Green500,
                       ),
                       const SizedBox(height: 12),
-                    ] else ...[
                       Text(
-                        "Pengembalian Dana Berhasil",
-                        style: semiBold16Green500,
-                      ),
-                      const SizedBox(height: 12),
-                    ],
-                  ] else ...[
-                    const Text('data null'),
-                  ],
-
-                  if (appointmentData.refund?.isNotEmpty == true) ...[
-                    //^ Dana sebesar 85.000 akan dikembalikan / berhasil
-                    if (appointmentData.refund?.first.status ==
-                        'processing') ...[
-                      Text(
-                        "Dana sebesar ${Provider.of<RiwayatViewModel>(context).convertToIdr(
-                          appointmentData.total! - 5000,
+                        "Dana sebesar ${controller.convertToIdr(
+                          appointmentData?.total ?? 0 - 5000,
                           2,
                         )} akan dikembalikan ke rekening Anda. Silahkan dicek secara berkala dalam 14 hari kerja",
                         style: medium12Grey300,
                       ),
                     ] else ...[
                       Text(
-                        "Dana sebesar ${Provider.of<RiwayatViewModel>(context).convertToIdr(
-                          appointmentData.total! - 5000,
+                        "Pengembalian Dana Berhasil",
+                        style: semiBold16Green500,
+                      ),
+                      const SizedBox(height: 12),
+                      Text(
+                        "Dana sebesar ${controller.convertToIdr(
+                          appointmentData?.total ?? 0 - 5000,
                           2,
                         )} telah dikembalikan ke rekening Anda. Silahkan dicek secara berkala dalam 14 hari kerja",
                         style: medium12Grey300,
@@ -103,9 +94,20 @@ class RefundDetailsView extends StatelessWidget {
                           ],
                         ),
                       ),
-                    ]
+                    ],
                   ] else ...[
-                    const Text('data null'),
+                    Text(
+                      "Pengembalian Dana Sedang Diproses",
+                      style: semiBold16Green500,
+                    ),
+                    const SizedBox(height: 12),
+                    Text(
+                      "Dana sebesar ${controller.convertToIdr(
+                        appointmentData?.total ?? 0 - 5000,
+                        2,
+                      )} akan dikembalikan ke rekening Anda. Silahkan dicek secara berkala dalam 14 hari kerja",
+                      style: medium12Grey300,
+                    ),
                   ],
                 ],
               ),
@@ -138,7 +140,7 @@ class RefundDetailsView extends StatelessWidget {
                         style: regular12Grey400,
                       ),
                       Text(
-                        (appointmentData.consultation?.queueNumber ?? 0)
+                        (appointmentData?.consultation?.queueNumber ?? 0)
                             .toString(),
                         style: semiBold12Green500,
                       ),
@@ -155,7 +157,7 @@ class RefundDetailsView extends StatelessWidget {
                         style: regular12Grey400,
                       ),
                       Text(
-                        appointmentData.consultation?.doctor?.name ?? '-',
+                        appointmentData?.consultation?.doctor?.name ?? '-',
                         style: semiBold12Grey500,
                       ),
                     ],
@@ -174,7 +176,7 @@ class RefundDetailsView extends StatelessWidget {
                         DateFormat.yMMMMd(
                           'id_ID',
                         ).format(
-                          appointmentData.consultation?.date ?? DateTime.now(),
+                          appointmentData?.consultation?.date ?? DateTime.now(),
                         ),
                         style: semiBold12Grey500,
                       ),
@@ -192,8 +194,8 @@ class RefundDetailsView extends StatelessWidget {
                       ),
                       RichText(
                         text: TextSpan(
-                          text:
-                              appointmentData.consultation?.session?.replaceAll(
+                          text: appointmentData?.consultation?.session
+                              ?.replaceAll(
                             appointmentData.consultation!.session![0],
                             appointmentData.consultation!.session![0]
                                 .toUpperCase(),
@@ -202,11 +204,11 @@ class RefundDetailsView extends StatelessWidget {
                           children: [
                             TextSpan(
                               text: () {
-                                if (appointmentData.consultation?.session ==
+                                if (appointmentData?.consultation?.session ==
                                     'pagi') {
                                   return " (08.00 - 11.00)";
                                 } else if (appointmentData
-                                        .consultation?.session ==
+                                        ?.consultation?.session ==
                                     'siang') {
                                   return " (13.00-15.30)";
                                 } else {
@@ -226,13 +228,20 @@ class RefundDetailsView extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        "Lokasi",
-                        style: regular12Grey400,
+                      Flexible(
+                        child: Text(
+                          "Lokasi",
+                          style: regular12Grey400,
+                        ),
                       ),
-                      Text(
-                        appointmentData.consultation?.clinic?.location ?? '-',
-                        style: semiBold12Grey500,
+                      Flexible(
+                        flex: 2,
+                        child: Text(
+                          appointmentData?.consultation?.clinic?.location ??
+                              '-',
+                          style: semiBold12Grey500,
+                          textAlign: TextAlign.right,
+                        ),
                       ),
                     ],
                   ),
@@ -263,7 +272,7 @@ class RefundDetailsView extends StatelessWidget {
                         style: regular12Grey400,
                       ),
                       Text(
-                        appointmentData.payment?.first.method ?? '-',
+                        "Transfer Manual",
                         style: semiBold12Grey500,
                       ),
                     ],
@@ -279,8 +288,8 @@ class RefundDetailsView extends StatelessWidget {
                         style: regular12Grey400,
                       ),
                       Text(
-                        Provider.of<RiwayatViewModel>(context).convertToIdr(
-                          appointmentData.total! - 5000,
+                        controller.convertToIdr(
+                          appointmentData?.total ?? 0 - 5000,
                           2,
                         ),
                         style: semiBold12Grey500,
@@ -298,7 +307,13 @@ class RefundDetailsView extends StatelessWidget {
                         style: regular12Grey400,
                       ),
                       Text(
-                        appointmentData.refund?.first.name ?? '-',
+                        () {
+                          if (appointmentData?.refund?.isNotEmpty == true) {
+                            return appointmentData?.refund?.first.name ?? '-';
+                          } else {
+                            return "*********";
+                          }
+                        }(),
                         style: semiBold12Grey500,
                       ),
                     ],
@@ -314,9 +329,18 @@ class RefundDetailsView extends StatelessWidget {
                         style: regular12Grey400,
                       ),
                       Text(
-                        DateFormat('dd-MM-yyyy HH:mm', 'id_ID').format(
-                          appointmentData.refund?.first.date ?? DateTime.now(),
-                        ),
+                        () {
+                          if (appointmentData?.refund?.isNotEmpty == true) {
+                            return DateFormat('dd-MM-yyyy HH:mm', 'id_ID')
+                                .format(
+                              appointmentData?.refund?.first.date ??
+                                  DateTime.now(),
+                            );
+                          } else {
+                            return DateFormat('dd-MM-yyyy HH:mm', 'id_ID')
+                                .format(DateTime.now());
+                          }
+                        }(),
                         style: semiBold12Grey500,
                       ),
                     ],

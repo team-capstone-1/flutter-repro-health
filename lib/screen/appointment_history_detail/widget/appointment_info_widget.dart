@@ -36,7 +36,7 @@ class AppointmentInfoWidget extends StatelessWidget {
                 appointmentData?.consultation?.queueNumber?.isNotEmpty == true
                     ? appointmentData?.consultation?.queueNumber.toString() ??
                         '-'
-                    : "Belum Ada Nomor Antrian",
+                    : "001",
                 style: semiBold12Green500,
               ),
             ],
@@ -123,7 +123,7 @@ class AppointmentInfoWidget extends StatelessWidget {
                 style: regular12Grey400,
               ),
               Text(
-                DateFormat('d MMMM y', 'id_ID').format(
+                DateFormat('EEEE, d MMMM y', 'id_ID').format(
                   appointmentData?.consultation?.date ?? DateTime.now(),
                 ),
                 style: semiBold12Grey500,

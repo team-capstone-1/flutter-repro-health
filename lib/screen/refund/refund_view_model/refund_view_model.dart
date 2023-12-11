@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:reprohealth_app/constant/routes_navigation.dart';
 import 'package:reprohealth_app/models/riwayat_models/history_transaction_models.dart';
 import 'package:reprohealth_app/services/riwayat_services/riwayat_services.dart';
@@ -75,7 +76,6 @@ class RefundViewModel extends ChangeNotifier {
   //^ refund
   Future<void> refund({
     required BuildContext context,
-    required String? idTransactions,
     required ResponseData? appointmentData,
   }) async {
     final services = RiwayatServices();
@@ -85,30 +85,29 @@ class RefundViewModel extends ChangeNotifier {
     // proses
     try {
       // tunda proses selama 2 detik
-      await Future.delayed(const Duration(seconds: 2), () {
-        services.postRefundTransaction(
-          idTransactions: idTransactions,
-          userName: _nameValue,
-          bankName: _selectedBank,
-          accountNumber: _accountValue,
-        );
+      await Future.delayed(const Duration(seconds: 2));
 
-        isLoading = false; // unLoadind state
-        notifyListeners();
+      await services.postRefundTransaction(
+        idTransactions: appointmentData?.id,
+        userName: _nameValue,
+        bankName: _selectedBank,
+        accountNumber: _accountValue,
+      );
 
-        // navigasi ke-> halaman detail refund
+      // navigasi ke-> halaman detail refund
+      if (context.mounted) {
         Navigator.pushNamedAndRemoveUntil(
           context,
           RoutesNavigation.refundDetailsView,
           (route) => route.isFirst,
           arguments: appointmentData,
         );
-      });
+      }
     } catch (e) {
+      throw Exception(e);
+    } finally {
       isLoading = false; // unLoadind state
       notifyListeners();
-
-      throw Exception(e);
     }
   }
 }

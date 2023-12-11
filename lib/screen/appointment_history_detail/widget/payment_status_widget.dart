@@ -117,33 +117,26 @@ class PaymentStatusWidget extends StatelessWidget {
               //^ jika janji temu DIPROSES
               if (appointmentData?.status == AppointmentStatus.menunggu ||
                   appointmentData?.status == AppointmentStatus.proses) {
-                // jika payment != null
-                if (appointmentData?.payment?.isNotEmpty == true) {
-                  // jika pembayaran [TRANSFER MANUAL]
-                  if (appointmentData?.payment?.first.method ==
-                      PaymentMethod.transferManual) {
-                    // jika user sudah berhasil bayar
-                    if (appointmentData?.paymentStatus == PaymentStatus.done) {
-                      return positive;
-                      // jika user belum bayar ||
-                      // user belum memilih metode pembayaran
-                    } else if (appointmentData?.paymentStatus ==
-                        PaymentStatus.pending) {
-                      return warning;
-                      // jika user refund
-                    } else {
-                      return warning;
-                    }
-
-                    // jika pembayaran [DIKLINIK]
-                  } else {
+                // jika pembayaran [TRANSFER MANUAL]
+                if (appointmentData?.consultation?.paymentMethod ==
+                    PaymentMethod.transferManual) {
+                  // jika user sudah berhasil bayar
+                  if (appointmentData?.paymentStatus == PaymentStatus.done) {
                     return positive;
+
+                    // jika user belum bayar
+                  } else if (appointmentData?.paymentStatus ==
+                      PaymentStatus.pending) {
+                    return warning;
+
+                    // jika user refund
+                  } else {
+                    return warning;
                   }
 
-                  // jika payment == null
-                  // berarti menunggu pembayaran
+                  // jika pembayaran [DIKLINIK]
                 } else {
-                  return warning;
+                  return positive;
                 }
 
                 //^ jika janji temu SELESAI
@@ -166,32 +159,26 @@ class PaymentStatusWidget extends StatelessWidget {
             //^ jika janji temu DIPROSES
             if (appointmentData?.status == AppointmentStatus.menunggu ||
                 appointmentData?.status == AppointmentStatus.proses) {
-              // payment != null
-              if (appointmentData?.payment?.isNotEmpty == true) {
-                // jika pembayaran [TRANSFER MANUAL]
-                if (appointmentData?.payment?.first.method ==
-                    PaymentMethod.transferManual) {
-                  // jika pembayaran transfer manual pembayaran done
-                  if (appointmentData?.paymentStatus == PaymentStatus.done) {
-                    return 'Pembayaran Berhasil';
-                    // jika pembayaran transfer manual pembayaran pending
-                  } else if (appointmentData?.paymentStatus ==
-                      PaymentStatus.pending) {
-                    return 'Menunggu Pembayaran';
-                    // jika pembayaran transfer manual pembayaran refund
-                  } else {
-                    return 'Memproses Pengembalian Dana';
-                  }
+              // jika pembayaran [TRANSFER MANUAL]
+              if (appointmentData?.consultation?.paymentMethod ==
+                  PaymentMethod.transferManual) {
+                // jika user sudah berhasil bayar
+                if (appointmentData?.paymentStatus == PaymentStatus.done) {
+                  return 'Pembayaran Berhasil';
 
-                  // jika pembayaran [DIKLINIK]
+                  // jika user belum bayar
+                } else if (appointmentData?.paymentStatus ==
+                    PaymentStatus.pending) {
+                  return 'Menunggu Pembayaran';
+
+                  // jika user refund
                 } else {
-                  return 'Janji Temu Berhasil';
+                  return 'Memproses Pengembalian Dana';
                 }
 
-                // jika payment == null
-                // berarti menunggu pembayaran
+                // jika pembayaran [DIKLINIK]
               } else {
-                return 'Menunggu Pembayaran';
+                return 'Janji Temu Berhasil';
               }
 
               //^ jika janji temu SELESAI
@@ -207,32 +194,26 @@ class PaymentStatusWidget extends StatelessWidget {
             //^ jika janji temu DIPROSES
             if (appointmentData?.status == AppointmentStatus.menunggu ||
                 appointmentData?.status == AppointmentStatus.proses) {
-              // jika payment != null
-              if (appointmentData?.payment?.isNotEmpty == true) {
-                // jika pembayaran [TRANSFER MANUAL]
-                if (appointmentData?.payment?.first.method ==
-                    PaymentMethod.transferManual) {
-                  // jika pembayaran transfer manual done
-                  if (appointmentData?.paymentStatus == PaymentStatus.done) {
-                    return semiBold14Positive;
-                    // jika pembayaran transfer manual pending
-                  } else if (appointmentData?.paymentStatus ==
-                      PaymentStatus.pending) {
-                    return semiBold14Warning;
-                    // jika user refund
-                  } else {
-                    return semiBold14Warning;
-                  }
-
-                  // jika pembayaran [DIKLINIK]
-                } else {
+              // jika pembayaran [TRANSFER MANUAL]
+              if (appointmentData?.consultation?.paymentMethod ==
+                  PaymentMethod.transferManual) {
+                // jika user berhasil bayar
+                if (appointmentData?.paymentStatus == PaymentStatus.done) {
                   return semiBold14Positive;
+
+                  // jika user belum bayar
+                } else if (appointmentData?.paymentStatus ==
+                    PaymentStatus.pending) {
+                  return semiBold14Warning;
+
+                  // jika user refund
+                } else {
+                  return semiBold14Warning;
                 }
 
-                // jika payment == null
-                // berarti menunggu pembayaran
+                // jika pembayaran [DIKLINIK]
               } else {
-                return semiBold14Warning;
+                return semiBold14Positive;
               }
 
               //^ jika janji temu SELESAI
