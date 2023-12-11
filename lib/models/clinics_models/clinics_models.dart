@@ -24,6 +24,8 @@ class ResponseDataClinics {
     String? image;
     String? city;
     String? location;
+    String? telephone;
+    String? email;
     String? profile;
     String? latitude;
     String? longitude;
@@ -34,6 +36,8 @@ class ResponseDataClinics {
         this.image,
         this.city,
         this.location,
+        this.telephone,
+        this.email,
         this.profile,
         this.latitude,
         this.longitude,
@@ -45,6 +49,8 @@ class ResponseDataClinics {
         image: json["image"],
         city: json["city"],
         location: json["location"],
+        telephone: json["telephone"],
+        email: json["email"],
         profile: json["profile"],
         latitude: json["latitude"],
         longitude: json["longitude"],
@@ -56,6 +62,8 @@ class ResponseDataClinics {
         "image": image,
         "city": city,
         "location": location,
+        "telephone": telephone,
+        "email": email,
         "profile": profile,
         "latitude": latitude,
         "longitude": longitude,

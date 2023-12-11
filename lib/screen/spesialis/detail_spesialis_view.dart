@@ -1,6 +1,6 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:reprohealth_app/component/card_doctor_component.dart';
 import 'package:reprohealth_app/component/text_form_component.dart';
 import 'package:reprohealth_app/constant/assets_constants.dart';
 import 'package:reprohealth_app/constant/routes_navigation.dart';
@@ -12,10 +12,10 @@ class DetailSpesialisView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final args = ModalRoute.of(context)!.settings.arguments as String;
-    final String specialistId = args;
+    final args = ModalRoute.of(context)!.settings.arguments as String?;
+    final String? specialistId = args;
     Provider.of<DetailSpesialisViewModel>(context, listen: false)
-        .getDokterBySpecialist(specialistId: specialistId);
+        .getDokterBySpecialist(specialistId: specialistId ?? '');
 
     return Scaffold(
       backgroundColor: grey10,
@@ -52,136 +52,25 @@ class DetailSpesialisView extends StatelessWidget {
                     ? ListView.builder(
                         itemCount: filteredDokterData.length,
                         itemBuilder: (BuildContext context, int index) {
-                          final dokter = filteredDokterData[index];
+                          final doctor = filteredDokterData[index];
                           return GestureDetector(
                             onTap: () {
                               Navigator.pushNamed(
                                 context,
                                 RoutesNavigation.detailDokterView,
-                                arguments: dokter,
+                                arguments: doctor,
                               );
                             },
                             child: Padding(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 16),
-                              child: Card(
-                                color: grey10,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(10),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                          horizontal: 10,
-                                        ),
-                                        child: SizedBox(
-                                          height: 66,
-                                          width: 66,
-                                          child: ClipOval(
-                                            child: CachedNetworkImage(
-                                              imageUrl:
-                                                  dokter.profileImage ?? '',
-                                              placeholder: (context, url) =>
-                                                  const CircularProgressIndicator(),
-                                              errorWidget:
-                                                  (context, url, error) =>
-                                                      const Center(
-                                                child: Icon(
-                                                  Icons.error,
-                                                  size: 50,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        height: 8,
-                                      ),
-                                      Flexible(
-                                        child: SizedBox(
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Flexible(
-                                                    child: Text(
-                                                      dokter.name ?? '',
-                                                      style: medium14Grey500,
-                                                    ),
-                                                  ),
-                                                  Flexible(
-                                                    child: Container(
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              4),
-                                                      decoration: BoxDecoration(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(4),
-                                                          color: green500),
-                                                      child: Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .symmetric(
-                                                          horizontal: 8,
-                                                          vertical: 3,
-                                                        ),
-                                                        child: Text(
-                                                          '5 Tahun',
-                                                          style:
-                                                              regular8Green50,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                              const SizedBox(height: 4),
-                                              Text(
-                                                dokter.specialist?.name ?? '',
-                                                style: regular12Grey400,
-                                              ),
-                                              const SizedBox(height: 16),
-                                              Row(
-                                                children: [
-                                                  Image.asset(
-                                                    Assets.assetsIconKlinik,
-                                                    width: 16,
-                                                    height: 16,
-                                                  ),
-                                                  const SizedBox(width: 4),
-                                                  Text(
-                                                    dokter.clinic?.name ?? '',
-                                                    style: regular12Grey900,
-                                                  ),
-                                                  const Expanded(
-                                                    child: SizedBox(),
-                                                  ),
-                                                  Text(
-                                                    dokter.price.toString(),
-                                                    style:
-                                                        medium12Green500,
-                                                  ),
-                                                ],
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
+                              child: CardDoctorComponent(
+                              imageUrl: doctor.profileImage ?? '',
+                              doctorName: doctor.name ?? '',
+                              doctorSpecialist: doctor.specialist?.name ?? '',
+                              clinicsName: doctor.clinic?.name ?? '',
+                              doctorPrice: doctor.price ?? 0,
+                            ),
                             ),
                           );
                         },

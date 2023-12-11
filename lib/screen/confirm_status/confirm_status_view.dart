@@ -1,4 +1,6 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:reprohealth_app/component/button_component.dart';
 import 'package:reprohealth_app/theme/theme.dart';
 
 class ConfirmStatusView extends StatelessWidget {
@@ -27,6 +29,20 @@ class ConfirmStatusView extends StatelessWidget {
             Text(
               status,
               style: semiBold16Grey700,
+            ),
+            const SizedBox(height: 10),
+            ButtonComponent(
+              labelText: Text(
+                "Lihat Transaksi",
+                style: semiBold12Grey10,
+                textAlign: TextAlign.center,
+              ),
+              backgroundColor: green500,
+              onPressed: () {
+                if (kDebugMode) {
+                  print('Lihat Transaksi');
+                }
+              },
             ),
           ],
         ),

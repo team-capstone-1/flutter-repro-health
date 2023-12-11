@@ -1,12 +1,6 @@
-import 'dart:convert';
-
-ForumModels forumModelsFromJson(String str) => ForumModels.fromJson(json.decode(str));
-
-String forumModelsToJson(ForumModels data) => json.encode(data.toJson());
-
 class ForumModels {
     String? message;
-    List<ResponseData>? response;
+    List<ResponseDataForum>? response;
 
     ForumModels({
         this.message,
@@ -15,7 +9,7 @@ class ForumModels {
 
     factory ForumModels.fromJson(Map<String, dynamic> json) => ForumModels(
         message: json["message"],
-        response: json["response"] == null ? [] : List<ResponseData>.from(json["response"]!.map((x) => ResponseData.fromJson(x))),
+        response: json["response"] == null ? [] : List<ResponseDataForum>.from(json["response"]!.map((x) => ResponseDataForum.fromJson(x))),
     );
 
     Map<String, dynamic> toJson() => {
@@ -24,7 +18,7 @@ class ForumModels {
     };
 }
 
-class ResponseData {
+class ResponseDataForum {
     String? id;
     String? patientId;
     String? title;
@@ -35,7 +29,7 @@ class ResponseData {
     bool? status;
     List<ForumReply>? forumReplies;
 
-    ResponseData({
+    ResponseDataForum({
         this.id,
         this.patientId,
         this.title,
@@ -47,7 +41,7 @@ class ResponseData {
         this.forumReplies,
     });
 
-    factory ResponseData.fromJson(Map<String, dynamic> json) => ResponseData(
+    factory ResponseDataForum.fromJson(Map<String, dynamic> json) => ResponseDataForum(
         id: json["id"],
         patientId: json["patient_id"],
         title: json["title"],

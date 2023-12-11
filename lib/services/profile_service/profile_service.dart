@@ -19,6 +19,7 @@ class ProfileService {
             },
         ),
       );
+      print(response.data);
       return ProfileModel.fromMap(response.data);
     } on DioException catch (e) {
       throw Exception(e.response);

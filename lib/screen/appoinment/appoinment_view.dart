@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:reprohealth_app/constant/assets_constants.dart';
 import 'package:reprohealth_app/constant/routes_navigation.dart';
 import 'package:reprohealth_app/screen/appoinment/view_models/appoinment_view_model.dart';
 import 'package:reprohealth_app/screen/appoinment/widget/klinik_appoinment_widget.dart';
@@ -26,7 +27,7 @@ class AppoinmentView extends StatelessWidget {
           child: Image(
             width: 129.0,
             height: 40.0,
-            image: AssetImage('assets/logo_reproHealth_appoinment.png'),
+            image: AssetImage(Assets.assetsLogoReproHealthAppoinment),
             fit: BoxFit.cover,
             alignment: Alignment.centerLeft,
           ),

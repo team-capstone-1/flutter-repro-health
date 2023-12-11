@@ -136,50 +136,53 @@ class AppointmentHistoryDetailsView extends StatelessWidget {
     return ButtonComponent(
       elevation: 0,
       backgroundColor: green500,
-      labelStyle: semiBold12Primary,
-      labelText: () {
-            //^ jika janji temu DIPROSES
-            if (appointmentData?.status == AppointmentStatus.menunggu ||
-                appointmentData?.status == AppointmentStatus.proses) {
-              // jika user belum bayar
-              // dengan tipe pembayaran [TRANSFER MANUAL]
-              if (appointmentData?.paymentStatus == PaymentStatus.pending) {
-                return "Bayar";
+      labelText: Text(
+        () {
+              //^ jika janji temu DIPROSES
+              if (appointmentData?.status == AppointmentStatus.menunggu ||
+                  appointmentData?.status == AppointmentStatus.proses) {
+                // jika user belum bayar
+                // dengan tipe pembayaran [TRANSFER MANUAL]
+                if (appointmentData?.paymentStatus == PaymentStatus.pending) {
+                  return "Bayar";
 
-                // jika user refund
-              } else if (appointmentData?.paymentStatus ==
-                  PaymentStatus.refund) {
-                return "Lihat Proses";
-              }
+                  // jika user refund
+                } else if (appointmentData?.paymentStatus ==
+                    PaymentStatus.refund) {
+                  return "Lihat Proses";
+                }
 
-              //^ jika janji temu SELESAI
-            } else if (appointmentData?.status == AppointmentStatus.selesai) {
-              return "Janji Temu Lagi";
-
-              //^ jika janji temu BATAL
-            } else {
-              //* TRANSAKSI GAGAL
-              // terjadi ketika status appointmentnya == cancelled
-              // TAPI paymentStatusnya == pending
-              if (appointmentData?.paymentStatus == PaymentStatus.pending) {
+                //^ jika janji temu SELESAI
+              } else if (appointmentData?.status == AppointmentStatus.selesai) {
                 return "Janji Temu Lagi";
 
-                //* JANJI TEMU DIBATALKAN
-                // terjadi ketika status appointmentnya == cancelled
-                // DAN paymentStatusnya == done/refund
-                // --------------------
-                // terbagi menjadi 2 kondisi: transfer manual & bayar diklinik
+                //^ jika janji temu BATAL
               } else {
-                if (appointmentData?.consultation?.paymentMethod ==
-                    PaymentMethod.transferManual) {
-                  return "Lihat Bukti Pengembalian";
-                } else {
+                //* TRANSAKSI GAGAL
+                // terjadi ketika status appointmentnya == cancelled
+                // TAPI paymentStatusnya == pending
+                if (appointmentData?.paymentStatus == PaymentStatus.pending) {
                   return "Janji Temu Lagi";
+
+                  //* JANJI TEMU DIBATALKAN
+                  // terjadi ketika status appointmentnya == cancelled
+                  // DAN paymentStatusnya == done/refund
+                  // --------------------
+                  // terbagi menjadi 2 kondisi: transfer manual & bayar diklinik
+                } else {
+                  if (appointmentData?.consultation?.paymentMethod ==
+                      PaymentMethod.transferManual) {
+                    return "Lihat Bukti Pengembalian";
+                  } else {
+                    return "Janji Temu Lagi";
+                  }
                 }
               }
-            }
-          }() ??
-          "-",
+            }() ??
+            "-",
+        style: semiBold12Primary,
+        textAlign: TextAlign.center,
+      ),
       onPressed: () {
         //^ jika janji temu DIPROSES
         if (appointmentData?.status == AppointmentStatus.menunggu ||
@@ -271,8 +274,11 @@ class AppointmentHistoryDetailsView extends StatelessWidget {
           child: ButtonComponent(
             elevation: 0,
             backgroundColor: green500,
-            labelStyle: semiBold12Primary,
-            labelText: "Ganti Jadwal",
+            labelText: Text(
+              "Ganti Jadwal",
+              style: semiBold12Primary,
+              textAlign: TextAlign.center,
+            ),
             onPressed: appointmentData?.consultation?.rescheduled == false
                 ? () {
                     Navigator.pushNamed(
@@ -292,8 +298,11 @@ class AppointmentHistoryDetailsView extends StatelessWidget {
           child: ButtonComponent(
             elevation: 0,
             backgroundColor: negative,
-            labelStyle: semiBold12Primary,
-            labelText: "Batalkan Jadwal",
+            labelText: Text(
+              "Batalkan Jadwal",
+              style: semiBold12Primary,
+              textAlign: TextAlign.center,
+            ),
             onPressed: () {
               // jika user pembayaran [TRANSFER MANUAL]
               if (appointmentData?.consultation?.paymentMethod ==

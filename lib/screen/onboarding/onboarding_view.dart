@@ -84,7 +84,7 @@ class _OnboardingViewState extends State<OnboardingView> {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 45 ),
+                    const SizedBox(height: 45),
                     Text(
                       data.title,
                       style: bold24Grey500,
@@ -97,10 +97,13 @@ class _OnboardingViewState extends State<OnboardingView> {
                   ],
                 ),
                 ButtonComponent(
-                  labelText: currentIndex == onBoardingListData.length - 1
-                      ? 'Mulai'
-                      : 'Selanjutnya',
-                  labelStyle: semiBold12Primary,
+                  labelText: Text(
+                    currentIndex == onBoardingListData.length - 1
+                        ? 'Mulai'
+                        : 'Selanjutnya',
+                    style: semiBold12Primary,
+                    textAlign: TextAlign.center,
+                  ),
                   backgroundColor: green500,
                   onPressed: () {
                     if (currentIndex == onBoardingListData.length - 1) {

@@ -16,6 +16,7 @@ class PertanyaanSayaWidget extends StatefulWidget {
 class _PertanyaanSayaWidgetState extends State<PertanyaanSayaWidget> {
   @override
   void initState() {
+    Provider.of<ForumViewModel>(context, listen: false).getProfile(context: context);
     Provider.of<ForumViewModel>(context, listen: false).getMyForumList();
     super.initState();
   }
@@ -146,11 +147,6 @@ class _PertanyaanSayaWidgetState extends State<PertanyaanSayaWidget> {
                                           width: 6.59,
                                           height: 11.17,
                                         ),
-                                        const SizedBox(width: 8),
-                                        Text(
-                                          myForum!.date.toString(),
-                                          style: regular10Grey200,
-                                        )
                                       ],
                                     ),
                                   ),

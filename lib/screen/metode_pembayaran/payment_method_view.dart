@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:reprohealth_app/component/button_component.dart';
@@ -136,8 +135,6 @@ class _PaymentMethodState extends State<PaymentMethodView> {
       print(e);
     }
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -339,15 +336,19 @@ class _PaymentMethodState extends State<PaymentMethodView> {
               height: 21,
             ),
             Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(16),
-                child: ButtonComponent(
-                  labelText: 'Kirim',
-                  backgroundColor: _isButtonEnabled() ? green500 : grey400,
-                  onPressed: _isButtonEnabled() ? _onButtonPressed : null,
-                  elevation: 0,
-                  labelStyle: semiBold12Grey10,
-                ))
+              width: double.infinity,
+              padding: const EdgeInsets.all(16),
+              child: ButtonComponent(
+                labelText: Text(
+                  "Kirim",
+                  style: semiBold12Grey10,
+                  textAlign: TextAlign.center,
+                ),
+                backgroundColor: _isButtonEnabled() ? green500 : grey400,
+                onPressed: _isButtonEnabled() ? _onButtonPressed : null,
+                elevation: 0,
+              ),
+            )
           ],
         ),
       ),

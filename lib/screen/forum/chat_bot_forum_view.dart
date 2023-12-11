@@ -83,8 +83,11 @@ class ChatBotForumView extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(16),
             child: ButtonComponent(
-              labelText: 'Buat Pesan Baru',
-              labelStyle: semiBold12Green500,
+              labelText: Text(
+                "Buat Pesan Baru",
+                style: semiBold12Green500,
+                textAlign: TextAlign.center,
+              ),
               border: BorderSide(color: green500, width: 2),
               backgroundColor: grey10,
               onPressed: () {

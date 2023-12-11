@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ButtonComponent extends StatelessWidget {
-  final String labelText;
-  final TextStyle labelStyle;
+  final Widget labelText;
   final Color backgroundColor;
   final Function()? onPressed;
   final double? elevation;
@@ -11,7 +10,6 @@ class ButtonComponent extends StatelessWidget {
   const ButtonComponent({
     super.key,
     required this.labelText,
-    required this.labelStyle,
     required this.backgroundColor,
     required this.onPressed,
     this.elevation,
@@ -37,11 +35,7 @@ class ButtonComponent extends StatelessWidget {
           width: double.infinity,
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 16),
-            child: Text(
-              labelText,
-              style: labelStyle,
-              textAlign: TextAlign.center,
-            ),
+            child: labelText,
           ),
         ),
       ),

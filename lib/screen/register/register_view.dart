@@ -4,7 +4,6 @@ import 'package:reprohealth_app/component/button_component.dart';
 import 'package:reprohealth_app/component/text_form_component.dart';
 import 'package:reprohealth_app/constant/assets_constants.dart';
 import 'package:reprohealth_app/screen/register/view_model/register_view_model.dart';
-import 'package:reprohealth_app/services/auth_services/auth_services.dart';
 import 'package:reprohealth_app/theme/theme.dart';
 
 class RegisterView extends StatelessWidget {
@@ -184,18 +183,16 @@ class RegisterView extends StatelessWidget {
                       height: 30,
                     ),
                     ButtonComponent(
-                      labelText: 'Daftar',
-                      labelStyle: semiBold12Primary,
+                      labelText: Text(
+                        "Daftar",
+                        style: semiBold12Primary,
+                        textAlign: TextAlign.center,
+                      ),
                       backgroundColor: green500,
                       onPressed: () {
                         if (registerViewModel.formKey.currentState!
                             .validate()) {
-                          AuthServices().authRegister(
-                            name: registerViewModel.nameController.text,
-                            email: registerViewModel.emailController.text,
-                            password: registerViewModel.passwordController.text,
-                            context: context,
-                          );
+                          registerViewModel.registerAccount(context: context);
                         }
                       },
                     ),

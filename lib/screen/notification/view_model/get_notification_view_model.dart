@@ -10,7 +10,6 @@ class GetNotificationViewModel extends ChangeNotifier {
   NotificationModel? _notificationList;
   NotificationModel? get notificationList => _notificationList;
   
-
   Future<void> fetchNotification({
     required BuildContext context,
     required idPatients

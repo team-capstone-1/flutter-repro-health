@@ -58,10 +58,13 @@ class _RefundViewState extends State<RefundView> {
                 padding: const EdgeInsets.all(16),
                 color: grey10,
                 child: ButtonComponent(
-                  labelText: controller.isLoading
+                  labelText: Text(
+                    controller.isLoading
                       ? 'Proses ...'
                       : 'Ajukan Pengembalian',
-                  labelStyle: semiBold12Grey10,
+                      style: semiBold12Grey10,
+                      textAlign: TextAlign.center,
+                  ),
                   backgroundColor: negative,
                   elevation: 0,
                   onPressed: controller.isButtonEnabled()

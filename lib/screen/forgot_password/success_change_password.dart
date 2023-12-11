@@ -4,8 +4,8 @@ import 'package:reprohealth_app/constant/assets_constants.dart';
 import 'package:reprohealth_app/constant/routes_navigation.dart';
 import 'package:reprohealth_app/theme/theme.dart';
 
-class SuccessRegisterView extends StatelessWidget {
-  const SuccessRegisterView({super.key});
+class SuccessChangePassword extends StatelessWidget {
+  const SuccessChangePassword({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,13 +18,13 @@ class SuccessRegisterView extends StatelessWidget {
             Center(child: Image.asset(Assets.assetsSuccessRegister)),
             const SizedBox(height: 48),
             Text(
-              'Daftar Akun Berhasil',
+              'Kata Sandi Baru Berhasil Dibuat',
               style: semiBold16Grey500,
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 12),
             Text(
-              'Silahkan masuk!',
+              'Silahkan Masuk Kembali',
               style: medium16Grey500,
               textAlign: TextAlign.center,
             ),

@@ -14,6 +14,7 @@ class ForumView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Provider.of<ForumViewModel>(context, listen: false).getProfile(context: context);
     final forumViewModel = Provider.of<ForumViewModel>(context, listen: false);
     return DefaultTabController(
       initialIndex: 0,
@@ -127,6 +128,7 @@ class ForumView extends StatelessWidget {
                       ),
                       actions: [
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             TextButton(
                               onPressed: () {
