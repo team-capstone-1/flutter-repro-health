@@ -109,8 +109,11 @@ class RegisterViewModels with ChangeNotifier {
                   ),
                   const SizedBox(height: 16),
                   ButtonComponent(
-                    labelText: "Daftar kembali",
-                    labelStyle: semiBold12Grey10,
+                    labelText: Text(
+                      "Daftar Kembali",
+                      style: semiBold12Grey10,
+                      textAlign: TextAlign.center,
+                    ),
                     backgroundColor: green500,
                     onPressed: () {
                       Navigator.pop(context);

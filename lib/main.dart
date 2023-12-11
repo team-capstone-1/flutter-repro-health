@@ -15,8 +15,6 @@ import 'package:reprohealth_app/screen/dokter/detail_dokter_view.dart';
 import 'package:reprohealth_app/screen/dokter/jadwal_dokter_view.dart';
 import 'package:reprohealth_app/screen/dokter/janji_temu_view.dart';
 import 'package:reprohealth_app/screen/dokter/view_models/janji_temu_view_model.dart';
-import 'package:reprohealth_app/screen/dokter/view_models/pilih_sesi_view_model.dart';
-import 'package:reprohealth_app/screen/dokter/view_models/pilih_tanggal_view_model.dart';
 import 'package:reprohealth_app/screen/forgot_password/detail_forgot_password_view.dart';
 import 'package:reprohealth_app/screen/forgot_password/forgot_password_view.dart';
 import 'package:reprohealth_app/screen/forgot_password/otp_view.dart';
@@ -111,8 +109,6 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => SearchKlinikViewModel()),
         ChangeNotifierProvider(create: (context) => ClinicsViewModel()),
         ChangeNotifierProvider(create: (context) => MapsViewModel()),
-        ChangeNotifierProvider(create: (context) => PilihSesiViewModel()),
-        ChangeNotifierProvider(create: (context) => PilihTanggalViewModel()),
         ChangeNotifierProvider(create: (context) => HomeViewModels()),
         ChangeNotifierProvider(create: (context) => DatePickerViewModel()),
         ChangeNotifierProvider(
@@ -131,8 +127,6 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => SearchKlinikViewModel()),
         ChangeNotifierProvider(create: (context) => ClinicsViewModel()),
         ChangeNotifierProvider(create: (context) => MapsViewModel()),
-        ChangeNotifierProvider(create: (context) => PilihSesiViewModel()),
-        ChangeNotifierProvider(create: (context) => PilihTanggalViewModel()),
         ChangeNotifierProvider(create: (context) => SplashViewModel()),
         ChangeNotifierProvider(create: (context) => HomeViewModels()),
         ChangeNotifierProvider(create: (context) => ForumViewModel()),

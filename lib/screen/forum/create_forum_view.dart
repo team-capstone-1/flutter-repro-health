@@ -188,8 +188,11 @@ class _CreateForumViewState extends State<CreateForumView> {
                           Consumer<CreateForumViewModel>(
                             builder: (context, createForumViewModel, child) {
                               return ButtonComponent(
-                                labelText: "Kirim",
-                                labelStyle: semiBold12Grey10,
+                                labelText: Text(
+                                  "Kirim",
+                                  style: semiBold12Grey10,
+                                  textAlign: TextAlign.center,
+                                ),
                                 backgroundColor:
                                     createForumViewModel.buttonColor,
                                 onPressed: () {

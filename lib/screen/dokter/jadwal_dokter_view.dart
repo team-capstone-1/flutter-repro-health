@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:reprohealth_app/component/button_component.dart';
 import 'package:reprohealth_app/component/card_doctor_component.dart';
+import 'package:reprohealth_app/constant/routes_navigation.dart';
 import 'package:reprohealth_app/models/doctor_models/doctor_models.dart';
 import 'package:reprohealth_app/screen/dokter/view_models/janji_temu_view_model.dart';
-import 'package:reprohealth_app/screen/dokter/view_models/pilih_sesi_view_model.dart';
-import 'package:reprohealth_app/screen/dokter/view_models/pilih_tanggal_view_model.dart';
 import 'package:reprohealth_app/screen/dokter/widget/pilih_sesi_widget.dart';
 import 'package:reprohealth_app/screen/dokter/widget/pilih_tanggal_widget.dart';
 import 'package:reprohealth_app/theme/theme.dart';
@@ -108,8 +107,11 @@ class JadwalDokterViewState extends State<JadwalDokterView> {
           ),
           // Button Component
           ButtonComponent(
-            labelText: 'Lanjut ke Data Pemesanan',
-            labelStyle: semiBold12Grey10,
+            labelText: Text(
+              "Lanjut ke Data Pemesanan",
+              style: semiBold12Grey10,
+              textAlign: TextAlign.center,
+            ),
             backgroundColor: green500,
             onPressed: () {
               // Bottom Sheet
@@ -198,30 +200,29 @@ class JadwalDokterViewState extends State<JadwalDokterView> {
                                     ),
                                     // Button Component
                                     ButtonComponent(
-                                      labelText: 'Selanjutnya',
-                                      labelStyle: semiBold12Grey10,
+                                      labelText: Text(
+                                        "Selanjutnya",
+                                        style: semiBold12Grey10,
+                                        textAlign: TextAlign.center,
+                                      ),
                                       backgroundColor: green500,
                                       onPressed: () {
-                                        janjiTemuViewModel.postConsultasion(
-                                          dataProfile: janjiTemuViewModel.profileList?.response?[selectedPemesan],
-                                          context: context,
-                                          patientId: janjiTemuViewModel.profileList?.response?[selectedPemesan].id ?? '',
-                                          doctorId: detailDoctor?.id ?? '',
-                                          date: Provider.of<PilihTanggalViewModel>(context,listen: false).dueDate,
-                                          session: Provider.of<PilihSesiViewModel>(context, listen: false).selectedSession,
+                                        Navigator.pushNamed(
+                                          context,
+                                          RoutesNavigation.janjiTemuView,
+                                          arguments: ArgumentDoctor(
+                                            dataDoctor: detailDoctor,
+                                            dataProfile: janjiTemuViewModel
+                                                .profileList
+                                                ?.response?[selectedPemesan],
+                                          ),
                                         );
                                         print(janjiTemuViewModel.profileList
                                             ?.response?[selectedPemesan].id);
                                         print(detailDoctor?.id);
+                                        print(janjiTemuViewModel.dueDate);
                                         print(
-                                            Provider.of<PilihTanggalViewModel>(
-                                                    context,
-                                                    listen: false)
-                                                .dueDate);
-                                        print(Provider.of<PilihSesiViewModel>(
-                                                context,
-                                                listen: false)
-                                            .selectedSession);
+                                            janjiTemuViewModel.selectedSession);
                                       },
                                     ),
                                     const SizedBox(

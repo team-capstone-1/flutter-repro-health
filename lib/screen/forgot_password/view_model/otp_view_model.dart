@@ -85,8 +85,11 @@ class OtpViewModel extends ChangeNotifier {
                   ),
                   const SizedBox(height: 16),
                   ButtonComponent(
-                    labelText: "Validasi Kembali",
-                    labelStyle: semiBold12Grey10,
+                    labelText: Text(
+                      "Validasi Kembali",
+                      style: semiBold12Grey10,
+                      textAlign: TextAlign.center,
+                    ),
                     backgroundColor: green500,
                     onPressed: () {
                       Navigator.pop(context);
@@ -102,7 +105,8 @@ class OtpViewModel extends ChangeNotifier {
     }
   }
 
-  Future<void> sendEmail({required BuildContext context, required String email}) async {
+  Future<void> sendEmail(
+      {required BuildContext context, required String email}) async {
     try {
       await ChangePasswordServices().postEmail(email: email);
     } catch (e) {

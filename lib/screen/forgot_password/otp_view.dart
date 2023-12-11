@@ -78,8 +78,11 @@ class OtpView extends StatelessWidget {
                   ),
                   const SizedBox(height: 48),
                   ButtonComponent(
-                    labelText: 'Kirim',
-                    labelStyle: semiBold12Primary,
+                    labelText: Text(
+                      "Kirim",
+                      style: semiBold12Primary,
+                      textAlign: TextAlign.center,
+                    ),
                     backgroundColor: green500,
                     onPressed: () {
                       otpViewModel.validateOtp(context: context, email: email);

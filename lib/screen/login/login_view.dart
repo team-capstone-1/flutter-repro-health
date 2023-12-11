@@ -196,8 +196,11 @@ class _LoginViewState extends State<LoginView> {
                       height: 54,
                     ),
                     ButtonComponent(
-                      labelText: 'Masuk',
-                      labelStyle: semiBold12Primary,
+                      labelText: Text(
+                        "Masuk",
+                        style: semiBold12Primary,
+                        textAlign: TextAlign.center,
+                      ),
                       backgroundColor: green500,
                       onPressed: () {
                         if (formKey.currentState!.validate()) {

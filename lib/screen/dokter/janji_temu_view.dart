@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:reprohealth_app/component/button_component.dart';
-import 'package:reprohealth_app/models/appointment_models/appointment_models.dart';
 import 'package:reprohealth_app/screen/dokter/view_models/janji_temu_view_model.dart';
 import 'package:reprohealth_app/component/card_doctor_component.dart';
 import 'package:reprohealth_app/theme/theme.dart';
@@ -13,10 +12,8 @@ class JanjiTemuView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final args = ModalRoute.of(context)!.settings.arguments as ArgumentDoctor?;
-    final ArgumentDoctor? detailProfile = args;
+    final ArgumentDoctor? detailArgument = args;
 
-    Provider.of<JanjiTemuViewModel>(context)
-        .getTransactions(patientId: detailProfile?.dataProfile.id ?? '');
     return Scaffold(
       backgroundColor: grey10,
       appBar: AppBar(
@@ -33,13 +30,6 @@ class JanjiTemuView extends StatelessWidget {
       ),
       body: Consumer<JanjiTemuViewModel>(
         builder: (context, janjiTemuViewModel, child) {
-          ResponseDataAppointment? dataAppointment;
-          for (var response
-              in janjiTemuViewModel.appointmentList?.response ?? []) {
-            if (response.consultationId == detailProfile?.id) {
-              dataAppointment = response;
-            }
-          }
           return ListView(
             padding: const EdgeInsets.symmetric(
               horizontal: 16,
@@ -51,13 +41,14 @@ class JanjiTemuView extends StatelessWidget {
 
               // PROFIL DOCTOR
               CardDoctorComponent(
-                imageUrl:
-                    dataAppointment?.consultation?.doctor?.profileImage ?? '',
-                doctorName: dataAppointment?.consultation?.doctor?.name ?? '',
+                imageUrl: detailArgument?.dataDoctor?.profileImage ?? '',
+                // dataAppointment?.consultation?.doctor?.profileImage ?? '',
+                // doctorName: dataAppointment?.consultation?.doctor?.name ?? '',
+                doctorName: detailArgument?.dataDoctor?.name ?? '',
                 doctorSpecialist:
-                    dataAppointment?.consultation?.doctor?.specialist ?? '',
-                clinicsName: dataAppointment?.consultation?.clinic?.name ?? '',
-                doctorPrice: dataAppointment?.consultation?.doctor?.price ?? 0,
+                    detailArgument?.dataDoctor?.specialist?.name ?? '',
+                clinicsName: detailArgument?.dataDoctor?.clinic?.name ?? '',
+                doctorPrice: detailArgument?.dataDoctor?.price ?? 0,
               ),
 
               const Padding(
@@ -90,10 +81,9 @@ class JanjiTemuView extends StatelessWidget {
                         style: regular12Grey400,
                       ),
                       Text(
-                        dataAppointment?.consultation?.date == null
-                            ? '-'
-                            : DateFormat('EEEE, d MMMM yyyy')
-                                .format(dataAppointment!.consultation!.date!),
+                        DateFormat('EEEE, d MMMM yyyy').format(
+                          janjiTemuViewModel.currentDate,
+                        ),
                         style: semiBold12Grey500,
                       ),
                     ],
@@ -111,16 +101,15 @@ class JanjiTemuView extends StatelessWidget {
                       Row(
                         children: [
                           Text(
-                            dataAppointment?.consultation?.session ?? '',
+                            janjiTemuViewModel.selectedSession,
                             style: semiBold12Grey500,
                           ),
                           Text(
                             ' (${() {
-                              if (dataAppointment?.consultation?.session ==
+                              if (janjiTemuViewModel.selectedSession ==
                                   'pagi') {
                                 return ("08.00 - 11.00");
-                              } else if (dataAppointment
-                                      ?.consultation?.session ==
+                              } else if (janjiTemuViewModel.selectedSession ==
                                   'siang') {
                                 return ("13.00 - 15.30");
                               } else {
@@ -149,7 +138,7 @@ class JanjiTemuView extends StatelessWidget {
                       Flexible(
                         flex: 4,
                         child: Text(
-                          dataAppointment?.consultation?.clinic?.location ?? '',
+                          detailArgument?.dataDoctor?.clinic?.location ?? '',
                           style: semiBold12Grey500,
                           textAlign: TextAlign.right,
                         ),
@@ -184,7 +173,7 @@ class JanjiTemuView extends StatelessWidget {
                         style: regular12Grey400,
                       ),
                       Text(
-                        detailProfile?.dataProfile.name ?? '-',
+                        detailArgument?.dataProfile?.name ?? '-',
                         style: semiBold12Grey500,
                       ),
                     ],
@@ -200,7 +189,7 @@ class JanjiTemuView extends StatelessWidget {
                         style: regular12Grey400,
                       ),
                       Text(
-                        detailProfile?.dataProfile.gender ?? '',
+                        detailArgument?.dataProfile?.gender ?? '',
                         style: semiBold12Grey500,
                       ),
                     ],
@@ -216,7 +205,7 @@ class JanjiTemuView extends StatelessWidget {
                         style: regular12Grey400,
                       ),
                       Text(
-                        detailProfile?.dataProfile.telephoneNumber ?? '-',
+                        detailArgument?.dataProfile?.telephoneNumber ?? '-',
                         style: semiBold12Grey500,
                       ),
                     ],
@@ -230,10 +219,145 @@ class JanjiTemuView extends StatelessWidget {
                 ),
               ),
               ButtonComponent(
-                labelText: 'Pilih Metode Pembayaran',
-                labelStyle: semiBold12Grey10,
+                labelText: Text(
+                  "Pilih Metode Pembayaran",
+                  style: semiBold12Grey10,
+                  textAlign: TextAlign.center,
+                ),
                 backgroundColor: green500,
-                onPressed: () {},
+                onPressed: () {
+                  showModalBottomSheet(
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.vertical(
+                        top: Radius.circular(16),
+                      ),
+                    ),
+                    context: context,
+                    builder: (context) {
+                      return Consumer<JanjiTemuViewModel>(
+                        builder: (context, janjiTemuViewModel, child) {
+                          return Padding(
+                            padding: const EdgeInsets.all(16),
+                            child: Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "Pilih Metode Pembayaran",
+                                      style: medium14Black,
+                                    ),
+                                    IconButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      icon: const Icon(Icons.close),
+                                    ),
+                                  ],
+                                ),
+                                Divider(color: grey50),
+                                const SizedBox(height: 10),
+                                ListView.builder(
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemCount: janjiTemuViewModel
+                                      .listPaymentMethod.length,
+                                  itemBuilder: (context, index) {
+                                    var paymentListData = janjiTemuViewModel
+                                        .listPaymentMethod[index];
+                                    return GestureDetector(
+                                      onTap: () {
+                                        janjiTemuViewModel.setSelectedPayment =
+                                            paymentListData;
+                                      },
+                                      child: SizedBox(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                horizontal: 16,
+                                                vertical: 8,
+                                              ),
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(12),
+                                                border: Border.all(
+                                                  color: janjiTemuViewModel
+                                                              .selectedPayment ==
+                                                          paymentListData
+                                                      ? green500
+                                                      : const Color.fromARGB(
+                                                          255, 82, 82, 82),
+                                                ),
+                                              ),
+                                              child: Row(
+                                                children: [
+                                                  CircleAvatar(
+                                                    backgroundColor: grey50,
+                                                    child:
+                                                        const Icon(Icons.abc),
+                                                  ),
+                                                  const SizedBox(width: 10),
+                                                  Text(
+                                                    paymentListData,
+                                                    style: medium12Grey500,
+                                                  ),
+                                                  const Spacer(),
+                                                  Radio(
+                                                    activeColor: green500,
+                                                    value: paymentListData,
+                                                    groupValue:
+                                                        janjiTemuViewModel
+                                                            .selectedPayment,
+                                                    onChanged: (value) {
+                                                      janjiTemuViewModel
+                                                              .setSelectedPayment =
+                                                          value!;
+                                                    },
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            const SizedBox(height: 8),
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                                const SizedBox(height: 16),
+                                ButtonComponent(
+                                  labelText: Text(
+                                    "Bayar",
+                                    style: medium14Grey10,
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  backgroundColor: green500,
+                                  onPressed: () {
+                                    janjiTemuViewModel.postConsultasion(
+                                      patientId:
+                                          detailArgument?.dataProfile?.id ?? '',
+                                      doctorId:
+                                          detailArgument?.dataDoctor?.id ?? '',
+                                      date: janjiTemuViewModel.currentDate,
+                                      session:
+                                          janjiTemuViewModel.selectedSession,
+                                      context: context,
+                                    );
+                                  },
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      );
+                    },
+                  );
+                },
               ),
               const SizedBox(
                 height: 24,

@@ -57,8 +57,11 @@ class ForgotPasswordViewModel extends ChangeNotifier {
                   ),
                   const SizedBox(height: 16),
                   ButtonComponent(
-                    labelText: "Kembali",
-                    labelStyle: semiBold12Grey10,
+                    labelText: Text(
+                      "Kembali",
+                      style: semiBold12Grey10,
+                      textAlign: TextAlign.center,
+                    ),
                     backgroundColor: green500,
                     onPressed: () {
                       Navigator.pop(context);

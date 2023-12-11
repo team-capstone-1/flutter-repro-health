@@ -183,8 +183,11 @@ class RegisterView extends StatelessWidget {
                       height: 30,
                     ),
                     ButtonComponent(
-                      labelText: 'Daftar',
-                      labelStyle: semiBold12Primary,
+                      labelText: Text(
+                        "Daftar",
+                        style: semiBold12Primary,
+                        textAlign: TextAlign.center,
+                      ),
                       backgroundColor: green500,
                       onPressed: () {
                         if (registerViewModel.formKey.currentState!

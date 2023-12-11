@@ -97,8 +97,11 @@ class LoginViewModels extends ChangeNotifier {
                   ),
                   const SizedBox(height: 16),
                   ButtonComponent(
-                    labelText: "Masuk kembali",
-                    labelStyle: semiBold12Grey10,
+                    labelText: Text(
+                      "Masuk Kembali",
+                      style: semiBold12Grey10,
+                      textAlign: TextAlign.center,
+                    ),
                     backgroundColor: green500,
                     onPressed: () {
                       Navigator.pop(context);

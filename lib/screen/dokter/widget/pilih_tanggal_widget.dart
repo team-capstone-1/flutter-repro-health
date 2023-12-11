@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:reprohealth_app/screen/dokter/view_models/pilih_tanggal_view_model.dart';
+import 'package:reprohealth_app/screen/dokter/view_models/janji_temu_view_model.dart';
 import 'package:reprohealth_app/theme/theme.dart';
 
 class PilihTanggalWidget extends StatelessWidget {
@@ -9,8 +9,8 @@ class PilihTanggalWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<PilihTanggalViewModel>(
-      builder: (context, pilihTanggalViewModel, child) {
+    return Consumer<JanjiTemuViewModel>(
+      builder: (context, janjiTemuViewModel, child) {
         return Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
@@ -21,19 +21,19 @@ class PilihTanggalWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                DateFormat('dd/MM/yyyy').format(pilihTanggalViewModel.dueDate),
+                DateFormat('dd/MM/yyyy').format(janjiTemuViewModel.dueDate),
               ),
               GestureDetector(
                 onTap: () async {
                   final selectedDate = await showDatePicker(
                     context: context,
-                    initialDate: pilihTanggalViewModel.currentDate,
+                    initialDate: janjiTemuViewModel.currentDate,
                     firstDate: DateTime(2020),
                     lastDate: DateTime(2050),
                   );
                   if (selectedDate != null) {
-                    pilihTanggalViewModel.dueDate = selectedDate;
-                    pilihTanggalViewModel.currentDate = selectedDate;
+                    janjiTemuViewModel.dueDate = selectedDate;
+                    janjiTemuViewModel.currentDate = selectedDate;
                   }
                 },
                 child: Icon(

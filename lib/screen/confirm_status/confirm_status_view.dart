@@ -36,8 +36,11 @@ class ConfirmStatusView extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             ButtonComponent(
-              labelText: 'Lihat Transaksi',
-              labelStyle: semiBold12Grey10,
+              labelText: Text(
+                "Lihat Transaksi",
+                style: semiBold12Grey10,
+                textAlign: TextAlign.center,
+              ),
               backgroundColor: green500,
               onPressed: () {
                 if (kDebugMode) {

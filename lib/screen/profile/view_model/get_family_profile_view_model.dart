@@ -27,7 +27,6 @@ class GetFamilyProfileViewModel extends ChangeNotifier {
     }
   }
 
-
   Future<void> fetchProfileDataId({
     required BuildContext context, 
     required idPatients

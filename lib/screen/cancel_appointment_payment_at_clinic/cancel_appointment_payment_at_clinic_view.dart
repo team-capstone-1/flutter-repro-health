@@ -195,8 +195,11 @@ class CancelAppointmentPaymentAtClicic extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         color: grey10,
         child: ButtonComponent(
-          labelText: "Batalkan Jadwal",
-          labelStyle: semiBold12Primary,
+          labelText: Text(
+            "Batalkan Jadwal",
+            style: semiBold12Primary,
+            textAlign: TextAlign.center,
+          ),
           backgroundColor: negative,
           elevation: 0,
           onPressed: () {

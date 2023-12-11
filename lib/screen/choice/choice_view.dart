@@ -17,13 +17,13 @@ class ChoiceView extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-            margin: const EdgeInsets.only(
-              top: 56.57,
-              left: 56.1,
-              right: 60.76,
+              margin: const EdgeInsets.only(
+                top: 56.57,
+                left: 56.1,
+                right: 60.76,
+              ),
+              child: Image.asset(Assets.assetsOnboarding),
             ),
-            child: Image.asset(Assets.assetsOnboarding),
-          ),
             const SizedBox(height: 44),
             Text(
               'Selamat Datang di',
@@ -41,8 +41,11 @@ class ChoiceView extends StatelessWidget {
             ),
             const SizedBox(height: 80),
             ButtonComponent(
-              labelText: 'Masuk',
-              labelStyle: semiBold12Primary,
+              labelText: Text(
+                "Masuk",
+                style: semiBold12Primary,
+                textAlign: TextAlign.center,
+              ),
               backgroundColor: green500,
               onPressed: () {
                 Navigator.pushNamed(
@@ -55,8 +58,11 @@ class ChoiceView extends StatelessWidget {
               height: 16,
             ),
             ButtonComponent(
-              labelText: 'Daftar Akun',
-              labelStyle: semiBold12Green500,
+              labelText: Text(
+                "Daftar Akun",
+                style: semiBold12Green500,
+                textAlign: TextAlign.center,
+              ),
               backgroundColor: Colors.transparent,
               elevation: 0,
               border: BorderSide(width: 1.5, color: green500),

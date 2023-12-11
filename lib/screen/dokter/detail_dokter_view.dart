@@ -203,8 +203,11 @@ class DetailDokterView extends StatelessWidget {
                       height: 12,
                     ),
                     ButtonComponent(
-                      labelText: 'Jadwalkan',
-                      labelStyle: semiBold12Primary,
+                      labelText: Text(
+                        "Jadwalkan",
+                        style: semiBold12Primary,
+                        textAlign: TextAlign.center,
+                      ),
                       backgroundColor: green500,
                       onPressed: () {
                         Navigator.pushNamed(

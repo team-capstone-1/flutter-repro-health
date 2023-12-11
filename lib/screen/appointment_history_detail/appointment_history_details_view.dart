@@ -119,20 +119,23 @@ class AppointmentHistoryDetailsView extends StatelessWidget {
   ) {
     return ButtonComponent(
       backgroundColor: green500,
-      labelText: () {
-        if (appointmentData.appointmentStatus == 'Batal') {
-          if (appointmentData.paymentStatus == 'Transaksi Gagal') {
+      labelText: Text(
+        () {
+          if (appointmentData.appointmentStatus == 'Batal') {
+            if (appointmentData.paymentStatus == 'Transaksi Gagal') {
+              return "Janji Temu Lagi";
+            } else {
+              return "Lihat Bukti Pengembalian";
+            }
+          } else if (appointmentData.appointmentStatus == 'Selesai') {
             return "Janji Temu Lagi";
           } else {
-            return "Lihat Bukti Pengembalian";
+            return "Bayar";
           }
-        } else if (appointmentData.appointmentStatus == 'Selesai') {
-          return "Janji Temu Lagi";
-        } else {
-          return "Bayar";
-        }
-      }(),
-      labelStyle: semiBold12Primary,
+        }(),
+        style: semiBold12Primary,
+        textAlign: TextAlign.center,
+      ),
       onPressed: () {
         if (appointmentData.appointmentStatus == 'Batal') {
           if (appointmentData.paymentStatus == 'Transaksi Gagal') {
@@ -171,20 +174,23 @@ class AppointmentHistoryDetailsView extends StatelessWidget {
           width: MediaQuery.of(context).size.width,
           child: ButtonComponent(
             backgroundColor: green500,
-            labelText: () {
-              if (appointmentData.paymentMethod == 'Transfer Manual' &&
-                  appointmentData.paymentStatus == 'Tertunda' &&
-                  appointmentData.isDoctorAvailable == false) {
-                return "Jadwal Ulang";
-              } else if (appointmentData.paymentMethod == 'Bayar Diklinik' &&
-                  appointmentData.paymentStatus == 'Tertunda' &&
-                  appointmentData.isDoctorAvailable == false) {
-                return "Bayar";
-              } else {
-                return "Ganti Jadwal";
-              }
-            }(),
-            labelStyle: semiBold12Primary,
+            labelText: Text(
+              () {
+                if (appointmentData.paymentMethod == 'Transfer Manual' &&
+                    appointmentData.paymentStatus == 'Tertunda' &&
+                    appointmentData.isDoctorAvailable == false) {
+                  return "Jadwal Ulang";
+                } else if (appointmentData.paymentMethod == 'Bayar Diklinik' &&
+                    appointmentData.paymentStatus == 'Tertunda' &&
+                    appointmentData.isDoctorAvailable == false) {
+                  return "Bayar";
+                } else {
+                  return "Ganti Jadwal";
+                }
+              }(),
+              style: semiBold12Primary,
+              textAlign: TextAlign.center,
+            ),
             onPressed: () {
               if (appointmentData.paymentMethod == 'Bayar Diklinik' &&
                   appointmentData.paymentStatus == 'Tertunda' &&
@@ -211,10 +217,13 @@ class AppointmentHistoryDetailsView extends StatelessWidget {
           width: MediaQuery.of(context).size.width,
           child: ButtonComponent(
             backgroundColor: negative,
-            labelText: appointmentData.paymentMethod == 'Transfer Manual'
+            labelText: Text(
+              appointmentData.paymentMethod == 'Transfer Manual'
                 ? "Batal"
                 : "Batalkan Jadwal",
-            labelStyle: semiBold12Primary,
+              style: semiBold12Primary,
+              textAlign: TextAlign.center,
+            ),
             onPressed: () {
               if (appointmentData.paymentMethod == 'Bayar Diklinik') {
                 //pindah halaman refund bayar di klinik

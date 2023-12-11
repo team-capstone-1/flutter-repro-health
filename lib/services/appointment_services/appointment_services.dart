@@ -26,7 +26,7 @@ class AppointmentServices {
     }
   }
 
-  Future<String> postConsultasion({required String patientId, required String doctorId, required DateTime date, required String session, required BuildContext context}) async {
+  Future<String> postConsultasion({required String paymentMethod ,required String patientId, required String doctorId, required DateTime date, required String session, required BuildContext context}) async {
     String apiGetConsultasion = "https://dev.reprohealth.my.id/consultations";
     try {
       String token = await SharedPreferencesUtils().getToken();
@@ -34,6 +34,7 @@ class AppointmentServices {
       var response = await Dio().post(
         apiGetConsultasion,
         data: {
+          "payment_method": paymentMethod,
           "patient_id": patientId,
           "doctor_id": doctorId,
           "date": formattedDateTime,

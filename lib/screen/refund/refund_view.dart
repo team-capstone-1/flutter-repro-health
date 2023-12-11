@@ -111,8 +111,11 @@ class _RefundViewState extends State<RefundView> {
             padding: const EdgeInsets.all(16),
             color: grey10,
             child: ButtonComponent(
-              labelText: 'Ajukan Pengembalian',
-              labelStyle: semiBold12Grey10,
+              labelText: Text(
+                "Ajukan Pengembalian",
+                style: semiBold12Grey10,
+                textAlign: TextAlign.center,
+              ),
               backgroundColor: negative,
               elevation: 0,
               onPressed: isButtonEnabled()
