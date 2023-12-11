@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:reprohealth_app/constant/routes_navigation.dart';
 import 'package:reprohealth_app/screen/profile/add_family_profile_view.dart';
-import 'package:reprohealth_app/screen/profile/edit_family_profile_view%20copy.dart';
+import 'package:reprohealth_app/screen/profile/edit_family_profile_view.dart';
 import 'package:reprohealth_app/screen/profile/view_model/get_family_profile_view_model.dart';
 import 'package:reprohealth_app/screen/profile/widget/profile_widget/button_widget.dart';
 import 'package:reprohealth_app/theme/theme.dart';
@@ -18,9 +18,12 @@ class FamilyProfile extends StatefulWidget {
 class _FamilyProfileState extends State<FamilyProfile> {
 
   @override
-  void initState() {
-    super.initState();
-    Provider.of<GetFamilyProfileViewModel>(context, listen: false).fetchProfileData(context: context);
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    var profileProvider = Provider.of<GetFamilyProfileViewModel>(context, listen: false);
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    profileProvider.fetchProfileData(context: context);
+  });
   }
 
 
@@ -50,7 +53,7 @@ class _FamilyProfileState extends State<FamilyProfile> {
                 visible: profileProvider.profileList!.response!.isNotEmpty,
                 child: TextButton(
                   onPressed: () {
-                    Navigator.popAndPushNamed(
+                    Navigator.pushNamed(
                       context,
                       RoutesNavigation.addFamilyProfile,
                     );
@@ -103,7 +106,7 @@ class _FamilyProfileState extends State<FamilyProfile> {
                 )
               : Container(
                   height: MediaQuery.of(context).size.height,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     color: Color(0xFFEFEFEF),
                   ),
                   child: Consumer<GetFamilyProfileViewModel>(
@@ -126,7 +129,7 @@ class _FamilyProfileState extends State<FamilyProfile> {
                                   nomorController: profileData?.telephoneNumber,
                                   beratController: profileData?.weight,
                                   tinggiController: profileData?.height,
-
+                                  gender: profileData?.gender,
                                 ),
                               ),
                             );
@@ -166,7 +169,7 @@ class _FamilyProfileState extends State<FamilyProfile> {
                                       ],
                                     ),
                                     const Spacer(),
-                                    Icon(Icons.keyboard_arrow_right),
+                                    const Icon(Icons.keyboard_arrow_right),
                                   ],
                                 ),
                               ),

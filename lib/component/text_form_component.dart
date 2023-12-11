@@ -29,7 +29,7 @@ class TextFormComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      maxLines: maxLines ?? 2,
+      maxLines: maxLines ?? 1,
       controller: controller,
       obscureText: obscureText ?? false,
       validator: validator,

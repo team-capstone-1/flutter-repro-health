@@ -298,8 +298,6 @@ class JanjiTemuView extends StatelessWidget {
                                                 children: [
                                                   CircleAvatar(
                                                     backgroundColor: grey50,
-                                                    child:
-                                                        const Icon(Icons.abc),
                                                   ),
                                                   const SizedBox(width: 10),
                                                   Text(
@@ -329,7 +327,25 @@ class JanjiTemuView extends StatelessWidget {
                                     );
                                   },
                                 ),
-                                const SizedBox(height: 16),
+                                const SizedBox(height: 24),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "Total Pembayaran",
+                                      style: medium14Grey500,
+                                    ),
+                                    Text(
+                                      NumberFormat.currency(
+                                              locale: 'id_ID', symbol: 'Rp ')
+                                          .format(detailArgument
+                                              ?.dataDoctor?.price),
+                                      style: medium12Green500,
+                                    )
+                                  ],
+                                ),
+                                const SizedBox(height: 24),
                                 ButtonComponent(
                                   labelText: Text(
                                     "Bayar",

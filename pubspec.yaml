@@ -16,6 +16,8 @@ dependencies:
   email_otp: ^2.1.1
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
   flutter_svg: ^2.0.9
   google_fonts: ^6.1.0
   intl: ^0.18.1

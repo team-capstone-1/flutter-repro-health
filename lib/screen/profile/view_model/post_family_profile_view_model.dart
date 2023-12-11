@@ -40,12 +40,12 @@ class PostFamilyProfileViewModel extends ChangeNotifier {
     FormData formData = FormData.fromMap({
       'name': nameController.text,
       'telephone_number': nomorController.text,
-      'date_of_birth': DateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").format(datePickerProvider.dueDate.toUtc()),
+      'date_of_birth': DateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").format(datePickerProvider.dueDate.toLocal()),
       'relation': optionItemSelected.title,
       'weight': weight,
       'height': height,
       'gender': gender,
-    });    
+    });
 
     try {
       await _profileService.postProfileFormData(
@@ -53,9 +53,8 @@ class PostFamilyProfileViewModel extends ChangeNotifier {
         formData: formData,
       );
       notifyListeners();
-      print("sukses menambahkan data");
     } catch (e) {
-      print('Error: $e');
+      e;
 
     }
   }

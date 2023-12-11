@@ -159,6 +159,10 @@ class Assets {
   /// assets/next_icon.png
   static const String assetsNextIcon = "assets/next_icon.png";
 
+  /// Assets for assetsNotificationEmpty
+  /// assets/NotificationEmpty.png
+  static const String assetsNotificationEmpty = "assets/NotificationEmpty.png";
+
   /// Assets for assetsOnboarding
   /// assets/onboarding.png
   static const String assetsOnboarding = "assets/onboarding.png";

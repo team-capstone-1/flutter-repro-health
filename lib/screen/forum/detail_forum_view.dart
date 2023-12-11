@@ -139,7 +139,7 @@ class DetailForumView extends StatelessWidget {
                   style: regular12Grey900,
                 ),
                 Text(
-                  "Nakamura (Anda)",
+                  "Pasien",
                   style: semiBold12Grey900,
                 ),
               ],

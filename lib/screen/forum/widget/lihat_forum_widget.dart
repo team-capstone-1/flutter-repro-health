@@ -12,6 +12,7 @@ class LihatForumWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Provider.of<ForumViewModel>(context, listen: false).getProfile(context: context);
     Provider.of<ForumViewModel>(context, listen: false).getForumList();
     return Consumer<ForumViewModel>(
       builder: (context, forumViewModel, child) {

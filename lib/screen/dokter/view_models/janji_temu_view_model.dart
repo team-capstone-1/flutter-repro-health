@@ -118,7 +118,7 @@ class JanjiTemuViewModel extends ChangeNotifier {
               (route) => route.isFirst,
             );
           } else {
-            Navigator.pushNamed(
+            Navigator.pushReplacementNamed(
               context,
               RoutesNavigation.paymentMethodView,
               arguments: id,

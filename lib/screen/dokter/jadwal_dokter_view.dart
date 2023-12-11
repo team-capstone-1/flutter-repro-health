@@ -207,7 +207,7 @@ class JadwalDokterViewState extends State<JadwalDokterView> {
                                       ),
                                       backgroundColor: green500,
                                       onPressed: () {
-                                        Navigator.pushNamed(
+                                        Navigator.pushReplacementNamed(
                                           context,
                                           RoutesNavigation.janjiTemuView,
                                           arguments: ArgumentDoctor(
