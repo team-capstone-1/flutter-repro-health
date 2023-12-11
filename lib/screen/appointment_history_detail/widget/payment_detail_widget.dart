@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:reprohealth_app/screen/riwayat/view_model/riwayat_view_model.dart';
+import 'package:provider/provider.dart';
+import 'package:reprohealth_app/constant/payment_method.dart';
 
 import 'package:reprohealth_app/theme/theme.dart';
-import 'package:reprohealth_app/models/riwayat_models/riwayat_models.dart';
+import 'package:reprohealth_app/screen/riwayat/view_model/riwayat_view_model.dart';
+import 'package:reprohealth_app/models/riwayat_models/history_transaction_models.dart';
 
 class PaymentDetailWidget extends StatelessWidget {
   const PaymentDetailWidget({
@@ -10,10 +12,15 @@ class PaymentDetailWidget extends StatelessWidget {
     required this.appointmentData,
   });
 
-  final Transaction appointmentData;
+  final ResponseData? appointmentData;
 
   @override
   Widget build(BuildContext context) {
+    var controller = Provider.of<RiwayatViewModel>(
+      context,
+      listen: false,
+    );
+
     return Container(
       padding: const EdgeInsets.all(16),
       color: grey10,
@@ -29,14 +36,30 @@ class PaymentDetailWidget extends StatelessWidget {
           //^ Metode Pembayaran
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                "Metode Pembayaran",
-                style: regular12Grey500,
+              Flexible(
+                child: Text(
+                  "Metode Pembayaran",
+                  style: regular12Grey500,
+                ),
               ),
-              Text(
-                appointmentData.paymentMethod ?? "-",
-                style: semiBold12Grey500,
+              Flexible(
+                child: Text(
+                  () {
+                    // jika user bayar [TRANSFER MANUAL]
+                    if (appointmentData?.consultation?.paymentMethod ==
+                        PaymentMethod.transferManual) {
+                      return "Transfer Manual";
+
+                      // jika user bayar [DIKLINIK]
+                    } else {
+                      return "Bayar Diklinik";
+                    }
+                  }(),
+                  style: semiBold12Grey500,
+                  textAlign: TextAlign.right,
+                ),
               ),
             ],
           ),
@@ -51,7 +74,10 @@ class PaymentDetailWidget extends StatelessWidget {
                 style: regular12Grey500,
               ),
               Text(
-                RiwayatViewModel.convertToIdr(appointmentData.price, 2),
+                controller.convertToIdr(
+                  appointmentData?.price,
+                  2,
+                ),
                 style: semiBold12Grey500,
               ),
             ],
@@ -67,7 +93,10 @@ class PaymentDetailWidget extends StatelessWidget {
                 style: regular12Grey500,
               ),
               Text(
-                RiwayatViewModel.convertToIdr(appointmentData.adminFee, 2),
+                controller.convertToIdr(
+                  appointmentData?.adminPrice,
+                  2,
+                ),
                 style: semiBold12Grey500,
               ),
             ],
@@ -80,14 +109,20 @@ class PaymentDetailWidget extends StatelessWidget {
             children: [
               Text(
                 "Total Harga",
-                style: regular12Grey500,
+                style: semiBold14Grey500,
               ),
               Text(
-                RiwayatViewModel.convertToIdr(appointmentData.totalBill, 2),
-                style: semiBold12Grey500,
-              ),
+                controller.convertToIdr(
+                  appointmentData?.total,
+                  2,
+                ),
+                style: semiBold14Green500,
+              )
             ],
           ),
+          const SizedBox(height: 8),
+
+          Text('*Harga yang harus dibayarkan', style: regular10Grey400),
         ],
       ),
     );

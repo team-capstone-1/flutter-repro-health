@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import 'package:reprohealth_app/constant/payment_status.dart';
+import 'package:reprohealth_app/screen/riwayat/view_model/riwayat_view_model.dart';
 
 import 'package:reprohealth_app/theme/theme.dart';
-import 'package:reprohealth_app/models/riwayat_models/riwayat_models.dart';
+import 'package:reprohealth_app/models/riwayat_models/history_transaction_models.dart';
 
 class AppointmentListItemWidget extends StatelessWidget {
   const AppointmentListItemWidget({
@@ -11,14 +15,14 @@ class AppointmentListItemWidget extends StatelessWidget {
     required this.onPressed,
   });
 
-  final Transaction appointmentData;
+  final ResponseData? appointmentData;
   final bool visibleStatusContainer;
   final Function()? onPressed;
 
   @override
   Widget build(BuildContext context) {
-    int indexDoctor = 0;
-    var doctorData = appointmentData.doctor?[indexDoctor];
+    var concultation = appointmentData?.consultation;
+    var controller = Provider.of<RiwayatViewModel>(context);
 
     return Container(
       margin: const EdgeInsets.only(bottom: 4),
@@ -32,8 +36,10 @@ class AppointmentListItemWidget extends StatelessWidget {
               //^ Foto Dokter
               ClipOval(
                 child: Image.network(
-                  doctorData?.avatar ??
-                      "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
+                  concultation?.doctor?.profileImage?.isNotEmpty == true
+                      ? concultation?.doctor?.profileImage ??
+                          controller.nullImage
+                      : controller.nullImage,
                   fit: BoxFit.cover,
                   height: 45,
                   width: 45,
@@ -45,13 +51,13 @@ class AppointmentListItemWidget extends StatelessWidget {
                 children: [
                   //^ Nama Dokter
                   Text(
-                    doctorData?.name ?? "-",
+                    concultation?.doctor?.name ?? "-",
                     style: semiBold14Grey500,
                   ),
 
                   //^ Spesialis
                   Text(
-                    doctorData?.specialist ?? "-",
+                    concultation?.doctor?.specialist ?? '-',
                     style: regular12Grey200,
                   ),
                 ],
@@ -68,7 +74,8 @@ class AppointmentListItemWidget extends StatelessWidget {
                 children: [
                   //^ Nomer Urut
                   Text(
-                    "Nomer Urut ${appointmentData.queueNumber ?? '-'}",
+                    appointmentData?.consultation?.queueNumber?.toString() ??
+                        '-',
                     style: semiBold12Green500,
                   ),
 
@@ -82,11 +89,19 @@ class AppointmentListItemWidget extends StatelessWidget {
                       ),
                       decoration: BoxDecoration(
                         color: () {
-                          if (appointmentData.paymentStatus == 'Berhasil') {
+                          // jika user sudah berhasil bayar
+                          if (appointmentData?.paymentStatus ==
+                              PaymentStatus.done) {
                             return positive25;
-                          } else if (appointmentData.paymentStatus ==
-                              'Tertunda') {
+
+                            // jika user belum bayar
+                            // dengan tipe pembayaran [TRANSFER MANUAL]
+                          } else if (appointmentData?.paymentStatus ==
+                              PaymentStatus.pending) {
                             return warning25;
+
+                            // jika user refund
+                            // dengan tipe pembayaran [TRANSFER MANUAL]
                           } else {
                             return negative25;
                           }
@@ -96,18 +111,36 @@ class AppointmentListItemWidget extends StatelessWidget {
                       alignment: Alignment.center,
                       child: Text(
                         () {
-                          if (appointmentData.paymentStatus == "Berhasil") {
-                            return "Selesai";
+                          // jika user sudah berhasil bayar
+                          if (appointmentData?.paymentStatus ==
+                              PaymentStatus.done) {
+                            return 'Selesai';
+
+                            // jika user belum bayar
+                            // dengan tipe pembayaran [TRANSFER MANUAL]
+                          } else if (appointmentData?.paymentStatus ==
+                              PaymentStatus.pending) {
+                            return 'Tertunda';
+
+                            // jika user refund
+                            // dengan tipe pembayaran [TRANSFER MANUAL]
                           } else {
-                            return appointmentData.paymentStatus ?? '-';
+                            return 'Refund';
                           }
                         }(),
                         style: () {
-                          if (appointmentData.paymentStatus == 'Berhasil') {
+                          if (appointmentData?.paymentStatus ==
+                              PaymentStatus.done) {
                             return semiBold10Positive;
-                          } else if (appointmentData.paymentStatus ==
-                              'Tertunda') {
+
+                            // jika user belum bayar
+                            // dengan tipe pembayaran [TRANSFER MANUAL]
+                          } else if (appointmentData?.paymentStatus ==
+                              PaymentStatus.pending) {
                             return semiBold10Warning;
+
+                            // jika user refund
+                            // dengan tipe pembayaran [TRANSFER MANUAL]
                           } else {
                             return semiBold10Negative;
                           }
@@ -121,22 +154,61 @@ class AppointmentListItemWidget extends StatelessWidget {
 
               //^ Klinik
               Text(
-                appointmentData.clinic ?? "-",
+                concultation?.clinic?.name ?? "-",
                 style: medium14Grey500,
               ),
               const SizedBox(height: 12),
 
               //^ Lokasi
-              Text(
-                appointmentData.location ?? "-",
-                style: medium14Grey300,
+              SizedBox(
+                width: MediaQuery.of(context).size.width / 1.1,
+                child: Text(
+                  appointmentData?.consultation?.clinic?.location ?? '-',
+                  style: medium14Grey300,
+                ),
               ),
               const SizedBox(height: 12),
 
               //^ Jadwal & Sesi
-              Text(
-                "${appointmentData.appointmentDate ?? '-'} - ${appointmentData.session ?? '-'}",
-                style: medium14Grey300,
+              RichText(
+                text: TextSpan(
+                  // text == Selasa, 5 Desember 2023
+                  text: DateFormat('EEEE, d MMMM y', 'id_ID').format(
+                    concultation?.date ?? DateTime.now(),
+                  ),
+                  style: medium14Grey300,
+                  children: [
+                    // text == -
+                    TextSpan(text: ' - ', style: medium14Grey300),
+                    // text == Pagi/Siang?Sore
+                    TextSpan(
+                      text: appointmentData?.consultation?.session?.replaceAll(
+                        appointmentData!.consultation!.session![0],
+                        appointmentData!.consultation!.session![0]
+                            .toUpperCase(),
+                      ),
+                      style: medium14Grey300,
+                    ),
+                    // text == (
+                    TextSpan(text: ' (', style: medium14Grey300),
+                    // text == 08.00-11.00
+                    TextSpan(
+                      text: () {
+                        if (appointmentData?.consultation?.session == 'pagi') {
+                          return "08.00-11.00";
+                        } else if (appointmentData?.consultation?.session ==
+                            'siang') {
+                          return "13.00-15.30";
+                        } else {
+                          return "18.30-20.30";
+                        }
+                      }(),
+                      style: medium14Green500,
+                    ),
+                    // text == )
+                    TextSpan(text: ')', style: medium14Grey300),
+                  ],
+                ),
               ),
             ],
           ),

@@ -124,10 +124,20 @@ class ForumViewModel with ChangeNotifier {
     notifyListeners();
   }
 
+  // void toggleCategory(String kategori) {
+  //   if (kategoriListMap.contains(kategori)) {
+  //     kategoriListMap.remove(kategori);
+  //   } else {
+  //     kategoriListMap.add(kategori);
+  //   }
+  //   notifyListeners();
+  // }
+
   void toggleCategory(String kategori) {
     if (kategoriListMap.contains(kategori)) {
-      kategoriListMap.remove(kategori);
+      kategoriListMap.clear();
     } else {
+      kategoriListMap.clear();
       kategoriListMap.add(kategori);
     }
     notifyListeners();

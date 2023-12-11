@@ -32,6 +32,10 @@ class RoutesNavigation {
   static const String jadwalDokterView = '/jadwal-dokter-view';
   static const String janjiTemuView = '/janji-temu-view';
 
+  // Forum
+  static const String chatBotForumView = '/chatbot-bot-forum-view';
+  static const String assistantChatForumView = '/assistant-chat-forum-view';
+
   //profil routes
   static const String profileView = '/profile';
   static const String myProfile = '/myprofile';
@@ -43,7 +47,7 @@ class RoutesNavigation {
   static const String kebijakanPrivasiView = '/kebijakan-privasi-view';
   static const String changeProfileView = '/change-profile-view';
   static const String addFamilyProfile = '/add-family-profile';
-
+  static const String notificationView = '/notification-view';
   static const String appointmentHistoryDetailView =
       '/appointment-history-detail-view';
   static const String rescedhuleView = '/rescedhule-view';
