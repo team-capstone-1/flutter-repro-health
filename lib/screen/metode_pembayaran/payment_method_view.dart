@@ -7,7 +7,6 @@ import 'package:reprohealth_app/component/text_form_component.dart';
 import 'package:reprohealth_app/constant/routes_navigation.dart';
 import 'package:reprohealth_app/screen/metode_pembayaran/component/menunggu_pembayaran.dart';
 import 'package:reprohealth_app/screen/metode_pembayaran/component/rincian_pembayaran.dart';
-import 'package:reprohealth_app/screen/metode_pembayaran/confirmation_splash_view.dart';
 import 'package:reprohealth_app/theme/theme.dart';
 
 class PaymentMethodView extends StatefulWidget {

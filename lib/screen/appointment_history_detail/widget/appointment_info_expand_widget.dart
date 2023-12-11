@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:reprohealth_app/models/riwayat_models/riwayat_models.dart';
+import 'package:intl/intl.dart';
+import 'package:reprohealth_app/models/riwayat_models/history_transaction_models.dart';
 import 'package:reprohealth_app/theme/theme.dart';
 
 class AppointmentInfoExpandWidget extends StatelessWidget {
@@ -8,12 +9,10 @@ class AppointmentInfoExpandWidget extends StatelessWidget {
     required this.appointmentData,
   });
 
-  final Transaction appointmentData;
+  final ResponseData appointmentData;
 
   @override
   Widget build(BuildContext context) {
-    int doctorIndex = 0;
-
     return Container(
       margin: const EdgeInsets.only(bottom: 4),
       color: grey10,
@@ -40,7 +39,7 @@ class AppointmentInfoExpandWidget extends StatelessWidget {
                 style: regular12Grey400,
               ),
               Text(
-                appointmentData.queueNumber.toString(),
+                appointmentData.consultation?.queueNumber.toString() ?? '-',
                 style: semiBold12Green500,
               ),
             ],
@@ -56,7 +55,7 @@ class AppointmentInfoExpandWidget extends StatelessWidget {
                 style: regular12Grey400,
               ),
               Text(
-                appointmentData.clinic ?? "-",
+                appointmentData.consultation?.clinic?.name ?? "-",
                 style: semiBold12Grey500,
               ),
             ],
@@ -72,7 +71,7 @@ class AppointmentInfoExpandWidget extends StatelessWidget {
                 style: regular12Grey400,
               ),
               Text(
-                appointmentData.location ?? "-",
+                appointmentData.consultation?.clinic?.location ?? "-",
                 style: semiBold12Grey500,
               ),
             ],
@@ -88,7 +87,7 @@ class AppointmentInfoExpandWidget extends StatelessWidget {
                 style: regular12Grey400,
               ),
               Text(
-                appointmentData.doctor?[doctorIndex].name ?? "-",
+                appointmentData.consultation?.doctor?.name ?? "-",
                 style: semiBold12Grey500,
               ),
             ],
@@ -104,7 +103,7 @@ class AppointmentInfoExpandWidget extends StatelessWidget {
                 style: regular12Grey400,
               ),
               Text(
-                appointmentData.doctor?[doctorIndex].specialist ?? "-",
+                appointmentData.consultation?.doctor?.specialist ?? "-",
                 style: semiBold12Grey500,
               ),
             ],
@@ -120,7 +119,9 @@ class AppointmentInfoExpandWidget extends StatelessWidget {
                 style: regular12Grey400,
               ),
               Text(
-                appointmentData.appointmentDate ?? "-",
+                DateFormat('EEEE, d MMMM y', 'id_ID').format(
+                  appointmentData.consultation?.date ?? DateTime.now(),
+                ),
                 style: semiBold12Grey500,
               ),
             ],
@@ -137,17 +138,23 @@ class AppointmentInfoExpandWidget extends StatelessWidget {
               ),
               RichText(
                 text: TextSpan(
-                  text: (appointmentData.session!).replaceAll(
-                    RegExp(r'[().0-9-]'),
-                    '',
+                  text: appointmentData.consultation?.session?.replaceAll(
+                    appointmentData.consultation!.session![0],
+                    appointmentData.consultation!.session![0].toUpperCase(),
                   ),
                   style: semiBold12Grey500,
                   children: [
                     TextSpan(
-                      text: (appointmentData.session!).replaceAll(
-                        RegExp(r'[a-zA-Z]'),
-                        '',
-                      ),
+                      text: () {
+                        if (appointmentData.consultation?.session == 'pagi') {
+                          return " (08.00 - 11.00)";
+                        } else if (appointmentData.consultation?.session ==
+                            'siang') {
+                          return "( 13.00-15.30)";
+                        } else {
+                          return "( 18.30-20.30)";
+                        }
+                      }(),
                       style: semiBold12Green500,
                     ),
                   ],

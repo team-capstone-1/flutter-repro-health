@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:reprohealth_app/constant/routes_navigation.dart';
@@ -10,6 +11,7 @@ import 'package:reprohealth_app/screen/article/article_view.dart';
 import 'package:reprohealth_app/screen/article/bookmark_view.dart';
 import 'package:reprohealth_app/screen/article/comment_view.dart';
 import 'package:reprohealth_app/screen/cancel_appointment_payment_at_clinic/cancel_appointment_payment_at_clinic_view.dart';
+import 'package:reprohealth_app/screen/cancel_appointment_payment_at_clinic/cancel_at_clinic_view_model/cancel_at_clinic_view_model.dart';
 import 'package:reprohealth_app/screen/choice/choice_view.dart';
 import 'package:reprohealth_app/screen/confirm_status/confirm_status_view.dart';
 import 'package:reprohealth_app/screen/dokter/detail_dokter_view.dart';
@@ -62,12 +64,15 @@ import 'package:reprohealth_app/screen/profile/view_model/image_picker_view_mode
 import 'package:reprohealth_app/screen/profile/view_model/post_family_profile_view_model.dart';
 import 'package:reprohealth_app/screen/profile/view_model/put_family_profile_view_model.dart';
 import 'package:reprohealth_app/screen/refund/refund_view.dart';
+import 'package:reprohealth_app/screen/refund/refund_view_model/refund_view_model.dart';
 import 'package:reprohealth_app/screen/refund_details/refund_details_view.dart';
 import 'package:reprohealth_app/screen/register/register_view.dart';
 import 'package:reprohealth_app/screen/register/success_register_view.dart';
 import 'package:reprohealth_app/screen/register/view_model/register_view_model.dart';
+import 'package:reprohealth_app/screen/reschedule/rescedhule_view_model/rescedhule_view_model.dart';
 import 'package:reprohealth_app/screen/reschedule/reschedule_view.dart';
 import 'package:reprohealth_app/screen/riwayat/riwayat_view.dart';
+import 'package:reprohealth_app/screen/riwayat/view_model/riwayat_view_model.dart';
 import 'package:reprohealth_app/screen/spesialis/detail_spesialis_view.dart';
 import 'package:reprohealth_app/screen/spesialis/spesialis_view.dart';
 import 'package:reprohealth_app/screen/spesialis/view_models.dart/detail_spesialis_view_model.dart';
@@ -75,8 +80,13 @@ import 'package:reprohealth_app/screen/spesialis/view_models.dart/specialist_vie
 import 'package:reprohealth_app/screen/splash/splash_view.dart';
 import 'package:reprohealth_app/screen/splash/view_model/splash_view_model.dart';
 
-void main() {
-  runApp(const MainApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await initializeDateFormatting('id_ID', null).then(
+    (_) => runApp(
+      const MainApp(),
+    ),
+  );
 }
 
 class MainApp extends StatelessWidget {
@@ -109,6 +119,9 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => MapsViewModel()),
         ChangeNotifierProvider(create: (context) => PilihSesiViewModel()),
         ChangeNotifierProvider(create: (context) => PilihTanggalViewModel()),
+        ChangeNotifierProvider(create: (context) => RescedhuleViewModel()),
+        ChangeNotifierProvider(create: (context) => RefundViewModel()),
+        ChangeNotifierProvider(create: (context) => CancelAtClinicViewModel()),
         ChangeNotifierProvider(
           create: (context) => HomeViewModels(),
         ),
@@ -169,18 +182,15 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => SplashViewModel()),
         ChangeNotifierProvider(create: (context) => HomeViewModels()),
         ChangeNotifierProvider(create: (context) => ForumViewModel()),
+        ChangeNotifierProvider(create: (context) => RiwayatViewModel()),
       ],
       child: MaterialApp(
         localizationsDelegates: [
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
         ],
-        supportedLocales: [
-          const Locale('en'),
-          const Locale('id')
-        ],
+        supportedLocales: [const Locale('en'), const Locale('id')],
         debugShowCheckedModeBanner: false,
         title: 'ReproHealth+',
         initialRoute: RoutesNavigation.splashView,
@@ -246,7 +256,8 @@ class MainApp extends StatelessWidget {
           RoutesNavigation.addFamilyProfile: (context) =>
               const AddFamilyProfile(),
 
-          RoutesNavigation.notificationView: (context) => const NotificationView(),
+          RoutesNavigation.notificationView: (context) =>
+              const NotificationView(),
 
           // riwayat transaksi
           RoutesNavigation.appointmentHistoryDetailView: (context) =>
