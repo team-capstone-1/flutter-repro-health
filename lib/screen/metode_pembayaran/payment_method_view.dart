@@ -1,10 +1,12 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 import 'package:reprohealth_app/component/button_component.dart';
 import 'package:reprohealth_app/component/text_form_component.dart';
 import 'package:reprohealth_app/constant/routes_navigation.dart';
 import 'package:reprohealth_app/models/payment_method_models/payment_method_models.dart';
+import 'package:reprohealth_app/screen/dokter/view_models/janji_temu_view_model.dart';
 import 'package:reprohealth_app/screen/metode_pembayaran/component/menunggu_pembayaran.dart';
 import 'package:reprohealth_app/screen/metode_pembayaran/component/rincian_pembayaran.dart';
 import 'package:reprohealth_app/theme/theme.dart';
@@ -120,18 +122,27 @@ class _PaymentMethodState extends State<PaymentMethodView> {
         selectedBank.isNotEmpty;
   }
 
-  _onButtonPressed() async{
+  _onButtonPressed() async {
     try {
-      PaymentMethod paymentMethod  = PaymentMethod(
+      PaymentMethod paymentMethod = PaymentMethod(
         method: 'manual_transfer',
         name: nameController.text,
         accountNumber: rekeningCont.text,
         image: _pickedImage != null ? _pickedImage!.path : '',
       );
-      Map<String, dynamic> createPayment = await _paymentService.createPayment('paymentId', paymentMethod);
-      print('Payment successful');
-      Navigator.pushNamed(context, RoutesNavigation.confirmSplashView);
-    } catch(e){
+
+      String? transactionId =
+          Provider.of<JanjiTemuViewModel>(context, listen: false).transactionId;
+
+      if (transactionId != null) {
+        Map<String, dynamic> createPayment =
+            await _paymentService.createPayment(transactionId, paymentMethod);
+        print('Payment successful');
+        Navigator.pushNamed(context, RoutesNavigation.confirmSplashView);
+      } else {
+        print('Transaction ID is null');
+      }
+    } catch (e) {
       print(e);
     }
   }

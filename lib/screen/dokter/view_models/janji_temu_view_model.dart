@@ -19,6 +19,14 @@ class JanjiTemuViewModel extends ChangeNotifier {
   String? _id;
   String? get id => _id;
 
+  String? _transactionId;
+  String? get transactionId => _transactionId;
+
+  void saveTransactionId(String id) {
+    _transactionId = id;
+    notifyListeners();
+  }
+
   List<String> listPaymentMethod = [
     "clinic_payment",
     "manual_transfer",
@@ -51,7 +59,6 @@ class JanjiTemuViewModel extends ChangeNotifier {
     notifyListeners();
     _selectedSession = newSession;
   }
-
 
   // PILIH TANGGAL
   DateTime _currentDate = DateTime.now();
@@ -111,6 +118,8 @@ class JanjiTemuViewModel extends ChangeNotifier {
 
       if (context.mounted) {
         if (id.isNotEmpty == true) {
+          saveTransactionId(id);
+
           if (_selectedPayment == "clinic_payment") {
             Navigator.pushNamedAndRemoveUntil(
               context,
@@ -121,7 +130,7 @@ class JanjiTemuViewModel extends ChangeNotifier {
             Navigator.pushReplacementNamed(
               context,
               RoutesNavigation.paymentMethodView,
-              arguments: id,
+              arguments: transactionId,
             );
           }
         }
