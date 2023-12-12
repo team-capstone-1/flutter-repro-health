@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:reprohealth_app/component/button_component.dart';
@@ -120,19 +121,29 @@ class _PaymentMethodState extends State<PaymentMethodView> {
         selectedBank.isNotEmpty;
   }
 
-  _onButtonPressed() async{
+  _onButtonPressed() async {
     try {
-      PaymentMethod paymentMethod  = PaymentMethod(
+      PaymentMethod paymentMethod = PaymentMethod(
         method: 'manual_transfer',
         name: nameController.text,
         accountNumber: rekeningCont.text,
         image: _pickedImage != null ? _pickedImage!.path : '',
       );
-      Map<String, dynamic> createPayment = await _paymentService.createPayment('paymentId', paymentMethod);
-      print('Payment successful');
-      Navigator.pushNamed(context, RoutesNavigation.confirmSplashView);
-    } catch(e){
-      print(e);
+      Map<String, dynamic> createPayment =
+          await _paymentService.createPayment('paymentId', paymentMethod);
+      if (kDebugMode) {
+        print('Payment successful');
+      }
+      if (context.mounted) {
+        Navigator.pushNamed(
+          context,
+          RoutesNavigation.confirmSplashView,
+        );
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
     }
   }
 

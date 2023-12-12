@@ -3,9 +3,7 @@ import 'package:reprohealth_app/constant/assets_constants.dart';
 import 'package:reprohealth_app/theme/theme.dart';
 
 class RincianPembayaran extends StatelessWidget {
-  const RincianPembayaran({
-    super.key,
-  });
+  const RincianPembayaran({super.key});
 
   @override
   Widget build(BuildContext context) {

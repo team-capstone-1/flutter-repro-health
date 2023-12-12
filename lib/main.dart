@@ -150,44 +150,21 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => MapsViewModel()),
         ChangeNotifierProvider(create: (context) => FilePickerViewModel()),
         ChangeNotifierProvider(
-          create: (context) => PostFamilyProfileViewModel(),
-        ),
+            create: (context) => PostFamilyProfileViewModel()),
         ChangeNotifierProvider(
-          create: (context) => PutFamilyProfileViewModel(),
-        ),
+            create: (context) => PutFamilyProfileViewModel()),
         ChangeNotifierProvider(
-          create: (context) => DeleteProfileFamilyViewModel(),
-        ),
-        ChangeNotifierProvider(
-          create: (context) => HomeViewModels(),
-        ),
-        ChangeNotifierProvider(
-          create: (context) => AppoinmentViewModel(),
-        ),
-        ChangeNotifierProvider(
-          create: (context) => SpecialistViewModels(),
-        ),
-        ChangeNotifierProvider(
-          create: (context) => DetailSpesialisViewModel(),
-        ),
-        ChangeNotifierProvider(
-          create: (context) => SearchKlinikViewModel(),
-        ),
-        ChangeNotifierProvider(
-          create: (context) => ClinicsViewModel(),
-        ),
-        ChangeNotifierProvider(
-          create: (context) => MapsViewModel(),
-        ),
-        ChangeNotifierProvider(
-          create: (context) => ImagePickerViewModel(),
-        ),
-        ChangeNotifierProvider(
-          create: (context) => ChangeGenderViewModel(),
-        ),
-        ChangeNotifierProvider(
-          create: (context) => GetNotificationViewModel(),
-        ),
+            create: (context) => DeleteProfileFamilyViewModel()),
+        ChangeNotifierProvider(create: (context) => HomeViewModels()),
+        ChangeNotifierProvider(create: (context) => AppoinmentViewModel()),
+        ChangeNotifierProvider(create: (context) => SpecialistViewModels()),
+        ChangeNotifierProvider(create: (context) => DetailSpesialisViewModel()),
+        ChangeNotifierProvider(create: (context) => SearchKlinikViewModel()),
+        ChangeNotifierProvider(create: (context) => ClinicsViewModel()),
+        ChangeNotifierProvider(create: (context) => MapsViewModel()),
+        ChangeNotifierProvider(create: (context) => ImagePickerViewModel()),
+        ChangeNotifierProvider(create: (context) => ChangeGenderViewModel()),
+        ChangeNotifierProvider(create: (context) => GetNotificationViewModel()),
         ChangeNotifierProvider(create: (context) => SplashViewModel()),
         ChangeNotifierProvider(create: (context) => HomeViewModels()),
         ChangeNotifierProvider(create: (context) => ForumViewModel()),
@@ -196,12 +173,12 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => RiwayatViewModel()),
       ],
       child: MaterialApp(
-        localizationsDelegates: [
+        localizationsDelegates: const [
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
         ],
-        supportedLocales: [const Locale('en'), const Locale('id')],
+        supportedLocales: const [Locale('en'), Locale('id')],
         debugShowCheckedModeBanner: false,
         title: 'ReproHealth+',
         initialRoute: RoutesNavigation.splashView,

@@ -30,7 +30,7 @@ class AppointmentServices {
     String apiGetConsultasion = "https://dev.reprohealth.my.id/consultations";
     try {
       String token = await SharedPreferencesUtils().getToken();
-      String formattedDateTime = DateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").format(date);
+      String formattedDateTime = DateFormat('yyyy-MM-dd').format(date);
       var response = await Dio().post(
         apiGetConsultasion,
         data: {
