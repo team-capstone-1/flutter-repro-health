@@ -190,12 +190,17 @@ class AppointmentHistoryDetailsView extends StatelessWidget {
           // jika user belum bayar
           // dengan tipe pembayaran [TRANSFER MANUAL]
           if (appointmentData?.paymentStatus == PaymentStatus.pending) {
-            if (kDebugMode) {
-              print('Anda belum membayar tagihan');
-              print('BAYAR');
-              print('Pembayaran transfer manual');
-              print('route kehalaman -> pembayaran');
-            }
+            Navigator.pushNamed(
+              context,
+              RoutesNavigation.paymentMethodView,
+              arguments: appointmentData?.id,
+            );
+            // if (kDebugMode) {
+            //   // print('Anda belum membayar tagihan');
+            //   // print('BAYAR');
+            //   // print('Pembayaran transfer manual');
+            //   // print('route kehalaman -> pembayaran');
+            // }
 
             // jika user refund
           } else if (appointmentData?.paymentStatus == PaymentStatus.refund) {
