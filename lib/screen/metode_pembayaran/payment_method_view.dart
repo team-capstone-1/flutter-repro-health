@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -5,7 +6,9 @@ import 'package:image_picker/image_picker.dart';
 import 'package:reprohealth_app/component/button_component.dart';
 import 'package:reprohealth_app/component/text_form_component.dart';
 import 'package:reprohealth_app/constant/routes_navigation.dart';
+import 'package:reprohealth_app/models/appointment_models/appointment_models.dart';
 import 'package:reprohealth_app/models/payment_method_models/payment_method_models.dart';
+import 'package:reprohealth_app/screen/dokter/view_models/janji_temu_view_model.dart';
 import 'package:reprohealth_app/screen/metode_pembayaran/component/menunggu_pembayaran.dart';
 import 'package:reprohealth_app/screen/metode_pembayaran/component/rincian_pembayaran.dart';
 import 'package:reprohealth_app/theme/theme.dart';
@@ -25,6 +28,9 @@ class _PaymentMethodState extends State<PaymentMethodView> {
   TextEditingController rekeningCont = TextEditingController();
   String selectedBank = '';
   final CreatePaymentService _paymentService = CreatePaymentService();
+  late JanjiTemuViewModel viewModel;
+  late Duration _countdownTimer;
+  late DateTime _endTime;
 
   final List<String> banks = [
     'BCA',
@@ -122,6 +128,8 @@ class _PaymentMethodState extends State<PaymentMethodView> {
   }
 
   _onButtonPressed() async {
+    String paymentId =
+        viewModel.appointmentList?.response?.first.payment?.first.id ?? '0';
     try {
       PaymentMethod paymentMethod = PaymentMethod(
         method: 'manual_transfer',
@@ -130,21 +138,30 @@ class _PaymentMethodState extends State<PaymentMethodView> {
         image: _pickedImage != null ? _pickedImage!.path : '',
       );
       Map<String, dynamic> createPayment =
-          await _paymentService.createPayment('paymentId', paymentMethod);
-      if (kDebugMode) {
-        print('Payment successful');
-      }
-      if (context.mounted) {
-        Navigator.pushNamed(
-          context,
-          RoutesNavigation.confirmSplashView,
-        );
-      }
+          await _paymentService.createPayment(paymentId, paymentMethod);
+      print('Payment successful');
+      Navigator.pushNamed(context, RoutesNavigation.confirmSplashView);
     } catch (e) {
-      if (kDebugMode) {
-        print(e);
-      }
+      print(e);
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    _endTime = DateTime.now().add(Duration(hours: 24));
+    _updateCountdown();
+
+    Timer.periodic(Duration(seconds: 1), (timer) {
+      _updateCountdown();
+    });
+  }
+
+  void _updateCountdown() {
+    setState(() {
+      _countdownTimer = _endTime.difference(DateTime.now());
+    });
   }
 
   @override
@@ -163,11 +180,29 @@ class _PaymentMethodState extends State<PaymentMethodView> {
           children: [
             Column(
               children: [
-                const MenungguPembayaran(),
+                MenungguPembayaran(
+                  hours: _countdownTimer.inHours.toString().padLeft(2, '0'),
+                  minutes: (_countdownTimer.inMinutes % 60)
+                      .toString()
+                      .padLeft(2, '0'),
+                  seconds: (_countdownTimer.inSeconds % 60)
+                      .toString()
+                      .padLeft(2, '0'),
+                ),
                 const SizedBox(
                   height: 4,
                 ),
-                const RincianPembayaran(),
+                RincianPembayaran(
+                  method: viewModel.appointmentList?.response?.first.payment
+                          ?.first.method ??
+                      'Unknown', //replace with the method
+                  total: viewModel.appointmentList?.response?.first.total ??
+                      0, //replace with total
+                  adminPrice:
+                      viewModel.appointmentList?.response?.first.adminPrice ??
+                          0,
+                  price: viewModel.appointmentList?.response?.first.price ?? 0,
+                ),
                 const SizedBox(
                   height: 4,
                 ),

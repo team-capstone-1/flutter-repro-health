@@ -2,7 +2,6 @@ import 'package:dio/dio.dart';
 import 'package:reprohealth_app/models/article_models.dart';
 import 'package:reprohealth_app/models/doctor_models/doctor_models.dart';
 import 'package:reprohealth_app/models/profile_models.dart';
-import 'package:reprohealth_app/services/profile_service/profile_service.dart';
 import 'package:reprohealth_app/utils/shared_preferences_utils.dart';
 
 class ArticleServices {

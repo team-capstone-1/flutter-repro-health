@@ -7,7 +7,6 @@ import 'package:reprohealth_app/models/notification_models.dart';
 import 'package:reprohealth_app/screen/notification/view_model/get_notification_view_model.dart';
 import 'package:reprohealth_app/screen/notification/widget/leading_icon_widget.dart';
 import 'package:reprohealth_app/screen/profile/view_model/get_family_profile_view_model.dart';
-import 'package:reprohealth_app/screen/riwayat/widget/chip_appointment_length_widget.dart';
 import 'package:reprohealth_app/theme/theme.dart';
 
 class NotificationView extends StatefulWidget {
