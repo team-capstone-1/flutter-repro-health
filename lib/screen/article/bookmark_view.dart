@@ -1,35 +1,45 @@
 import 'package:flutter/material.dart';
+import 'package:reprohealth_app/component/button_component.dart';
 import 'package:reprohealth_app/models/article_models.dart';
 import 'package:reprohealth_app/screen/article/widgets/article_card.dart';
+import 'package:reprohealth_app/services/article_services/article_services.dart';
 import 'package:reprohealth_app/theme/theme.dart';
 
 class BookmarkView extends StatefulWidget {
-  const BookmarkView({super.key});
+  const BookmarkView({Key? key});
 
   @override
-  State<BookmarkView> createState() => _BookmarkViewState();
+  _BookmarkViewState createState() => _BookmarkViewState();
 }
 
 class _BookmarkViewState extends State<BookmarkView> {
   bool isDeleting = false;
   List<bool> selectedItem = [];
+
+  void updateSelectedItem(int index, bool value) {
+    setState(() {
+      selectedItem[index] = value;
+    });
+  }
+
+  Future<void> deleteSelectedBookmarks(List<bool> selectedItems) async {
+    List<int> selectedIndices = [];
+    for (int i = 0; i < selectedItems.length; i++) {
+      if (selectedItems[i]) {
+        selectedIndices.add(i);
+      }
+    }
+
+    for (int index in selectedIndices) {
+      ArticleModels article = bookmarkedItem[index];
+      await ArticleServices().deleteBookmark(article.id!);
+    }
+  }
+
+  List<ArticleModels> bookmarkedItem = [];
+
   @override
   Widget build(BuildContext context) {
-    List<ArticleModels> bookmarkedItem =
-        ModalRoute.of(context)?.settings.arguments as List<ArticleModels>;
-    if (selectedItem.length != bookmarkedItem.length) {
-      selectedItem =
-          List<bool>.generate(bookmarkedItem.length, (index) => false);
-    }
-    IconButton deleteIconButton = IconButton(
-      onPressed: () {
-        setState(() {
-          isDeleting = !isDeleting;
-        });
-        if (isDeleting) {}
-      },
-      icon: Icon(Icons.delete, color: negative),
-    );
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -39,31 +49,149 @@ class _BookmarkViewState extends State<BookmarkView> {
           icon: Icon(Icons.arrow_back, color: secondary),
         ),
         title: Text('Bookmark', style: semiBold16Black),
-        actions: [deleteIconButton],
+        actions: [
+          Builder(
+            builder: (context) => IconButton(
+              onPressed: () {
+                setState(() {
+                  isDeleting = !isDeleting;
+                });
+                if (isDeleting) {
+                  showBottomSheet(
+                    context: context,
+                    builder: (context) {
+                      return StatefulBuilder(
+                        builder: (BuildContext context, StateSetter setState) {
+                          return BottomSheetContent(
+                            selectedItem: selectedItem,
+                            setState: setState,
+                            onDelete: () async {
+                              try {
+                                await deleteSelectedBookmarks(selectedItem);
+                                setState(() {
+                                  // Update your local state or UI as needed
+                                });
+                                Navigator.pop(context);
+                              } catch (e) {
+                                print('Failed to delete bookmarks: $e');
+                                // Handle errors as needed
+                              }
+                            },
+                          );
+                        },
+                      );
+                    },
+                  );
+                } else {
+                  Navigator.of(context).pop();
+                }
+              },
+              icon: Icon(Icons.delete, color: negative),
+            ),
+          )
+        ],
         backgroundColor: grey10,
         elevation: 0,
       ),
-      body: ListView.builder(
-        itemCount: bookmarkedItem.length,
-        itemBuilder: (context, index) {
-          return ArticleCard(
-            image: bookmarkedItem[index].image,
-            title: bookmarkedItem[index].title,
-            doctorImage: bookmarkedItem[index].image,
-            doctorName: bookmarkedItem[index].title,
-            date: bookmarkedItem[index].date,
-            showIcon: isDeleting,
-            onPressedIcon: () {
-              setState(() {
-                selectedItem[index] = !selectedItem[index];
-              });
-            },
-            isSelected: selectedItem[index],
-            selectedIcon: Icon(Icons.check_box, color: green600),
-            unselectedIcon:
-                Icon(Icons.check_box_outline_blank, color: green600),
-          );
+      body: FutureBuilder<List<ArticleModels>>(
+        future: ArticleServices().getBookmarkedArticles(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else {
+            bookmarkedItem = snapshot.data!;
+            if (selectedItem.length != bookmarkedItem.length) {
+              selectedItem =
+                  List<bool>.generate(bookmarkedItem.length, (index) => false);
+            }
+
+            return ListView.builder(
+              itemCount: bookmarkedItem.length,
+              itemBuilder: (context, index) {
+                ArticleModels article = bookmarkedItem[index];
+
+                return Padding(
+                  padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
+                  child: ArticleCard(
+                    image: article.image,
+                    title: article.title,
+                    doctorImage: article.doctor?.profileImage ?? '',
+                    doctorName: article.doctor?.name ?? '',
+                    date: article.date,
+                    showIcon: isDeleting,
+                    onPressedIcon: () {
+                      setState(() {
+                        updateSelectedItem(index, !selectedItem[index]);
+                      });
+                    },
+                    isSelected: selectedItem[index],
+                    selectedIcon: Icon(Icons.check_box, color: green600),
+                    unselectedIcon:
+                        Icon(Icons.check_box_outline_blank, color: green600),
+                  ),
+                );
+              },
+            );
+          }
         },
+      ),
+    );
+  }
+}
+
+class BottomSheetContent extends StatefulWidget {
+  final List<bool> selectedItem;
+  final StateSetter setState;
+  final VoidCallback onDelete;
+
+  const BottomSheetContent({
+    Key? key,
+    required this.selectedItem,
+    required this.setState,
+    required this.onDelete,
+  }) : super(key: key);
+
+  @override
+  _BottomSheetContentState createState() => _BottomSheetContentState();
+}
+
+class _BottomSheetContentState extends State<BottomSheetContent> {
+  @override
+  Widget build(BuildContext context) {
+    List<int> selectedIndex = [];
+    for (int i = 0; i < widget.selectedItem.length; i++) {
+      if (widget.selectedItem[i]) {
+        selectedIndex.add(i);
+      }
+    }
+
+    return Container(
+      height: 174,
+      width: MediaQuery.of(context).size.width,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: Column(
+          children: [
+            selectedIndex.isEmpty
+                ? Text('Tidak ada artikel')
+                : Text('${selectedIndex.length} Artikel dipilih'),
+            const SizedBox(
+              height: 8,
+            ),
+            ButtonComponent(
+              labelText: Center(
+                child: Text(
+                  'Hapus',
+                  style: semiBold12Grey10,
+                ),
+              ),
+              backgroundColor: selectedIndex.isEmpty ? grey200 : negative,
+              onPressed: selectedIndex.isEmpty ? () {} : widget.onDelete,
+            ),
+          ],
+        ),
       ),
     );
   }

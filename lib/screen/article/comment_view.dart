@@ -7,8 +7,8 @@ class CommentView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ArticleModels article =
-        ModalRoute.of(context)!.settings.arguments as ArticleModels;
+    final List<CommentModel> comments =
+        ModalRoute.of(context)?.settings.arguments as List<CommentModel>;
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -60,59 +60,6 @@ class CommentView extends StatelessWidget {
             const SizedBox(
               height: 24,
             ),
-            // Expanded(
-            //   child: ListView.builder(
-            //     itemCount: article.comments?.length ?? 0,
-            //     itemBuilder: (context, index) {
-            //       return Padding(
-            //         padding: const EdgeInsets.only(bottom: 12),
-            //         child: Row(
-            //           children: [
-            //             ClipRRect(
-            //               borderRadius: BorderRadius.circular(100),
-            //               // child: Image.network(
-            //               //   article.comments![index].patientDetails
-            //               //           ?.profileImage ??
-            //               //       '',
-            //               //   width: 40,
-            //               //   height: 40,
-            //               //   fit: BoxFit.cover,
-            //               // ),
-            //             ),
-            //             const SizedBox(width: 8),
-            //             Column(
-            //               crossAxisAlignment: CrossAxisAlignment.start,
-            //               children: [
-            //                 Row(
-            //                   children: [
-            //                     // Text(
-            //                     //   article.comments![index].patientDetails
-            //                     //           ?.name ??
-            //                     //       '',
-            //                     //   style: medium12Black,
-            //                     // ),
-            //                     const SizedBox(width: 8),
-            //                     Text(
-            //                       // You need to format the date as needed
-            //                       // article.comments![index].date.toString(),
-            //                       'Timestamp',
-            //                       style: regular8Black,
-            //                     ),
-            //                   ],
-            //                 ),
-            //                 const SizedBox(height: 4),
-            //                 Text(
-            //                   article.comments![index].comment,
-            //                   style: regular10Black,
-            //                 )
-            //               ],
-            //             )
-            //           ],
-            //         ),
-            //       );
-            //     },
-            //   ),
-            // )
           ],
         ),
       ),
