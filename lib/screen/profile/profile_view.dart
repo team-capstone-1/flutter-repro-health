@@ -145,30 +145,38 @@ class ProfileView extends StatelessWidget {
                   textStyle: semiBold12Black500,
                   icon: Icons.logout,
                   onTap: () {
-                    showModalBottomSheet(
-                        context: context,
-                        builder: (context) {
-                          return Container(
-                            height: 212,
-                            padding: const EdgeInsets.all(16),
-                            child: Column(
-                              children: [
-                                Text(
-                                  'Keluar dari Akun ReproHealth? ',
-                                  style: semiBold14Grey500,
-                                  textAlign: TextAlign.center,
-                                ),
-                                const SizedBox(height: 16),
-                                Text(
-                                  "Jika kamu ingin menggunakan layanan ReproHealth, \nkamu perlu masuk ke akunmu kembali. ",
-                                  style: regular12Grey500,
-                                  textAlign: TextAlign.center,
-                                ),
-                                const SizedBox(height: 16),
-                                SizedBox(
-                                  width: double.infinity,
-                                  height: 40,
-                                  child: ButtonWidget(
+                    showDialog<void>(
+                      context: context,
+                      builder: (BuildContext context) => Dialog(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Container(
+                          width: 319,
+                          height: 191,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Keluar dari Akun ReproHealth? ',
+                                style: semiBold14Grey500,
+                                textAlign: TextAlign.center,
+                              ),
+                              SizedBox(height: 8,),
+                              Text(
+                                "Jika anda ingin menggunakan \nlayanan ReproHealth, \nAnda perlu masuk ke akunmu kembali. ",
+                                style: regular12Grey300,
+                                textAlign: TextAlign.center,
+                              ),
+                              SizedBox(height: 24,),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SizedBox(
+                                    width: 123.5,
+                                    height: 36,
+                                    child: ButtonWidget(
                                       title: "Ya, Keluar",
                                       onPressed: () async {
                                         await SharedPreferencesUtils()
@@ -180,28 +188,33 @@ class ProfileView extends StatelessWidget {
                                         );
                                       },
                                       color: negative),
-                                ),
-                                const SizedBox(height: 8),
-                                SizedBox(
-                                  width: double.infinity,
-                                  height: 40,
-                                  child: ButtonWidget(
-                                      title: "Batal",
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                      color: green500),
-                                ),
-                              ],
-                            ),
-                          );
-                        });
-                  },
-                ),
-              ],
+                                  ),
+                                  SizedBox(width: 8,),
+                                  SizedBox(
+                                    width: 123.5,
+                                    height: 36,
+                                      child: ButtonWidget(
+                                        title: "Batal",
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        color: green500
+                                      ),
+                                    ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
+                  }
+                )
+              ]
             );
-          }
-        )
+          },
+        ),
       );
+    }
   }
-}
+

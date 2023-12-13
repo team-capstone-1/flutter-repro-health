@@ -22,4 +22,5 @@ class GetNotificationViewModel extends ChangeNotifier {
       (e);
     }
   }
+  
 }
