@@ -131,11 +131,15 @@ class _DetailForgotPasswordViewState extends State<DetailForgotPasswordView> {
                     ),
                     const SizedBox(height: 72),
                     ButtonComponent(
-                      labelText: Text(
-                        "Kirim",
-                        style: semiBold12Primary,
-                        textAlign: TextAlign.center,
-                      ),
+                      labelText: detailForgotPasswordViewModel.isLoading == true
+                          ? const Center(
+                              child: CircularProgressIndicator(),
+                            )
+                          : Text(
+                              "Kirim",
+                              style: semiBold12Primary,
+                              textAlign: TextAlign.center,
+                            ),
                       backgroundColor: green500,
                       onPressed: () {
                         if (formKey.currentState!.validate()) {

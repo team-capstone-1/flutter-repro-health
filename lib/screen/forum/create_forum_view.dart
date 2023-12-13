@@ -17,7 +17,8 @@ class CreateForumView extends StatefulWidget {
 class _CreateForumViewState extends State<CreateForumView> {
   @override
   void initState() {
-    Provider.of<ForumViewModel>(context, listen: false).getProfile(context: context);
+    Provider.of<ForumViewModel>(context, listen: false)
+        .getProfile(context: context);
     Provider.of<CreateForumViewModel>(context, listen: false).initController();
     super.initState();
   }
@@ -99,7 +100,9 @@ class _CreateForumViewState extends State<CreateForumView> {
       body: Provider.of<ForumViewModel>(context, listen: false)
                   .profileList
                   ?.response
-                  ?.first.id?.isNotEmpty ==
+                  ?.first
+                  .id
+                  ?.isNotEmpty ==
               true
           ? Form(
               key: formKey,
@@ -187,11 +190,16 @@ class _CreateForumViewState extends State<CreateForumView> {
                           Consumer<CreateForumViewModel>(
                             builder: (context, createForumViewModel, child) {
                               return ButtonComponent(
-                                labelText: Text(
-                                  "Kirim",
-                                  style: semiBold12Grey10,
-                                  textAlign: TextAlign.center,
-                                ),
+                                labelText:
+                                    createForumViewModel.isLoading == true
+                                        ? const Center(
+                                            child: CircularProgressIndicator(),
+                                          )
+                                        : Text(
+                                            "Kirim",
+                                            style: semiBold12Grey10,
+                                            textAlign: TextAlign.center,
+                                          ),
                                 backgroundColor:
                                     createForumViewModel.buttonColor,
                                 onPressed: () {

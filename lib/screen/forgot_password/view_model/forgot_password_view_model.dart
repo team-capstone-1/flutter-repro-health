@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:reprohealth_app/component/button_component.dart';
 import 'package:reprohealth_app/constant/assets_constants.dart';
@@ -8,6 +9,9 @@ import 'package:reprohealth_app/theme/theme.dart';
 class ForgotPasswordViewModel extends ChangeNotifier {
   final TextEditingController _emailController = TextEditingController();
   TextEditingController get emailController => _emailController;
+
+  bool _isLoading = false;
+  bool get isLoading => _isLoading;
 
   bool validateEmail(String email) {
     final emailPattern = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9^`{|}~]+@gmail\.com$");
@@ -24,6 +28,8 @@ class ForgotPasswordViewModel extends ChangeNotifier {
   }
 
   Future<void> sendEmail({required BuildContext context}) async {
+    _isLoading = true;
+    notifyListeners();
     try {
       await ChangePasswordServices().postEmail(email: _emailController.text);
       if (context.mounted) {
@@ -73,7 +79,12 @@ class ForgotPasswordViewModel extends ChangeNotifier {
           },
         );
       }
-      print("Ini errornya: $e");
+      if (kDebugMode) {
+        print("Ini errornya: $e");
+      }
+    } finally {
+      _isLoading = false;
+      notifyListeners();
     }
   }
 }
