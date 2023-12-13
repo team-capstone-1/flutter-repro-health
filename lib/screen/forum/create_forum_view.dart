@@ -17,7 +17,8 @@ class CreateForumView extends StatefulWidget {
 class _CreateForumViewState extends State<CreateForumView> {
   @override
   void initState() {
-    Provider.of<ForumViewModel>(context, listen: false).getProfile(context: context);
+    Provider.of<ForumViewModel>(context, listen: false)
+        .getProfile(context: context);
     Provider.of<CreateForumViewModel>(context, listen: false).initController();
     super.initState();
   }
@@ -99,7 +100,9 @@ class _CreateForumViewState extends State<CreateForumView> {
       body: Provider.of<ForumViewModel>(context, listen: false)
                   .profileList
                   ?.response
-                  ?.first.id?.isNotEmpty ==
+                  ?.first
+                  .id
+                  ?.isNotEmpty ==
               true
           ? Form(
               key: formKey,

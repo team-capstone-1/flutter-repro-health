@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:reprohealth_app/component/button_component.dart';
 import 'package:reprohealth_app/constant/routes_navigation.dart';
-import 'package:reprohealth_app/screen/forum/widget/container_chat_bot_widget.dart';
+import 'package:reprohealth_app/screen/forum/view_model/chatbot_history_view_model.dart';
 import 'package:reprohealth_app/theme/theme.dart';
 
 class ChatBotForumView extends StatelessWidget {
@@ -9,6 +10,8 @@ class ChatBotForumView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Provider.of<ChatbotHistoryViewModel>(context, listen: false)
+        .getHistoryChatbot();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: grey10,
@@ -24,62 +27,51 @@ class ChatBotForumView extends StatelessWidget {
       ),
       body: Column(
         children: [
-          Expanded(
-            child: ListView(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 16,
-              ),
-              children: [
-                const SizedBox(
-                  height: 24,
-                ),
-                Container(
-                  height: 150,
-                  width: 328,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(16),
-                    color: Colors.black,
-                  ),
-                  child: Image.asset(
-                    'assets/chatbot_logo.png',
-                    height: 105,
-                    width: 264,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                const SizedBox(
-                  height: 40,
-                ),
-                // Text(
-                //   'Riwayat Chat',
-                //   style: semiBold16Grey900,
-                // ),
-                const SizedBox(
-                  height: 24,
-                ),
-                const ContainerChatBotWidget(
-                  text:
-                      'Apakah penyakit dari seseorang yang memiliki gejala seperti bercak putih di mulut, ruam, dan flu ringan?',
-                ),
-                const ContainerChatBotWidget(
-                  text:
-                      'Apakah penyakit dari seseorang yang memiliki gejala seperti bercak putih di mulut, ruam, dan flu ringan?',
-                ),
-                const ContainerChatBotWidget(
-                  text:
-                      'Apakah penyakit dari seseorang yang memiliki gejala seperti bercak putih di mulut, ruam, dan flu ringan?',
-                ),
-                const ContainerChatBotWidget(
-                  text:
-                      'Apakah penyakit dari seseorang yang memiliki gejala seperti bercak putih di mulut, ruam, dan flu ringan?',
-                ),
-                const ContainerChatBotWidget(
-                  text:
-                      'Apakah penyakit dari seseorang yang memiliki gejala seperti bercak putih di mulut, ruam, dan flu ringan?',
-                ),
-              ],
+          const SizedBox(
+            height: 24,
+          ),
+          Container(
+            height: 150,
+            width: 328,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(16),
+              color: Colors.black,
+            ),
+            child: Image.asset(
+              'assets/chatbot_logo.png',
+              height: 105,
+              width: 264,
+              fit: BoxFit.cover,
             ),
           ),
+          Consumer<ChatbotHistoryViewModel>(builder: (context, history, child) {
+            return Expanded(
+              child: ListView.builder(
+                itemCount: history.chatbotHistoryViewModel?.response?.length,
+                itemBuilder: (context, index) {
+                  var historyData =
+                      history.chatbotHistoryViewModel?.response?[index];
+                  return Container(
+                    padding: const EdgeInsets.all(16),
+                    margin: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: grey400,
+                        width: 1,
+                      ),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Text(
+                      historyData?.data?.pesan?.first.pesan ?? '',
+                      style: regular14Grey400,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  );
+                },
+              ),
+            );
+          }),
           Padding(
             padding: const EdgeInsets.all(16),
             child: ButtonComponent(
