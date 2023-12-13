@@ -32,7 +32,7 @@ class ChatBotForumView extends StatelessWidget {
           ),
           Container(
             height: 150,
-            width: 328,
+            width: 355,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(16),
               color: Colors.black,
@@ -43,6 +43,24 @@ class ChatBotForumView extends StatelessWidget {
               width: 264,
               fit: BoxFit.cover,
             ),
+          ),
+          const SizedBox(
+            height: 40,
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16,
+            ),
+            child: Align(
+              alignment: Alignment.bottomLeft,
+              child: Text(
+                'Riwayat Chat',
+                style: semiBold16Grey900,
+              ),
+            ),
+          ),
+          const SizedBox(
+            height: 24,
           ),
           Consumer<ChatbotHistoryViewModel>(builder: (context, history, child) {
             return Expanded(

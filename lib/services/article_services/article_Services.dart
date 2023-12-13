@@ -47,7 +47,7 @@ class ArticleServices {
       } else {
         throw Exception('Failed to load articles: ${response.statusCode}');
       }
-    } catch (e) {
+    } on DioException catch (e) {
       throw Exception('Failed to load articles: $e');
     }
   }

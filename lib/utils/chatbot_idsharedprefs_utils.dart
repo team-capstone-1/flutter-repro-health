@@ -1,6 +1,6 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-const String keyUserId = "token";
+const String keyUserId = "userId";
 
 class ChatbotIdSharedprefs {
   Future<void> addUserId(String userId) async {
