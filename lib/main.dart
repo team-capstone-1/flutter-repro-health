@@ -48,6 +48,7 @@ import 'package:reprohealth_app/screen/maps/maps_view.dart';
 import 'package:reprohealth_app/screen/maps/maps_view_models/maps_view_model.dart';
 import 'package:reprohealth_app/screen/metode_pembayaran/confirmation_splash_view.dart';
 import 'package:reprohealth_app/screen/metode_pembayaran/payment_method_view.dart';
+import 'package:reprohealth_app/screen/metode_pembayaran/view_model/payment_view_model.dart';
 import 'package:reprohealth_app/screen/onboarding/onboarding_view.dart';
 import 'package:reprohealth_app/screen/notification/notification_view.dart';
 import 'package:reprohealth_app/screen/notification/view_model/get_notification_view_model.dart';
@@ -132,15 +133,11 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => RescedhuleViewModel()),
         ChangeNotifierProvider(create: (context) => RefundViewModel()),
         ChangeNotifierProvider(create: (context) => CancelAtClinicViewModel()),
-        ChangeNotifierProvider(
-            create: (context) => GetFamilyProfileViewModel()),
+        ChangeNotifierProvider(create: (context) => GetFamilyProfileViewModel()),
         ChangeNotifierProvider(create: (context) => FilePickerViewModel()),
-        ChangeNotifierProvider(
-            create: (context) => PostFamilyProfileViewModel()),
-        ChangeNotifierProvider(
-            create: (context) => PutFamilyProfileViewModel()),
-        ChangeNotifierProvider(
-            create: (context) => DeleteProfileFamilyViewModel()),
+        ChangeNotifierProvider(create: (context) => PostFamilyProfileViewModel()),
+        ChangeNotifierProvider(create: (context) => PutFamilyProfileViewModel()),
+        ChangeNotifierProvider(create: (context) => DeleteProfileFamilyViewModel()),
         ChangeNotifierProvider(create: (context) => HomeViewModels()),
         ChangeNotifierProvider(create: (context) => AppoinmentViewModel()),
         ChangeNotifierProvider(create: (context) => SpecialistViewModels()),
@@ -149,12 +146,9 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => ClinicsViewModel()),
         ChangeNotifierProvider(create: (context) => MapsViewModel()),
         ChangeNotifierProvider(create: (context) => FilePickerViewModel()),
-        ChangeNotifierProvider(
-            create: (context) => PostFamilyProfileViewModel()),
-        ChangeNotifierProvider(
-            create: (context) => PutFamilyProfileViewModel()),
-        ChangeNotifierProvider(
-            create: (context) => DeleteProfileFamilyViewModel()),
+        ChangeNotifierProvider(create: (context) => PostFamilyProfileViewModel()),
+        ChangeNotifierProvider(create: (context) => PutFamilyProfileViewModel()),
+        ChangeNotifierProvider(create: (context) => DeleteProfileFamilyViewModel()),
         ChangeNotifierProvider(create: (context) => HomeViewModels()),
         ChangeNotifierProvider(create: (context) => AppoinmentViewModel()),
         ChangeNotifierProvider(create: (context) => SpecialistViewModels()),
@@ -171,6 +165,7 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => CreateForumViewModel()),
         ChangeNotifierProvider(create: (context) => ChatbotViewModel()),
         ChangeNotifierProvider(create: (context) => RiwayatViewModel()),
+        ChangeNotifierProvider(create: (context) => PaymentViewModel()),
       ],
       child: MaterialApp(
         localizationsDelegates: const [
@@ -229,10 +224,8 @@ class MainApp extends StatelessWidget {
           RoutesNavigation.janjiTemuView: (context) => const JanjiTemuView(),
 
           // Forum
-          RoutesNavigation.chatBotForumView: (context) =>
-              const ChatBotForumView(),
-          RoutesNavigation.assistantChatForumView: (context) =>
-              const AssistantChatForumView(),
+          RoutesNavigation.chatBotForumView: (context) => const ChatBotForumView(),
+          RoutesNavigation.assistantChatForumView: (context) => const AssistantChatForumView(),
 
           //profile routes
           RoutesNavigation.profileView: (context) => const ProfileView(),

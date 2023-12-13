@@ -50,7 +50,7 @@ class AppointmentServices {
       if (kDebugMode) {
         print(response.data);
       }
-      final consultasionId = response.data['response']['id'];
+      final consultasionId = response.data['response']['transaction_id'];
       return consultasionId;
     } on DioException catch (e) {
       throw Exception(e.response);

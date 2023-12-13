@@ -217,7 +217,7 @@ class Assets {
   /// assets/trash_can.png
   static const String assetsTrashCan = "assets/trash_can.png";
 
-  static const String assetsBank = "assets/bank.png";
+  static const String assetsBank = "assets/BNI.png";
 
   static const String assetsConfirmSplash = 'assets/confirmation_splash.png';
 }
