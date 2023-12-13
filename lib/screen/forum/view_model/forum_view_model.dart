@@ -38,15 +38,6 @@ class ForumViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  // void toggleCategory(String kategori) {
-  //   if (kategoriListMap.contains(kategori)) {
-  //     kategoriListMap.remove(kategori);
-  //   } else {
-  //     kategoriListMap.add(kategori);
-  //   }
-  //   notifyListeners();
-  // }
-
   void toggleCategory(String kategori) {
     if (kategoriListMap.contains(kategori)) {
       kategoriListMap.clear();
@@ -116,35 +107,6 @@ class ForumViewModel with ChangeNotifier {
       return '${difference.inHours} jam';
     } else {
       return '${difference.inMinutes} menit';
-    }
-  }
-
-  Future<void> createForum({
-    required String title,
-    required String content,
-    required bool anonymous,
-    required BuildContext context,
-  }) async {
-    try {
-      await ForumServices().createForum(
-        patientId: _profileList?.response?.first.id ?? '',
-        title: title,
-        content: content,
-        anonymous: anonymous,
-        context: context,
-      );
-
-      if (context.mounted) {
-        Navigator.pushNamedAndRemoveUntil(
-          context,
-          RoutesNavigation.homeView,
-          (route) => false,
-        );
-      }
-    } catch (e) {
-      if (kDebugMode) {
-        print("Kendala: $e");
-      }
     }
   }
 

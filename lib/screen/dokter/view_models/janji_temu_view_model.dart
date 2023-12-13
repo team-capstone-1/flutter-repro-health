@@ -16,6 +16,9 @@ class JanjiTemuViewModel extends ChangeNotifier {
   ProfileModel? _profileList;
   ProfileModel? get profileList => _profileList;
 
+  bool _isLoading = false;
+  bool get isLoading => _isLoading;
+
   String? _id;
   String? get id => _id;
 
@@ -52,7 +55,6 @@ class JanjiTemuViewModel extends ChangeNotifier {
     _selectedSession = newSession;
   }
 
-
   // PILIH TANGGAL
   DateTime _currentDate = DateTime.now();
   DateTime get currentDate => _currentDate;
@@ -68,8 +70,6 @@ class JanjiTemuViewModel extends ChangeNotifier {
     _currentDate = value;
     notifyListeners();
   }
-
-
 
   Future<void> getTransactions({required String patientId}) async {
     try {
@@ -101,6 +101,8 @@ class JanjiTemuViewModel extends ChangeNotifier {
     required String session,
     required BuildContext context,
   }) async {
+    _isLoading = true;
+    notifyListeners();
     try {
       final id = await AppointmentServices().postConsultasion(
         paymentMethod: _selectedPayment,
@@ -123,7 +125,10 @@ class JanjiTemuViewModel extends ChangeNotifier {
             Navigator.pushReplacementNamed(
               context,
               RoutesNavigation.paymentMethodView,
-              arguments: id,
+              arguments: IdArgument(
+                idTransaction: id,
+                idProfile: patientId,
+              ),
             );
           }
         }
@@ -132,8 +137,18 @@ class JanjiTemuViewModel extends ChangeNotifier {
       if (kDebugMode) {
         print(e);
       }
+    } finally {
+      _isLoading = false;
+      notifyListeners();
     }
   }
+}
+
+class IdArgument {
+  final String? idTransaction;
+  final String? idProfile;
+
+  IdArgument({required this.idTransaction, required this.idProfile});
 }
 
 class ArgumentDoctor {

@@ -77,11 +77,15 @@ class ForgotPasswordView extends StatelessWidget {
                     ),
                     const SizedBox(height: 32),
                     ButtonComponent(
-                      labelText: Text(
-                        "Kirim",
-                        style: semiBold12Primary,
-                        textAlign: TextAlign.center,
-                      ),
+                      labelText: forgotPasswordViewModel.isLoading == true
+                          ? const Center(
+                              child: CircularProgressIndicator(),
+                            )
+                          : Text(
+                              "Kirim",
+                              style: semiBold12Primary,
+                              textAlign: TextAlign.center,
+                            ),
                       backgroundColor: green500,
                       onPressed: () {
                         if (formKey.currentState!.validate()) {

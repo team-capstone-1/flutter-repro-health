@@ -1,6 +1,4 @@
-import 'dart:io';
-
-import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:reprohealth_app/constant/routes_navigation.dart';
@@ -18,6 +16,49 @@ class PaymentViewModel extends ChangeNotifier {
   ImagePicker get imagePicker => _imagePicker;
   XFile? _pickedImage;
   XFile? get pickedImage => _pickedImage;
+
+  bool _isExpanded = false;
+  bool get isExpanded => _isExpanded;
+
+  String _selectedBank = '';
+  String get selectedBank => _selectedBank;
+
+  final List<String> banks = [
+    'BCA',
+    'BNI',
+    'Mandiri',
+    'CIMB Niaga',
+    'Danamon',
+    'Maybank',
+    'Mestika'
+  ];
+
+  void selectBank(index) {
+    _selectedBank = banks[index];
+    _isExpanded = false;
+    notifyListeners();
+  }
+
+  void isExpand() {
+    _isExpanded = !_isExpanded;
+    notifyListeners();
+  }
+
+  String? validateName(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Masukkan Nama';
+    }
+    return null;
+  }
+
+  String? validateRekening(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Nomor rekening tidak boleh kosong';
+    } else if (value.length < 8) {
+      return 'Nomor rekening minimal 8 karakter';
+    }
+    return null;
+  }
 
   Future<void> showImagePicker({required BuildContext context}) async {
     await showModalBottomSheet(
@@ -91,14 +132,13 @@ class PaymentViewModel extends ChangeNotifier {
     required String idTransaction,
   }) async {
     try {
-      File imageFile = File(_pickedImage!.path);
-      print(imageFile);
+      XFile imageFile = XFile(_pickedImage!.path);
 
       await PaymentServices().createPayment(
         idTransaction: idTransaction,
         name: _nameController.text,
         accountNumber: _rekController.text,
-        image: imageFile.toString(),
+        image: imageFile,
       );
 
       if (context.mounted) {
@@ -109,7 +149,9 @@ class PaymentViewModel extends ChangeNotifier {
         );
       }
     } catch (e) {
-      print("Error: $e");
+      if (kDebugMode) {
+        print("Error: $e");
+      }
     }
   }
 }
