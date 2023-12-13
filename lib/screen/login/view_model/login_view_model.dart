@@ -14,6 +14,9 @@ class LoginViewModels extends ChangeNotifier {
   final TextEditingController _passwordController = TextEditingController();
   TextEditingController get passwordController => _passwordController;
 
+  bool _isLoading = false;
+  bool get isLoading => _isLoading;
+
   bool _rememberMe = false;
   bool get rememberMe => _rememberMe;
 
@@ -47,6 +50,8 @@ class LoginViewModels extends ChangeNotifier {
   }
 
   Future<void> loginAccount({required BuildContext context}) async {
+    _isLoading = true;
+    notifyListeners();
     try {
       await AuthServices().authLogin(
         email: _emailController.text,
@@ -116,6 +121,9 @@ class LoginViewModels extends ChangeNotifier {
       if (kDebugMode) {
         print(e);
       }
+    } finally {
+      _isLoading = false; // loading state
+      notifyListeners();
     }
   }
 

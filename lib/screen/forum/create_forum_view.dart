@@ -190,11 +190,16 @@ class _CreateForumViewState extends State<CreateForumView> {
                           Consumer<CreateForumViewModel>(
                             builder: (context, createForumViewModel, child) {
                               return ButtonComponent(
-                                labelText: Text(
-                                  "Kirim",
-                                  style: semiBold12Grey10,
-                                  textAlign: TextAlign.center,
-                                ),
+                                labelText:
+                                    createForumViewModel.isLoading == true
+                                        ? const Center(
+                                            child: CircularProgressIndicator(),
+                                          )
+                                        : Text(
+                                            "Kirim",
+                                            style: semiBold12Grey10,
+                                            textAlign: TextAlign.center,
+                                          ),
                                 backgroundColor:
                                     createForumViewModel.buttonColor,
                                 onPressed: () {

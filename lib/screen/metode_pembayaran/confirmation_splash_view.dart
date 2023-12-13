@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:reprohealth_app/component/button_component.dart';
 import 'package:reprohealth_app/constant/assets_constants.dart';
+import 'package:reprohealth_app/constant/routes_navigation.dart';
 import 'package:reprohealth_app/theme/theme.dart';
 
 class ConfirmationSplashView extends StatelessWidget {
@@ -40,7 +41,13 @@ class ConfirmationSplashView extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
               backgroundColor: green500,
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  RoutesNavigation.homeView,
+                  (route) => false,
+                );
+              },
             )
           ],
         ),
