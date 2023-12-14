@@ -8,6 +8,7 @@ class RoutesNavigation {
   static const String forgotPasswordView = '/forgot-password';
   static const String otpView = '/otp';
   static const String detailForgotPasswordView = '/detail-forgot-password';
+  static const String successChangePassword = '/success-change-password';
 
   static const String homeView = '/home';
   static const String appointmenView = '/appointment';
@@ -31,6 +32,11 @@ class RoutesNavigation {
   static const String mapsView = '/maps-view';
   static const String jadwalDokterView = '/jadwal-dokter-view';
   static const String janjiTemuView = '/janji-temu-view';
+
+  // Forum
+  static const String chatBotForumView = '/chatbot-bot-forum-view';
+  static const String assistantChatForumView = '/assistant-chat-forum-view';
+  static const String assistantChatProfileView = '/assistant-chat-profile-view';
 
   //profil routes
   static const String profileView = '/profile';

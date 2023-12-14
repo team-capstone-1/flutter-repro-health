@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:reprohealth_app/constant/assets_constants.dart';
 import 'package:reprohealth_app/constant/routes_navigation.dart';
+import 'package:reprohealth_app/models/forum_models/forum_models.dart';
 import 'package:reprohealth_app/screen/forum/view_model/forum_view_model.dart';
 import 'package:reprohealth_app/theme/theme.dart';
 
@@ -11,6 +12,7 @@ class LihatForumWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Provider.of<ForumViewModel>(context, listen: false).getProfile(context: context);
     Provider.of<ForumViewModel>(context, listen: false).getForumList();
     return Consumer<ForumViewModel>(
       builder: (context, forumViewModel, child) {
@@ -144,7 +146,7 @@ class LihatForumWidget extends StatelessWidget {
                                       Navigator.pushNamed(
                                         context,
                                         RoutesNavigation.detailForumView,
-                                        arguments: forum,
+                                        arguments: forum ?? ResponseDataForum(),
                                       );
                                     },
                                     child: Row(

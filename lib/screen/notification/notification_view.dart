@@ -21,8 +21,13 @@ class _NotificationViewState extends State<NotificationView> {
   void initState() {
     super.initState();
     Future.delayed(Duration.zero, () {
-      final myProfile = Provider.of<GetFamilyProfileViewModel>(context, listen: false).profileList?.response?.first;
-      Provider.of<GetNotificationViewModel>(context, listen: false).fetchNotification(context: context, idPatients: myProfile?.id);
+      final myProfile =
+          Provider.of<GetFamilyProfileViewModel>(context, listen: false)
+              .profileList
+              ?.response
+              ?.first;
+      Provider.of<GetNotificationViewModel>(context, listen: false)
+          .fetchNotification(context: context, idPatients: myProfile?.id);
     });
   }
 

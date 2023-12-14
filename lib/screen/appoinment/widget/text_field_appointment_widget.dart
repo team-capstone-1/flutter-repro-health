@@ -20,7 +20,7 @@ class TextFieldAppointmentWidget extends StatelessWidget {
         builder: (context, appoinmentViewModel, child) {
           return TextFormComponent(
             controller: appoinmentViewModel.searchAppoinmentController,
-            hintText: 'Cari Spesialis, Klinik, Dokter',
+            hintText: 'Cari Spesialis dan Klinik',
             hinstStyle: regular14Grey400,
             prefixIcon: Icons.search,
             onChanged: (query) {

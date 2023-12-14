@@ -1,40 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:reprohealth_app/component/button_component.dart';
 import 'package:reprohealth_app/constant/assets_constants.dart';
-import 'package:reprohealth_app/constant/routes_navigation.dart';
+import 'package:reprohealth_app/screen/forgot_password/view_model/otp_view_model.dart';
 import 'package:reprohealth_app/screen/forgot_password/widget/otp_widget.dart';
 import 'package:reprohealth_app/theme/theme.dart';
-import 'package:email_otp/email_otp.dart';
 
-class OtpView extends StatefulWidget {
+class OtpView extends StatelessWidget {
   const OtpView({super.key});
 
   @override
-  State<OtpView> createState() => _OtpViewState();
-}
-
-class _OtpViewState extends State<OtpView> {
-  TextEditingController otp1Controller = TextEditingController();
-  TextEditingController otp2Controller = TextEditingController();
-  TextEditingController otp3Controller = TextEditingController();
-  TextEditingController otp4Controller = TextEditingController();
-  TextEditingController otp5Controller = TextEditingController();
-
-  @override
-  void dispose() {
-    otp1Controller.dispose();
-    otp2Controller.dispose();
-    otp3Controller.dispose();
-    otp4Controller.dispose();
-    otp5Controller.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final args =
-        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-    final EmailOTP myauth = args['myauth'];
+    final args = ModalRoute.of(context)!.settings.arguments as String;
+    final String email = args;
 
     return Scaffold(
       backgroundColor: const Color(0xFFFBFBFB),
@@ -55,84 +33,90 @@ class _OtpViewState extends State<OtpView> {
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Center(
-                child: Image.asset(
-                  Assets.assetsLogoOtp,
-                  height: 292,
-                  width: 226,
-                ),
-              ),
-              const SizedBox(height: 28),
-              Text(
-                'Kode OTP Verifikasi',
-                style: semiBold24Grey500,
-              ),
-              const SizedBox(height: 6),
-              Text(
-                'Masukan kode verifikasi yang baru saja kami kirimkan ke alamat email anda.',
-                style: regular12Grey500,
-              ),
-              const SizedBox(height: 38),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          child: Consumer<OtpViewModel>(
+            builder: (context, otpViewModel, child) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  OtpWidget(
-                    otpController: otp1Controller,
+                  Center(
+                    child: Image.asset(
+                      Assets.assetsLogoOtp,
+                      height: 292,
+                      width: 226,
+                    ),
                   ),
-                  OtpWidget(
-                    otpController: otp2Controller,
+                  const SizedBox(height: 28),
+                  Text(
+                    'Kode OTP Verifikasi',
+                    style: semiBold24Grey500,
                   ),
-                  OtpWidget(
-                    otpController: otp3Controller,
+                  const SizedBox(height: 6),
+                  Text(
+                    'Masukan kode verifikasi yang baru saja kami kirimkan ke alamat email anda.',
+                    style: regular12Grey500,
                   ),
-                  OtpWidget(
-                    otpController: otp4Controller,
+                  const SizedBox(height: 38),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      OtpWidget(
+                        otpController: otpViewModel.otp1Controller,
+                      ),
+                      OtpWidget(
+                        otpController: otpViewModel.otp2Controller,
+                      ),
+                      OtpWidget(
+                        otpController: otpViewModel.otp3Controller,
+                      ),
+                      OtpWidget(
+                        otpController: otpViewModel.otp4Controller,
+                      ),
+                      OtpWidget(
+                        otpController: otpViewModel.otp5Controller,
+                      ),
+                    ],
                   ),
-                  OtpWidget(
-                    otpController: otp5Controller,
+                  const SizedBox(height: 48),
+                  ButtonComponent(
+                    labelText: Text(
+                      "Kirim",
+                      style: semiBold12Primary,
+                      textAlign: TextAlign.center,
+                    ),
+                    backgroundColor: green500,
+                    onPressed: () {
+                      otpViewModel.validateOtp(context: context, email: email);
+                    },
+                  ),
+                  const SizedBox(height: 8),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Tidak Menerima Kode ? ',
+                        style: regular10Grey400,
+                      ),
+                      TextButton(
+                        style: TextButton.styleFrom(
+                          padding: EdgeInsets.zero,
+                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        ),
+                        onPressed: () {
+                          otpViewModel.sendEmail(
+                            context: context,
+                            email: email,
+                          );
+                        },
+                        child: Text(
+                          'Kirim Ulang',
+                          style: regular10Green500,
+                        ),
+                      ),
+                    ],
                   ),
                 ],
-              ),
-              const SizedBox(height: 48),
-              ButtonComponent(
-                labelText: 'Kirim',
-                labelStyle: semiBold12Primary,
-                backgroundColor: green500,
-                onPressed: () async {
-                  if (await myauth.verifyOTP(
-                          otp: otp1Controller.text +
-                              otp2Controller.text +
-                              otp3Controller.text +
-                              otp4Controller.text +
-                              otp5Controller.text) ==
-                      true) {
-                    Navigator.pushNamed(
-                      context,
-                      RoutesNavigation.detailForgotPasswordView,
-                    );
-                    otp1Controller.clear();
-                    otp2Controller.clear();
-                    otp3Controller.clear();
-                    otp4Controller.clear();
-                    otp5Controller.clear();
-                  } else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text("Invalid OTP"),
-                      ),
-                    );
-                    otp1Controller.clear();
-                    otp2Controller.clear();
-                    otp3Controller.clear();
-                    otp4Controller.clear();
-                    otp5Controller.clear();
-                  }
-                },
-              )
-            ],
+              );
+            },
           ),
         ),
       ),

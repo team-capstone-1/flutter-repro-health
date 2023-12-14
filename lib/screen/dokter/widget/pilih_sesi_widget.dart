@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:reprohealth_app/screen/dokter/view_models/pilih_sesi_view_model.dart';
+import 'package:reprohealth_app/screen/dokter/view_models/janji_temu_view_model.dart';
 import 'package:reprohealth_app/theme/theme.dart';
 
 class PilihSesiWidget extends StatelessWidget {
@@ -8,17 +8,17 @@ class PilihSesiWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<PilihSesiViewModel>(
-      builder: (context, pilihSesiViewModel, child) {
+    return Consumer<JanjiTemuViewModel>(
+      builder: (context, janjiTemuViewModel, child) {
         return ListView.builder(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
-          itemCount: pilihSesiViewModel.sessions.length,
+          itemCount: janjiTemuViewModel.sessions.length,
           itemBuilder: (context, index) {
-            var sessionsListData = pilihSesiViewModel.sessions[index];
+            var sessionsListData = janjiTemuViewModel.sessions[index];
             return GestureDetector(
               onTap: () {
-                pilihSesiViewModel.setSelectedSession = sessionsListData;
+                janjiTemuViewModel.setSelectedSession = sessionsListData;
               },
               child: SizedBox(
                 child: Column(
@@ -32,7 +32,7 @@ class PilihSesiWidget extends StatelessWidget {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(4),
                         border: Border.all(
-                          color: pilihSesiViewModel.selectedSession ==
+                          color: janjiTemuViewModel.selectedSession ==
                                   sessionsListData
                               ? green500
                               : const Color.fromARGB(255, 82, 82, 82),
@@ -52,9 +52,9 @@ class PilihSesiWidget extends StatelessWidget {
                             child: Radio(
                               activeColor: green500,
                               value: sessionsListData,
-                              groupValue: pilihSesiViewModel.selectedSession,
+                              groupValue: janjiTemuViewModel.selectedSession,
                               onChanged: (value) {
-                                pilihSesiViewModel.setSelectedSession = value!;
+                                janjiTemuViewModel.setSelectedSession = value!;
                               },
                             ),
                           ),

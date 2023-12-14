@@ -1,12 +1,10 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:reprohealth_app/component/button_component.dart';
-import 'package:reprohealth_app/constant/assets_constants.dart';
+import 'package:reprohealth_app/component/card_doctor_component.dart';
+import 'package:reprohealth_app/constant/routes_navigation.dart';
 import 'package:reprohealth_app/models/doctor_models/doctor_models.dart';
 import 'package:reprohealth_app/screen/dokter/view_models/janji_temu_view_model.dart';
-import 'package:reprohealth_app/screen/dokter/view_models/pilih_sesi_view_model.dart';
-import 'package:reprohealth_app/screen/dokter/view_models/pilih_tanggal_view_model.dart';
 import 'package:reprohealth_app/screen/dokter/widget/pilih_sesi_widget.dart';
 import 'package:reprohealth_app/screen/dokter/widget/pilih_tanggal_widget.dart';
 import 'package:reprohealth_app/theme/theme.dart';
@@ -39,8 +37,8 @@ class JadwalDokterViewState extends State<JadwalDokterView> {
   @override
   Widget build(BuildContext context) {
     final args =
-        ModalRoute.of(context)!.settings.arguments as ResponseDataDoctor;
-    final ResponseDataDoctor detailDoctor = args;
+        ModalRoute.of(context)!.settings.arguments as ResponseDataDoctor?;
+    final ResponseDataDoctor? detailDoctor = args;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: grey10,
@@ -62,112 +60,15 @@ class JadwalDokterViewState extends State<JadwalDokterView> {
           const SizedBox(
             height: 24,
           ),
-          Card(
-            color: grey10,
-            child: Padding(
-              padding: const EdgeInsets.all(10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  // Image Dokter
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: SizedBox(
-                      height: 66,
-                      width: 66,
-                      child: CachedNetworkImage(
-                        fit: BoxFit.cover,
-                        imageUrl: detailDoctor.profileImage ?? '',
-                        placeholder: (context, url) =>
-                            const CircularProgressIndicator(),
-                        errorWidget: (context, url, error) => const Center(
-                          child: Icon(
-                            Icons.error,
-                            size: 50,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 8,
-                  ),
-                  Flexible(
-                    child: SizedBox(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              // Nama Dokter
-                              Flexible(
-                                child: Text(
-                                  detailDoctor.name ?? '',
-                                  style: medium14Grey500,
-                                ),
-                              ),
 
-                              // Tahun Pengalaman Dokter
-                              Flexible(
-                                child: Container(
-                                  padding: const EdgeInsets.all(4),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(4),
-                                    color: green500,
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 8,
-                                      vertical: 3,
-                                    ),
-                                    child: Text(
-                                      "5 Tahun",
-                                      style: regular8Green50,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 4),
-
-                          // Dokter Spesialis
-                          Text(
-                            detailDoctor.specialist?.name ?? '',
-                            style: regular12Grey400,
-                          ),
-                          const SizedBox(height: 16),
-
-                          // Nama Rumah Sakit dan Biaya
-                          Row(
-                            children: [
-                              Image.asset(
-                                Assets.assetsKlinik,
-                                width: 16,
-                                height: 16,
-                              ),
-                              const SizedBox(width: 4),
-                              Text(
-                                detailDoctor.clinic?.name ?? '',
-                                style: regular12Grey900,
-                              ),
-                              const Expanded(child: SizedBox()),
-                              Text(
-                                detailDoctor.price.toString(),
-                                style: medium12Green500,
-                              ),
-                            ],
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+          CardDoctorComponent(
+            imageUrl: detailDoctor?.profileImage ?? '',
+            doctorName: detailDoctor?.name ?? '',
+            doctorSpecialist: detailDoctor?.specialist?.name ?? '',
+            clinicsName: detailDoctor?.clinic?.name ?? '',
+            doctorPrice: detailDoctor?.price ?? 0,
           ),
+
           const SizedBox(
             height: 24,
           ),
@@ -206,8 +107,11 @@ class JadwalDokterViewState extends State<JadwalDokterView> {
           ),
           // Button Component
           ButtonComponent(
-            labelText: 'Lanjut ke Data Pemesanan',
-            labelStyle: semiBold12Grey10,
+            labelText: Text(
+              "Lanjut ke Data Pemesanan",
+              style: semiBold12Grey10,
+              textAlign: TextAlign.center,
+            ),
             backgroundColor: green500,
             onPressed: () {
               // Bottom Sheet
@@ -254,8 +158,8 @@ class JadwalDokterViewState extends State<JadwalDokterView> {
                                             });
                                           },
                                           child: Container(
-                                            margin:
-                                                const EdgeInsets.only(bottom: 10),
+                                            margin: const EdgeInsets.only(
+                                                bottom: 10),
                                             padding: const EdgeInsets.symmetric(
                                                 horizontal: 8),
                                             decoration: BoxDecoration(
@@ -265,7 +169,8 @@ class JadwalDokterViewState extends State<JadwalDokterView> {
                                             ),
                                             child: Row(
                                               mainAxisAlignment:
-                                                  MainAxisAlignment.spaceBetween,
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
                                               children: [
                                                 Text(
                                                   patientFamily?.name ?? '',
@@ -295,43 +200,29 @@ class JadwalDokterViewState extends State<JadwalDokterView> {
                                     ),
                                     // Button Component
                                     ButtonComponent(
-                                      labelText: 'Selanjutnya',
-                                      labelStyle: semiBold12Grey10,
+                                      labelText: Text(
+                                        "Selanjutnya",
+                                        style: semiBold12Grey10,
+                                        textAlign: TextAlign.center,
+                                      ),
                                       backgroundColor: green500,
                                       onPressed: () {
-                                        janjiTemuViewModel.postConsultasion(
-                                          dataProfile: janjiTemuViewModel
-                                              .profileList
-                                              ?.response?[selectedPemesan],
-                                          context: context,
-                                          patientId: janjiTemuViewModel
-                                                  .profileList
-                                                  ?.response?[selectedPemesan]
-                                                  .id ??
-                                              '',
-                                          doctorId: detailDoctor.id ?? '',
-                                          date:
-                                              Provider.of<PilihTanggalViewModel>(
-                                                      context,
-                                                      listen: false)
-                                                  .dueDate,
-                                          session:
-                                              Provider.of<PilihSesiViewModel>(
-                                                      context,
-                                                      listen: false)
-                                                  .selectedSession,
+                                        Navigator.pushReplacementNamed(
+                                          context,
+                                          RoutesNavigation.janjiTemuView,
+                                          arguments: ArgumentDoctor(
+                                            dataDoctor: detailDoctor,
+                                            dataProfile: janjiTemuViewModel
+                                                .profileList
+                                                ?.response?[selectedPemesan],
+                                          ),
                                         );
                                         print(janjiTemuViewModel.profileList
                                             ?.response?[selectedPemesan].id);
-                                        print(detailDoctor.id);
-                                        print(Provider.of<PilihTanggalViewModel>(
-                                                context,
-                                                listen: false)
-                                            .dueDate);
-                                        print(Provider.of<PilihSesiViewModel>(
-                                                context,
-                                                listen: false)
-                                            .selectedSession);
+                                        print(detailDoctor?.id);
+                                        print(janjiTemuViewModel.dueDate);
+                                        print(
+                                            janjiTemuViewModel.selectedSession);
                                       },
                                     ),
                                     const SizedBox(

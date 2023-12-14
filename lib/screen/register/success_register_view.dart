@@ -19,17 +19,22 @@ class SuccessRegisterView extends StatelessWidget {
             const SizedBox(height: 48),
             Text(
               'Daftar Akun Berhasil',
-              style: semiBold24Grey500,
+              style: semiBold16Grey500,
+              textAlign: TextAlign.center,
             ),
             const SizedBox(height: 12),
             Text(
               'Silahkan masuk!',
               style: medium16Grey500,
+              textAlign: TextAlign.center,
             ),
             const SizedBox(height: 32),
             ButtonComponent(
-              labelText: 'Masuk',
-              labelStyle: semiBold12Primary,
+              labelText: Text(
+                "Masuk",
+                style: semiBold12Primary,
+                textAlign: TextAlign.center,
+              ),
               backgroundColor: green500,
               onPressed: () {
                 Navigator.pushNamedAndRemoveUntil(

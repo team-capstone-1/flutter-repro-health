@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:reprohealth_app/constant/routes_navigation.dart';
 import 'package:reprohealth_app/screen/profile/pusat_bantuan/pertanyaan_populer/pertanyaan_populer_view.dart';
 import 'package:reprohealth_app/screen/profile/widget/profile_widget/profile_menu_widget.dart';
 import 'package:reprohealth_app/theme/theme.dart';
@@ -42,10 +43,15 @@ class PusatBantuanView extends StatelessWidget {
           ),
           const SizedBox(height: 4),
           ProfilMenuWidget(
-            title: "ReproHealth Assistant", 
-            textStyle: semiBold12Black500, 
+            title: "ReproHealth Assistant",
+            textStyle: semiBold12Black500,
             icon: Icons.keyboard_arrow_right,
-            onTap: () {}
+            onTap: () {
+              Navigator.pushNamed(
+                  context,
+                  RoutesNavigation.assistantChatProfileView,
+                );
+            }
           ),
         ],
       ),

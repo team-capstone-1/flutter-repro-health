@@ -3,8 +3,17 @@ import 'package:reprohealth_app/constant/assets_constants.dart';
 import 'package:reprohealth_app/theme/theme.dart';
 
 class RincianPembayaran extends StatelessWidget {
+  final String method;
+  final String total;
+  final String adminPrice;
+  final String price;
+
   const RincianPembayaran({
     super.key,
+    required this.method,
+    required this.total,
+    required this.adminPrice,
+    required this.price,
   });
 
   @override
@@ -35,7 +44,7 @@ class RincianPembayaran extends StatelessWidget {
                       style: regular12Black400,
                     ),
                     Text(
-                      'Transfer Manual',
+                      method,
                       style: semiBold12Black600,
                     )
                   ],
@@ -51,7 +60,7 @@ class RincianPembayaran extends StatelessWidget {
                       style: regular12Black400,
                     ),
                     Text(
-                      'Rp 100.000',
+                      price,
                       style: semiBold12Black600,
                     )
                   ],
@@ -67,7 +76,7 @@ class RincianPembayaran extends StatelessWidget {
                       style: regular12Black400,
                     ),
                     Text(
-                      'Rp 10.000',
+                      adminPrice,
                       style: semiBold12Black600,
                     )
                   ],
@@ -86,7 +95,7 @@ class RincianPembayaran extends StatelessWidget {
                 style: semiBold14Black,
               ),
               Text(
-                'Rp 90.000',
+                total,
                 style: bold14Green500,
               ),
             ],

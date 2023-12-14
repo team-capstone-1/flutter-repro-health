@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:reprohealth_app/component/button_component.dart';
+import 'package:reprohealth_app/constant/routes_navigation.dart';
 import 'package:reprohealth_app/theme/theme.dart';
 
 class ConfirmStatusView extends StatelessWidget {
@@ -8,16 +9,12 @@ class ConfirmStatusView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String statusData = ModalRoute.of(context)?.settings.arguments as String;
+    var status = ModalRoute.of(context)!.settings.arguments as String;
 
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        leading: IconButton(
-          onPressed: () => Navigator.pop(context),
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
-        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
@@ -31,15 +28,23 @@ class ConfirmStatusView extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             Text(
-              statusData,
+              status,
               style: semiBold16Grey700,
             ),
             const SizedBox(height: 10),
             ButtonComponent(
-              labelText: 'Lihat Transaksi',
-              labelStyle: semiBold12Grey10,
+              labelText: Text(
+                "Lihat Transaksi",
+                style: semiBold12Grey10,
+                textAlign: TextAlign.center,
+              ),
               backgroundColor: green500,
               onPressed: () {
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  RoutesNavigation.homeView,
+                  (route) => false,
+                );
                 if (kDebugMode) {
                   print('Lihat Transaksi');
                 }

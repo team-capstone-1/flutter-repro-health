@@ -1,11 +1,9 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:reprohealth_app/component/button_component.dart';
-import 'package:reprohealth_app/constant/assets_constants.dart';
-import 'package:reprohealth_app/models/appointment_models/appointment_models.dart';
 import 'package:reprohealth_app/screen/dokter/view_models/janji_temu_view_model.dart';
+import 'package:reprohealth_app/component/card_doctor_component.dart';
 import 'package:reprohealth_app/theme/theme.dart';
 
 class JanjiTemuView extends StatelessWidget {
@@ -13,13 +11,11 @@ class JanjiTemuView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final args =
-        ModalRoute.of(context)!.settings.arguments as ArgumentDoctor?;
-    final ArgumentDoctor? detailProfile = args;
+    final args = ModalRoute.of(context)!.settings.arguments as ArgumentDoctor?;
+    final ArgumentDoctor? detailArgument = args;
 
-    Provider.of<JanjiTemuViewModel>(context)
-        .getTransactions(patientId: detailProfile?.dataProfile.id ?? '');
     return Scaffold(
+      backgroundColor: grey10,
       appBar: AppBar(
         backgroundColor: grey10,
         elevation: 0,
@@ -34,12 +30,6 @@ class JanjiTemuView extends StatelessWidget {
       ),
       body: Consumer<JanjiTemuViewModel>(
         builder: (context, janjiTemuViewModel, child) {
-          ResponseDataAppointment? dataAppointment;
-          for (var response in janjiTemuViewModel.appointmentList?.response ?? []) {
-            if (response.consultationId == detailProfile?.id) {
-              dataAppointment = response;
-            }
-          }
           return ListView(
             padding: const EdgeInsets.symmetric(
               horizontal: 16,
@@ -48,127 +38,19 @@ class JanjiTemuView extends StatelessWidget {
               const SizedBox(
                 height: 24,
               ),
-              // Profil Dokter
-              Card(
-                color: grey10,
-                child: Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      // Image Dokter
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: Flexible(
-                          child: SizedBox(
-                            height: 66,
-                            width: 66,
-                            child: CachedNetworkImage(
-                              fit: BoxFit.cover,
-                              imageUrl: dataAppointment
-                                      ?.consultation?.doctor?.profileImage ??
-                                  '',
-                              placeholder: (context, url) =>
-                                  const CircularProgressIndicator(),
-                              errorWidget: (context, url, error) =>
-                                  const Center(
-                                child: Icon(
-                                  Icons.error,
-                                  size: 50,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 8,
-                      ),
-                      Flexible(
-                        child: SizedBox(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  // Nama Dokter
-                                  Flexible(
-                                    child: Text(
-                                      dataAppointment
-                                              ?.consultation?.doctor?.name ??
-                                          '',
-                                      style: medium14Grey500,
-                                    ),
-                                  ),
 
-                                  // Tahun Pengalaman Dokter
-                                  Flexible(
-                                    child: Container(
-                                      padding: const EdgeInsets.all(4),
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(4),
-                                        color: green500,
-                                      ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                          horizontal: 8,
-                                          vertical: 3,
-                                        ),
-                                        child: Text(
-                                          "5 Tahun",
-                                          style: regular8Green50,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(height: 4),
-
-                              // Dokter Spesialis
-                              Text(
-                                dataAppointment
-                                        ?.consultation?.doctor?.specialist ??
-                                    '',
-                                style: regular12Grey400,
-                              ),
-                              const SizedBox(height: 16),
-
-                              // Nama Rumah Sakit dan Biaya
-                              Row(
-                                children: [
-                                  Image.asset(
-                                    Assets.assetsKlinik,
-                                    width: 16,
-                                    height: 16,
-                                  ),
-                                  const SizedBox(width: 4),
-                                  Text(
-                                    dataAppointment
-                                            ?.consultation?.clinic?.name ??
-                                        '',
-                                    style: regular12Grey900,
-                                  ),
-                                  const Expanded(child: SizedBox()),
-                                  Text(
-                                    dataAppointment?.consultation?.doctor?.price
-                                            .toString() ??
-                                        '',
-                                    style: medium12Green500,
-                                  ),
-                                ],
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+              // PROFIL DOCTOR
+              CardDoctorComponent(
+                imageUrl: detailArgument?.dataDoctor?.profileImage ?? '',
+                // dataAppointment?.consultation?.doctor?.profileImage ?? '',
+                // doctorName: dataAppointment?.consultation?.doctor?.name ?? '',
+                doctorName: detailArgument?.dataDoctor?.name ?? '',
+                doctorSpecialist:
+                    detailArgument?.dataDoctor?.specialist?.name ?? '',
+                clinicsName: detailArgument?.dataDoctor?.clinic?.name ?? '',
+                doctorPrice: detailArgument?.dataDoctor?.price ?? 0,
               ),
+
               const Padding(
                 padding: EdgeInsets.only(
                   top: 12,
@@ -199,8 +81,9 @@ class JanjiTemuView extends StatelessWidget {
                         style: regular12Grey400,
                       ),
                       Text(
-                        dataAppointment?.consultation?.date == null ? '-' : DateFormat('EEEE, d MMMM yyyy')
-                            .format(dataAppointment!.consultation!.date!),
+                        DateFormat('EEEE, d MMMM yyyy').format(
+                          janjiTemuViewModel.currentDate,
+                        ),
                         style: semiBold12Grey500,
                       ),
                     ],
@@ -215,16 +98,28 @@ class JanjiTemuView extends StatelessWidget {
                         'Sesi',
                         style: regular12Grey400,
                       ),
-                      Text('${dataAppointment?.consultation?.session} (${() {
-                        if (dataAppointment?.consultation?.session == 'pagi') {
-                          return ("08.00 - 11.00");
-                        } else if (dataAppointment?.consultation?.session ==
-                            'siang') {
-                          return ("13.00 - 15.30");
-                        } else {
-                          return ("18.00 - 21.30");
-                        }
-                      }()})'),
+                      Row(
+                        children: [
+                          Text(
+                            janjiTemuViewModel.selectedSession,
+                            style: semiBold12Grey500,
+                          ),
+                          Text(
+                            ' (${() {
+                              if (janjiTemuViewModel.selectedSession ==
+                                  'pagi') {
+                                return ("08.00 - 11.00");
+                              } else if (janjiTemuViewModel.selectedSession ==
+                                  'siang') {
+                                return ("13.00 - 15.30");
+                              } else {
+                                return ("18.00 - 21.30");
+                              }
+                            }()})',
+                            style: semiBold12Green500,
+                          ),
+                        ],
+                      ),
                     ],
                   ),
                   const SizedBox(
@@ -234,14 +129,16 @@ class JanjiTemuView extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Flexible(
+                        flex: 3,
                         child: Text(
                           'Lokasi',
                           style: regular12Grey400,
                         ),
                       ),
                       Flexible(
+                        flex: 4,
                         child: Text(
-                          dataAppointment?.consultation?.clinic?.location ?? '',
+                          detailArgument?.dataDoctor?.clinic?.location ?? '',
                           style: semiBold12Grey500,
                           textAlign: TextAlign.right,
                         ),
@@ -276,7 +173,7 @@ class JanjiTemuView extends StatelessWidget {
                         style: regular12Grey400,
                       ),
                       Text(
-                        detailProfile?.dataProfile.name ?? '-',
+                        detailArgument?.dataProfile?.name ?? '-',
                         style: semiBold12Grey500,
                       ),
                     ],
@@ -292,7 +189,7 @@ class JanjiTemuView extends StatelessWidget {
                         style: regular12Grey400,
                       ),
                       Text(
-                        detailProfile?.dataProfile.gender ?? '',
+                        detailArgument?.dataProfile?.gender ?? '',
                         style: semiBold12Grey500,
                       ),
                     ],
@@ -308,7 +205,7 @@ class JanjiTemuView extends StatelessWidget {
                         style: regular12Grey400,
                       ),
                       Text(
-                        detailProfile?.dataProfile.telephoneNumber ?? '-',
+                        detailArgument?.dataProfile?.telephoneNumber ?? '-',
                         style: semiBold12Grey500,
                       ),
                     ],
@@ -322,10 +219,161 @@ class JanjiTemuView extends StatelessWidget {
                 ),
               ),
               ButtonComponent(
-                labelText: 'Pilih Metode Pembayaran',
-                labelStyle: semiBold12Grey10,
+                labelText: Text(
+                  "Pilih Metode Pembayaran",
+                  style: semiBold12Grey10,
+                  textAlign: TextAlign.center,
+                ),
                 backgroundColor: green500,
-                onPressed: () {},
+                onPressed: () {
+                  showModalBottomSheet(
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.vertical(
+                        top: Radius.circular(16),
+                      ),
+                    ),
+                    context: context,
+                    builder: (context) {
+                      return Consumer<JanjiTemuViewModel>(
+                        builder: (context, janjiTemuViewModel, child) {
+                          return Padding(
+                            padding: const EdgeInsets.all(16),
+                            child: Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "Pilih Metode Pembayaran",
+                                      style: medium14Black,
+                                    ),
+                                    IconButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      icon: const Icon(Icons.close),
+                                    ),
+                                  ],
+                                ),
+                                Divider(color: grey50),
+                                const SizedBox(height: 10),
+                                ListView.builder(
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemCount: janjiTemuViewModel
+                                      .listPaymentMethod.length,
+                                  itemBuilder: (context, index) {
+                                    var paymentListData = janjiTemuViewModel
+                                        .listPaymentMethod[index];
+                                    return GestureDetector(
+                                      onTap: () {
+                                        janjiTemuViewModel.setSelectedPayment =
+                                            paymentListData;
+                                      },
+                                      child: SizedBox(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                horizontal: 16,
+                                                vertical: 8,
+                                              ),
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(12),
+                                                border: Border.all(
+                                                  color: janjiTemuViewModel
+                                                              .selectedPayment ==
+                                                          paymentListData
+                                                      ? green500
+                                                      : const Color.fromARGB(
+                                                          255, 82, 82, 82),
+                                                ),
+                                              ),
+                                              child: Row(
+                                                children: [
+                                                  CircleAvatar(
+                                                    backgroundColor: grey50,
+                                                  ),
+                                                  const SizedBox(width: 10),
+                                                  Text(
+                                                    paymentListData,
+                                                    style: medium12Grey500,
+                                                  ),
+                                                  const Spacer(),
+                                                  Radio(
+                                                    activeColor: green500,
+                                                    value: paymentListData,
+                                                    groupValue:
+                                                        janjiTemuViewModel
+                                                            .selectedPayment,
+                                                    onChanged: (value) {
+                                                      janjiTemuViewModel
+                                                              .setSelectedPayment =
+                                                          value!;
+                                                    },
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            const SizedBox(height: 8),
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                                const SizedBox(height: 24),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "Total Pembayaran",
+                                      style: medium14Grey500,
+                                    ),
+                                    Text(
+                                      NumberFormat.currency(
+                                              locale: 'id_ID', symbol: 'Rp ')
+                                          .format(detailArgument
+                                              ?.dataDoctor?.price),
+                                      style: medium12Green500,
+                                    )
+                                  ],
+                                ),
+                                const SizedBox(height: 24),
+                                ButtonComponent(
+                                  labelText: Text(
+                                    "Bayar",
+                                    style: medium14Grey10,
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  backgroundColor: green500,
+                                  onPressed: () {
+                                    janjiTemuViewModel.postConsultasion(
+                                      patientId:
+                                          detailArgument?.dataProfile?.id ?? '',
+                                      doctorId:
+                                          detailArgument?.dataDoctor?.id ?? '',
+                                      date: janjiTemuViewModel.currentDate,
+                                      session:
+                                          janjiTemuViewModel.selectedSession,
+                                      context: context,
+                                    );
+                                  },
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      );
+                    },
+                  );
+                },
               ),
               const SizedBox(
                 height: 24,

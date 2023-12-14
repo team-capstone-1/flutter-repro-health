@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:reprohealth_app/models/appointment_models/appointment_models.dart';
@@ -25,14 +26,15 @@ class AppointmentServices {
     }
   }
 
-  Future<String> postConsultasion({required String patientId, required String doctorId, required DateTime date, required String session, required BuildContext context}) async {
+  Future<String> postConsultasion({required String paymentMethod ,required String patientId, required String doctorId, required DateTime date, required String session, required BuildContext context}) async {
     String apiGetConsultasion = "https://dev.reprohealth.my.id/consultations";
     try {
       String token = await SharedPreferencesUtils().getToken();
-      String formattedDateTime = DateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").format(date);
+      String formattedDateTime = DateFormat('yyyy-MM-dd').format(date);
       var response = await Dio().post(
         apiGetConsultasion,
         data: {
+          "payment_method": paymentMethod,
           "patient_id": patientId,
           "doctor_id": doctorId,
           "date": formattedDateTime,
@@ -45,7 +47,10 @@ class AppointmentServices {
           },
         ),
       );
-      final consultasionId = response.data['response']['id'];
+      if (kDebugMode) {
+        print(response.data);
+      }
+      final consultasionId = response.data['response']['transaction_id'];
       return consultasionId;
     } on DioException catch (e) {
       throw Exception(e.response);

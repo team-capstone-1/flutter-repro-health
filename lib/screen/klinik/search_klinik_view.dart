@@ -95,7 +95,10 @@ class _SearchKlinikViewState extends State<SearchKlinikView> {
                 ),
                 const Expanded(
                   child: TabBarView(
-                    children: [ListDokterWidget(), ListSpesialisWidget()],
+                    children: [
+                      ListDokterWidget(),
+                      ListSpesialisWidget(),
+                    ],
                   ),
                 ),
               ],

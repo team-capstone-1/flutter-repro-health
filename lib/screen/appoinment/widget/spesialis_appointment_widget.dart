@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:reprohealth_app/constant/routes_navigation.dart';
@@ -68,11 +69,24 @@ class SpesialisAppoinmentWidget extends StatelessWidget {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Image.network(
-                            specialist.image ?? '',
-                            width: 50.0,
-                            height: 50.0,
+                          // Image.network(
+                          //   specialist.image ?? '',
+                          //   width: 50.0,
+                          //   height: 50.0,
+                          //   fit: BoxFit.cover,
+                          // ),
+                          CachedNetworkImage(
                             fit: BoxFit.cover,
+                            width: 50,
+                            height: 50,
+                            imageUrl: specialist.image ?? '',
+                            placeholder: (context, url) =>
+                                const CircularProgressIndicator(),
+                            errorWidget: (context, url, error) => const Center(
+                              child: Icon(
+                                Icons.error,
+                              ),
+                            ),
                           ),
                           const SizedBox(height: 8.0),
                           Text(

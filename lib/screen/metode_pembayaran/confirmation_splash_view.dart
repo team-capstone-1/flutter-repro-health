@@ -34,10 +34,14 @@ class ConfirmationSplashView extends StatelessWidget {
               height: 10,
             ),
             ButtonComponent(
-                labelText: 'Lihat rincian',
-                labelStyle: semiBold12Grey10,
-                backgroundColor: green500,
-                onPressed: () {})
+              labelText: Text(
+                "Lihat rincian",
+                style: semiBold12Grey10,
+                textAlign: TextAlign.center,
+              ),
+              backgroundColor: green500,
+              onPressed: () {},
+            )
           ],
         ),
       ),

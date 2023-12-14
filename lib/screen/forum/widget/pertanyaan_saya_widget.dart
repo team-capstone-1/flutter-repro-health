@@ -16,6 +16,7 @@ class PertanyaanSayaWidget extends StatefulWidget {
 class _PertanyaanSayaWidgetState extends State<PertanyaanSayaWidget> {
   @override
   void initState() {
+    Provider.of<ForumViewModel>(context, listen: false).getProfile(context: context);
     Provider.of<ForumViewModel>(context, listen: false).getMyForumList();
     super.initState();
   }
