@@ -22,35 +22,19 @@ class PaymentMethodView extends StatefulWidget {
 }
 
 class _PaymentMethodState extends State<PaymentMethodView> {
-  bool isExpanded = false;
-  String selectedBank = '';
   Duration? _countdownTimer;
+  Duration? get countdownTimer => _countdownTimer;
+
   DateTime? _endTime;
+  DateTime? get endTime => _endTime;
 
-  final List<String> banks = [
-    'BCA',
-    'BNI',
-    'Mandiri',
-    'CIMB Niaga',
-    'Danamon',
-    'Maybank',
-    'Mestika'
-  ];
-
-  String? _validateName(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Masukkan Nama';
+  void _updateCountdown() {
+    if (_endTime != null) {
+      _countdownTimer = _endTime!.difference(DateTime.now());
+    } else {
+      _countdownTimer = null;
     }
-    return null;
-  }
-
-  String? _validateRekening(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Nomor rekening tidak boleh kosong';
-    } else if (value.length < 8) {
-      return 'Nomor rekening minimal 8 karakter';
-    }
-    return null;
+    setState(() {});
   }
 
   @override
@@ -65,18 +49,13 @@ class _PaymentMethodState extends State<PaymentMethodView> {
     });
   }
 
-  void _updateCountdown() {
-    setState(() {
-      _countdownTimer = _endTime?.difference(DateTime.now());
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    String? patientId = Provider.of<JanjiTemuViewModel>(context).profileList?.response?.first.id.toString();
-    Provider.of<JanjiTemuViewModel>(context).getTransactions(patientId: patientId ?? '');
-    final args = ModalRoute.of(context)!.settings.arguments as String?;
-    final String? idTransaction = args;
+    final args = ModalRoute.of(context)!.settings.arguments as IdArgument?;
+    final IdArgument? transaction = args;
+
+    Provider.of<JanjiTemuViewModel>(context)
+        .getTransactions(patientId: transaction?.idProfile ?? '');
 
     return Scaffold(
       appBar: AppBar(
@@ -91,8 +70,11 @@ class _PaymentMethodState extends State<PaymentMethodView> {
         child: Consumer<PaymentViewModel>(
           builder: (context, paymentViewModel, child) {
             ResponseDataAppointment? dataPayment;
-            for (var element in Provider.of<JanjiTemuViewModel>(context, listen: false).appointmentList!.response!) {
-              if (element.id == idTransaction) {
+            for (var element
+                in Provider.of<JanjiTemuViewModel>(context, listen: false)
+                    .appointmentList!
+                    .response!) {
+              if (element.id == transaction?.idTransaction) {
                 dataPayment = element;
               }
             }
@@ -102,12 +84,12 @@ class _PaymentMethodState extends State<PaymentMethodView> {
                   children: [
                     MenungguPembayaran(
                       hours:
-                          _countdownTimer?.inHours.toString().padLeft(2, '0') ??
+                          countdownTimer?.inHours.toString().padLeft(2, '0') ??
                               '-',
-                      minutes: (_countdownTimer!.inMinutes % 60)
+                      minutes: (countdownTimer!.inMinutes % 60)
                           .toString()
                           .padLeft(2, '0'),
-                      seconds: (_countdownTimer!.inSeconds % 60)
+                      seconds: (countdownTimer!.inSeconds % 60)
                           .toString()
                           .padLeft(2, '0'),
                     ),
@@ -115,11 +97,19 @@ class _PaymentMethodState extends State<PaymentMethodView> {
                       height: 4,
                     ),
                     RincianPembayaran(
-                      method: dataPayment?.consultation?.paymentMethod ?? '',
-                      // total: dataPayment?.total ?? 0,
-                      total: NumberFormat.currency(locale: 'id_ID', symbol: 'Rp ').format(dataPayment?.total),
-                      adminPrice: NumberFormat.currency(locale: 'id_ID', symbol: 'Rp ').format(dataPayment?.adminPrice),
-                      price: NumberFormat.currency(locale: 'id_ID', symbol: 'Rp ').format(dataPayment?.price),
+                      method: dataPayment?.consultation?.paymentMethod ==
+                              "manual_transfer"
+                          ? "Transfer Manual"
+                          : '',
+                      total:
+                          NumberFormat.currency(locale: 'id_ID', symbol: 'Rp ')
+                              .format(dataPayment?.total),
+                      adminPrice:
+                          NumberFormat.currency(locale: 'id_ID', symbol: 'Rp ')
+                              .format(dataPayment?.adminPrice),
+                      price:
+                          NumberFormat.currency(locale: 'id_ID', symbol: 'Rp ')
+                              .format(dataPayment?.price),
                     ),
                     const SizedBox(
                       height: 4,
@@ -146,11 +136,12 @@ class _PaymentMethodState extends State<PaymentMethodView> {
                             'Nama',
                             style: medium12Black,
                           ),
+                          const SizedBox(height: 6),
                           TextFormComponent(
                             controller: paymentViewModel.nameController,
                             hintText: 'Masukkan nama',
                             hinstStyle: regular12Grey200,
-                            validator: _validateName,
+                            validator: paymentViewModel.validateName,
                           ),
                           const SizedBox(
                             height: 16,
@@ -159,11 +150,10 @@ class _PaymentMethodState extends State<PaymentMethodView> {
                             'Nama bank',
                             style: medium12Black,
                           ),
+                          const SizedBox(height: 6),
                           GestureDetector(
                             onTap: () {
-                              setState(() {
-                                isExpanded = !isExpanded;
-                              });
+                              paymentViewModel.isExpand();
                             },
                             child: Container(
                               width: double.infinity,
@@ -177,13 +167,13 @@ class _PaymentMethodState extends State<PaymentMethodView> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    selectedBank.isNotEmpty
-                                        ? selectedBank
+                                    paymentViewModel.selectedBank.isNotEmpty
+                                        ? paymentViewModel.selectedBank
                                         : 'Pilih nama bank',
                                     style: regular12Grey200,
                                   ),
                                   Visibility(
-                                    visible: isExpanded,
+                                    visible: paymentViewModel.isExpanded,
                                     replacement: const Icon(Icons.expand_more),
                                     child: const Icon(Icons.expand_less),
                                   )
@@ -191,7 +181,7 @@ class _PaymentMethodState extends State<PaymentMethodView> {
                               ),
                             ),
                           ),
-                          if (isExpanded)
+                          if (paymentViewModel.isExpanded)
                             Column(
                               children: [
                                 const SizedBox(
@@ -206,20 +196,17 @@ class _PaymentMethodState extends State<PaymentMethodView> {
                                     border: Border.all(color: grey400),
                                   ),
                                   child: ListView.builder(
-                                    itemCount: banks.length,
+                                    itemCount: paymentViewModel.banks.length,
                                     itemBuilder: (context, index) {
                                       return GestureDetector(
                                         onTap: () {
-                                          setState(() {
-                                            selectedBank = banks[index];
-                                            isExpanded = false;
-                                          });
+                                          paymentViewModel.selectBank(index);
                                         },
                                         child: Padding(
                                           padding:
                                               const EdgeInsets.only(bottom: 16),
                                           child: Text(
-                                            banks[index],
+                                            paymentViewModel.banks[index],
                                             style: regular14Grey900,
                                           ),
                                         ),
@@ -236,11 +223,12 @@ class _PaymentMethodState extends State<PaymentMethodView> {
                             'Nomor Rekening',
                             style: medium12Black,
                           ),
+                          const SizedBox(height: 6),
                           TextFormComponent(
                             controller: paymentViewModel.rekController,
                             hintText: 'Masukkan nomor rekening',
                             hinstStyle: regular12Grey200,
-                            validator: _validateRekening,
+                            validator: paymentViewModel.validateRekening,
                           ),
                           const SizedBox(
                             height: 16,
@@ -249,6 +237,7 @@ class _PaymentMethodState extends State<PaymentMethodView> {
                             'Unggah Bukti',
                             style: medium12Black,
                           ),
+                          const SizedBox(height: 6),
                           GestureDetector(
                             onTap: () async {
                               await paymentViewModel.showImagePicker(
@@ -264,18 +253,29 @@ class _PaymentMethodState extends State<PaymentMethodView> {
                               child: Stack(
                                 fit: StackFit.expand,
                                 children: [
-                                  if (paymentViewModel.pickedImage != null)
-                                    ColorFiltered(
-                                      colorFilter: ColorFilter.mode(
-                                        Colors.black.withOpacity(0.3),
-                                        BlendMode.darken,
+                                  paymentViewModel.pickedImage != null
+                                      ? ColorFiltered(
+                                          colorFilter: ColorFilter.mode(
+                                            Colors.black.withOpacity(0.3),
+                                            BlendMode.darken,
+                                          ),
+                                          child: Image.file(
+                                            File(
+                                              paymentViewModel
+                                                  .pickedImage!.path,
+                                            ),
+                                            fit: BoxFit.cover,
+                                          ),
+                                        )
+                                      : Column(
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          const Icon(Icons.file_upload_outlined, size: 24,),
+                                          const SizedBox(height: 10,),
+                                          Text("Unggah foto", style: regular10Grey100,)
+                                        ],
                                       ),
-                                      child: Image.file(
-                                        File(
-                                            paymentViewModel.pickedImage!.path),
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
                                   Center(
                                     child: Container(
                                       padding: const EdgeInsets.symmetric(
@@ -286,8 +286,10 @@ class _PaymentMethodState extends State<PaymentMethodView> {
                                         borderRadius: BorderRadius.circular(10),
                                         border: Border.all(color: Colors.white),
                                       ),
-                                      child: Text('Ganti Foto',
-                                          style: semiBold12Grey10),
+                                      child: Text(
+                                        'Ganti Foto',
+                                        style: semiBold12Grey10,
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -315,7 +317,7 @@ class _PaymentMethodState extends State<PaymentMethodView> {
                     onPressed: () {
                       paymentViewModel.createPayment(
                         context: context,
-                        idTransaction: idTransaction ?? '',
+                        idTransaction: transaction?.idTransaction ?? '',
                       );
                     },
                     elevation: 0,

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:reprohealth_app/component/button_component.dart';
 import 'package:reprohealth_app/constant/assets_constants.dart';
@@ -17,6 +18,9 @@ class OtpViewModel extends ChangeNotifier {
   TextEditingController get otp3Controller => _otp3Controller;
   TextEditingController get otp4Controller => _otp4Controller;
   TextEditingController get otp5Controller => _otp5Controller;
+
+  bool _isLoading = false;
+  bool get isLoading => _isLoading;
 
   @override
   void dispose() {
@@ -42,6 +46,8 @@ class OtpViewModel extends ChangeNotifier {
     required BuildContext context,
     required String email,
   }) async {
+    _isLoading = true;
+    notifyListeners();
     try {
       final token = await ChangePasswordServices().validateOtp(
         email: email,
@@ -101,7 +107,12 @@ class OtpViewModel extends ChangeNotifier {
           },
         );
       }
-      print("Ini error: $e");
+      if (kDebugMode) {
+        print("Ini error: $e");
+      }
+    } finally {
+      _isLoading = false;
+      notifyListeners();
     }
   }
 
@@ -110,7 +121,9 @@ class OtpViewModel extends ChangeNotifier {
     try {
       await ChangePasswordServices().postEmail(email: email);
     } catch (e) {
-      print("Ini errornya: $e");
+      if (kDebugMode) {
+        print("Ini errornya: $e");
+      }
     }
   }
 }

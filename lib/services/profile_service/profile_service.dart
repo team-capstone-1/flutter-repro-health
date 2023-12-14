@@ -5,7 +5,6 @@ import 'package:reprohealth_app/utils/shared_preferences_utils.dart';
 
 class ProfileService {
   final String apiUrl = 'https://dev.reprohealth.my.id/patients';
-  final SharedPreferencesUtils _sharedPreferencesUtils = SharedPreferencesUtils();
 
   Future<ProfileModel> getProfileModel({required BuildContext context}) async {
     final String token = await SharedPreferencesUtils().getToken();
@@ -19,7 +18,6 @@ class ProfileService {
             },
         ),
       );
-      print(response.data);
       return ProfileModel.fromMap(response.data);
     } on DioException catch (e) {
       throw Exception(e.response);

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:reprohealth_app/constant/assets_constants.dart';
@@ -13,7 +14,8 @@ class DetailForumView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final args = ModalRoute.of(context)!.settings.arguments as ResponseDataForum?;
+    final args =
+        ModalRoute.of(context)!.settings.arguments as ResponseDataForum?;
     final ResponseDataForum? detailForum = args;
 
     final patientId =
@@ -128,8 +130,20 @@ class DetailForumView extends StatelessWidget {
             const SizedBox(height: 16),
             Row(
               children: [
-                const ClipRRect(
-                  child: Icon(Icons.people),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(50),
+                  child: CachedNetworkImage(
+                    fit: BoxFit.cover,
+                    width: 40,
+                    imageUrl: detailForum?.patientProfile ?? '',
+                    placeholder: (context, url) =>
+                        const CircularProgressIndicator(),
+                    errorWidget: (context, url, error) => Center(
+                      child: Image.network(
+                        'https://buffer.com/cdn-cgi/image/w=1000,fit=contain,q=90,f=auto/library/content/images/size/w1200/2023/10/free-images.jpg',
+                      ),
+                    ),
+                  ),
                 ),
                 const SizedBox(
                   width: 8,
@@ -157,8 +171,22 @@ class DetailForumView extends StatelessWidget {
                         color: green100,
                         child: Row(
                           children: [
-                            const ClipRRect(
-                              child: Icon(Icons.people),
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(50),
+                              child: CachedNetworkImage(
+                                fit: BoxFit.cover,
+                                width: 40,
+                                imageUrl: detailForum?.forumReplies?.first
+                                        .doctor?.profileImage ??
+                                    '',
+                                placeholder: (context, url) =>
+                                    const CircularProgressIndicator(),
+                                errorWidget: (context, url, error) => Center(
+                                  child: Image.network(
+                                    'https://buffer.com/cdn-cgi/image/w=1000,fit=contain,q=90,f=auto/library/content/images/size/w1200/2023/10/free-images.jpg',
+                                  ),
+                                ),
+                              ),
                             ),
                             const SizedBox(
                               width: 8,

@@ -14,6 +14,9 @@ class CreateForumViewModel extends ChangeNotifier {
   bool _rememberMe = false;
   bool get rememberMe => _rememberMe;
 
+  bool _isLoading = false;
+  bool get isLoading => _isLoading;
+
   Color _buttonColor = grey100;
   Color get buttonColor => _buttonColor;
 
@@ -24,7 +27,7 @@ class CreateForumViewModel extends ChangeNotifier {
     super.dispose();
   }
 
-  void toggleRememberMe(){
+  void toggleRememberMe() {
     _rememberMe = !_rememberMe;
     notifyListeners();
   }
@@ -46,6 +49,8 @@ class CreateForumViewModel extends ChangeNotifier {
     required String patientId,
     required BuildContext context,
   }) async {
+    _isLoading = true;
+    notifyListeners();
     try {
       await ForumServices().createForum(
         patientId: patientId,
@@ -66,6 +71,9 @@ class CreateForumViewModel extends ChangeNotifier {
       if (kDebugMode) {
         print("Kendala: $e");
       }
+    } finally {
+      _isLoading = false;
+      notifyListeners();
     }
   }
 }

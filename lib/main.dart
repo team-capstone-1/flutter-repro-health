@@ -28,6 +28,7 @@ import 'package:reprohealth_app/screen/forgot_password/view_model/otp_view_model
 import 'package:reprohealth_app/screen/forum/create_forum_view.dart';
 import 'package:reprohealth_app/screen/forum/detail_forum_view.dart';
 import 'package:reprohealth_app/screen/forum/forum_view.dart';
+import 'package:reprohealth_app/screen/forum/view_model/chatbot_history_view_model.dart';
 import 'package:reprohealth_app/screen/forum/view_model/create_forum_view_model.dart';
 import 'package:reprohealth_app/screen/forum/assistant_chat_forum_view.dart';
 import 'package:reprohealth_app/screen/forum/chat_bot_forum_view.dart';
@@ -133,11 +134,15 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => RescedhuleViewModel()),
         ChangeNotifierProvider(create: (context) => RefundViewModel()),
         ChangeNotifierProvider(create: (context) => CancelAtClinicViewModel()),
-        ChangeNotifierProvider(create: (context) => GetFamilyProfileViewModel()),
+        ChangeNotifierProvider(
+            create: (context) => GetFamilyProfileViewModel()),
         ChangeNotifierProvider(create: (context) => FilePickerViewModel()),
-        ChangeNotifierProvider(create: (context) => PostFamilyProfileViewModel()),
-        ChangeNotifierProvider(create: (context) => PutFamilyProfileViewModel()),
-        ChangeNotifierProvider(create: (context) => DeleteProfileFamilyViewModel()),
+        ChangeNotifierProvider(
+            create: (context) => PostFamilyProfileViewModel()),
+        ChangeNotifierProvider(
+            create: (context) => PutFamilyProfileViewModel()),
+        ChangeNotifierProvider(
+            create: (context) => DeleteProfileFamilyViewModel()),
         ChangeNotifierProvider(create: (context) => HomeViewModels()),
         ChangeNotifierProvider(create: (context) => AppoinmentViewModel()),
         ChangeNotifierProvider(create: (context) => SpecialistViewModels()),
@@ -146,9 +151,12 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => ClinicsViewModel()),
         ChangeNotifierProvider(create: (context) => MapsViewModel()),
         ChangeNotifierProvider(create: (context) => FilePickerViewModel()),
-        ChangeNotifierProvider(create: (context) => PostFamilyProfileViewModel()),
-        ChangeNotifierProvider(create: (context) => PutFamilyProfileViewModel()),
-        ChangeNotifierProvider(create: (context) => DeleteProfileFamilyViewModel()),
+        ChangeNotifierProvider(
+            create: (context) => PostFamilyProfileViewModel()),
+        ChangeNotifierProvider(
+            create: (context) => PutFamilyProfileViewModel()),
+        ChangeNotifierProvider(
+            create: (context) => DeleteProfileFamilyViewModel()),
         ChangeNotifierProvider(create: (context) => HomeViewModels()),
         ChangeNotifierProvider(create: (context) => AppoinmentViewModel()),
         ChangeNotifierProvider(create: (context) => SpecialistViewModels()),
@@ -166,6 +174,7 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => ChatbotViewModel()),
         ChangeNotifierProvider(create: (context) => RiwayatViewModel()),
         ChangeNotifierProvider(create: (context) => PaymentViewModel()),
+        ChangeNotifierProvider(create: (context) => ChatbotHistoryViewModel()),
       ],
       child: MaterialApp(
         localizationsDelegates: const [
@@ -224,8 +233,10 @@ class MainApp extends StatelessWidget {
           RoutesNavigation.janjiTemuView: (context) => const JanjiTemuView(),
 
           // Forum
-          RoutesNavigation.chatBotForumView: (context) => const ChatBotForumView(),
-          RoutesNavigation.assistantChatForumView: (context) => const AssistantChatForumView(),
+          RoutesNavigation.chatBotForumView: (context) =>
+              const ChatBotForumView(),
+          RoutesNavigation.assistantChatForumView: (context) =>
+              const AssistantChatForumView(),
 
           //profile routes
           RoutesNavigation.profileView: (context) => const ProfileView(),

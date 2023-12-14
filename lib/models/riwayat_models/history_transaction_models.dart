@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final historyTransactionModel = historyTransactionModelFromJson(jsonString);
-
 class HistoryTransactionModel {
   String? message;
   List<ResponseData>? response;

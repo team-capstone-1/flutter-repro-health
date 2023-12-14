@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:reprohealth_app/models/doctor_models/doctor_models.dart';
 import 'package:reprohealth_app/services/doctor_services/doctor_services.dart';
@@ -56,7 +57,9 @@ class DetailSpesialisViewModel extends ChangeNotifier {
       _filteredDokterBySpecialist = _dokterBySpecialistList?.response ?? [];
       notifyListeners();
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
     }
   }
 }
