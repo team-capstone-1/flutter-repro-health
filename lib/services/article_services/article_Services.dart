@@ -227,15 +227,26 @@ class ArticleServices {
 
     try {
       String token = await SharedPreferencesUtils().getToken();
-      var response = await Dio().delete(
+      var dio = Dio();
+
+      dio.options.validateStatus = (status) {
+        return status == 404 ||
+            (status != null && status >= 200 && status < 300);
+      };
+
+      var response = await dio.delete(
         url,
         options: Options(headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $token',
         }),
       );
+
       if (response.statusCode == 204) {
         print('Bookmark deleted');
+      } else if (response.statusCode == 404) {
+        // Treat 404 as a success (bookmark might not exist)
+        print('Bookmark not found, assuming it was already deleted');
       } else {
         throw Exception('Failed to delete bookmark: ${response.statusCode}');
       }

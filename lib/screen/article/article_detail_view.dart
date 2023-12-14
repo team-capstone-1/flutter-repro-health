@@ -89,7 +89,6 @@ class _ArticleDetailViewState extends State<ArticleDetailView> {
           List<CommentModel> comments =
               await ArticleServices().getComment(articleId);
 
-          // Assuming CommentModel has a patientDetails field
           for (CommentModel comment in comments) {
             comment.patientDetails = loggedInPatient.response![0];
           }
@@ -125,11 +124,9 @@ class _ArticleDetailViewState extends State<ArticleDetailView> {
             print('Comment posted successfully: ${newComment.comment}');
 
             setState(() {
-              // Add the new comment to the beginning of the list
               article.comments.insert(0, newComment);
             });
 
-            // Clear the comment text field
             controller.clear();
           } else {
             print('Failed to post comment: returned comment is null');
@@ -395,7 +392,8 @@ class _ArticleDetailViewState extends State<ArticleDetailView> {
                                         comment.patientDetails?.profileImage ??
                                             '',
                                     name: comment.patientDetails?.name ?? '',
-                                    date: comment.date.toLocal(),
+                                    date: DateFormat('dd MMMM yyyy')
+                                        .format(comment.date.toLocal()),
                                     comment: comment.comment,
                                   );
                                 },
@@ -437,7 +435,7 @@ class _ArticleDetailViewState extends State<ArticleDetailView> {
 class CommentCard extends StatelessWidget {
   final String image;
   final String name;
-  final DateTime date;
+  final String date;
   final String comment;
   const CommentCard({
     super.key,
@@ -449,45 +447,42 @@ class CommentCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 12),
-      child: Row(
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(100),
-            child: Image.network(
-              image,
-              width: 40,
-              height: 40,
-              fit: BoxFit.cover,
-            ),
+    return Row(
+      children: [
+        ClipRRect(
+          borderRadius: BorderRadius.circular(100),
+          child: Image.network(
+            image,
+            width: 40,
+            height: 40,
+            fit: BoxFit.cover,
           ),
-          const SizedBox(width: 8),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Text(
-                    name,
-                    style: medium12Black,
-                  ),
-                  const SizedBox(width: 8),
-                  Text(
-                    DateFormat('dd MMMM yyyy').format(date),
-                    style: regular8Black,
-                  ),
-                ],
-              ),
-              const SizedBox(height: 4),
-              Text(
-                comment,
-                style: regular10Black,
-              )
-            ],
-          )
-        ],
-      ),
+        ),
+        const SizedBox(width: 8),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Text(
+                  name,
+                  style: medium12Black,
+                ),
+                const SizedBox(width: 8),
+                Text(
+                  date,
+                  style: regular8Black,
+                ),
+              ],
+            ),
+            const SizedBox(height: 4),
+            Text(
+              comment,
+              style: regular10Black,
+            )
+          ],
+        )
+      ],
     );
   }
 }
