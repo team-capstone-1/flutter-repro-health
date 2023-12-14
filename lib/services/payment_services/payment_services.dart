@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:reprohealth_app/utils/shared_preferences_utils.dart';
 
@@ -33,7 +34,9 @@ class PaymentServices {
         ),
       );
 
-      print(response.data);
+      if (kDebugMode) {
+        print(response.data);
+      }
     } on DioException catch (e) {
       throw Exception(e.response?.data);
     }

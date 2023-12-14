@@ -20,6 +20,9 @@ class PaymentViewModel extends ChangeNotifier {
   bool _isExpanded = false;
   bool get isExpanded => _isExpanded;
 
+  bool _isLoading = false;
+  bool get isLoading => _isLoading;
+
   String _selectedBank = '';
   String get selectedBank => _selectedBank;
 
@@ -32,6 +35,13 @@ class PaymentViewModel extends ChangeNotifier {
     'Maybank',
     'Mestika'
   ];
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _rekController.dispose();
+    super.dispose();
+  }
 
   void selectBank(index) {
     _selectedBank = banks[index];
@@ -131,6 +141,8 @@ class PaymentViewModel extends ChangeNotifier {
     required BuildContext context,
     required String idTransaction,
   }) async {
+    _isLoading = true;
+    notifyListeners();
     try {
       XFile imageFile = XFile(_pickedImage!.path);
 
@@ -140,6 +152,11 @@ class PaymentViewModel extends ChangeNotifier {
         accountNumber: _rekController.text,
         image: imageFile,
       );
+
+      _nameController.clear();
+      _selectedBank = '';
+      _rekController.clear();
+      _pickedImage == null;
 
       if (context.mounted) {
         Navigator.pushNamedAndRemoveUntil(
@@ -152,6 +169,9 @@ class PaymentViewModel extends ChangeNotifier {
       if (kDebugMode) {
         print("Error: $e");
       }
+    } finally {
+      _isLoading = false;
+      notifyListeners();
     }
   }
 }

@@ -199,7 +199,9 @@ class AppointmentHistoryDetailsView extends StatelessWidget {
                 idProfile: appointmentData?.consultation?.patientId,
               ),
             );
-            print(appointmentData?.id);
+            if (kDebugMode) {
+              print(appointmentData?.id);
+            }
             // if (kDebugMode) {
             //   // print('Anda belum membayar tagihan');
             //   // print('BAYAR');
