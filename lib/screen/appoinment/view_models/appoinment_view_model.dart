@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:reprohealth_app/models/clinics_models/clinics_models.dart';
 import 'package:reprohealth_app/models/specialist_models/specialist_models.dart';
@@ -33,7 +34,9 @@ class AppoinmentViewModel extends ChangeNotifier {
       _filteredClinicsList = _clinicsList?.response ?? [];
       notifyListeners();
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
     }
   }
 
@@ -51,7 +54,9 @@ class AppoinmentViewModel extends ChangeNotifier {
       _filteredspecialist = _specialistList?.response ?? [];
       notifyListeners();
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
     }
   }
 

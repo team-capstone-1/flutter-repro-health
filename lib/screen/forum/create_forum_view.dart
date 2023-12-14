@@ -100,8 +100,6 @@ class _CreateForumViewState extends State<CreateForumView> {
       body: Provider.of<ForumViewModel>(context, listen: false)
                   .profileList
                   ?.response
-                  ?.first
-                  .id
                   ?.isNotEmpty ==
               true
           ? Form(

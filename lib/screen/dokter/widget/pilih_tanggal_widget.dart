@@ -28,8 +28,8 @@ class PilihTanggalWidget extends StatelessWidget {
                   final selectedDate = await showDatePicker(
                     context: context,
                     initialDate: janjiTemuViewModel.currentDate,
-                    firstDate: DateTime(2020),
-                    lastDate: DateTime(2050),
+                    firstDate: DateTime.now(),
+                    lastDate: DateTime(2025),
                   );
                   if (selectedDate != null) {
                     janjiTemuViewModel.dueDate = selectedDate;

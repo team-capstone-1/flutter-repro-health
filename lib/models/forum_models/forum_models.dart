@@ -24,6 +24,7 @@ class ResponseDataForum {
     String? title;
     int? view;
     String? content;
+    String? patientProfile;
     bool? anonymous;
     DateTime? date;
     bool? status;
@@ -35,6 +36,7 @@ class ResponseDataForum {
         this.title,
         this.view,
         this.content,
+        this.patientProfile,
         this.anonymous,
         this.date,
         this.status,
@@ -47,6 +49,7 @@ class ResponseDataForum {
         title: json["title"],
         view: json["view"],
         content: json["content"],
+        patientProfile: json["patient_profile"],
         anonymous: json["anonymous"],
         date: json["date"] == null ? null : DateTime.parse(json["date"]),
         status: json["status"],
@@ -59,6 +62,7 @@ class ResponseDataForum {
         "title": title,
         "view": view,
         "content": content,
+        "patient_profile": patientProfile,
         "anonymous": anonymous,
         "date": date?.toIso8601String(),
         "status": status,

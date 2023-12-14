@@ -29,7 +29,11 @@ class _PaymentMethodState extends State<PaymentMethodView> {
   DateTime? get endTime => _endTime;
 
   void _updateCountdown() {
-    _countdownTimer = _endTime?.difference(DateTime.now());
+    if (_endTime != null) {
+      _countdownTimer = _endTime!.difference(DateTime.now());
+    } else {
+      _countdownTimer = null;
+    }
     setState(() {});
   }
 
@@ -48,7 +52,7 @@ class _PaymentMethodState extends State<PaymentMethodView> {
   @override
   Widget build(BuildContext context) {
     final args = ModalRoute.of(context)!.settings.arguments as IdArgument?;
-    final IdArgument? transaction= args;
+    final IdArgument? transaction = args;
 
     Provider.of<JanjiTemuViewModel>(context)
         .getTransactions(patientId: transaction?.idProfile ?? '');
@@ -132,6 +136,7 @@ class _PaymentMethodState extends State<PaymentMethodView> {
                             'Nama',
                             style: medium12Black,
                           ),
+                          const SizedBox(height: 6),
                           TextFormComponent(
                             controller: paymentViewModel.nameController,
                             hintText: 'Masukkan nama',
@@ -145,6 +150,7 @@ class _PaymentMethodState extends State<PaymentMethodView> {
                             'Nama bank',
                             style: medium12Black,
                           ),
+                          const SizedBox(height: 6),
                           GestureDetector(
                             onTap: () {
                               paymentViewModel.isExpand();
@@ -217,6 +223,7 @@ class _PaymentMethodState extends State<PaymentMethodView> {
                             'Nomor Rekening',
                             style: medium12Black,
                           ),
+                          const SizedBox(height: 6),
                           TextFormComponent(
                             controller: paymentViewModel.rekController,
                             hintText: 'Masukkan nomor rekening',
@@ -230,6 +237,7 @@ class _PaymentMethodState extends State<PaymentMethodView> {
                             'Unggah Bukti',
                             style: medium12Black,
                           ),
+                          const SizedBox(height: 6),
                           GestureDetector(
                             onTap: () async {
                               await paymentViewModel.showImagePicker(
@@ -245,19 +253,29 @@ class _PaymentMethodState extends State<PaymentMethodView> {
                               child: Stack(
                                 fit: StackFit.expand,
                                 children: [
-                                  if (paymentViewModel.pickedImage != null)
-                                    ColorFiltered(
-                                      colorFilter: ColorFilter.mode(
-                                        Colors.black.withOpacity(0.3),
-                                        BlendMode.darken,
+                                  paymentViewModel.pickedImage != null
+                                      ? ColorFiltered(
+                                          colorFilter: ColorFilter.mode(
+                                            Colors.black.withOpacity(0.3),
+                                            BlendMode.darken,
+                                          ),
+                                          child: Image.file(
+                                            File(
+                                              paymentViewModel
+                                                  .pickedImage!.path,
+                                            ),
+                                            fit: BoxFit.cover,
+                                          ),
+                                        )
+                                      : Column(
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          const Icon(Icons.file_upload_outlined, size: 24,),
+                                          const SizedBox(height: 10,),
+                                          Text("Unggah foto", style: regular10Grey100,)
+                                        ],
                                       ),
-                                      child: Image.file(
-                                        File(
-                                          paymentViewModel.pickedImage!.path,
-                                        ),
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
                                   Center(
                                     child: Container(
                                       padding: const EdgeInsets.symmetric(
@@ -268,8 +286,10 @@ class _PaymentMethodState extends State<PaymentMethodView> {
                                         borderRadius: BorderRadius.circular(10),
                                         border: Border.all(color: Colors.white),
                                       ),
-                                      child: Text('Ganti Foto',
-                                          style: semiBold12Grey10),
+                                      child: Text(
+                                        'Ganti Foto',
+                                        style: semiBold12Grey10,
+                                      ),
                                     ),
                                   ),
                                 ],

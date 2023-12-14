@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:reprohealth_app/component/button_component.dart';
@@ -217,12 +218,14 @@ class JadwalDokterViewState extends State<JadwalDokterView> {
                                                 ?.response?[selectedPemesan],
                                           ),
                                         );
-                                        print(janjiTemuViewModel.profileList
-                                            ?.response?[selectedPemesan].id);
-                                        print(detailDoctor?.id);
-                                        print(janjiTemuViewModel.dueDate);
-                                        print(
-                                            janjiTemuViewModel.selectedSession);
+                                        if (kDebugMode) {
+                                          print(janjiTemuViewModel.profileList
+                                              ?.response?[selectedPemesan].id);
+                                          print(detailDoctor?.id);
+                                          print(janjiTemuViewModel.dueDate);
+                                          print(janjiTemuViewModel
+                                              .selectedSession);
+                                        }
                                       },
                                     ),
                                     const SizedBox(

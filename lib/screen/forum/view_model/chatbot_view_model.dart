@@ -1,6 +1,7 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:reprohealth_app/models/chat_bot_models.dart';
-import 'package:reprohealth_app/models/chatbot/chatbot_history_models.dart';
+import 'package:reprohealth_app/models/chatbot_models/chatbot_history_models.dart';
 import 'package:reprohealth_app/services/chatbot_services/chatbot_services.dart';
 
 class ChatbotViewModel extends ChangeNotifier {
@@ -10,6 +11,16 @@ class ChatbotViewModel extends ChangeNotifier {
 
   final List<ChatBotUser> _messages = [];
   List<ChatBotUser> get messages => _messages;
+
+  final List<String> _categories = [
+    'Janji Temu',
+    'Artikel',
+    'Forum',
+    'Riwayat',
+    'Profil',
+  ];
+
+  List<String> get categories => _categories;
 
   bool isLoading = false;
 
@@ -25,6 +36,39 @@ class ChatbotViewModel extends ChangeNotifier {
     _messages.add(
       ChatBotUser(
         text: _chat.text,
+        chatBot: ChatBot.user,
+      ),
+    );
+    isLoading = true;
+
+    notifyListeners();
+
+    var input = _chat.text;
+    _chat.clear();
+
+    try {
+      var response = await chatBotServices.postChatbotServices(messages: input);
+
+      isLoading = false;
+      _messages.add(
+        ChatBotUser(
+          text: response,
+          chatBot: ChatBot.bot,
+        ),
+      );
+
+      notifyListeners();
+    } catch (error) {
+      if (kDebugMode) {
+        print("Error in generateResponse: $error");
+      }
+    }
+  }
+
+  Future<void> addCategoryToChat(String category) async {
+    _messages.add(
+      ChatBotUser(
+        text: category,
         chatBot: ChatBot.user,
       ),
     );

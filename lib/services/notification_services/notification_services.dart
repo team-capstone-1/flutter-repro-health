@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:reprohealth_app/models/notification_models.dart';
 import 'package:reprohealth_app/utils/shared_preferences_utils.dart';
@@ -22,7 +23,9 @@ class NotificationService {
             },
         ),
       );
-      print(response.data);
+      if (kDebugMode) {
+        print(response.data);
+      }
       return NotificationModel.fromMap(response.data);
     } on DioException catch (e) {
       throw Exception(e.response);
