@@ -59,4 +59,26 @@ class ChatbotServices {
       throw Exception(e);
     }
   }
+
+  Future<ChatbotHistoryModels?> getSessionId(
+      {required String idSession}) async {
+    String token = await SharedPreferencesUtils().getToken();
+
+    Map<String, dynamic> headers = {
+      'Content-Type': 'application/json',
+      "Authorization": "Bearer $token",
+    };
+
+    try {
+      var response = await Dio().get(
+        'https://dev.reprohealth.my.id/chatbot/users-health-recommendation/session/$idSession',
+        options: Options(
+          headers: headers,
+        ),
+      );
+      return ChatbotHistoryModels.fromJson(response.data);
+    } on DioException catch (e) {
+      throw Exception(e);
+    }
+  }
 }
