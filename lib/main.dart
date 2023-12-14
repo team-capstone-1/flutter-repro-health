@@ -3,7 +3,6 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:reprohealth_app/constant/routes_navigation.dart';
-import 'package:reprohealth_app/models/chatbot/chatbot_history_models.dart';
 import 'package:reprohealth_app/screen/appoinment/appoinment_view.dart';
 import 'package:reprohealth_app/screen/appoinment/view_models/appoinment_view_model.dart';
 import 'package:reprohealth_app/screen/appointment_history_detail/appointment_history_details_view.dart';

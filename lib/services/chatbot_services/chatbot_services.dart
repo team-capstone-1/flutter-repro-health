@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:reprohealth_app/models/chatbot/chatbot_history_models.dart';
+import 'package:reprohealth_app/models/chatbot_models/chatbot_history_models.dart';
 import 'package:reprohealth_app/utils/chatbot_idsharedprefs_utils.dart';
 import 'package:reprohealth_app/utils/shared_preferences_utils.dart';
 

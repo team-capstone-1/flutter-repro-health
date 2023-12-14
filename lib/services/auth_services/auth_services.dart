@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:reprohealth_app/utils/chatbot_idsharedprefs_utils.dart';
 import 'package:reprohealth_app/utils/shared_preferences_utils.dart';
@@ -22,7 +23,9 @@ class AuthServices {
           "password": password,
         },
       );
-      print(response.data);
+      if (kDebugMode) {
+        print(response.data);
+      }
     } on DioException catch (e) {
       throw Exception(e.response);
     }
@@ -47,8 +50,10 @@ class AuthServices {
       await SharedPreferencesUtils().addToken(token);
       await ChatbotIdSharedprefs().addUserId(userId);
 
-      print('ini user id=$userId');
-      print(response.data);
+      if (kDebugMode) {
+        print('ini user id=$userId');
+        print(response.data);
+      }
     } on DioException catch (e) {
       throw Exception(e.response);
     }

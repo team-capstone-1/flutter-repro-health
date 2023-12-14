@@ -17,11 +17,12 @@ class RiwayatViewModel extends ChangeNotifier {
   HistoryTransactionModel? _model;
   HistoryTransactionModel? get model => _model;
 
-  bool isLoading = false; // isLoading
+  bool _isLoading = false; // isLoading
+  bool get isLoading => _isLoading;
 
   //^ GET TRANSACTIONS
   Future<void> getTransaction() async {
-    isLoading = true; // loading state
+    _isLoading = true; // loading state
     notifyListeners();
 
     // request
@@ -33,7 +34,7 @@ class RiwayatViewModel extends ChangeNotifier {
     } on DioException catch (e) {
       throw Exception("Failed to get data : ${e.response}");
     } finally {
-      isLoading = false; // loading state
+      _isLoading = false; // loading state
       notifyListeners();
     }
   }
