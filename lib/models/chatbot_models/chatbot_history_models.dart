@@ -12,7 +12,7 @@ String chatbotHistoryModelsToJson(ChatbotHistoryModels data) =>
 
 class ChatbotHistoryModels {
   String? message;
-  List<Response>? response;
+  List<ResponseDataChatbot>? response;
 
   ChatbotHistoryModels({
     this.message,
@@ -24,8 +24,8 @@ class ChatbotHistoryModels {
         message: json["message"],
         response: json["response"] == null
             ? []
-            : List<Response>.from(
-                json["response"]!.map((x) => Response.fromJson(x))),
+            : List<ResponseDataChatbot>.from(
+                json["response"]!.map((x) => ResponseDataChatbot.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -36,16 +36,17 @@ class ChatbotHistoryModels {
       };
 }
 
-class Response {
+class ResponseDataChatbot {
   String? status;
   Data? data;
 
-  Response({
+  ResponseDataChatbot({
     this.status,
     this.data,
   });
 
-  factory Response.fromJson(Map<String, dynamic> json) => Response(
+  factory ResponseDataChatbot.fromJson(Map<String, dynamic> json) =>
+      ResponseDataChatbot(
         status: json["status"],
         data: json["data"] == null ? null : Data.fromJson(json["data"]),
       );
