@@ -4,9 +4,9 @@ import 'package:reprohealth_app/theme/theme.dart';
 
 class RincianPembayaran extends StatelessWidget {
   final String method;
-  final int total;
-  final int adminPrice;
-  final int price;
+  final String total;
+  final String adminPrice;
+  final String price;
 
   const RincianPembayaran({
     super.key,
@@ -60,7 +60,7 @@ class RincianPembayaran extends StatelessWidget {
                       style: regular12Black400,
                     ),
                     Text(
-                      'Rp $price',
+                      price,
                       style: semiBold12Black600,
                     )
                   ],
@@ -76,7 +76,7 @@ class RincianPembayaran extends StatelessWidget {
                       style: regular12Black400,
                     ),
                     Text(
-                      'Rp $adminPrice',
+                      adminPrice,
                       style: semiBold12Black600,
                     )
                   ],
@@ -95,7 +95,7 @@ class RincianPembayaran extends StatelessWidget {
                 style: semiBold14Black,
               ),
               Text(
-                'Rp $total',
+                total,
                 style: bold14Green500,
               ),
             ],

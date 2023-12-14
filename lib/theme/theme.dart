@@ -102,6 +102,13 @@ TextStyle regular10Red = GoogleFonts.poppins(
   fontWeight: FontWeight.w400,
 );
 
+TextStyle regular10Grey100 = GoogleFonts.poppins(
+  color: grey100,
+  fontSize: 10,
+  fontWeight: FontWeight.w400,
+);
+
+
 TextStyle regular10Grey200 = GoogleFonts.poppins(
   color: grey200,
   fontSize: 10,
@@ -383,6 +390,12 @@ TextStyle semiBold10Negative = GoogleFonts.poppins(
 
 TextStyle semiBold12Grey500 = GoogleFonts.poppins(
   color: grey500,
+  fontSize: 12,
+  fontWeight: FontWeight.w600,
+);
+
+TextStyle semiBold12Grey5 = GoogleFonts.poppins(
+  color: grey5,
   fontSize: 12,
   fontWeight: FontWeight.w600,
 );

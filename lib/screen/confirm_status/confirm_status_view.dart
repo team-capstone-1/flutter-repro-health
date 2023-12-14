@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:reprohealth_app/component/button_component.dart';
+import 'package:reprohealth_app/constant/routes_navigation.dart';
 import 'package:reprohealth_app/theme/theme.dart';
 
 class ConfirmStatusView extends StatelessWidget {
@@ -39,6 +40,11 @@ class ConfirmStatusView extends StatelessWidget {
               ),
               backgroundColor: green500,
               onPressed: () {
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  RoutesNavigation.homeView,
+                  (route) => false,
+                );
                 if (kDebugMode) {
                   print('Lihat Transaksi');
                 }

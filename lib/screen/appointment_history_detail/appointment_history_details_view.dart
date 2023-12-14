@@ -6,6 +6,7 @@ import 'package:reprohealth_app/constant/payment_status.dart';
 import 'package:reprohealth_app/constant/routes_navigation.dart';
 import 'package:reprohealth_app/constant/appointment_status.dart';
 import 'package:reprohealth_app/models/riwayat_models/history_transaction_models.dart';
+import 'package:reprohealth_app/screen/dokter/view_models/janji_temu_view_model.dart';
 
 import 'package:reprohealth_app/theme/theme.dart';
 import 'package:reprohealth_app/component/button_component.dart';
@@ -190,12 +191,23 @@ class AppointmentHistoryDetailsView extends StatelessWidget {
           // jika user belum bayar
           // dengan tipe pembayaran [TRANSFER MANUAL]
           if (appointmentData?.paymentStatus == PaymentStatus.pending) {
+            Navigator.pushNamed(
+              context,
+              RoutesNavigation.paymentMethodView,
+              arguments: IdArgument(
+                idTransaction: appointmentData?.id,
+                idProfile: appointmentData?.consultation?.patientId,
+              ),
+            );
             if (kDebugMode) {
-              print('Anda belum membayar tagihan');
-              print('BAYAR');
-              print('Pembayaran transfer manual');
-              print('route kehalaman -> pembayaran');
+              print(appointmentData?.id);
             }
+            // if (kDebugMode) {
+            //   // print('Anda belum membayar tagihan');
+            //   // print('BAYAR');
+            //   // print('Pembayaran transfer manual');
+            //   // print('route kehalaman -> pembayaran');
+            // }
 
             // jika user refund
           } else if (appointmentData?.paymentStatus == PaymentStatus.refund) {

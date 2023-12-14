@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:reprohealth_app/component/button_component.dart';
 import 'package:reprohealth_app/constant/assets_constants.dart';
@@ -25,6 +26,9 @@ class RegisterViewModels with ChangeNotifier {
 
   bool _passwordVisible = false;
   bool get passwordVisible => _passwordVisible;
+
+  bool _isLoading = false;
+  bool get isLoading => _isLoading;
 
   @override
   void dispose() {
@@ -66,6 +70,8 @@ class RegisterViewModels with ChangeNotifier {
   }
 
   Future<void> registerAccount({required BuildContext context}) async {
+    _isLoading = true;
+    notifyListeners();
     try {
       await AuthServices().authRegister(
         name: _nameController.text,
@@ -125,7 +131,12 @@ class RegisterViewModels with ChangeNotifier {
           },
         );
       }
-      print("ini error");
+      if (kDebugMode) {
+        print("ini error");
+      }
+    } finally {
+      _isLoading = false;
+      notifyListeners();
     }
   }
 }
