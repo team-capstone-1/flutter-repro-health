@@ -36,6 +36,7 @@ class RoutesNavigation {
   // Forum
   static const String chatBotForumView = '/chatbot-bot-forum-view';
   static const String assistantChatForumView = '/assistant-chat-forum-view';
+  static const String assistantChatProfileView = '/assistant-chat-profile-view';
 
   //profil routes
   static const String profileView = '/profile';

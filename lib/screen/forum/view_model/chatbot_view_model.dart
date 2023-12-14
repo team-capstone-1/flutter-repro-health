@@ -10,6 +10,16 @@ class ChatbotViewModel extends ChangeNotifier {
   final List<ChatBotUser> _messages = [];
   List<ChatBotUser> get messages => _messages;
 
+  final List<String> _categories = [
+    'Janji Temu',
+    'Artikel',
+    'Forum',
+    'Riwayat',
+    'Profil',
+  ];
+
+  List<String> get categories => _categories;
+
   bool isLoading = false;
 
   TextEditingController get chat => _chat;
@@ -46,4 +56,36 @@ class ChatbotViewModel extends ChangeNotifier {
       }
     }
   }
+
+  Future<void> addCategoryToChat(String category) async {
+    _messages.add(
+      ChatBotUser(
+        text: category,
+        chatBot: ChatBot.user,
+      ),
+    );
+    isLoading = true;
+
+    notifyListeners();
+
+    var input = _chat.text;
+    _chat.clear();
+
+    try {
+      var response = await chatBotServices.postChatbotServices(messages: input);
+
+      isLoading = false;
+      _messages.add(
+        ChatBotUser(
+          text: response,
+          chatBot: ChatBot.bot,
+        ),
+      );
+
+      notifyListeners();
+    } catch (error) {
+      print("Error in generateResponse: $error");
+    }
+  }
 }
+

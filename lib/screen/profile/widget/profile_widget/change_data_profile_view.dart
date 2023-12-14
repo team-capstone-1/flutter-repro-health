@@ -43,7 +43,7 @@ class ChangeDataProfile extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 TextFieldWidget(
-                  controller: controller1, 
+                  controller: controller1,
                   hintText: "Nama Lengkap",
                   label: "Nama Lengkap",
                   validator: (value) {
@@ -58,6 +58,7 @@ class ChangeDataProfile extends StatelessWidget {
                   controller: controller2, 
                   hintText: "Nomor Ponsel",
                   label: "Nomor Ponsel",
+                  textInputType: TextInputType.number,
                   ),
                 const SizedBox(height: 16,),
                 Text("Tanggal Lahir",
@@ -173,6 +174,7 @@ class ChangeDataProfile extends StatelessWidget {
                   controller: controller3,
                   hintText: "Berat Badan",
                   label: "Berat Badan",
+                  textInputType: TextInputType.number,
                   validator: (value) {
                   if (value == null || value.isEmpty || int.parse(value) >= 500) {
                     return 'Data yang dimasukkan tidak valid!';
@@ -185,6 +187,7 @@ class ChangeDataProfile extends StatelessWidget {
                   controller: controller4,
                   hintText: "Tinggi Badan",
                   label: "Tinggi Badan",
+                  textInputType: TextInputType.number,
                   validator: (value) {
                   if (value == null || value.isEmpty || int.parse(value) >= 300) {
                     return 'Data yang dimasukkan tidak valid!';

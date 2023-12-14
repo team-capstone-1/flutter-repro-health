@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:intl/date_symbol_data_local.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
 import 'package:reprohealth_app/constant/routes_navigation.dart';
 import 'package:reprohealth_app/screen/appoinment/appoinment_view.dart';
@@ -25,14 +25,14 @@ import 'package:reprohealth_app/screen/forgot_password/success_change_password.d
 import 'package:reprohealth_app/screen/forgot_password/view_model/detail_forgot_password_view_model.dart';
 import 'package:reprohealth_app/screen/forgot_password/view_model/forgot_password_view_model.dart';
 import 'package:reprohealth_app/screen/forgot_password/view_model/otp_view_model.dart';
+import 'package:reprohealth_app/screen/forum/assistant_chat_forum_view.dart';
+import 'package:reprohealth_app/screen/forum/chat_bot_forum_view.dart';
 import 'package:reprohealth_app/screen/forum/create_forum_view.dart';
 import 'package:reprohealth_app/screen/forum/detail_forum_view.dart';
 import 'package:reprohealth_app/screen/forum/forum_view.dart';
 import 'package:reprohealth_app/screen/forum/view_model/chatbot_history_view_model.dart';
-import 'package:reprohealth_app/screen/forum/view_model/create_forum_view_model.dart';
-import 'package:reprohealth_app/screen/forum/assistant_chat_forum_view.dart';
-import 'package:reprohealth_app/screen/forum/chat_bot_forum_view.dart';
 import 'package:reprohealth_app/screen/forum/view_model/chatbot_view_model.dart';
+import 'package:reprohealth_app/screen/forum/view_model/create_forum_view_model.dart';
 import 'package:reprohealth_app/screen/forum/view_model/forum_view_model.dart';
 import 'package:reprohealth_app/screen/home/home_view.dart';
 import 'package:reprohealth_app/screen/home/home_view_model.dart';
@@ -50,9 +50,9 @@ import 'package:reprohealth_app/screen/maps/maps_view_models/maps_view_model.dar
 import 'package:reprohealth_app/screen/metode_pembayaran/confirmation_splash_view.dart';
 import 'package:reprohealth_app/screen/metode_pembayaran/payment_method_view.dart';
 import 'package:reprohealth_app/screen/metode_pembayaran/view_model/payment_view_model.dart';
-import 'package:reprohealth_app/screen/onboarding/onboarding_view.dart';
 import 'package:reprohealth_app/screen/notification/notification_view.dart';
 import 'package:reprohealth_app/screen/notification/view_model/get_notification_view_model.dart';
+import 'package:reprohealth_app/screen/onboarding/onboarding_view.dart';
 import 'package:reprohealth_app/screen/profile/about_us_view.dart';
 import 'package:reprohealth_app/screen/profile/add_family_profile_view.dart';
 import 'package:reprohealth_app/screen/profile/change_password_view.dart';
@@ -63,6 +63,7 @@ import 'package:reprohealth_app/screen/profile/ketentuan_pengguna_view.dart';
 import 'package:reprohealth_app/screen/profile/my_profile_view.dart';
 import 'package:reprohealth_app/screen/profile/profile_view.dart';
 import 'package:reprohealth_app/screen/profile/pusat_bantuan/pusat_bantuan_view.dart';
+import 'package:reprohealth_app/screen/profile/pusat_bantuan/reprohealth_assistant/chat_bot_profile_view.dart';
 import 'package:reprohealth_app/screen/profile/view_model/change_gender_view_model.dart';
 import 'package:reprohealth_app/screen/profile/view_model/date_picker_view_model.dart';
 import 'package:reprohealth_app/screen/profile/view_model/delete_family_profile_view_model.dart';
@@ -233,10 +234,9 @@ class MainApp extends StatelessWidget {
           RoutesNavigation.janjiTemuView: (context) => const JanjiTemuView(),
 
           // Forum
-          RoutesNavigation.chatBotForumView: (context) =>
-              const ChatBotForumView(),
-          RoutesNavigation.assistantChatForumView: (context) =>
-              const AssistantChatForumView(),
+          RoutesNavigation.chatBotForumView: (context) => const ChatBotForumView(),
+          RoutesNavigation.assistantChatForumView: (context) => const AssistantChatForumView(),
+          RoutesNavigation.assistantChatProfileView: (context) => const AssistantChatProfileView(),
 
           //profile routes
           RoutesNavigation.profileView: (context) => const ProfileView(),

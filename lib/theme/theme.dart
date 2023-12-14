@@ -394,6 +394,12 @@ TextStyle semiBold12Grey500 = GoogleFonts.poppins(
   fontWeight: FontWeight.w600,
 );
 
+TextStyle semiBold12Grey5 = GoogleFonts.poppins(
+  color: grey5,
+  fontSize: 12,
+  fontWeight: FontWeight.w600,
+);
+
 TextStyle semiBold12Grey300 = GoogleFonts.poppins(
   color: grey300,
   fontSize: 12,
