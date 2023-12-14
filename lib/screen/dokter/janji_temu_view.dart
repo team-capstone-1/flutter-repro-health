@@ -347,11 +347,16 @@ class JanjiTemuView extends StatelessWidget {
                                 ),
                                 const SizedBox(height: 24),
                                 ButtonComponent(
-                                  labelText: Text(
-                                    "Bayar",
-                                    style: medium14Grey10,
-                                    textAlign: TextAlign.center,
-                                  ),
+                                  labelText: janjiTemuViewModel.isLoading ==
+                                          true
+                                      ? const Center(
+                                          child: CircularProgressIndicator(),
+                                        )
+                                      : Text(
+                                          "Bayar",
+                                          style: medium14Grey10,
+                                          textAlign: TextAlign.center,
+                                        ),
                                   backgroundColor: green500,
                                   onPressed: () {
                                     janjiTemuViewModel.postConsultasion(

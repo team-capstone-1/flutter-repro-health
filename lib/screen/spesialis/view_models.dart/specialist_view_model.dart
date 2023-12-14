@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:reprohealth_app/models/specialist_models/specialist_models.dart';
 import 'package:reprohealth_app/services/specialist_services/specialist_services.dart';
@@ -54,7 +55,9 @@ class SpecialistViewModels extends ChangeNotifier {
       _filteredspecialist = _specialistList?.response ?? [];
       notifyListeners();
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
     }
   }
 }

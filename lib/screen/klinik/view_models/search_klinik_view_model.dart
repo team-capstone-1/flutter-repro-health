@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:reprohealth_app/models/doctor_models/doctor_models.dart';
 import 'package:reprohealth_app/models/specialist_models/specialist_models.dart';
@@ -28,18 +29,24 @@ class SearchKlinikViewModel extends ChangeNotifier {
       filterSearchDokter(_searchController.value); // Ensure initial filtering
       notifyListeners();
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
     }
   }
 
   void filterSearchDokter(String query) {
-    print('Search Query Dokter: $query');
+    if (kDebugMode) {
+      print('Search Query Dokter: $query');
+    }
     _filteredDokter = _dokterList?.response
             ?.where((data) =>
                 data.name?.toLowerCase().contains(query.toLowerCase()) ?? false)
             .toList() ??
         [];
-    print('Filtered Dokter: $_filteredDokter');
+    if (kDebugMode) {
+      print('Filtered Dokter: $_filteredDokter');
+    }
     _searchController.add(query);
     notifyListeners();
   }
@@ -60,18 +67,24 @@ class SearchKlinikViewModel extends ChangeNotifier {
           _searchController.value); // Ensure initial filtering
       notifyListeners();
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
     }
   }
 
   void filterSearchSpecialist(String query) {
-    print('Search Query Specialist: $query');
+    if (kDebugMode) {
+      print('Search Query Specialist: $query');
+    }
     _filteredSpecialist = _specialistList?.response
             ?.where((data) =>
                 data.name?.toLowerCase().contains(query.toLowerCase()) ?? false)
             .toList() ??
         [];
-    print('Filtered Specialist: $_filteredSpecialist');
+    if (kDebugMode) {
+      print('Filtered Specialist: $_filteredSpecialist');
+    }
     _searchController.add(query);
     notifyListeners();
   }

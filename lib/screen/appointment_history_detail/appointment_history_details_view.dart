@@ -6,6 +6,7 @@ import 'package:reprohealth_app/constant/payment_status.dart';
 import 'package:reprohealth_app/constant/routes_navigation.dart';
 import 'package:reprohealth_app/constant/appointment_status.dart';
 import 'package:reprohealth_app/models/riwayat_models/history_transaction_models.dart';
+import 'package:reprohealth_app/screen/dokter/view_models/janji_temu_view_model.dart';
 
 import 'package:reprohealth_app/theme/theme.dart';
 import 'package:reprohealth_app/component/button_component.dart';
@@ -193,8 +194,14 @@ class AppointmentHistoryDetailsView extends StatelessWidget {
             Navigator.pushNamed(
               context,
               RoutesNavigation.paymentMethodView,
-              arguments: appointmentData?.id,
+              arguments: IdArgument(
+                idTransaction: appointmentData?.id,
+                idProfile: appointmentData?.consultation?.patientId,
+              ),
             );
+            if (kDebugMode) {
+              print(appointmentData?.id);
+            }
             // if (kDebugMode) {
             //   // print('Anda belum membayar tagihan');
             //   // print('BAYAR');

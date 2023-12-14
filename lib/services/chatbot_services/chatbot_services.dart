@@ -1,5 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:reprohealth_app/models/chatbot_models/chatbot_history_models.dart';
+import 'package:reprohealth_app/utils/chatbot_idsharedprefs_utils.dart';
 import 'package:reprohealth_app/utils/shared_preferences_utils.dart';
 
 class ChatbotServices {
@@ -33,6 +35,28 @@ class ChatbotServices {
       return messages;
     } on DioException catch (e) {
       throw Exception('FAILED TO SEND MESSAGES ${e.response}');
+    }
+  }
+
+  Future<ChatbotHistoryModels?> getChatbotHistory() async {
+    String token = await SharedPreferencesUtils().getToken();
+    String userId = await ChatbotIdSharedprefs().getUserId();
+
+    Map<String, dynamic> headers = {
+      'Content-Type': 'application/json',
+      "Authorization": "Bearer $token",
+    };
+
+    try {
+      var response = await Dio().get(
+        'https://dev.reprohealth.my.id/chatbot/users-health-recommendation/$userId',
+        options: Options(
+          headers: headers,
+        ),
+      );
+      return ChatbotHistoryModels.fromJson(response.data);
+    } on DioException catch (e) {
+      throw Exception(e);
     }
   }
 }

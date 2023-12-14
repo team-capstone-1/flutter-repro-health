@@ -102,6 +102,13 @@ TextStyle regular10Red = GoogleFonts.poppins(
   fontWeight: FontWeight.w400,
 );
 
+TextStyle regular10Grey100 = GoogleFonts.poppins(
+  color: grey100,
+  fontSize: 10,
+  fontWeight: FontWeight.w400,
+);
+
+
 TextStyle regular10Grey200 = GoogleFonts.poppins(
   color: grey200,
   fontSize: 10,

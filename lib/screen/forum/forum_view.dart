@@ -166,29 +166,6 @@ class ForumView extends StatelessWidget {
                 color: green500,
               ),
             ),
-
-            // FloatingActionButton(
-            //   heroTag: "1",
-            //   shape: RoundedRectangleBorder(
-            //     borderRadius: BorderRadius.circular(100),
-            //     side: BorderSide(
-            //       width: 1.5,
-            //       color: green500,
-            //     ),
-            //   ),
-            //   onPressed: () {
-            //     // First FAB action
-            //     Navigator.pushNamed(
-            //       context,
-            //       RoutesNavigation.chatBotForumView,
-            //     );
-            //   },
-            //   backgroundColor: Colors.white,
-            //   child: Icon(
-            //     Icons.smart_toy,
-            //     color: green500,
-            //   ),
-            // ),
             const SizedBox(height: 16),
             FloatingActionButton(
               heroTag: "2",

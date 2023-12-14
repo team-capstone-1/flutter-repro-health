@@ -30,6 +30,7 @@ import 'package:reprohealth_app/screen/forum/chat_bot_forum_view.dart';
 import 'package:reprohealth_app/screen/forum/create_forum_view.dart';
 import 'package:reprohealth_app/screen/forum/detail_forum_view.dart';
 import 'package:reprohealth_app/screen/forum/forum_view.dart';
+import 'package:reprohealth_app/screen/forum/view_model/chatbot_history_view_model.dart';
 import 'package:reprohealth_app/screen/forum/view_model/chatbot_view_model.dart';
 import 'package:reprohealth_app/screen/forum/view_model/create_forum_view_model.dart';
 import 'package:reprohealth_app/screen/forum/view_model/forum_view_model.dart';
@@ -134,11 +135,15 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => RescedhuleViewModel()),
         ChangeNotifierProvider(create: (context) => RefundViewModel()),
         ChangeNotifierProvider(create: (context) => CancelAtClinicViewModel()),
-        ChangeNotifierProvider(create: (context) => GetFamilyProfileViewModel()),
+        ChangeNotifierProvider(
+            create: (context) => GetFamilyProfileViewModel()),
         ChangeNotifierProvider(create: (context) => FilePickerViewModel()),
-        ChangeNotifierProvider(create: (context) => PostFamilyProfileViewModel()),
-        ChangeNotifierProvider(create: (context) => PutFamilyProfileViewModel()),
-        ChangeNotifierProvider(create: (context) => DeleteProfileFamilyViewModel()),
+        ChangeNotifierProvider(
+            create: (context) => PostFamilyProfileViewModel()),
+        ChangeNotifierProvider(
+            create: (context) => PutFamilyProfileViewModel()),
+        ChangeNotifierProvider(
+            create: (context) => DeleteProfileFamilyViewModel()),
         ChangeNotifierProvider(create: (context) => HomeViewModels()),
         ChangeNotifierProvider(create: (context) => AppoinmentViewModel()),
         ChangeNotifierProvider(create: (context) => SpecialistViewModels()),
@@ -147,9 +152,12 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => ClinicsViewModel()),
         ChangeNotifierProvider(create: (context) => MapsViewModel()),
         ChangeNotifierProvider(create: (context) => FilePickerViewModel()),
-        ChangeNotifierProvider(create: (context) => PostFamilyProfileViewModel()),
-        ChangeNotifierProvider(create: (context) => PutFamilyProfileViewModel()),
-        ChangeNotifierProvider(create: (context) => DeleteProfileFamilyViewModel()),
+        ChangeNotifierProvider(
+            create: (context) => PostFamilyProfileViewModel()),
+        ChangeNotifierProvider(
+            create: (context) => PutFamilyProfileViewModel()),
+        ChangeNotifierProvider(
+            create: (context) => DeleteProfileFamilyViewModel()),
         ChangeNotifierProvider(create: (context) => HomeViewModels()),
         ChangeNotifierProvider(create: (context) => AppoinmentViewModel()),
         ChangeNotifierProvider(create: (context) => SpecialistViewModels()),
@@ -167,6 +175,7 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => ChatbotViewModel()),
         ChangeNotifierProvider(create: (context) => RiwayatViewModel()),
         ChangeNotifierProvider(create: (context) => PaymentViewModel()),
+        ChangeNotifierProvider(create: (context) => ChatbotHistoryViewModel()),
       ],
       child: MaterialApp(
         localizationsDelegates: const [

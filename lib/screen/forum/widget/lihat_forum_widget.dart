@@ -12,7 +12,8 @@ class LihatForumWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Provider.of<ForumViewModel>(context, listen: false).getProfile(context: context);
+    Provider.of<ForumViewModel>(context, listen: false)
+        .getProfile(context: context);
     Provider.of<ForumViewModel>(context, listen: false).getForumList();
     return Consumer<ForumViewModel>(
       builder: (context, forumViewModel, child) {
@@ -134,10 +135,18 @@ class LihatForumWidget extends StatelessWidget {
                                     height: 32,
                                     width: 53.82,
                                     avatars: [
-                                      for (var n = 0; n < 2; n++)
-                                        const NetworkImage(
-                                          'https://buffer.com/cdn-cgi/image/w=1000,fit=contain,q=90,f=auto/library/content/images/size/w1200/2023/10/free-images.jpg',
-                                        ),
+                                      forum != null &&
+                                              forum.forumReplies != null &&
+                                              forum.forumReplies?.isNotEmpty ==
+                                                  true
+                                          ? NetworkImage(
+                                              forum.forumReplies?.first.doctor
+                                                      ?.profileImage ??
+                                                  '',
+                                            )
+                                          : NetworkImage(
+                                              forum?.patientProfile ?? '',
+                                            ),
                                     ],
                                   ),
                                   const SizedBox(width: 168),
