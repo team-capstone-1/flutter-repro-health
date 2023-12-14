@@ -3,7 +3,6 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:reprohealth_app/constant/routes_navigation.dart';
-import 'package:reprohealth_app/models/chatbot/chatbot_history_models.dart';
 import 'package:reprohealth_app/screen/appoinment/appoinment_view.dart';
 import 'package:reprohealth_app/screen/appoinment/view_models/appoinment_view_model.dart';
 import 'package:reprohealth_app/screen/appointment_history_detail/appointment_history_details_view.dart';
@@ -29,7 +28,6 @@ import 'package:reprohealth_app/screen/forgot_password/view_model/otp_view_model
 import 'package:reprohealth_app/screen/forum/create_forum_view.dart';
 import 'package:reprohealth_app/screen/forum/detail_forum_view.dart';
 import 'package:reprohealth_app/screen/forum/forum_view.dart';
-import 'package:reprohealth_app/screen/forum/view_model/chatbot_history_view_model.dart';
 import 'package:reprohealth_app/screen/forum/view_model/create_forum_view_model.dart';
 import 'package:reprohealth_app/screen/forum/assistant_chat_forum_view.dart';
 import 'package:reprohealth_app/screen/forum/chat_bot_forum_view.dart';
@@ -175,7 +173,6 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => ChatbotViewModel()),
         ChangeNotifierProvider(create: (context) => RiwayatViewModel()),
         ChangeNotifierProvider(create: (context) => PaymentViewModel()),
-        ChangeNotifierProvider(create: (context) => ChatbotHistoryViewModel()),
       ],
       child: MaterialApp(
         localizationsDelegates: const [
