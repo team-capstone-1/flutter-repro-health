@@ -76,7 +76,7 @@ class ChatbotViewModel extends ChangeNotifier {
 
     notifyListeners();
 
-    var input = _chat.text;
+    var input = category;
     _chat.clear();
 
     try {
