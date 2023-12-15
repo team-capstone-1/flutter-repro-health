@@ -13,11 +13,11 @@ class ChatbotViewModel extends ChangeNotifier {
   List<ChatBotUser> get messages => _messages;
 
   final List<String> _categories = [
-    'Janji Temu',
+    'janji temu',
     'Artikel',
-    'Forum',
-    'Riwayat',
-    'Profil',
+    'forum',
+    'riwayat',
+    'profile',
   ];
 
   List<String> get categories => _categories;

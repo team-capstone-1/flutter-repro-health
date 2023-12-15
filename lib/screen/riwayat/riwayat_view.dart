@@ -7,19 +7,37 @@ import 'package:reprohealth_app/screen/riwayat/widget/tabbar_view_widget.dart';
 import 'package:reprohealth_app/screen/riwayat/view_model/riwayat_view_model.dart';
 import 'package:reprohealth_app/screen/riwayat/widget/chip_appointment_length_widget.dart';
 
-class RiwayatView extends StatelessWidget {
+class RiwayatView extends StatefulWidget {
   const RiwayatView({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    Provider.of<RiwayatViewModel>(
-      context,
-      listen: false,
-    ).getTransaction();
+  State<RiwayatView> createState() => _RiwayatViewState();
+}
 
-    var transactionProcessed = Provider.of<RiwayatViewModel>(context, listen: false).getProcessedTransactions();
-    var transactionSuccesed = Provider.of<RiwayatViewModel>(context, listen: false).getSuceesedTransactions();
-    var transactionCancelled = Provider.of<RiwayatViewModel>(context, listen: false).getCancelledTransactions();
+class _RiwayatViewState extends State<RiwayatView> {
+  @override
+  void initState() {
+    Provider.of<RiwayatViewModel>(context, listen: false).getTransaction();
+    Provider.of<RiwayatViewModel>(context, listen: false)
+        .getSuceesedTransactions();
+    Provider.of<RiwayatViewModel>(context, listen: false)
+        .getProcessedTransactions();
+    Provider.of<RiwayatViewModel>(context, listen: false)
+        .getCancelledTransactions();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    var transactionProcessed =
+        Provider.of<RiwayatViewModel>(context, listen: false)
+            .getProcessedTransactions();
+    var transactionSuccesed =
+        Provider.of<RiwayatViewModel>(context, listen: false)
+            .getSuceesedTransactions();
+    var transactionCancelled =
+        Provider.of<RiwayatViewModel>(context, listen: false)
+            .getCancelledTransactions();
 
     return DefaultTabController(
       length: 3,
@@ -46,7 +64,7 @@ class RiwayatView extends StatelessWidget {
                   length: transactionProcessed.length,
                 ),
               ),
-    
+
               //^ TITLE SELESAI
               Tab(
                 child: ChipAppointmentLengthWidget(
@@ -54,7 +72,7 @@ class RiwayatView extends StatelessWidget {
                   length: transactionSuccesed.length,
                 ),
               ),
-    
+
               //^ TITLE BATAL
               Tab(
                 child: ChipAppointmentLengthWidget(
@@ -81,7 +99,7 @@ class RiwayatView extends StatelessWidget {
                   )
                 else
                   const ShimmerLoadingWidget(),
-    
+
                 //^ SELESAI
                 if (riwayatViewModel.isLoading == false)
                   RefreshIndicator(
@@ -94,7 +112,7 @@ class RiwayatView extends StatelessWidget {
                   )
                 else
                   const ShimmerLoadingWidget(),
-    
+
                 //^ BATAL
                 if (riwayatViewModel.isLoading == false)
                   RefreshIndicator(
