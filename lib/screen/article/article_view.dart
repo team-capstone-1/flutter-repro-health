@@ -135,10 +135,11 @@ class _ArticleViewState extends State<ArticleView> {
                                     .postBookmark(article.id ?? '');
 
                                 setState(() {
-                                  isBookmark[index] = true;
+                                  // Toggle bookmark state
+                                  isBookmark[index] = !isBookmark[index];
                                 });
                               } catch (e) {
-                                print('Failed to bookmark article: $e');
+                                print('Failed to toggle bookmark: $e');
                               }
                             },
                             showIcon: true,

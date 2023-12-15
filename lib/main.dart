@@ -10,6 +10,7 @@ import 'package:reprohealth_app/screen/article/article_detail_view.dart';
 import 'package:reprohealth_app/screen/article/article_view.dart';
 import 'package:reprohealth_app/screen/article/bookmark_view.dart';
 import 'package:reprohealth_app/screen/article/comment_view.dart';
+import 'package:reprohealth_app/screen/article/view_model/article_view_model.dart';
 import 'package:reprohealth_app/screen/cancel_appointment_payment_at_clinic/cancel_appointment_payment_at_clinic_view.dart';
 import 'package:reprohealth_app/screen/cancel_appointment_payment_at_clinic/cancel_at_clinic_view_model/cancel_at_clinic_view_model.dart';
 import 'package:reprohealth_app/screen/choice/choice_view.dart';
@@ -176,6 +177,7 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => RiwayatViewModel()),
         ChangeNotifierProvider(create: (context) => PaymentViewModel()),
         ChangeNotifierProvider(create: (context) => ChatbotHistoryViewModel()),
+        ChangeNotifierProvider(create: (context) => BookmarkProvider()),
       ],
       child: MaterialApp(
         localizationsDelegates: const [
@@ -234,9 +236,12 @@ class MainApp extends StatelessWidget {
           RoutesNavigation.janjiTemuView: (context) => const JanjiTemuView(),
 
           // Forum
-          RoutesNavigation.chatBotForumView: (context) => const ChatBotForumView(),
-          RoutesNavigation.assistantChatForumView: (context) => const AssistantChatForumView(),
-          RoutesNavigation.assistantChatProfileView: (context) => const AssistantChatProfileView(),
+          RoutesNavigation.chatBotForumView: (context) =>
+              const ChatBotForumView(),
+          RoutesNavigation.assistantChatForumView: (context) =>
+              const AssistantChatForumView(),
+          RoutesNavigation.assistantChatProfileView: (context) =>
+              const AssistantChatProfileView(),
 
           //profile routes
           RoutesNavigation.profileView: (context) => const ProfileView(),

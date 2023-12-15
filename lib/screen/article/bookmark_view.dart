@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:reprohealth_app/component/button_component.dart';
+import 'package:reprohealth_app/constant/assets_constants.dart';
 import 'package:reprohealth_app/constant/routes_navigation.dart';
 import 'package:reprohealth_app/models/article_models.dart';
 import 'package:reprohealth_app/screen/article/widgets/article_card.dart';
@@ -80,7 +81,19 @@ class _BookmarkViewState extends State<BookmarkView> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    Assets.assetsEmptyBookmark,
+                  ),
+                  Text(
+                    'Tidak ada artikel yang disimpan',
+                  )
+                ],
+              ),
+            );
           } else {
             bookmarkedItem = snapshot.data!;
             if (selectedItem.length != bookmarkedItem.length) {
@@ -154,76 +167,86 @@ class _BookmarkViewState extends State<BookmarkView> {
     }
 
     if (selectedIndices.isNotEmpty) {
-      // Show a confirmation dialog
       bool? confirmDeletion = await showDialog<bool?>(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-              content: Column(mainAxisSize: MainAxisSize.min, children: [
-            Text(
-              'Hapus ${selectedIndices.length} dari bookmark?',
-              style: semiBold14Black,
-            ),
-            const SizedBox(
-              height: 8,
-            ),
-            Container(
-              width: 255,
-              height: 54,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    'Jika Anda meninggalkan halaman ini, perubahan yang Anda buat akan hilang dan tidak dapat dikembalikan',
-                    style: regular12Black400,
-                    textAlign: TextAlign.center,
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(
-              height: 24,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
-                GestureDetector(
-                  onTap: () => Navigator.pop(context, true),
-                  child: Container(
-                    width: 123.5,
-                    height: 36,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: negative),
-                    child: Center(
-                        child: Text('Ya, Hapus', style: semiBold12Grey10)),
+                Text(
+                  'Hapus ${selectedIndices.length} dari bookmark?',
+                  style: semiBold14Black,
+                ),
+                const SizedBox(
+                  height: 8,
+                ),
+                Container(
+                  width: 255,
+                  height: 54,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Jika Anda meninggalkan halaman ini, perubahan yang Anda buat akan hilang dan tidak dapat dikembalikan',
+                        style: regular12Black400,
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
                   ),
                 ),
-                const SizedBox(width: 8),
-                GestureDetector(
-                  onTap: () => Navigator.pop(context, false),
-                  child: Container(
-                    width: 123.5,
-                    height: 36,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: green500),
-                    child:
-                        Center(child: Text('Tidak', style: semiBold12Grey10)),
-                  ),
+                const SizedBox(
+                  height: 24,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    GestureDetector(
+                      onTap: () => Navigator.pop(context, true),
+                      child: Container(
+                        width: 123.5,
+                        height: 36,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: negative,
+                        ),
+                        child: Center(
+                          child: Text('Ya, Hapus', style: semiBold12Grey10),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    GestureDetector(
+                      onTap: () => Navigator.pop(context, false),
+                      child: Container(
+                        width: 123.5,
+                        height: 36,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: green500,
+                        ),
+                        child: Center(
+                          child: Text('Tidak', style: semiBold12Grey10),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
-          ]));
+          );
         },
       );
 
-      // Proceed with deletion if confirmed
       if (confirmDeletion == true) {
         for (int index in selectedIndices) {
           ArticleModels article = bookmarkedItem[index];
-          await ArticleServices().deleteBookmark(article.id!);
+          await ArticleServices().postBookmark(article.id!);
         }
+
+        setState(() {
+          isDeleting == false;
+        });
       } else {
         setState(() {
           isDeleting = false;
@@ -233,10 +256,9 @@ class _BookmarkViewState extends State<BookmarkView> {
   }
 
   void updateBottomSheet() {
-    // Check if the BottomSheet is currently open
     if (Navigator.of(context).canPop()) {
       Navigator.of(context).pop();
-      // Show the BottomSheet within the context of a Scaffold
+
       scaffoldKey.currentState!.showBottomSheet(
         (context) {
           return StatefulBuilder(
@@ -247,13 +269,10 @@ class _BookmarkViewState extends State<BookmarkView> {
                 onDelete: () async {
                   try {
                     await deleteSelectedBookmarks(selectedItem);
-                    setState(() {
-                      // Update your local state or UI as needed
-                    });
+                    setState(() {});
                     Navigator.pop(context);
                   } catch (e) {
                     print('Failed to delete bookmarks: $e');
-                    // Handle errors as needed
                   }
                 },
               );
