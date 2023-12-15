@@ -2,7 +2,6 @@ import 'package:dio/dio.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:reprohealth_app/constant/appointment_status.dart';
-
 import 'package:reprohealth_app/models/riwayat_models/history_transaction_models.dart';
 import 'package:reprohealth_app/services/riwayat_services/riwayat_services.dart';
 
@@ -31,6 +30,7 @@ class RiwayatViewModel extends ChangeNotifier {
       await Future.delayed(const Duration(seconds: 3));
 
       _model = await services.getTransaction();
+      notifyListeners();
     } on DioException catch (e) {
       throw Exception("Failed to get data : ${e.response}");
     } finally {

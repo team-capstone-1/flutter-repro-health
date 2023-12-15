@@ -34,39 +34,41 @@ class ArticleCard extends StatelessWidget {
       mainAxisSize: MainAxisSize.max,
       children: [
         ClipRRect(
-            borderRadius: BorderRadius.circular(10),
-            child: image.isNotEmpty
-                ? Image.network(
-                    image,
-                    width: 87,
-                    height: 87,
-                    fit: BoxFit.cover,
-                  )
-                : Container(
-                    color: secondary,
-                    width: 87,
-                    height: 87,
-                  )),
+          borderRadius: BorderRadius.circular(10),
+          child: image.isNotEmpty
+              ? Image.network(
+                  image,
+                  width: 87,
+                  height: 87,
+                  fit: BoxFit.cover,
+                )
+              : Container(
+                  color: secondary,
+                  width: 87,
+                  height: 87,
+                ),
+        ),
         const SizedBox(width: 16),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
-              width: 225,
-              child: Text(
-                title,
-                style: semiBold12Black600,
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                width: 225,
+                child: Text(
+                  title,
+                  style: semiBold12Black600,
+                ),
               ),
-            ),
-            const SizedBox(
-              height: 12,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    ClipOval(
+              const SizedBox(
+                height: 12,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      ClipOval(
                         child: doctorImage.isNotEmpty
                             ? Image.network(
                                 doctorImage,
@@ -78,31 +80,36 @@ class ArticleCard extends StatelessWidget {
                                 color: secondary,
                                 width: 20,
                                 height: 20,
-                              )),
-                    const SizedBox(width: 6),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(doctorName, style: medium10Black500),
-                        Text(
-                          DateFormat('dd MMMM yyyy').format(date),
-                          style: regular8Black,
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                showIcon
-                    ? GestureDetector(
-                        onTap: onPressedIcon,
-                        child: isSelected ? selectedIcon : unselectedIcon,
-                      )
-                    : const SizedBox(
-                        width: 40,
-                      )
-              ],
-            ),
-          ],
+                              ),
+                      ),
+                      const SizedBox(width: 6),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(doctorName, style: medium10Black500),
+                          Text(
+                            DateFormat('dd MMMM yyyy').format(date),
+                            style: regular8Black,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  showIcon
+                      ? SizedBox(
+                          width: 40,
+                          child: GestureDetector(
+                            onTap: onPressedIcon,
+                            child: isSelected ? selectedIcon : unselectedIcon,
+                          ),
+                        )
+                      : const SizedBox(
+                          width: 40,
+                        )
+                ],
+              ),
+            ],
+          ),
         ),
       ],
     );

@@ -182,66 +182,68 @@ class _EditFamilyProfileState extends State<EditFamilyProfile> {
         ),
         body: Stack(
           children: [
-            Column(
-              children: <Widget> [
-                Padding(
-                  padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
-                  child: Container(
-                    width: double.infinity,
-                    decoration: const BoxDecoration(
-                      color: Color(0xFFFAFAFA),
-                      ),
-                    child: Center(
-                      child: Padding(
-                        padding: const EdgeInsets.only(right: 8, left: 8,),
-                        child: SelectDropList(
-                          space: 16,
-                          borderColor: grey200,
-                          dropboxborderColor: grey500,
-                          dropbBoxborderRadius: BorderRadius.circular(4),
-                          borderRadius: BorderRadius.circular(4),
-                          paddingLeft: 0,
-                          paddingRight: 0,
-                          paddingBottom: 0,
-                          itemSelected: optionItemSelected,
-                          dropListModel: dropListModel,
-                          showIcon: false,
-                          showArrowIcon: true,
-                          showBorder: true,
-                          heightBottomContainer: 166,
-                          paddingTop: 0,
-                          paddingDropItem: const EdgeInsets.only(left: 16, bottom: 16),
-                          suffixIcon: Icons.keyboard_arrow_down,
-                          containerPadding: const EdgeInsets.only(right: 16,),
-                          icon: const Icon(Icons.person, color: Colors.black),
-                          onOptionSelected: (optionItem) {
-                            optionItemSelected = optionItem;
-                            relation = optionItem.title;
-                            setState(() {});
-                            },
-                          ),
+            SingleChildScrollView(
+              child: Column(
+                children: <Widget> [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
+                    child: Container(
+                      width: double.infinity,
+                      decoration: const BoxDecoration(
+                        color: Color(0xFFFAFAFA),
                         ),
-                      )
+                      child: Center(
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 8, left: 8,),
+                          child: SelectDropList(
+                            space: 16,
+                            borderColor: grey200,
+                            dropboxborderColor: grey500,
+                            dropbBoxborderRadius: BorderRadius.circular(4),
+                            borderRadius: BorderRadius.circular(4),
+                            paddingLeft: 0,
+                            paddingRight: 0,
+                            paddingBottom: 0,
+                            itemSelected: optionItemSelected,
+                            dropListModel: dropListModel,
+                            showIcon: false,
+                            showArrowIcon: true,
+                            showBorder: true,
+                            heightBottomContainer: 166,
+                            paddingTop: 0,
+                            paddingDropItem: const EdgeInsets.only(left: 16, bottom: 16),
+                            suffixIcon: Icons.keyboard_arrow_down,
+                            containerPadding: const EdgeInsets.only(right: 16,),
+                            icon: const Icon(Icons.person, color: Colors.black),
+                            onOptionSelected: (optionItem) {
+                              optionItemSelected = optionItem;
+                              relation = optionItem.title;
+                              setState(() {});
+                              },
+                            ),
+                          ),
+                        )
+                      ),
                     ),
-                  ),
-                ChangeDataProfile(
-                  controller1: nameController,
-                  controller2: nomorController,
-                  controller3: beratController,
-                  controller4: tinggiController,
-                  dateController: dateController,
-                  onChanged: (String? value) {
-                    changeGenderViewModel.groupValue.value = value?? "";
-                    },
-                  ),
-                ],
-              ),
+                  ChangeDataProfile(
+                    controller1: nameController,
+                    controller2: nomorController,
+                    controller3: beratController,
+                    controller4: tinggiController,
+                    dateController: dateController,
+                    onChanged: (String? value) {
+                      changeGenderViewModel.groupValue.value = value?? "";
+                      },
+                    ),
+                  ],
+                ),
+            ),
             Positioned(
               bottom: 16,
               left: 0,
               right: 0,
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
+                padding: const EdgeInsets.symmetric(horizontal: 32),
                 child: SizedBox(
                   width: double.infinity,
                   height: 40,
