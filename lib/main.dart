@@ -31,8 +31,8 @@ import 'package:reprohealth_app/screen/forum/chat_bot_forum_view.dart';
 import 'package:reprohealth_app/screen/forum/create_forum_view.dart';
 import 'package:reprohealth_app/screen/forum/detail_forum_view.dart';
 import 'package:reprohealth_app/screen/forum/forum_view.dart';
-import 'package:reprohealth_app/screen/forum/view_model/chatbot_view_model.dart';
 import 'package:reprohealth_app/screen/forum/view_model/create_forum_view_model.dart';
+import 'package:reprohealth_app/screen/forum/view_model/chatbot_view_model.dart';
 import 'package:reprohealth_app/screen/forum/view_model/forum_view_model.dart';
 import 'package:reprohealth_app/screen/home/home_view.dart';
 import 'package:reprohealth_app/screen/home/home_view_model.dart';
@@ -175,7 +175,7 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => ChatbotViewModel()),
         ChangeNotifierProvider(create: (context) => RiwayatViewModel()),
         ChangeNotifierProvider(create: (context) => PaymentViewModel()),
-        ChangeNotifierProvider(create: (context) => ChatbotHistoryViewModel()),
+        ChangeNotifierProvider(create: (context) => CreateForumViewModel()),
         ChangeNotifierProvider(create: (context) => BookmarkProvider()),
       ],
       child: MaterialApp(

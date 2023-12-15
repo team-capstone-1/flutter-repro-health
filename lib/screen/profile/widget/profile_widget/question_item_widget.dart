@@ -5,6 +5,13 @@ import 'package:reprohealth_app/screen/forum/view_model/chatbot_view_model.dart'
 import 'package:reprohealth_app/theme/theme.dart';
 
 class QuestionsList extends StatelessWidget {
+  final List<String> categories = [
+    'Janji Temu',
+    'Artikel',
+    'Forum',
+    'Riwayat',
+    'Profile',
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +32,7 @@ class QuestionsList extends StatelessWidget {
             width: 213,
             decoration: BoxDecoration(
                 border: Border.all(width: 3, color: green500),
-                borderRadius: BorderRadius.all(
+                borderRadius: const BorderRadius.all(
                   Radius.circular(8),
                 )),
             child: Column(
@@ -36,7 +43,7 @@ class QuestionsList extends StatelessWidget {
                       border: Border.all(
                         color: green500,
                       ),
-                      borderRadius: BorderRadius.only(
+                      borderRadius: const BorderRadius.only(
                         topLeft: Radius.circular(4),
                         topRight: Radius.circular(4),
                       )),
@@ -50,7 +57,6 @@ class QuestionsList extends StatelessWidget {
                 ),
                 Expanded(
                   child: Consumer<ChatbotViewModel>(
-                    
                     builder: (context, categoryProvider, child) {
                       return ListView.separated(
                         itemCount: categoryProvider.categories.length,

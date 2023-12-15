@@ -79,7 +79,7 @@ class _BookmarkViewState extends State<BookmarkView> {
         future: ArticleServices().getBookmarkedArticles(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
             return Center(
               child: Column(
@@ -88,7 +88,7 @@ class _BookmarkViewState extends State<BookmarkView> {
                   Image.asset(
                     Assets.assetsEmptyBookmark,
                   ),
-                  Text(
+                  const Text(
                     'Tidak ada artikel yang disimpan',
                   )
                 ],
@@ -310,30 +310,34 @@ class _BottomSheetContentState extends State<BottomSheetContent> {
       }
     }
 
-    return Container(
+    return SizedBox(
       height: 174,
       width: MediaQuery.of(context).size.width,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Column(
-          children: [
-            selectedIndex.isEmpty
-                ? Text('Tidak ada artikel')
-                : Text('${selectedIndex.length} Artikel dipilih'),
-            const SizedBox(
-              height: 8,
-            ),
-            ButtonComponent(
-              labelText: Center(
-                child: Text(
-                  'Hapus',
-                  style: semiBold12Grey10,
-                ),
+        child: Center(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              selectedIndex.isEmpty
+                  ? const Text('Tidak ada artikel')
+                  : Text('${selectedIndex.length} Artikel dipilih'),
+              const SizedBox(
+                height: 8,
               ),
-              backgroundColor: selectedIndex.isEmpty ? grey200 : negative,
-              onPressed: selectedIndex.isEmpty ? () {} : widget.onDelete,
-            ),
-          ],
+              ButtonComponent(
+                labelText: Center(
+                  child: Text(
+                    'Hapus',
+                    style: semiBold12Grey10,
+                  ),
+                ),
+                backgroundColor: selectedIndex.isEmpty ? grey200 : negative,
+                onPressed: selectedIndex.isEmpty ? () {} : widget.onDelete,
+              ),
+            ],
+          ),
         ),
       ),
     );

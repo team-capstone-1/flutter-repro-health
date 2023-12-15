@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:reprohealth_app/component/button_component.dart';
@@ -158,7 +159,9 @@ class _ArticleDetailViewState extends State<ArticleDetailView> {
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 19),
+                      horizontal: 16,
+                      vertical: 19,
+                    ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -234,12 +237,27 @@ class _ArticleDetailViewState extends State<ArticleDetailView> {
                     ),
                     Row(
                       children: [
+                        // ClipRRect(
+                        //   borderRadius: BorderRadius.circular(100),
+                        //   child: Image.network(
+                        //     article.doctor?.profileImage ?? '',
+                        //     width: 24,
+                        //     fit: BoxFit.cover,
+                        //   ),
+                        // ),
                         ClipRRect(
-                          borderRadius: BorderRadius.circular(100),
-                          child: Image.network(
-                            article.doctor?.profileImage ?? '',
-                            width: 24,
+                          borderRadius: BorderRadius.circular(50),
+                          child: CachedNetworkImage(
                             fit: BoxFit.cover,
+                            width: 66,
+                            imageUrl: article.doctor?.profileImage ?? '',
+                            placeholder: (context, url) =>
+                                const CircularProgressIndicator(),
+                            errorWidget: (context, url, error) => const Center(
+                              child: Icon(
+                                Icons.error,
+                              ),
+                            ),
                           ),
                         ),
                         const SizedBox(width: 8),
@@ -326,7 +344,9 @@ class _ArticleDetailViewState extends State<ArticleDetailView> {
                       builder: (context, snapshot) {
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
-                          return CircularProgressIndicator();
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
                         } else if (snapshot.hasError) {
                           return Text(
                               'Failed to load comments: ${snapshot.error}');
@@ -335,7 +355,7 @@ class _ArticleDetailViewState extends State<ArticleDetailView> {
                           return Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text('No comments available'),
+                              const Text('No comments available'),
                               const SizedBox(height: 16),
                               Text(
                                 'Komentar (${snapshot.data?.length ?? 0})',
@@ -381,7 +401,7 @@ class _ArticleDetailViewState extends State<ArticleDetailView> {
                               const SizedBox(height: 16),
                               ListView.builder(
                                 shrinkWrap: true,
-                                physics: NeverScrollableScrollPhysics(),
+                                physics: const NeverScrollableScrollPhysics(),
                                 itemCount: snapshot.data!.length > 3
                                     ? 3
                                     : snapshot.data!.length,
@@ -450,12 +470,18 @@ class CommentCard extends StatelessWidget {
     return Row(
       children: [
         ClipRRect(
-          borderRadius: BorderRadius.circular(100),
-          child: Image.network(
-            image,
+          borderRadius: BorderRadius.circular(50),
+          child: CachedNetworkImage(
+            fit: BoxFit.cover,
             width: 40,
             height: 40,
-            fit: BoxFit.cover,
+            imageUrl: image,
+            placeholder: (context, url) => const CircularProgressIndicator(),
+            errorWidget: (context, url, error) => const Center(
+              child: Icon(
+                Icons.error,
+              ),
+            ),
           ),
         ),
         const SizedBox(width: 8),
