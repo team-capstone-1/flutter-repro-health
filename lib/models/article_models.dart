@@ -1,8 +1,8 @@
 import 'package:reprohealth_app/models/doctor_models/doctor_models.dart';
-import 'package:reprohealth_app/models/profile_models.dart'; // Import your doctor models
+import 'package:reprohealth_app/models/profile_models.dart';
 
 class ArticleModels {
-  String id;
+  String? id;
   String title;
   String tags;
   String reference;
@@ -76,10 +76,10 @@ class CommentModel {
       patientId: json['patient_id'],
       comment: json['comment'],
       date: DateTime.parse(json['date']),
-      // Assuming that 'patients' is the key for patient details in the JSON
-      patientDetails: json['response']['patients'] != null
-          ? ResponseDataProfile.fromMap(json['response']['patients'])
-          : null,
+      patientDetails:
+          json['response'] != null && json['response']['patients'] != null
+              ? ResponseDataProfile.fromMap(json['response']['patients'])
+              : null,
     );
   }
 }
