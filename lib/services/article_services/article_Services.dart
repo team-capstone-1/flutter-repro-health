@@ -177,7 +177,7 @@ class ArticleServices {
       if (response.statusCode == 200) {
         Map<String, dynamic> responseData = response.data['response'];
 
-        if (responseData != null) {
+        if (responseData.isNotEmpty == true) {
           List<dynamic>? commentsData = responseData['comments'];
 
           if (commentsData != null) {

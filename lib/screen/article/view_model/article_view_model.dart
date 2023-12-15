@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:reprohealth_app/models/article_models.dart';
-import 'package:reprohealth_app/services/article_services/article_Services.dart';
+import 'package:reprohealth_app/services/article_services/article_services.dart';
 
 class ArticleViewModel with ChangeNotifier {
   List<bool> isBookmark = [];
