@@ -33,7 +33,7 @@ class ChangeDataProfile extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Container(
           width: double.infinity,
-          height: 500,
+          height: 495,
           decoration: const BoxDecoration(
             color: Color(0xFFFAFAFA),
             ),
@@ -63,6 +63,8 @@ class ChangeDataProfile extends StatelessWidget {
                     validator: (value) {
                     if (value == null || value.isEmpty || !value.contains(RegExp(r'[0-9]'))) {
                       return 'Masukkan Nomor Ponsel!';
+                    } else if (value.length >= 15 || value.length <= 8) {
+                      return 'Nomor ponsel tidak valid!';
                     }
                     return null;
                   },

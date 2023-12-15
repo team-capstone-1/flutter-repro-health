@@ -62,18 +62,18 @@ class _AddFamilyProfileState extends State<AddFamilyProfile> {
         key: _formKey,
         child: Stack(
           children: [
-            SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget> [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
-                    child: Container(
-                      width: double.infinity,
-                      decoration: const BoxDecoration(
-                        color: Color(0xFFFAFAFA),
-                        ),
-                      child: Center(
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget> [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
+                      child: Container(
+                        width: double.infinity,
+                        decoration: const BoxDecoration(
+                          color: Color(0xFFFAFAFA),
+                          ),
                         child: Padding(
                           padding: const EdgeInsets.only(right: 8, left: 8,),
                           child: SelectDropList(
@@ -101,30 +101,28 @@ class _AddFamilyProfileState extends State<AddFamilyProfile> {
                               setState(() {});
                               },
                             ),
-                          ),
-                        )
+                          )
+                        ),
                       ),
-                    ),
-                  ChangeDataProfile(
-                    controller1: postFamilyProfile.nameController,
-                    controller2: postFamilyProfile.nomorController,
-                    controller3: postFamilyProfile.beratController,
-                    controller4: postFamilyProfile.tinggiController,
-                    dateController: dateController,
-                    onChanged: (String? value) {
-                      changeGenderViewModel.groupValue.value = value ?? "";
-                      Provider.of<PostFamilyProfileViewModel>(context, listen: false).gender = changeGenderViewModel.groupValue.value;
-                    },
-                    ),
-                  ],
-                ),
+                    ChangeDataProfile(
+                      controller1: postFamilyProfile.nameController,
+                      controller2: postFamilyProfile.nomorController,
+                      controller3: postFamilyProfile.beratController,
+                      controller4: postFamilyProfile.tinggiController,
+                      dateController: dateController,
+                      onChanged: (String? value) {
+                        changeGenderViewModel.groupValue.value = value ?? "";
+                        Provider.of<PostFamilyProfileViewModel>(context, listen: false).gender = changeGenderViewModel.groupValue.value;
+                      },
+                      ),
+                    ],
+                  ),
+              ),
             ),
-            Positioned(
-              bottom: 16,
-              left: 0,
-              right: 0,
+            Align(
+              alignment: Alignment.bottomCenter,
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 32),
+                padding: const EdgeInsets.symmetric(horizontal: 16 ,vertical: 16),
                 child: SizedBox(
                   width: double.infinity,
                   height: 40,

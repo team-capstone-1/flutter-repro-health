@@ -238,12 +238,10 @@ class _EditFamilyProfileState extends State<EditFamilyProfile> {
                   ],
                 ),
             ),
-            Positioned(
-              bottom: 16,
-              left: 0,
-              right: 0,
+            Align(
+              alignment: Alignment.bottomCenter,
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 32),
+                padding: const EdgeInsets.symmetric(horizontal: 16 ,vertical: 16),
                 child: SizedBox(
                   width: double.infinity,
                   height: 40,
