@@ -33,7 +33,7 @@ class ChangeDataProfile extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Container(
           width: double.infinity,
-          height: 492,
+          height: 500,
           decoration: const BoxDecoration(
             color: Color(0xFFFAFAFA),
             ),
