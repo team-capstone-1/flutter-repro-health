@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:reprohealth_app/models/article_models.dart';
 import 'package:reprohealth_app/models/profile_models.dart';
-import 'package:reprohealth_app/screen/article/article_detail_view.dart';
+import 'package:reprohealth_app/screen/article/widgets/comment_card.dart';
 import 'package:reprohealth_app/services/article_services/article_services.dart';
 import 'package:reprohealth_app/services/profile_service/profile_service.dart';
 import 'package:reprohealth_app/theme/theme.dart';
