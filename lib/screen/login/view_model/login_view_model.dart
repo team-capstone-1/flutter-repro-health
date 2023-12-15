@@ -75,7 +75,7 @@ class LoginViewModels extends ChangeNotifier {
       if (context.mounted) {
         Navigator.pushNamedAndRemoveUntil(
           context,
-          RoutesNavigation.locationView,
+          RoutesNavigation.homeView,
           (route) => false,
         );
       }
