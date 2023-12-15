@@ -5,13 +5,6 @@ import 'package:reprohealth_app/screen/forum/view_model/chatbot_view_model.dart'
 import 'package:reprohealth_app/theme/theme.dart';
 
 class QuestionsList extends StatelessWidget {
-  final List<String> categories = [
-    'Janji Temu',
-    'Artikel',
-    'Forum',
-    'Riwayat',
-    'Profil',
-  ];
 
   @override
   Widget build(BuildContext context) {

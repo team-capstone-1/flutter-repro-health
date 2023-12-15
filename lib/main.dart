@@ -31,7 +31,6 @@ import 'package:reprohealth_app/screen/forum/chat_bot_forum_view.dart';
 import 'package:reprohealth_app/screen/forum/create_forum_view.dart';
 import 'package:reprohealth_app/screen/forum/detail_forum_view.dart';
 import 'package:reprohealth_app/screen/forum/forum_view.dart';
-import 'package:reprohealth_app/screen/forum/view_model/chatbot_history_view_model.dart';
 import 'package:reprohealth_app/screen/forum/view_model/chatbot_view_model.dart';
 import 'package:reprohealth_app/screen/forum/view_model/create_forum_view_model.dart';
 import 'package:reprohealth_app/screen/forum/view_model/forum_view_model.dart';
