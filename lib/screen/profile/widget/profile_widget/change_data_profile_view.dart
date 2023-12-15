@@ -33,7 +33,7 @@ class ChangeDataProfile extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Container(
           width: double.infinity,
-          height: 492,
+          height: 495,
           decoration: const BoxDecoration(
             color: Color(0xFFFAFAFA),
             ),
@@ -61,8 +61,10 @@ class ChangeDataProfile extends StatelessWidget {
                     label: "Nomor Ponsel",
                     textInputType: TextInputType.number,
                     validator: (value) {
-                    if (value == null || value.isEmpty || !value.contains(RegExp(r'[0-9]'))) {
+                    if (value == null || value.isEmpty) {
                       return 'Masukkan Nomor Ponsel!';
+                    } else if (value.length >= 15 || value.length <= 8 || !value.contains(RegExp(r'[0-9]')) || value.contains(RegExp(r'[a-z]')) || value.contains(RegExp(r'[A-Z]'))) {
+                      return 'Nomor ponsel tidak valid!';
                     }
                     return null;
                   },
@@ -183,7 +185,9 @@ class ChangeDataProfile extends StatelessWidget {
                     label: "Berat Badan",
                     textInputType: TextInputType.number,
                     validator: (value) {
-                    if (value == null || value.isEmpty || int.parse(value) >= 500) {
+                    if (value == null || value.isEmpty) {
+                      return 'Masukkan berat badan!';
+                    } else if (value.contains(RegExp(r'[!\"#$%&*+,\-./()]+')) || !value.contains(RegExp(r'[0-9]')) || !value.contains(RegExp(r'[0-9]')) || value.contains(RegExp(r'[a-z]')) || value.contains(RegExp(r'[A-Z]'))|| int.parse(value) >= 300) {
                       return 'Data yang dimasukkan tidak valid!';
                     }
                     return null;
@@ -196,7 +200,9 @@ class ChangeDataProfile extends StatelessWidget {
                     label: "Tinggi Badan",
                     textInputType: TextInputType.number,
                     validator: (value) {
-                    if (value == null || value.isEmpty || int.parse(value) >= 300) {
+                    if (value == null || value.isEmpty) {
+                      return 'Masukkan tinggi badan!';
+                    } else if (value.contains(RegExp(r'[!\"#$%&*+,\-./()]+')) || !value.contains(RegExp(r'[0-9]')) || !value.contains(RegExp(r'[0-9]')) || value.contains(RegExp(r'[a-z]')) || value.contains(RegExp(r'[A-Z]'))|| int.parse(value) >= 300) {
                       return 'Data yang dimasukkan tidak valid!';
                     }
                     return null;

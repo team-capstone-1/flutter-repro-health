@@ -10,7 +10,7 @@ class QuestionsList extends StatelessWidget {
     'Artikel',
     'Forum',
     'Riwayat',
-    'Profil',
+    'Profile',
   ];
 
   @override
@@ -32,7 +32,7 @@ class QuestionsList extends StatelessWidget {
             width: 213,
             decoration: BoxDecoration(
                 border: Border.all(width: 3, color: green500),
-                borderRadius: BorderRadius.all(
+                borderRadius: const BorderRadius.all(
                   Radius.circular(8),
                 )),
             child: Column(
@@ -43,7 +43,7 @@ class QuestionsList extends StatelessWidget {
                       border: Border.all(
                         color: green500,
                       ),
-                      borderRadius: BorderRadius.only(
+                      borderRadius: const BorderRadius.only(
                         topLeft: Radius.circular(4),
                         topRight: Radius.circular(4),
                       )),
@@ -57,7 +57,6 @@ class QuestionsList extends StatelessWidget {
                 ),
                 Expanded(
                   child: Consumer<ChatbotViewModel>(
-                    
                     builder: (context, categoryProvider, child) {
                       return ListView.separated(
                         itemCount: categoryProvider.categories.length,

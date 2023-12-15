@@ -62,66 +62,67 @@ class _AddFamilyProfileState extends State<AddFamilyProfile> {
         key: _formKey,
         child: Stack(
           children: [
-            Column(
-              children: <Widget> [
-                Padding(
-                  padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
-                  child: Container(
-                    width: double.infinity,
-                    decoration: const BoxDecoration(
-                      color: Color(0xFFFAFAFA),
-                      ),
-                    child: Center(
-                      child: Padding(
-                        padding: const EdgeInsets.only(right: 8, left: 8,),
-                        child: SelectDropList(
-                          space: 16,
-                          borderColor: grey200,
-                          dropboxborderColor: grey500,
-                          dropbBoxborderRadius: BorderRadius.circular(4),
-                          borderRadius: BorderRadius.circular(4),
-                          paddingLeft: 0,
-                          paddingRight: 0,
-                          paddingBottom: 0,
-                          itemSelected: postFamilyProfile.optionItemSelected,
-                          dropListModel: postFamilyProfile.dropListModel,
-                          showIcon: false,
-                          showArrowIcon: true,
-                          showBorder: true,
-                          heightBottomContainer: 166,
-                          paddingTop: 0,
-                          paddingDropItem: const EdgeInsets.only(left: 16, bottom: 16),
-                          suffixIcon: Icons.keyboard_arrow_down,
-                          containerPadding: const EdgeInsets.only(right: 16,),
-                          icon: const Icon(Icons.person, color: Colors.black),
-                          onOptionSelected: (optionItem) {
-                            postFamilyProfile.optionItemSelected = optionItem;
-                            setState(() {});
-                            },
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget> [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
+                      child: Container(
+                        width: double.infinity,
+                        decoration: const BoxDecoration(
+                          color: Color(0xFFFAFAFA),
                           ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 8, left: 8,),
+                          child: SelectDropList(
+                            space: 16,
+                            borderColor: grey200,
+                            dropboxborderColor: grey500,
+                            dropbBoxborderRadius: BorderRadius.circular(4),
+                            borderRadius: BorderRadius.circular(4),
+                            paddingLeft: 0,
+                            paddingRight: 0,
+                            paddingBottom: 0,
+                            itemSelected: postFamilyProfile.optionItemSelected,
+                            dropListModel: postFamilyProfile.dropListModel,
+                            showIcon: false,
+                            showArrowIcon: true,
+                            showBorder: true,
+                            heightBottomContainer: 166,
+                            paddingTop: 0,
+                            paddingDropItem: const EdgeInsets.only(left: 16, bottom: 16),
+                            suffixIcon: Icons.keyboard_arrow_down,
+                            containerPadding: const EdgeInsets.only(right: 16,),
+                            icon: const Icon(Icons.person, color: Colors.black),
+                            onOptionSelected: (optionItem) {
+                              postFamilyProfile.optionItemSelected = optionItem;
+                              setState(() {});
+                              },
+                            ),
+                          )
                         ),
-                      )
-                    ),
+                      ),
+                    ChangeDataProfile(
+                      controller1: postFamilyProfile.nameController,
+                      controller2: postFamilyProfile.nomorController,
+                      controller3: postFamilyProfile.beratController,
+                      controller4: postFamilyProfile.tinggiController,
+                      dateController: dateController,
+                      onChanged: (String? value) {
+                        changeGenderViewModel.groupValue.value = value ?? "";
+                        Provider.of<PostFamilyProfileViewModel>(context, listen: false).gender = changeGenderViewModel.groupValue.value;
+                      },
+                      ),
+                    ],
                   ),
-                ChangeDataProfile(
-                  controller1: postFamilyProfile.nameController,
-                  controller2: postFamilyProfile.nomorController,
-                  controller3: postFamilyProfile.beratController,
-                  controller4: postFamilyProfile.tinggiController,
-                  dateController: dateController,
-                  onChanged: (String? value) {
-                    changeGenderViewModel.groupValue.value = value ?? "";
-                    Provider.of<PostFamilyProfileViewModel>(context, listen: false).gender = changeGenderViewModel.groupValue.value;
-                  },
-                  ),
-                ],
               ),
-            Positioned(
-              bottom: 16,
-              left: 0,
-              right: 0,
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
+                padding: const EdgeInsets.symmetric(horizontal: 16 ,vertical: 16),
                 child: SizedBox(
                   width: double.infinity,
                   height: 40,

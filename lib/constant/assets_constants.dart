@@ -224,4 +224,6 @@ class Assets {
   static const String assetsBank = "assets/BNI.png";
 
   static const String assetsConfirmSplash = 'assets/confirmation_splash.png';
+
+  static const String assetsEmptyBookmark = 'assets/empty_bookmark.png';
 }

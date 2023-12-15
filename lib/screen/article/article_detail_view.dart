@@ -1,9 +1,14 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:reprohealth_app/component/button_component.dart';
 import 'package:reprohealth_app/component/text_form_component.dart';
+import 'package:reprohealth_app/constant/routes_navigation.dart';
 import 'package:reprohealth_app/models/article_models.dart';
 import 'package:reprohealth_app/models/profile_models.dart';
-import 'package:reprohealth_app/services/article_services/article_Services.dart';
+import 'package:reprohealth_app/screen/article/widgets/comment_card.dart';
+import 'package:reprohealth_app/services/article_services/article_services.dart';
+import 'package:reprohealth_app/services/profile_service/profile_service.dart';
 import 'package:reprohealth_app/theme/theme.dart';
 import 'package:html/parser.dart';
 
@@ -37,32 +42,105 @@ class _ArticleDetailViewState extends State<ArticleDetailView> {
       return parsedContent;
     }
 
-    Future<void> postComment() async {
+    Future<String?> getLoggedInPatientId() async {
       try {
-        ResponseDataProfile? currentUserProfile =
-            await ArticleServices().getCurrentUserProfile();
+        ProfileModel profile =
+            await ProfileService().getProfileModel(context: context);
 
-        if (currentUserProfile != null) {
-          String patientId = currentUserProfile.id ?? '';
-          String articleId = article.id;
-          String comment = controller.text;
+        if (profile.response != null && profile.response?.isNotEmpty == true) {
+          String? patientId = profile.response?.first.id;
 
-          if (comment.isNotEmpty) {
-            await ArticleServices().createComment(
-              patientId: patientId,
-              comment: comment,
-              articleId: articleId,
-            );
-
-            setState(() {
-              controller.clear();
-            });
+          if (patientId != null && patientId.isNotEmpty) {
+            return patientId;
+          } else {
+            print('Patient ID is null or empty');
+            return null;
           }
         } else {
-          print('Error: Current user profile not available');
+          print('Profile response is empty');
+          return null;
         }
       } catch (e) {
-        print('Error posting comment: $e');
+        print('Failed to get logged-in patient ID: $e');
+        return null;
+      }
+    }
+
+    Future<ProfileModel?> getLoggedInPatient() async {
+      try {
+        ProfileModel profile =
+            await ProfileService().getProfileModel(context: context);
+
+        if (profile.response != null && profile.response!.isNotEmpty) {
+          return profile;
+        } else {
+          print('Profile response is empty');
+          return null;
+        }
+      } catch (e) {
+        print('Failed to get logged-in patient data: $e');
+        return null;
+      }
+    }
+
+    Future<List<CommentModel>> fetchCommentsForArticle(String articleId) async {
+      try {
+        ProfileModel? loggedInPatient = await getLoggedInPatient();
+
+        if (loggedInPatient != null) {
+          List<CommentModel> comments =
+              await ArticleServices().getComment(articleId);
+
+          for (CommentModel comment in comments) {
+            comment.patientDetails = loggedInPatient.response?.first;
+          }
+
+          comments.sort((a, b) => b.date.compareTo(a.date));
+
+          return comments;
+        } else {
+          throw Exception(
+              'Failed to fetch comments: Logged-in patient data is null');
+        }
+      } catch (e) {
+        print('Failed to fetch comments: $e');
+        return [];
+      }
+    }
+
+    Future<void> postComment() async {
+      final ArticleModels article =
+          ModalRoute.of(context)?.settings.arguments as ArticleModels;
+
+      try {
+        String? patientId = await getLoggedInPatientId();
+        String comment = controller.text.trim();
+
+        if (article.id != null && patientId != null && comment.isNotEmpty) {
+          dynamic response = await ArticleServices().postComment(
+            patientId: patientId,
+            comment: comment,
+            articleId: article.id!,
+          );
+
+          if (response != null && response is Map<String, dynamic>) {
+            CommentModel newComment = CommentModel.fromJson(response);
+
+            print('Comment posted successfully: ${newComment.comment}');
+
+            setState(() {
+              article.comments.insert(0, newComment);
+            });
+
+            controller.clear();
+          } else {
+            print('Failed to post comment: Invalid response format');
+          }
+        } else {
+          print('Comment, patient ID, or article ID is missing or invalid');
+        }
+      } catch (e) {
+        print('Failed to post comment: $e');
       }
     }
 
@@ -162,10 +240,17 @@ class _ArticleDetailViewState extends State<ArticleDetailView> {
                       children: [
                         ClipRRect(
                           borderRadius: BorderRadius.circular(100),
-                          child: Image.network(
-                            article.doctor?.profileImage ?? '',
-                            width: 24,
+                          child: CachedNetworkImage(
                             fit: BoxFit.cover,
+                            width: 24,
+                            imageUrl: article.doctor?.profileImage ?? '',
+                            placeholder: (context, url) =>
+                                const CircularProgressIndicator(),
+                            errorWidget: (context, url, error) => const Center(
+                              child: Icon(
+                                Icons.error,
+                              ),
+                            ),
                           ),
                         ),
                         const SizedBox(width: 8),
@@ -247,26 +332,116 @@ class _ArticleDetailViewState extends State<ArticleDetailView> {
                     const SizedBox(
                       height: 16,
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Komentar (123)',
-                          style: medium10Black500,
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 4,
-                    ),
-                    TextFormComponent(
-                      controller: controller,
-                      hintText: 'Tambahkan Komentar...',
-                      hinstStyle: regular10Grey400,
-                      suffixIcon: IconButton(
-                        onPressed: postComment,
-                        icon: const Icon(Icons.send),
-                      ),
+                    FutureBuilder<List<CommentModel>>(
+                      future: fetchCommentsForArticle(article.id!),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return CircularProgressIndicator();
+                        } else if (snapshot.hasError) {
+                          return Text(
+                              'Failed to load comments: ${snapshot.error}');
+                        } else if (!snapshot.hasData ||
+                            snapshot.data!.isEmpty) {
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('No comments available'),
+                              const SizedBox(height: 16),
+                              Text(
+                                'Komentar (${snapshot.data?.length ?? 0})',
+                                style: medium10Black500,
+                              ),
+                              const SizedBox(height: 4),
+                              TextFormComponent(
+                                controller: controller,
+                                hintText: 'Tambahkan Komentar...',
+                                hinstStyle: regular10Grey400,
+                                suffixIcon: IconButton(
+                                  onPressed: postComment,
+                                  icon: const Icon(Icons.send),
+                                ),
+                              ),
+                              const SizedBox(height: 16),
+                            ],
+                          );
+                        } else {
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'Komentar (${snapshot.data?.length ?? 0})',
+                                    style: medium10Black500,
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 4),
+                              TextFormComponent(
+                                controller: controller,
+                                hintText: 'Tambahkan Komentar...',
+                                hinstStyle: regular10Grey400,
+                                suffixIcon: IconButton(
+                                  onPressed: postComment,
+                                  icon: const Icon(Icons.send),
+                                ),
+                              ),
+                              const SizedBox(height: 16),
+                              ListView.builder(
+                                shrinkWrap: true,
+                                physics: NeverScrollableScrollPhysics(),
+                                itemCount: snapshot.data!.length > 3
+                                    ? 3
+                                    : snapshot.data!.length,
+                                itemBuilder: (context, index) {
+                                  CommentModel comment = snapshot.data![index];
+                                  return Column(
+                                    children: [
+                                      CommentCard(
+                                        image: comment
+                                                .patientDetails?.profileImage ??
+                                            '',
+                                        name:
+                                            comment.patientDetails?.name ?? '',
+                                        date: DateFormat('dd MMMM yyyy')
+                                            .format(comment.date.toLocal()),
+                                        comment: comment.comment,
+                                      ),
+                                      const SizedBox(
+                                        height: 12,
+                                      )
+                                    ],
+                                  );
+                                },
+                              ),
+                              const SizedBox(
+                                height: 4,
+                              ),
+                              ButtonComponent(
+                                  labelText: Center(
+                                    child: Text(
+                                      'Lihat Semua Komentar',
+                                      style: semiBold12Green500,
+                                    ),
+                                  ),
+                                  elevation: 0,
+                                  border: BorderSide(color: green500, width: 2),
+                                  backgroundColor: Colors.white,
+                                  onPressed: () {
+                                    Navigator.pushNamed(
+                                        context, RoutesNavigation.commentView,
+                                        arguments: article.comments);
+                                  }),
+                              const SizedBox(
+                                height: 6,
+                              )
+                            ],
+                          );
+                        }
+                      },
                     ),
                   ],
                 ),
