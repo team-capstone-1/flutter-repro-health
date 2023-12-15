@@ -15,13 +15,7 @@ class SplashView extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: const Color(0xFFE8F9F6),
-      body: Padding(
-        padding: const EdgeInsets.only(
-          top: 314,
-          left: 48.5,
-          right: 48.5,
-          bottom: 380,
-        ),
+      body: Center(
         child: SvgPicture.asset(
           Assets.assetsLogoKesamping,
           height: 85,
