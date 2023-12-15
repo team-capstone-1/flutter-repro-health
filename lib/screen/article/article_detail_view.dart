@@ -6,6 +6,7 @@ import 'package:reprohealth_app/component/text_form_component.dart';
 import 'package:reprohealth_app/constant/routes_navigation.dart';
 import 'package:reprohealth_app/models/article_models.dart';
 import 'package:reprohealth_app/models/profile_models.dart';
+import 'package:reprohealth_app/screen/article/widgets/comment_card.dart';
 import 'package:reprohealth_app/services/article_services/article_services.dart';
 import 'package:reprohealth_app/services/profile_service/profile_service.dart';
 import 'package:reprohealth_app/theme/theme.dart';
@@ -46,8 +47,8 @@ class _ArticleDetailViewState extends State<ArticleDetailView> {
         ProfileModel profile =
             await ProfileService().getProfileModel(context: context);
 
-        if (profile.response != null && profile.response!.isNotEmpty) {
-          String? patientId = profile.response![0].id;
+        if (profile.response != null && profile.response?.isNotEmpty == true) {
+          String? patientId = profile.response?.first.id;
 
           if (patientId != null && patientId.isNotEmpty) {
             return patientId;
@@ -91,8 +92,10 @@ class _ArticleDetailViewState extends State<ArticleDetailView> {
               await ArticleServices().getComment(articleId);
 
           for (CommentModel comment in comments) {
-            comment.patientDetails = loggedInPatient.response![0];
+            comment.patientDetails = loggedInPatient.response?.first;
           }
+
+          comments.sort((a, b) => b.date.compareTo(a.date));
 
           return comments;
         } else {
@@ -114,14 +117,15 @@ class _ArticleDetailViewState extends State<ArticleDetailView> {
         String comment = controller.text.trim();
 
         if (article.id != null && patientId != null && comment.isNotEmpty) {
-          print('Article ID: ${article.id}');
-          print('Patient ID: $patientId');
-          print('Comment: $comment');
+          dynamic response = await ArticleServices().postComment(
+            patientId: patientId,
+            comment: comment,
+            articleId: article.id!,
+          );
 
-          CommentModel? newComment = await ArticleServices().postComment(
-              patientId: patientId, comment: comment, articleId: article.id!);
+          if (response != null && response is Map<String, dynamic>) {
+            CommentModel newComment = CommentModel.fromJson(response);
 
-          if (newComment != null) {
             print('Comment posted successfully: ${newComment.comment}');
 
             setState(() {
@@ -130,11 +134,10 @@ class _ArticleDetailViewState extends State<ArticleDetailView> {
 
             controller.clear();
           } else {
-            print('Failed to post comment: returned comment is null');
+            print('Failed to post comment: Invalid response format');
           }
         } else {
-          print(
-              'Comment cannot be empty, or patient ID or article ID is missing');
+          print('Comment, patient ID, or article ID is missing or invalid');
         }
       } catch (e) {
         print('Failed to post comment: $e');
@@ -159,9 +162,7 @@ class _ArticleDetailViewState extends State<ArticleDetailView> {
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 19,
-                    ),
+                        horizontal: 16, vertical: 19),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -237,19 +238,11 @@ class _ArticleDetailViewState extends State<ArticleDetailView> {
                     ),
                     Row(
                       children: [
-                        // ClipRRect(
-                        //   borderRadius: BorderRadius.circular(100),
-                        //   child: Image.network(
-                        //     article.doctor?.profileImage ?? '',
-                        //     width: 24,
-                        //     fit: BoxFit.cover,
-                        //   ),
-                        // ),
                         ClipRRect(
-                          borderRadius: BorderRadius.circular(50),
+                          borderRadius: BorderRadius.circular(100),
                           child: CachedNetworkImage(
                             fit: BoxFit.cover,
-                            width: 66,
+                            width: 24,
                             imageUrl: article.doctor?.profileImage ?? '',
                             placeholder: (context, url) =>
                                 const CircularProgressIndicator(),
@@ -344,9 +337,7 @@ class _ArticleDetailViewState extends State<ArticleDetailView> {
                       builder: (context, snapshot) {
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
-                          return const Center(
-                            child: CircularProgressIndicator(),
-                          );
+                          return CircularProgressIndicator();
                         } else if (snapshot.hasError) {
                           return Text(
                               'Failed to load comments: ${snapshot.error}');
@@ -355,7 +346,7 @@ class _ArticleDetailViewState extends State<ArticleDetailView> {
                           return Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text('No comments available'),
+                              Text('No comments available'),
                               const SizedBox(height: 16),
                               Text(
                                 'Komentar (${snapshot.data?.length ?? 0})',
@@ -401,22 +392,33 @@ class _ArticleDetailViewState extends State<ArticleDetailView> {
                               const SizedBox(height: 16),
                               ListView.builder(
                                 shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
+                                physics: NeverScrollableScrollPhysics(),
                                 itemCount: snapshot.data!.length > 3
                                     ? 3
                                     : snapshot.data!.length,
                                 itemBuilder: (context, index) {
                                   CommentModel comment = snapshot.data![index];
-                                  return CommentCard(
-                                    image:
-                                        comment.patientDetails?.profileImage ??
+                                  return Column(
+                                    children: [
+                                      CommentCard(
+                                        image: comment
+                                                .patientDetails?.profileImage ??
                                             '',
-                                    name: comment.patientDetails?.name ?? '',
-                                    date: DateFormat('dd MMMM yyyy')
-                                        .format(comment.date.toLocal()),
-                                    comment: comment.comment,
+                                        name:
+                                            comment.patientDetails?.name ?? '',
+                                        date: DateFormat('dd MMMM yyyy')
+                                            .format(comment.date.toLocal()),
+                                        comment: comment.comment,
+                                      ),
+                                      const SizedBox(
+                                        height: 12,
+                                      )
+                                    ],
                                   );
                                 },
+                              ),
+                              const SizedBox(
+                                height: 4,
                               ),
                               ButtonComponent(
                                   labelText: Center(
@@ -448,67 +450,6 @@ class _ArticleDetailViewState extends State<ArticleDetailView> {
           ),
         ],
       ),
-    );
-  }
-}
-
-class CommentCard extends StatelessWidget {
-  final String image;
-  final String name;
-  final String date;
-  final String comment;
-  const CommentCard({
-    super.key,
-    required this.image,
-    required this.name,
-    required this.date,
-    required this.comment,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        ClipRRect(
-          borderRadius: BorderRadius.circular(50),
-          child: CachedNetworkImage(
-            fit: BoxFit.cover,
-            width: 40,
-            height: 40,
-            imageUrl: image,
-            placeholder: (context, url) => const CircularProgressIndicator(),
-            errorWidget: (context, url, error) => const Center(
-              child: Icon(
-                Icons.error,
-              ),
-            ),
-          ),
-        ),
-        const SizedBox(width: 8),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Text(
-                  name,
-                  style: medium12Black,
-                ),
-                const SizedBox(width: 8),
-                Text(
-                  date,
-                  style: regular8Black,
-                ),
-              ],
-            ),
-            const SizedBox(height: 4),
-            Text(
-              comment,
-              style: regular10Black,
-            )
-          ],
-        )
-      ],
     );
   }
 }

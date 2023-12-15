@@ -176,7 +176,7 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => RiwayatViewModel()),
         ChangeNotifierProvider(create: (context) => PaymentViewModel()),
         ChangeNotifierProvider(create: (context) => CreateForumViewModel()),
-        ChangeNotifierProvider(create: (context) => BookmarkProvider()),
+        ChangeNotifierProvider(create: (context) => ArticleViewModel()),
       ],
       child: MaterialApp(
         localizationsDelegates: const [
