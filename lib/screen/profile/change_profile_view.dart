@@ -133,8 +133,6 @@ class _ChangeProfileViewState extends State<ChangeProfileView> {
                   onPressed: () {
                     var updateProvider = Provider.of<PutFamilyProfileViewModel>(context, listen: false);
                     String formattedDate = DateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").format(DateFormat('dd/MM/yyyy').parse(dateController.text).toLocal());
-
-    
                       updateProvider.updateProfileData(
                         context:context, idPatients: idPatients,
                         name: nameController.text,
