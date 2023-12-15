@@ -175,7 +175,6 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => ChatbotViewModel()),
         ChangeNotifierProvider(create: (context) => RiwayatViewModel()),
         ChangeNotifierProvider(create: (context) => PaymentViewModel()),
-        ChangeNotifierProvider(create: (context) => ChatbotHistoryViewModel()),
         ChangeNotifierProvider(create: (context) => BookmarkProvider()),
       ],
       child: MaterialApp(
