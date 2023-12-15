@@ -1,5 +1,5 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:reprohealth_app/component/button_component.dart';
 import 'package:reprohealth_app/constant/assets_constants.dart';
 import 'package:reprohealth_app/constant/routes_navigation.dart';
 import 'package:reprohealth_app/models/article_models.dart';
@@ -9,7 +9,7 @@ import 'package:reprohealth_app/services/article_services/article_services.dart'
 import 'package:reprohealth_app/theme/theme.dart';
 
 class BookmarkView extends StatefulWidget {
-  const BookmarkView({Key? key});
+  const BookmarkView({super.key});
 
   @override
   _BookmarkViewState createState() => _BookmarkViewState();
@@ -54,9 +54,11 @@ class _BookmarkViewState extends State<BookmarkView> {
                                 try {
                                   await deleteSelectedBookmarks(selectedItem);
                                   setState(() {});
-                                  Navigator.pop(context);
-                                } catch (e) {
-                                  print('Failed to delete bookmarks: $e');
+                                  if (context.mounted) {
+                                    Navigator.pop(context);
+                                  }
+                                } on DioException catch (e) {
+                                  throw Exception(e.response);
                                 }
                               },
                             );
@@ -182,7 +184,7 @@ class _BookmarkViewState extends State<BookmarkView> {
                 const SizedBox(
                   height: 8,
                 ),
-                Container(
+                SizedBox(
                   width: 255,
                   height: 54,
                   child: Column(
@@ -271,9 +273,11 @@ class _BookmarkViewState extends State<BookmarkView> {
                   try {
                     await deleteSelectedBookmarks(selectedItem);
                     setState(() {});
-                    Navigator.pop(context);
-                  } catch (e) {
-                    print('Failed to delete bookmarks: $e');
+                    if (context.mounted) {
+                      Navigator.pop(context);
+                    }
+                  } on DioException catch (e) {
+                    throw Exception(e.response);
                   }
                 },
               );

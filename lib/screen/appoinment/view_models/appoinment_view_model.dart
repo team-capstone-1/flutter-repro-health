@@ -101,8 +101,7 @@ class AppoinmentViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-// Location
-
+  // Location
   Future<Map<String, dynamic>> determinePosition() async {
     bool serviceEnabled;
     LocationPermission permission;
