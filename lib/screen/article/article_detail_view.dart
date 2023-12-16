@@ -47,7 +47,7 @@ class _ArticleDetailViewState extends State<ArticleDetailView> {
             await ProfileService().getProfileModel(context: context);
 
         if (profile.response != null && profile.response!.isNotEmpty) {
-          String? patientId = profile.response![0].id;
+          String? patientId = profile.response?.first.id;
 
           if (patientId != null && patientId.isNotEmpty) {
             return patientId;
@@ -70,7 +70,7 @@ class _ArticleDetailViewState extends State<ArticleDetailView> {
         ProfileModel profile =
             await ProfileService().getProfileModel(context: context);
 
-        if (profile.response != null && profile.response!.isNotEmpty) {
+        if (profile.response != null && profile.response?.isNotEmpty == true) {
           return profile;
         } else {
           print('Profile response is empty');
@@ -91,7 +91,7 @@ class _ArticleDetailViewState extends State<ArticleDetailView> {
               await ArticleServices().getComment(articleId);
 
           for (CommentModel comment in comments) {
-            comment.patientDetails = loggedInPatient.response![0];
+            comment.patientDetails = loggedInPatient.response!.first;
           }
 
           return comments;
@@ -113,29 +113,17 @@ class _ArticleDetailViewState extends State<ArticleDetailView> {
         String? patientId = await getLoggedInPatientId();
         String comment = controller.text.trim();
 
-        if (article.id != null && patientId != null && comment.isNotEmpty) {
-          print('Article ID: ${article.id}');
-          print('Patient ID: $patientId');
-          print('Comment: $comment');
+        print('Article ID: ${article.id}');
+        print('Patient ID: $patientId');
+        print('Comment: $comment');
 
-          CommentModel? newComment = await ArticleServices().postComment(
-              patientId: patientId, comment: comment, articleId: article.id!);
+        CommentModel? newComment = await ArticleServices().postComment(
+          patientId: patientId ?? '',
+          comment: comment,
+          articleId: article.id ?? '',
+        );
 
-          if (newComment != null) {
-            print('Comment posted successfully: ${newComment.comment}');
-
-            setState(() {
-              article.comments.insert(0, newComment);
-            });
-
-            controller.clear();
-          } else {
-            print('Failed to post comment: returned comment is null');
-          }
-        } else {
-          print(
-              'Comment cannot be empty, or patient ID or article ID is missing');
-        }
+        print(newComment);
       } catch (e) {
         print('Failed to post comment: $e');
       }
@@ -430,8 +418,10 @@ class _ArticleDetailViewState extends State<ArticleDetailView> {
                                   backgroundColor: Colors.white,
                                   onPressed: () {
                                     Navigator.pushNamed(
-                                        context, RoutesNavigation.commentView,
-                                        arguments: article.comments);
+                                      context,
+                                      RoutesNavigation.commentView,
+                                      arguments: article.comments,
+                                    );
                                   }),
                               const SizedBox(
                                 height: 6,

@@ -127,11 +127,12 @@ class ArticleServices {
     if (articleId == null) {
       print('Article ID is null');
       return CommentModel(
-          id: '',
-          articleId: '',
-          patientId: '',
-          comment: '',
-          date: DateTime.now());
+        id: '',
+        articleId: '',
+        patientId: '',
+        comment: '',
+        date: DateTime.now(),
+      );
     }
 
     String url = constructUrl('articles/$articleId/comments');
@@ -142,7 +143,10 @@ class ArticleServices {
     try {
       var response = await Dio().post(
         url,
-        data: {"comment": comment, "patient_id": patientId},
+        data: {
+          "comment": comment,
+          "patient_id": patientId,
+        },
         options: Options(
           headers: {
             'Content-Type': 'application/json',

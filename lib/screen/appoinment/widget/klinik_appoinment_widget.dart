@@ -73,6 +73,7 @@ class KlinikAppoinmentWidget extends StatelessWidget {
                           ClipRRect(
                             borderRadius: BorderRadius.circular(4.0),
                             child: CachedNetworkImage(
+                              fit: BoxFit.cover,
                               imageUrl: clinics.image ?? '',
                               placeholder: (context, url) =>
                                   const CircularProgressIndicator(),
