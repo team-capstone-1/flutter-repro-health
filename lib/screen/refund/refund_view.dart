@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -31,6 +30,7 @@ class _RefundViewState extends State<RefundView> {
         elevation: 0,
         iconTheme: IconThemeData(color: grey700),
       ),
+      backgroundColor: grey50,
       body: Column(
         children: [
           Expanded(
@@ -59,22 +59,16 @@ class _RefundViewState extends State<RefundView> {
                 color: grey10,
                 child: ButtonComponent(
                   labelText: Text(
-                    controller.isLoading
-                      ? 'Proses ...'
-                      : 'Ajukan Pengembalian',
-                      style: semiBold12Grey10,
-                      textAlign: TextAlign.center,
+                    controller.isLoading ? "Proses ..." : "Ajukan Pengembalian",
+                    style: controller.isLoading
+                        ? semiBold12Grey300
+                        : semiBold12Grey10,
+                    textAlign: TextAlign.center,
                   ),
-                  backgroundColor: negative,
+                  backgroundColor: controller.isLoading ? grey50 : negative,
                   elevation: 0,
                   onPressed: controller.isButtonEnabled()
                       ? () {
-                          if (kDebugMode) {
-                            print(controller.nameValue);
-                            print(controller.selectedBank);
-                            print(controller.accountValue);
-                          }
-
                           // refund
                           if (controller.isLoading == false) {
                             controller.refund(
@@ -90,7 +84,6 @@ class _RefundViewState extends State<RefundView> {
           ),
         ],
       ),
-      backgroundColor: grey50,
     );
   }
 

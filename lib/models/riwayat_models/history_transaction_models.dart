@@ -101,6 +101,7 @@ class Consultation {
   String? queueNumber;
   String? paymentMethod;
   bool? rescheduled;
+  bool? doctorAvailable;
   Patient? patient;
   Clinic? clinic;
   Doctor? doctor;
@@ -115,6 +116,7 @@ class Consultation {
     this.queueNumber,
     this.paymentMethod,
     this.rescheduled,
+    this.doctorAvailable,
     this.patient,
     this.clinic,
     this.doctor,
@@ -130,6 +132,7 @@ class Consultation {
         queueNumber: json["queue_number"],
         paymentMethod: json["payment_method"],
         rescheduled: json["rescheduled"],
+        doctorAvailable: json["doctor_available"],
         patient:
             json["patient"] == null ? null : Patient.fromJson(json["patient"]),
         clinic: json["clinic"] == null ? null : Clinic.fromJson(json["clinic"]),
@@ -146,6 +149,7 @@ class Consultation {
         "queue_number": queueNumber,
         "payment_method": paymentMethod,
         "rescheduled": rescheduled,
+        "doctor_available": doctorAvailable,
         "patient": patient?.toJson(),
         "clinic": clinic?.toJson(),
         "doctor": doctor?.toJson(),
