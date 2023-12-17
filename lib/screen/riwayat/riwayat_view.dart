@@ -58,7 +58,7 @@ class _RiwayatViewState extends State<RiwayatView> {
                   length: transactionProcessed.length,
                 ),
               ),
-
+      
               //^ TITLE SELESAI
               Tab(
                 child: ChipAppointmentLengthWidget(
@@ -66,7 +66,7 @@ class _RiwayatViewState extends State<RiwayatView> {
                   length: transactionSuccesed.length,
                 ),
               ),
-
+      
               //^ TITLE BATAL
               Tab(
                 child: ChipAppointmentLengthWidget(
@@ -89,7 +89,7 @@ class _RiwayatViewState extends State<RiwayatView> {
                   )
                 else
                   const ShimmerLoadingWidget(),
-
+      
                 //^ SELESAI
                 if (controller.isLoading == false)
                   TabBarViewWidget(
@@ -97,7 +97,7 @@ class _RiwayatViewState extends State<RiwayatView> {
                   )
                 else
                   const ShimmerLoadingWidget(),
-
+      
                 //^ BATAL
                 if (controller.isLoading == false)
                   TabBarViewWidget(

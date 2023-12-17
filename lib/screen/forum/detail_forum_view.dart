@@ -18,8 +18,16 @@ class DetailForumView extends StatelessWidget {
         ModalRoute.of(context)!.settings.arguments as ResponseDataForum?;
     final ResponseDataForum? detailForum = args;
 
-    final patientId =
-        Provider.of<ForumViewModel>(context).profileList?.response?.first.id;
+    String? patientId;
+
+    if (Provider.of<ForumViewModel>(context)
+            .profileList
+            ?.response
+            ?.isNotEmpty ==
+        true) {
+      patientId =
+          Provider.of<ForumViewModel>(context).profileList?.response?.first.id;
+    }
 
     Future<void> showMyDialog() async {
       return showDialog<void>(
@@ -103,124 +111,147 @@ class DetailForumView extends StatelessWidget {
           style: semiBold16Grey700,
         ),
         actions: [
-          Visibility(
-            visible: detailForum?.patientId == patientId,
-            child: IconButton(
-              onPressed: showMyDialog,
-              icon: Image.asset(Assets.assetsTrashCan),
-            ),
-          ),
+          Provider.of<ForumViewModel>(context)
+                      .profileList
+                      ?.response
+                      ?.isNotEmpty ==
+                  true
+              ? Visibility(
+                  visible: detailForum?.patientId == patientId,
+                  child: IconButton(
+                    onPressed: showMyDialog,
+                    icon: Image.asset(Assets.assetsTrashCan),
+                  ),
+                )
+              : const SizedBox(),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: ListView(
-          children: [
-            const SizedBox(height: 24),
-            Text(
-              detailForum?.title ?? '',
-              style: semiBold16Grey900,
-            ),
-            const SizedBox(height: 24),
-            Text(
-              detailForum?.content ?? '',
-              style: regular12Grey900,
-              textAlign: TextAlign.justify,
-            ),
-            const SizedBox(height: 16),
-            Row(
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(50),
-                  child: CachedNetworkImage(
-                    fit: BoxFit.cover,
-                    width: 40,
-                    imageUrl: detailForum?.patientProfile ?? '',
-                    placeholder: (context, url) =>
-                        const CircularProgressIndicator(),
-                    errorWidget: (context, url, error) => Center(
-                      child: Image.network(
-                        'https://buffer.com/cdn-cgi/image/w=1000,fit=contain,q=90,f=auto/library/content/images/size/w1200/2023/10/free-images.jpg',
-                      ),
-                    ),
+      body: Provider.of<ForumViewModel>(context)
+                  .profileList
+                  ?.response
+                  ?.isNotEmpty ==
+              true
+          ? Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: ListView(
+                children: [
+                  const SizedBox(height: 24),
+                  Text(
+                    detailForum?.title ?? '',
+                    style: semiBold16Grey900,
                   ),
-                ),
-                const SizedBox(
-                  width: 8,
-                ),
-                Text(
-                  "Ditanyakan oleh ",
-                  style: regular12Grey900,
-                ),
-                Text(
-                  "Pasien",
-                  style: semiBold12Grey900,
-                ),
-              ],
-            ),
-            const SizedBox(height: 48),
-            detailForum?.forumReplies?.isNotEmpty == true
-                ? Column(
+                  const SizedBox(height: 24),
+                  Text(
+                    detailForum?.content ?? '',
+                    style: regular12Grey900,
+                    textAlign: TextAlign.justify,
+                  ),
+                  const SizedBox(height: 16),
+                  Row(
                     children: [
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 13,
-                          horizontal: 8,
-                        ),
-                        width: double.infinity,
-                        color: green100,
-                        child: Row(
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(50),
-                              child: CachedNetworkImage(
-                                fit: BoxFit.cover,
-                                width: 40,
-                                imageUrl: detailForum?.forumReplies?.first
-                                        .doctor?.profileImage ??
-                                    '',
-                                placeholder: (context, url) =>
-                                    const CircularProgressIndicator(),
-                                errorWidget: (context, url, error) => Center(
-                                  child: Image.network(
-                                    'https://buffer.com/cdn-cgi/image/w=1000,fit=contain,q=90,f=auto/library/content/images/size/w1200/2023/10/free-images.jpg',
-                                  ),
-                                ),
-                              ),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(50),
+                        child: CachedNetworkImage(
+                          fit: BoxFit.cover,
+                          width: 40,
+                          imageUrl: detailForum?.patientProfile ?? '',
+                          placeholder: (context, url) =>
+                              const CircularProgressIndicator(),
+                          errorWidget: (context, url, error) => Center(
+                            child: Image.network(
+                              'https://buffer.com/cdn-cgi/image/w=1000,fit=contain,q=90,f=auto/library/content/images/size/w1200/2023/10/free-images.jpg',
                             ),
-                            const SizedBox(
-                              width: 8,
-                            ),
-                            Text(
-                              "Dijawab oleh ",
-                              style: regular12Grey900,
-                            ),
-                            Text(
-                              detailForum?.forumReplies?.first.doctor?.name ??
-                                  '',
-                              style: medium12Green700,
-                            ),
-                          ],
+                          ),
                         ),
                       ),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 16,
-                          horizontal: 8,
-                        ),
-                        color: green50,
-                        width: double.infinity,
-                        child: Text(
-                          detailForum?.forumReplies?.first.content ?? '',
-                          style: regular12Grey900,
-                        ),
+                      const SizedBox(
+                        width: 8,
+                      ),
+                      Text(
+                        "Ditanyakan oleh ",
+                        style: regular12Grey900,
+                      ),
+                      Text(
+                        "Pasien",
+                        style: semiBold12Grey900,
                       ),
                     ],
-                  )
-                : const SizedBox()
-          ],
-        ),
-      ),
+                  ),
+                  const SizedBox(height: 48),
+                  detailForum?.forumReplies?.isNotEmpty == true
+                      ? Column(
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 13,
+                                horizontal: 8,
+                              ),
+                              width: double.infinity,
+                              color: green100,
+                              child: Row(
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(50),
+                                    child: CachedNetworkImage(
+                                      fit: BoxFit.cover,
+                                      width: 40,
+                                      imageUrl: detailForum?.forumReplies?.first
+                                              .doctor?.profileImage ??
+                                          '',
+                                      placeholder: (context, url) =>
+                                          const CircularProgressIndicator(),
+                                      errorWidget: (context, url, error) =>
+                                          Center(
+                                        child: Image.network(
+                                          'https://buffer.com/cdn-cgi/image/w=1000,fit=contain,q=90,f=auto/library/content/images/size/w1200/2023/10/free-images.jpg',
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 8,
+                                  ),
+                                  Text(
+                                    "Dijawab oleh ",
+                                    style: regular12Grey900,
+                                  ),
+                                  Text(
+                                    detailForum?.forumReplies?.first.doctor
+                                            ?.name ??
+                                        '',
+                                    style: medium12Green700,
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 16,
+                                horizontal: 8,
+                              ),
+                              color: green50,
+                              width: double.infinity,
+                              child: Text(
+                                detailForum?.forumReplies?.first.content ?? '',
+                                style: regular12Grey900,
+                              ),
+                            ),
+                          ],
+                        )
+                      : const SizedBox()
+                ],
+              ),
+            )
+          : Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Center(
+                child: Text(
+                  "Buat pasien pada menu profile terlebih dahulu untuk dapat melihat percakapan antara dokter dan pasien!!",
+                  style: semiBold16Grey900,
+                  textAlign: TextAlign.center,
+                ),
+              ),
+          ),
     );
   }
 }

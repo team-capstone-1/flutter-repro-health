@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:reprohealth_app/models/notification_models.dart';
+import 'package:reprohealth_app/models/notification_models/notification_models.dart';
 import 'package:reprohealth_app/services/notification_services/notification_services.dart';
 
 class GetNotificationViewModel extends ChangeNotifier {

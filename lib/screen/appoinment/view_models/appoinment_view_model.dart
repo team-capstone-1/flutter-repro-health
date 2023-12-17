@@ -167,8 +167,12 @@ class AppoinmentViewModel extends ChangeNotifier {
         position.longitude,
       );
     } else {
-      print('Gagal mendapatkan lokasi');
+      if (kDebugMode) {
+        print('Gagal mendapatkan lokasi');
+      }
     }
-    print('Location ${_location?.first.street}');
+    if (kDebugMode) {
+      print('Location ${_location?.first.street}');
+    }
   }
 }

@@ -136,7 +136,7 @@ class _EditFamilyProfileState extends State<EditFamilyProfile> {
                               style: semiBold14Grey500,
                               textAlign: TextAlign.center,
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 8,
                             ),
                             Text(
@@ -144,7 +144,7 @@ class _EditFamilyProfileState extends State<EditFamilyProfile> {
                               style: semiBold12Grey500,
                               textAlign: TextAlign.center,
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 24,
                             ),
                             Row(
@@ -174,7 +174,7 @@ class _EditFamilyProfileState extends State<EditFamilyProfile> {
                                       },
                                       color: negative),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 8,
                                 ),
                                 SizedBox(

@@ -19,16 +19,16 @@ class ChangeProfileView extends StatefulWidget {
   final String? nomorController;
   final num? beratController;
   final num? tinggiController;
-  const ChangeProfileView(
-      {super.key,
-      this.idPatients,
-      this.date,
-      this.nameController,
-      this.nomorController,
-      this.beratController,
-      this.tinggiController,
-      this.gender});
-  const ChangeProfileView({super.key, this.idPatients, this.date, this.nameController, this.nomorController, this.beratController, this.tinggiController, this.gender});
+  const ChangeProfileView({
+    super.key,
+    this.idPatients,
+    this.date,
+    this.nameController,
+    this.nomorController,
+    this.beratController,
+    this.tinggiController,
+    this.gender,
+  });
 
   @override
   State<ChangeProfileView> createState() => _ChangeProfileViewState();

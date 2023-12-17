@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:reprohealth_app/constant/routes_navigation.dart';
 import 'package:reprohealth_app/models/forum_models/forum_models.dart';
-import 'package:reprohealth_app/models/profile_models.dart';
+import 'package:reprohealth_app/models/profile_models/profile_models.dart';
 import 'package:reprohealth_app/services/forum_services/forum_services.dart';
 import 'package:reprohealth_app/services/profile_service/profile_service.dart';
 

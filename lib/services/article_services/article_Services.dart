@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:reprohealth_app/models/article_models.dart';
 import 'package:reprohealth_app/models/doctor_models/doctor_models.dart';
-import 'package:reprohealth_app/models/profile_models.dart';
+import 'package:reprohealth_app/models/profile_models/profile_models.dart';
 import 'package:reprohealth_app/utils/shared_preferences_utils.dart';
 
 class ArticleServices {
@@ -124,6 +124,16 @@ class ArticleServices {
     required String comment,
     required String articleId,
   }) async {
+    if (articleId == null) {
+      print('Article ID is null');
+      return CommentModel(
+        id: '',
+        articleId: '',
+        patientId: '',
+        comment: '',
+        date: DateTime.now(),
+      );
+    }
     if (articleId.isEmpty) {
       print('Article ID is empty or null');
       throw ArgumentError('Invalid article ID');
@@ -137,7 +147,10 @@ class ArticleServices {
     try {
       var response = await Dio().post(
         url,
-        data: {"comment": comment, "patient_id": patientId},
+        data: {
+          "comment": comment,
+          "patient_id": patientId,
+        },
         options: Options(
           headers: {
             'Content-Type': 'application/json',

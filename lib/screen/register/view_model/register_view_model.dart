@@ -132,7 +132,7 @@ class RegisterViewModels with ChangeNotifier {
         );
       }
       if (kDebugMode) {
-        print("ini error");
+        print(e);
       }
     } finally {
       _isLoading = false;
