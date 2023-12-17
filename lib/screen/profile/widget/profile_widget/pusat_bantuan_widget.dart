@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:reprohealth_app/screen/profile/widget/profile_widget/button_widget.dart';
 import 'package:reprohealth_app/theme/theme.dart';
 
@@ -104,7 +105,17 @@ class PusatBantuanWidget extends StatelessWidget {
                     height: 40,
                     child: ButtonWidget(
                       title: "Kirim Email",
-                      onPressed: () {},
+                      onPressed: () async {
+                        try {
+                          final Email email = Email(
+                            subject: 'Saya ingin bertanya',
+                            recipients: ['reprohealth@gmail.com'],
+                          );
+                          await FlutterEmailSender.send(email);
+                        } catch (error) {
+                          print('Error sending email: $error');
+                        }
+                      },
                       color: green500
                       ),
                   )
