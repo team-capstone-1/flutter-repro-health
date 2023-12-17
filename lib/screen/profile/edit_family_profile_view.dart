@@ -42,10 +42,10 @@ class _EditFamilyProfileState extends State<EditFamilyProfile> {
   late TextEditingController dateController;
 
   late final PutFamilyProfileViewModel updateProvider;
+  final _formKey = GlobalKey<FormState>();
 
- @override
-  void initState() {
-
+    @override
+    void initState() {
     super.initState();
     idPatients = widget.idPatients ?? "";
     relation = widget.relation ?? "";
@@ -60,10 +60,10 @@ class _EditFamilyProfileState extends State<EditFamilyProfile> {
   }
 
   @override
-  void dispose() {  
+  void dispose() {
     nameController.dispose();
     nomorController.dispose();
-    dateController.dispose(); 
+    dateController.dispose();
     beratController.dispose();
     tinggiController.dispose();
     super.dispose();
@@ -180,107 +180,112 @@ class _EditFamilyProfileState extends State<EditFamilyProfile> {
             )
           ],
         ),
-        body: Stack(
-          children: [
-            SingleChildScrollView(
-              child: Column(
-                children: <Widget> [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
-                    child: Container(
-                      width: double.infinity,
-                      decoration: const BoxDecoration(
-                        color: Color(0xFFFAFAFA),
-                        ),
-                      child: Center(
-                        child: Padding(
-                          padding: const EdgeInsets.only(right: 8, left: 8,),
-                          child: SelectDropList(
-                            space: 16,
-                            borderColor: grey200,
-                            dropboxborderColor: grey500,
-                            dropbBoxborderRadius: BorderRadius.circular(4),
-                            borderRadius: BorderRadius.circular(4),
-                            paddingLeft: 0,
-                            paddingRight: 0,
-                            paddingBottom: 0,
-                            itemSelected: optionItemSelected,
-                            dropListModel: dropListModel,
-                            showIcon: false,
-                            showArrowIcon: true,
-                            showBorder: true,
-                            heightBottomContainer: 166,
-                            paddingTop: 0,
-                            paddingDropItem: const EdgeInsets.only(left: 16, bottom: 16),
-                            suffixIcon: Icons.keyboard_arrow_down,
-                            containerPadding: const EdgeInsets.only(right: 16,),
-                            icon: const Icon(Icons.person, color: Colors.black),
-                            onOptionSelected: (optionItem) {
-                              optionItemSelected = optionItem;
-                              relation = optionItem.title;
-                              setState(() {});
-                              },
-                            ),
+        body: Form(
+          key: _formKey,
+          child: Stack(
+            children: [
+              SingleChildScrollView(
+                child: Column(
+                  children: <Widget> [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
+                      child: Container(
+                        width: double.infinity,
+                        decoration: const BoxDecoration(
+                          color: Color(0xFFFAFAFA),
                           ),
-                        )
+                        child: Center(
+                          child: Padding(
+                            padding: const EdgeInsets.only(right: 8, left: 8,),
+                            child: SelectDropList(
+                              space: 16,
+                              borderColor: grey200,
+                              dropboxborderColor: grey500,
+                              dropbBoxborderRadius: BorderRadius.circular(4),
+                              borderRadius: BorderRadius.circular(4),
+                              paddingLeft: 0,
+                              paddingRight: 0,
+                              paddingBottom: 0,
+                              itemSelected: optionItemSelected,
+                              dropListModel: dropListModel,
+                              showIcon: false,
+                              showArrowIcon: true,
+                              showBorder: true,
+                              heightBottomContainer: 166,
+                              paddingTop: 0,
+                              paddingDropItem: const EdgeInsets.only(left: 16, bottom: 16),
+                              suffixIcon: Icons.keyboard_arrow_down,
+                              containerPadding: const EdgeInsets.only(right: 16,),
+                              icon: const Icon(Icons.person, color: Colors.black),
+                              onOptionSelected: (optionItem) {
+                                optionItemSelected = optionItem;
+                                relation = optionItem.title;
+                                setState(() {});
+                                },
+                              ),
+                            ),
+                          )
+                        ),
                       ),
-                    ),
-                  ChangeDataProfile(
-                    controller1: nameController,
-                    controller2: nomorController,
-                    controller3: beratController,
-                    controller4: tinggiController,
-                    dateController: dateController,
-                    onChanged: (String? value) {
-                      changeGenderViewModel.groupValue.value = value?? "";
+                    ChangeDataProfile(
+                      controller1: nameController,
+                      controller2: nomorController,
+                      controller3: beratController,
+                      controller4: tinggiController,
+                      dateController: dateController,
+                      onChanged: (String? value) {
+                        changeGenderViewModel.groupValue.value = value?? "";
+                        },
+                      ),
+                    ],
+                  ),
+              ),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16 ,vertical: 16),
+                  child: SizedBox(
+                    width: double.infinity,
+                    height: 40,
+                    child: ButtonWidget(
+                      title: "Simpan",
+                      onPressed: () {
+                        var updateProvider = Provider.of<PutFamilyProfileViewModel>(context, listen: false);
+                        String formattedDate = DateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").format(DateFormat('dd/MM/yyyy').parse(dateController.text).toLocal());
+                        if (_formKey.currentState!.validate()) {
+                          updateProvider.updateProfileData(
+                          context:context, idPatients: idPatients,
+                          relation: relation,
+                          gender: changeGenderViewModel.groupValue.value,
+                          name: nameController.text,
+                          nomor: nomorController.text,
+                          date: formattedDate,
+                          berat: double.parse(beratController.text),
+                          tinggi: int.parse(tinggiController.text)
+                          );
+                          postFamilyProfile.nameController.clear();
+                          postFamilyProfile.nomorController.clear();
+                          postFamilyProfile.beratController.clear();
+                          postFamilyProfile.tinggiController.clear();
+                          changeGenderViewModel.groupValue.value = "";
+              
+                          postFamilyProfile.optionItemSelected = OptionItem(title: "Pilih Hubungan");
+                          Navigator.pop(context);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            CustomSnackBar(
+                              contentText: 'Profil keluarga berhasil diubah!',
+                              backgroundColor: positive,
+                            )
+                          );
+                        }
                       },
+                      color: green500,
                     ),
-                  ],
-                ),
-            ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16 ,vertical: 16),
-                child: SizedBox(
-                  width: double.infinity,
-                  height: 40,
-                  child: ButtonWidget(
-                    title: "Simpan",
-                    onPressed: () {
-                      var updateProvider = Provider.of<PutFamilyProfileViewModel>(context, listen: false);
-                      String formattedDate = DateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").format(DateFormat('dd/MM/yyyy').parse(dateController.text).toLocal());
-                      updateProvider.updateProfileData(
-                        context:context, idPatients: idPatients,
-                        relation: relation,
-                        gender: changeGenderViewModel.groupValue.value,
-                        name: nameController.text,
-                        nomor: nomorController.text,
-                        date: formattedDate,
-                        berat: double.parse(beratController.text),
-                        tinggi: int.parse(tinggiController.text)
-                        );
-                      postFamilyProfile.nameController.clear();
-                      postFamilyProfile.nomorController.clear();
-                      postFamilyProfile.beratController.clear();
-                      postFamilyProfile.tinggiController.clear();
-                      changeGenderViewModel.groupValue.value = "";
-    
-                      postFamilyProfile.optionItemSelected = OptionItem(title: "Pilih Hubungan");
-                      Navigator.pop(context);
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        CustomSnackBar(
-                          contentText: 'Profil keluarga berhasil diubah!',
-                          backgroundColor: positive,
-                        )
-                      );
-                    },
-                    color: green500,
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
