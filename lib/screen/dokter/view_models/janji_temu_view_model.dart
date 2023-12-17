@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:reprohealth_app/constant/routes_navigation.dart';
 import 'package:reprohealth_app/models/appointment_models/appointment_models.dart';
 import 'package:reprohealth_app/models/doctor_models/doctor_models.dart';
-import 'package:reprohealth_app/models/profile_models.dart';
+import 'package:reprohealth_app/models/profile_models/profile_models.dart';
 import 'package:reprohealth_app/services/appointment_services/appointment_services.dart';
 import 'package:reprohealth_app/services/profile_service/profile_service.dart';
+import 'package:reprohealth_app/theme/theme.dart';
 
 class JanjiTemuViewModel extends ChangeNotifier {
   final AppointmentServices _appointmentServices = AppointmentServices();
@@ -134,6 +135,49 @@ class JanjiTemuViewModel extends ChangeNotifier {
         }
       }
     } catch (e) {
+      if (context.mounted) {
+        showDialog<void>(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Center(
+                child: Text(
+                  'Dokter tidak tersedia',
+                  style: semiBold14Black,
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              content: Text(
+                'Silahkan memilih tanggal lain untuk dapat melakukan janji temu dengan dokter!!',
+                style: regular12Grey300,
+                textAlign: TextAlign.center,
+              ),
+              actionsAlignment: MainAxisAlignment.center,
+              actions: <Widget>[
+                SizedBox(
+                  height: 36,
+                  width: 110,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: green500,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    child: Text(
+                      'Ok',
+                      style: semiBold12Grey10,
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ),
+              ],
+            );
+          },
+        );
+      }
       if (kDebugMode) {
         print(e);
       }

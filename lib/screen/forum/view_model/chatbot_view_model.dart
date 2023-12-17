@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:reprohealth_app/models/chat_bot_models.dart';
+import 'package:reprohealth_app/models/chatbot_models/chat_bot_models.dart';
 import 'package:reprohealth_app/models/chatbot_models/chatbot_history_models.dart';
 import 'package:reprohealth_app/services/chatbot_services/chatbot_services.dart';
 
@@ -92,7 +92,9 @@ class ChatbotViewModel extends ChangeNotifier {
 
       notifyListeners();
     } catch (error) {
-      print("Error in generateResponse: $error");
+      if (kDebugMode) {
+        print("Error in generateResponse: $error");
+      }
     }
   }
 

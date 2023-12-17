@@ -23,14 +23,22 @@ class EditFamilyProfile extends StatefulWidget {
   final num? beratController;
   final num? tinggiController;
 
-  const EditFamilyProfile({super.key, this.idPatients, this.nameController, this.nomorController, this.beratController, this.tinggiController, this.relation, this.date, this.gender});
+  const EditFamilyProfile(
+      {super.key,
+      this.idPatients,
+      this.nameController,
+      this.nomorController,
+      this.beratController,
+      this.tinggiController,
+      this.relation,
+      this.date,
+      this.gender});
 
   @override
   State<EditFamilyProfile> createState() => _EditFamilyProfileState();
 }
 
 class _EditFamilyProfileState extends State<EditFamilyProfile> {
-
   late String idPatients;
   late String relation;
   late String gender;
@@ -53,9 +61,12 @@ class _EditFamilyProfileState extends State<EditFamilyProfile> {
     dateController = TextEditingController(text: widget.date ?? "");
     nameController = TextEditingController(text: widget.nameController);
     nomorController = TextEditingController(text: widget.nomorController);
-    beratController = TextEditingController(text: widget.beratController?.toString());
-    tinggiController = TextEditingController(text: widget.tinggiController?.toString());
-    Provider.of<GetFamilyProfileViewModel>(context, listen: false).fetchProfileDataId(context: context, idPatients: idPatients);
+    beratController =
+        TextEditingController(text: widget.beratController?.toString());
+    tinggiController =
+        TextEditingController(text: widget.tinggiController?.toString());
+    Provider.of<GetFamilyProfileViewModel>(context, listen: false)
+        .fetchProfileDataId(context: context, idPatients: idPatients);
     optionItemSelected = OptionItem(title: relation);
   }
 
@@ -101,83 +112,91 @@ class _EditFamilyProfileState extends State<EditFamilyProfile> {
             },
           ),
           titleSpacing: 0,
-          title: Text("Ubah Data Keluarga Saya",
-          style: semiBold16Primary4,
+          title: Text(
+            "Ubah Data Keluarga Saya",
+            style: semiBold16Primary4,
           ),
           actions: <Widget>[
             TextButton(
-              onPressed: () {
+                onPressed: () {
                   showDialog<void>(
-                      context: context,
-                      builder: (BuildContext context) => Dialog(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Container(
-                          width: 319,
-                          height: 191,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text(
-                                'Profil Keluarga Dihapus?',
-                                style: semiBold14Grey500,
-                                textAlign: TextAlign.center,
-                              ),
-                              SizedBox(height: 8,),
-                              Text(
-                                "Apakah Anda yakin akan menghapus profil ini?",
-                                style: semiBold12Grey500,
-                                textAlign: TextAlign.center,
-                              ),
-                              SizedBox(height: 24,),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  SizedBox(
-                                    width: 123.5,
-                                    height: 36,
-                                    child: ButtonWidget(
+                    context: context,
+                    builder: (BuildContext context) => Dialog(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Container(
+                        width: 319,
+                        height: 191,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Profil Keluarga Dihapus?',
+                              style: semiBold14Grey500,
+                              textAlign: TextAlign.center,
+                            ),
+                            const SizedBox(
+                              height: 8,
+                            ),
+                            Text(
+                              "Apakah Anda yakin akan menghapus profil ini?",
+                              style: semiBold12Grey500,
+                              textAlign: TextAlign.center,
+                            ),
+                            const SizedBox(
+                              height: 24,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SizedBox(
+                                  width: 123.5,
+                                  height: 36,
+                                  child: ButtonWidget(
                                       title: "Hapus",
                                       onPressed: () async {
-                                        Provider.of<DeleteProfileFamilyViewModel>(context, listen: false).deleteProfileById(context, idPatients);
-                                        changeGenderViewModel.groupValue.value = "";
+                                        Provider.of<DeleteProfileFamilyViewModel>(
+                                                context,
+                                                listen: false)
+                                            .deleteProfileById(
+                                                context, idPatients);
+                                        changeGenderViewModel.groupValue.value =
+                                            "";
                                         Navigator.pop(context);
                                         Navigator.pop(context);
-                                        ScaffoldMessenger.of(context).showSnackBar(
-                                          CustomSnackBar(
-                                            contentText: 'Profil keluarga berhasil dihapus!',
-                                            backgroundColor: positive,
-                                          )
-                                        );
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(CustomSnackBar(
+                                          contentText:
+                                              'Profil keluarga berhasil dihapus!',
+                                          backgroundColor: positive,
+                                        ));
                                       },
                                       color: negative),
-                                  ),
-                                  SizedBox(width: 8,),
-                                  SizedBox(
-                                    width: 123.5,
-                                    height: 36,
-                                      child: ButtonWidget(
-                                        title: "Batal",
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                        },
-                                        color: green500
-                                      ),
-                                    ),
-                                ],
-                              ),
-                            ],
-                          ),
+                                ),
+                                const SizedBox(
+                                  width: 8,
+                                ),
+                                SizedBox(
+                                  width: 123.5,
+                                  height: 36,
+                                  child: ButtonWidget(
+                                      title: "Batal",
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      color: green500),
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
                       ),
-                    );
-                  },
-              child: Text("Hapus",
-                style: semiBold16negative
-              )
-            )
+                    ),
+                  );
+                },
+                child: Text("Hapus", style: semiBold16negative))
           ],
         ),
         body: Form(
