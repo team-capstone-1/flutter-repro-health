@@ -301,7 +301,7 @@ class JanjiTemuView extends StatelessWidget {
                                                   ),
                                                   const SizedBox(width: 10),
                                                   Text(
-                                                    paymentListData,
+                                                    paymentListData == "clinic_payment" ? "Bayar di klinik" : "Transfer Manual",
                                                     style: medium12Grey500,
                                                   ),
                                                   const Spacer(),

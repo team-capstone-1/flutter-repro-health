@@ -15,7 +15,8 @@ class AppoinmentView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Provider.of<AppoinmentViewModel>(context, listen: false).getClinicsList();
-    Provider.of<AppoinmentViewModel>(context, listen: false).getSpecialistList();
+    Provider.of<AppoinmentViewModel>(context, listen: false)
+        .getSpecialistList();
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -43,10 +44,7 @@ class AppoinmentView extends StatelessWidget {
               color: green500,
               icon: const Icon(Icons.notifications_none),
               onPressed: () {
-                Navigator.pushNamed(
-                  context,
-                  RoutesNavigation.notificationView
-                  );
+                Navigator.pushNamed(context, RoutesNavigation.notificationView);
               },
             ),
           ),

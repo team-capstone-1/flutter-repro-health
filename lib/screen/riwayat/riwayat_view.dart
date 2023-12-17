@@ -18,25 +18,19 @@ class _RiwayatViewState extends State<RiwayatView> {
   @override
   void initState() {
     Provider.of<RiwayatViewModel>(context, listen: false).getTransaction();
-    Provider.of<RiwayatViewModel>(context, listen: false)
-        .getSuceesedTransactions();
-    Provider.of<RiwayatViewModel>(context, listen: false)
-        .getProcessedTransactions();
-    Provider.of<RiwayatViewModel>(context, listen: false)
-        .getCancelledTransactions();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     var transactionProcessed =
-        Provider.of<RiwayatViewModel>(context, listen: false)
+        Provider.of<RiwayatViewModel>(context)
             .getProcessedTransactions();
     var transactionSuccesed =
-        Provider.of<RiwayatViewModel>(context, listen: false)
+        Provider.of<RiwayatViewModel>(context)
             .getSuceesedTransactions();
     var transactionCancelled =
-        Provider.of<RiwayatViewModel>(context, listen: false)
+        Provider.of<RiwayatViewModel>(context)
             .getCancelledTransactions();
 
     return DefaultTabController(
@@ -64,7 +58,7 @@ class _RiwayatViewState extends State<RiwayatView> {
                   length: transactionProcessed.length,
                 ),
               ),
-
+      
               //^ TITLE SELESAI
               Tab(
                 child: ChipAppointmentLengthWidget(
@@ -72,7 +66,7 @@ class _RiwayatViewState extends State<RiwayatView> {
                   length: transactionSuccesed.length,
                 ),
               ),
-
+      
               //^ TITLE BATAL
               Tab(
                 child: ChipAppointmentLengthWidget(
@@ -99,7 +93,7 @@ class _RiwayatViewState extends State<RiwayatView> {
                   )
                 else
                   const ShimmerLoadingWidget(),
-
+      
                 //^ SELESAI
                 if (riwayatViewModel.isLoading == false)
                   RefreshIndicator(
@@ -112,7 +106,7 @@ class _RiwayatViewState extends State<RiwayatView> {
                   )
                 else
                   const ShimmerLoadingWidget(),
-
+      
                 //^ BATAL
                 if (riwayatViewModel.isLoading == false)
                   RefreshIndicator(

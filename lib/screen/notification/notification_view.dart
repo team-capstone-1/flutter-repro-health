@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:reprohealth_app/constant/assets_constants.dart';
-import 'package:reprohealth_app/models/notification_models.dart';
+import 'package:reprohealth_app/models/notification_models/notification_models.dart';
 import 'package:reprohealth_app/screen/forum/view_model/forum_view_model.dart';
 import 'package:reprohealth_app/screen/notification/view_model/get_notification_view_model.dart';
 import 'package:reprohealth_app/screen/notification/widget/leading_icon_widget.dart';
@@ -75,7 +75,7 @@ class _NotificationViewState extends State<NotificationView> {
                         text: "Janji Temu",
                         length: janjiTemuLength,
                       )
-                    : Text("Janji Temu",);
+                    : const Text("Janji Temu",);
               },
             ),
           ),
@@ -91,7 +91,7 @@ class _NotificationViewState extends State<NotificationView> {
                         text: "Forum",
                         length: forumLength,
                       )
-                    : Text("Forum",);
+                    : const Text("Forum",);
               },
             ),
           ),
@@ -107,7 +107,7 @@ class _NotificationViewState extends State<NotificationView> {
                         text: "Info",
                         length: infoLength,
                       )
-                    : Text("Info",);
+                    : const Text("Info",);
               },
             ),
           ),
@@ -159,8 +159,8 @@ class _NotificationViewState extends State<NotificationView> {
     itemBuilder: (context, index) {
       final notificationData = filteredNotifications[index];
       return ListTile(
-        contentPadding: EdgeInsets.only(top: 4, left: 16, right: 16, bottom: 6),
-        leading: IconWidget(
+        contentPadding: const EdgeInsets.only(top: 4, left: 16, right: 16, bottom: 6),
+        leading: const IconWidget(
           icon: Icons.person_outline,
         ),
         title: Text(
@@ -170,12 +170,12 @@ class _NotificationViewState extends State<NotificationView> {
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 4),
+            const SizedBox(height: 4),
             Text(
               notificationData.content ?? "",
               style: regular10Grey900,
             ),
-            SizedBox(height: 4),
+            const SizedBox(height: 4),
             Text(
               notificationData.date != null
                   ? "${forumViewModel.calculateDaysAgo(notificationData.date!)} yang lalu"

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:reprohealth_app/models/chat_bot_models.dart';
+import 'package:reprohealth_app/models/chatbot_models/chat_bot_models.dart';
 import 'package:reprohealth_app/screen/forum/view_model/chatbot_view_model.dart';
 import 'package:reprohealth_app/screen/forum/widget/chat_message_widget.dart';
 import 'package:reprohealth_app/theme/theme.dart';
@@ -128,7 +128,9 @@ class AssistantChatForumView extends StatelessWidget {
                             color: grey300,
                           ),
                           onPressed: () {
-                            chatProvider.handleSendMessage();
+                            if (chatProvider.chat.text.trim().isNotEmpty) {
+                              chatProvider.handleSendMessage();
+                            }
                           },
                         ),
                       ],

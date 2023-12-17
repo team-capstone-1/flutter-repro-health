@@ -92,9 +92,7 @@ import 'package:reprohealth_app/screen/splash/view_model/splash_view_model.dart'
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initializeDateFormatting('id_ID', null).then(
-    (_) => runApp(
-      const MainApp(),
-    ),
+    (_) => runApp(const MainApp()),
   );
 }
 
@@ -172,7 +170,7 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => RiwayatViewModel()),
         ChangeNotifierProvider(create: (context) => PaymentViewModel()),
         ChangeNotifierProvider(create: (context) => CreateForumViewModel()),
-        ChangeNotifierProvider(create: (context) => BookmarkProvider()),
+        ChangeNotifierProvider(create: (context) => ArticleViewModel()),
       ],
       child: MaterialApp(
         localizationsDelegates: const [

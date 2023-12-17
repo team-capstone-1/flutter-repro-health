@@ -226,12 +226,16 @@ class _CreateForumViewState extends State<CreateForumView> {
                 ),
               ),
             )
-          : Center(
-              child: Text(
-                "Harap Mendaftarkan Pasien Terlebih Dahulu Pada Menu Profile",
-                style: semiBold16Grey900,
+          : Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Center(
+                child: Text(
+                  "Harap mendaftarkan pasien terlebih dahulu pada menu profile untuk dapat membuat forum diskusi!!",
+                  style: semiBold16Grey900,
+                  textAlign: TextAlign.center,
+                ),
               ),
-            ),
+          ),
     );
   }
 }

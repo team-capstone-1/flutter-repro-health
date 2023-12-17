@@ -125,13 +125,13 @@ class _EditFamilyProfileState extends State<EditFamilyProfile> {
                                 style: semiBold14Grey500,
                                 textAlign: TextAlign.center,
                               ),
-                              SizedBox(height: 8,),
+                              const SizedBox(height: 8,),
                               Text(
                                 "Apakah Anda yakin akan menghapus profil ini?",
                                 style: semiBold12Grey500,
                                 textAlign: TextAlign.center,
                               ),
-                              SizedBox(height: 24,),
+                              const SizedBox(height: 24,),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
@@ -154,7 +154,7 @@ class _EditFamilyProfileState extends State<EditFamilyProfile> {
                                       },
                                       color: negative),
                                   ),
-                                  SizedBox(width: 8,),
+                                  const SizedBox(width: 8,),
                                   SizedBox(
                                     width: 123.5,
                                     height: 36,

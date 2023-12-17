@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:reprohealth_app/component/text_form_component.dart';
 import 'package:reprohealth_app/constant/routes_navigation.dart';
 import 'package:reprohealth_app/models/article_models.dart';
+import 'package:reprohealth_app/screen/article/view_model/article_view_model.dart';
 import 'package:reprohealth_app/screen/article/widgets/article_card.dart';
 import 'package:reprohealth_app/services/article_services/article_services.dart';
 import 'package:reprohealth_app/theme/theme.dart';
@@ -14,28 +16,13 @@ class ArticleView extends StatefulWidget {
 }
 
 class _ArticleViewState extends State<ArticleView> {
-  List<bool> isBookmark = [];
-  List<ArticleModels> bookmarkedItem = [];
-  TextEditingController controller = TextEditingController();
+  late TextEditingController controller;
 
   @override
   void initState() {
     super.initState();
-    fetchArticles();
-  }
-
-  Future<void> fetchArticles() async {
-    try {
-      List<ArticleModels> articles = await ArticleServices().getArticles();
-      setState(() {
-        // Initialize isBookmark only if it's empty
-        isBookmark = isBookmark.isNotEmpty
-            ? isBookmark
-            : List.generate(articles.length, (index) => false);
-      });
-    } catch (e) {
-      print('Error fetching articles: $e');
-    }
+    controller = TextEditingController();
+    Provider.of<ArticleViewModel>(context, listen: false).fetchArticles();
   }
 
   @override
@@ -52,7 +39,8 @@ class _ArticleViewState extends State<ArticleView> {
               Navigator.pushNamed(
                 context,
                 RoutesNavigation.bookmarkView,
-                arguments: bookmarkedItem,
+                arguments: Provider.of<ArticleViewModel>(context, listen: false)
+                    .bookmarkedItem,
               );
             },
             icon: Icon(Icons.bookmark_border, color: green600),
@@ -81,25 +69,25 @@ class _ArticleViewState extends State<ArticleView> {
                 },
               ),
             ),
-            FutureBuilder<List<ArticleModels>>(
-              future: ArticleServices().getArticles(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
+            Consumer<ArticleViewModel>(
+              builder: (context, articleViewModel, child) {
+                if (articleViewModel.isLoading) {
                   return const Center(
                     child: CircularProgressIndicator(),
                   );
-                } else if (snapshot.hasError) {
-                  return Center(child: Text('Error: ${snapshot.error}'));
-                } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                } else if (articleViewModel.hasError) {
+                  return Center(
+                      child: Text('Error: ${articleViewModel.error}'));
+                } else if (articleViewModel.articles.isEmpty) {
                   return const Center(
                     child: Text(
                       'Tidak ada artikel',
                     ),
                   );
                 } else {
-                  List<ArticleModels> articles = snapshot.data!;
                   String query = controller.text.toLowerCase();
-                  List<ArticleModels> filteredArticles = articles
+                  List<ArticleModels> filteredArticles = articleViewModel
+                      .articles
                       .where((articles) =>
                           articles.title.toLowerCase().contains(query))
                       .toList();
@@ -109,10 +97,10 @@ class _ArticleViewState extends State<ArticleView> {
                     itemCount: filteredArticles.length,
                     itemBuilder: (context, index) {
                       final article = filteredArticles[index];
-                      if (isBookmark.isEmpty) {
-                        isBookmark =
-                            List.generate(articles.length, (index) => false);
-                      }
+
+                      // Call checkBookmarkedStatus when building each item
+                      articleViewModel.checkBookmarkedStatus(index, article);
+
                       return Padding(
                         padding: const EdgeInsets.all(16),
                         child: GestureDetector(
@@ -136,14 +124,15 @@ class _ArticleViewState extends State<ArticleView> {
 
                                 setState(() {
                                   // Toggle bookmark state
-                                  isBookmark[index] = !isBookmark[index];
+                                  articleViewModel.isBookmark[index] =
+                                      !articleViewModel.isBookmark[index];
                                 });
                               } catch (e) {
                                 print('Failed to toggle bookmark: $e');
                               }
                             },
                             showIcon: true,
-                            isSelected: isBookmark[index],
+                            isSelected: articleViewModel.isBookmark[index],
                             selectedIcon: Icon(Icons.bookmark, color: green600),
                             unselectedIcon: Icon(
                               Icons.bookmark_add_outlined,

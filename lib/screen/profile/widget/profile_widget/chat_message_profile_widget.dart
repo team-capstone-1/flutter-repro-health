@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:reprohealth_app/models/chat_bot_models.dart';
+import 'package:reprohealth_app/models/chatbot_models/chat_bot_models.dart';
 import 'package:reprohealth_app/theme/theme.dart';
 
 class ChatMessageProfileWidget extends StatelessWidget {

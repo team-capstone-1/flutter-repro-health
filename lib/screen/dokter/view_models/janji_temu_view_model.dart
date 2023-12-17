@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:reprohealth_app/constant/routes_navigation.dart';
 import 'package:reprohealth_app/models/appointment_models/appointment_models.dart';
 import 'package:reprohealth_app/models/doctor_models/doctor_models.dart';
-import 'package:reprohealth_app/models/profile_models.dart';
+import 'package:reprohealth_app/models/profile_models/profile_models.dart';
 import 'package:reprohealth_app/services/appointment_services/appointment_services.dart';
 import 'package:reprohealth_app/services/profile_service/profile_service.dart';
 

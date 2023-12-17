@@ -101,7 +101,9 @@ class AssistantChatProfileView extends StatelessWidget {
                             color: grey300,
                           ),
                           onPressed: () {
-                            chatProvider.handleSendMessage();
+                            if (chatProvider.chat.text.trim().isNotEmpty) {
+                              chatProvider.handleSendMessage();
+                            }
                           },
                         ),
                       ],
