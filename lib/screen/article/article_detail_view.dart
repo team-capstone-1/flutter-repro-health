@@ -7,6 +7,7 @@ import 'package:reprohealth_app/component/text_form_component.dart';
 import 'package:reprohealth_app/constant/routes_navigation.dart';
 import 'package:reprohealth_app/models/article_models.dart';
 import 'package:reprohealth_app/screen/article/view_model/articel_view_model.dart';
+import 'package:reprohealth_app/screen/article/widgets/comment_card.dart';
 import 'package:reprohealth_app/theme/theme.dart';
 
 class ArticleDetailView extends StatefulWidget {
@@ -44,9 +45,7 @@ class _ArticleDetailViewState extends State<ArticleDetailView> {
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 19,
-                    ),
+                        horizontal: 16, vertical: 19),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -122,19 +121,11 @@ class _ArticleDetailViewState extends State<ArticleDetailView> {
                     ),
                     Row(
                       children: [
-                        // ClipRRect(
-                        //   borderRadius: BorderRadius.circular(100),
-                        //   child: Image.network(
-                        //     article.doctor?.profileImage ?? '',
-                        //     width: 24,
-                        //     fit: BoxFit.cover,
-                        //   ),
-                        // ),
                         ClipRRect(
-                          borderRadius: BorderRadius.circular(50),
+                          borderRadius: BorderRadius.circular(100),
                           child: CachedNetworkImage(
                             fit: BoxFit.cover,
-                            width: 66,
+                            width: 24,
                             imageUrl: article.doctor?.profileImage ?? '',
                             placeholder: (context, url) =>
                                 const CircularProgressIndicator(),
@@ -229,9 +220,7 @@ class _ArticleDetailViewState extends State<ArticleDetailView> {
                       builder: (context, snapshot) {
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
-                          return const Center(
-                            child: CircularProgressIndicator(),
-                          );
+                          return CircularProgressIndicator();
                         } else if (snapshot.hasError) {
                           return Text(
                               'Failed to load comments: ${snapshot.error}');
@@ -240,7 +229,7 @@ class _ArticleDetailViewState extends State<ArticleDetailView> {
                           return Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text('No comments available'),
+                              Text('No comments available'),
                               const SizedBox(height: 16),
                               Text(
                                 'Komentar (${snapshot.data?.length ?? 0})',
@@ -303,14 +292,22 @@ class _ArticleDetailViewState extends State<ArticleDetailView> {
                                     : snapshot.data!.length,
                                 itemBuilder: (context, index) {
                                   CommentModel comment = snapshot.data![index];
-                                  return CommentCard(
-                                    image:
-                                        comment.patientDetails?.profileImage ??
+                                  return Column(
+                                    children: [
+                                      CommentCard(
+                                        image: comment
+                                                .patientDetails?.profileImage ??
                                             '',
-                                    name: comment.patientDetails?.name ?? '',
-                                    date: DateFormat('dd MMMM yyyy')
-                                        .format(comment.date.toLocal()),
-                                    comment: comment.comment,
+                                        name:
+                                            comment.patientDetails?.name ?? '',
+                                        date: DateFormat('dd MMMM yyyy')
+                                            .format(comment.date.toLocal()),
+                                        comment: comment.comment,
+                                      ),
+                                      const SizedBox(
+                                        height: 12,
+                                      )
+                                    ],
                                   );
                                 },
                               ),
@@ -345,67 +342,6 @@ class _ArticleDetailViewState extends State<ArticleDetailView> {
           ),
         ],
       ),
-    );
-  }
-}
-
-class CommentCard extends StatelessWidget {
-  final String image;
-  final String name;
-  final String date;
-  final String comment;
-  const CommentCard({
-    super.key,
-    required this.image,
-    required this.name,
-    required this.date,
-    required this.comment,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        ClipRRect(
-          borderRadius: BorderRadius.circular(50),
-          child: CachedNetworkImage(
-            fit: BoxFit.cover,
-            width: 40,
-            height: 40,
-            imageUrl: image,
-            placeholder: (context, url) => const CircularProgressIndicator(),
-            errorWidget: (context, url, error) => const Center(
-              child: Icon(
-                Icons.error,
-              ),
-            ),
-          ),
-        ),
-        const SizedBox(width: 8),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Text(
-                  name,
-                  style: medium12Black,
-                ),
-                const SizedBox(width: 8),
-                Text(
-                  date,
-                  style: regular8Black,
-                ),
-              ],
-            ),
-            const SizedBox(height: 4),
-            Text(
-              comment,
-              style: regular10Black,
-            )
-          ],
-        )
-      ],
     );
   }
 }

@@ -3,8 +3,8 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:reprohealth_app/models/article_models.dart';
 import 'package:reprohealth_app/models/profile_models.dart';
-import 'package:reprohealth_app/screen/article/article_detail_view.dart';
 import 'package:reprohealth_app/screen/article/view_model/articel_view_model.dart';
+import 'package:reprohealth_app/screen/article/widgets/comment_card.dart';
 import 'package:reprohealth_app/theme/theme.dart';
 
 class CommentView extends StatefulWidget {

@@ -124,14 +124,9 @@ class ArticleServices {
     required String comment,
     required String articleId,
   }) async {
-    if (articleId == null) {
-      print('Article ID is null');
-      return CommentModel(
-          id: '',
-          articleId: '',
-          patientId: '',
-          comment: '',
-          date: DateTime.now());
+    if (articleId.isEmpty) {
+      print('Article ID is empty or null');
+      throw ArgumentError('Invalid article ID');
     }
 
     String url = constructUrl('articles/$articleId/comments');
@@ -153,12 +148,17 @@ class ArticleServices {
 
       print('Comment post response: $response');
 
-      return CommentModel.fromJson(response.data);
-    } on DioException catch (e) {
+      final responseData = response.data;
+      if (responseData == null) {
+        throw Exception('Comment post response is null');
+      }
+
+      return CommentModel.fromJson(responseData);
+    } on DioError catch (e) {
       if (e.response != null) {
-        print('Failed to post comment: ${e.response?.data}');
+        print('Failed to post comments: ${e.response?.data}');
       } else {
-        print('Failed to post comment: ${e.message}');
+        print('Failed to post comments: ${e.message}');
       }
       throw Exception('Failed to post comment');
     }
@@ -177,7 +177,7 @@ class ArticleServices {
       if (response.statusCode == 200) {
         Map<String, dynamic> responseData = response.data['response'];
 
-        if (responseData != null) {
+        if (responseData.isNotEmpty == true) {
           List<dynamic>? commentsData = responseData['comments'];
 
           if (commentsData != null) {
@@ -219,39 +219,6 @@ class ArticleServices {
       }
     } catch (e) {
       throw Exception('Failed to bookmark article: $e');
-    }
-  }
-
-  Future<void> deleteBookmark(String articleId) async {
-    String url = constructUrl('articles/$articleId/bookmarks');
-
-    try {
-      String token = await SharedPreferencesUtils().getToken();
-      var dio = Dio();
-
-      dio.options.validateStatus = (status) {
-        return status == 404 ||
-            (status != null && status >= 200 && status < 300);
-      };
-
-      var response = await dio.delete(
-        url,
-        options: Options(headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer $token',
-        }),
-      );
-
-      if (response.statusCode == 204) {
-        print('Bookmark deleted');
-      } else if (response.statusCode == 404) {
-        // Treat 404 as a success (bookmark might not exist)
-        print('Bookmark not found, assuming it was already deleted');
-      } else {
-        throw Exception('Failed to delete bookmark: ${response.statusCode}');
-      }
-    } catch (e) {
-      throw Exception('Failed to delete bookmark: $e');
     }
   }
 
