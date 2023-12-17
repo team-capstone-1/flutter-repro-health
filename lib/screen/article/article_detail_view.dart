@@ -20,17 +20,17 @@ class ArticleDetailView extends StatefulWidget {
 class _ArticleDetailViewState extends State<ArticleDetailView> {
   bool isBookmark = false;
 
+  late Future<List<CommentModel>> future;
   @override
   Widget build(BuildContext context) {
     final ArticleModels article =
         ModalRoute.of(context)?.settings.arguments as ArticleModels;
     final articleProvider =
         Provider.of<ArticleProvider>(context, listen: false);
-
+    future = articleProvider.fetchCommentsForArticle(article.id!, context);
     return Scaffold(
         body: FutureBuilder<List<CommentModel>>(
-            future:
-                articleProvider.fetchCommentsForArticle(article.id!, context),
+            future: future,
             builder: (context, snapshot) {
               List<CommentModel> sortedComments = snapshot.data!
                 ..sort((a, b) => b.date.compareTo(a.date));
@@ -263,6 +263,11 @@ class _ArticleDetailViewState extends State<ArticleDetailView> {
                                                 articleId: article.id!,
                                                 context: context,
                                               );
+                                              future = articleProvider
+                                                  .fetchCommentsForArticle(
+                                                      article.id!, context);
+
+                                              setState(() {});
                                             },
                                             icon: const Icon(Icons.send),
                                           ),

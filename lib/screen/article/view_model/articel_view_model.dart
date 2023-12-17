@@ -94,31 +94,26 @@ class ArticleProvider with ChangeNotifier {
       {required String articleId, required BuildContext context}) async {
     try {
       String? patientId = await getLoggedInPatientId(context);
-      String comment = controller.text.trim();
+      String? comment = controller.text.trim();
       controller.clear();
+      print(patientId);
+      print(comment);
       notifyListeners();
 
       if (articleId != null && patientId != null && comment.isNotEmpty) {
-        CommentModel? newComment = await ArticleServices().postComment(
+        await ArticleServices().postComment(
           patientId: patientId,
           comment: comment,
           articleId: articleId,
         );
-
-        if (newComment != null) {
-          print('Comment posted successfully: ${newComment.comment}');
-          // Lakukan sesuatu dengan komentar baru jika diperlukan
-          controller.clear();
-          notifyListeners();
-        } else {
-          print('Failed to post comment: returned comment is null');
-        }
       } else {
         print(
             'Comment cannot be empty, or patient ID or article ID is missing');
       }
+      await fetchCommentsForArticle(articleId, context);
     } catch (e) {
-      print('Failed to post comment: $e');
+      print('halo 1 $e');
+      throw (e);
     }
   }
 }
