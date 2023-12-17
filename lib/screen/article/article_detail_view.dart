@@ -220,7 +220,7 @@ class _ArticleDetailViewState extends State<ArticleDetailView> {
                       builder: (context, snapshot) {
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
-                          return CircularProgressIndicator();
+                          return const CircularProgressIndicator();
                         } else if (snapshot.hasError) {
                           return Text(
                               'Failed to load comments: ${snapshot.error}');
@@ -229,7 +229,7 @@ class _ArticleDetailViewState extends State<ArticleDetailView> {
                           return Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text('No comments available'),
+                              const Text('No comments available'),
                               const SizedBox(height: 16),
                               Text(
                                 'Komentar (${snapshot.data?.length ?? 0})',

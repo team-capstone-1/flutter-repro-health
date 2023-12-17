@@ -243,15 +243,26 @@ class DetailForumView extends StatelessWidget {
               ),
             )
           : Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Center(
-                child: Text(
-                  "Buat pasien pada menu profile terlebih dahulu untuk dapat melihat percakapan antara dokter dan pasien!!",
-                  style: semiBold16Grey900,
-                  textAlign: TextAlign.center,
+              padding: const EdgeInsets.all(16.0),
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      Assets.assetsSearchTidakDitemukan,
+                      height: 200,
+                    ),
+                    const SizedBox(height: 16),
+                    Text(
+                      "Buat pasien pada menu profile terlebih dahulu untuk dapat melihat percakapan antara dokter dan pasien!!",
+                      style: semiBold14Grey400,
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
                 ),
               ),
-          ),
+            ),
     );
   }
 }

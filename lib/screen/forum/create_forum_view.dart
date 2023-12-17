@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:reprohealth_app/component/button_component.dart';
+import 'package:reprohealth_app/constant/assets_constants.dart';
 import 'package:reprohealth_app/constant/routes_navigation.dart';
 import 'package:reprohealth_app/screen/forum/view_model/create_forum_view_model.dart';
 import 'package:reprohealth_app/screen/forum/view_model/forum_view_model.dart';
@@ -227,15 +228,26 @@ class _CreateForumViewState extends State<CreateForumView> {
               ),
             )
           : Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Center(
-                child: Text(
-                  "Harap mendaftarkan pasien terlebih dahulu pada menu profile untuk dapat membuat forum diskusi!!",
-                  style: semiBold16Grey900,
-                  textAlign: TextAlign.center,
+              padding: const EdgeInsets.all(16.0),
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      Assets.assetsSearchTidakDitemukan,
+                      height: 200,
+                    ),
+                    const SizedBox(height: 16),
+                    Text(
+                      "Harap mendaftarkan pasien terlebih dahulu pada menu profile untuk dapat membuat forum diskusi!!",
+                      style: semiBold14Grey400,
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
                 ),
               ),
-          ),
+            ),
     );
   }
 }
