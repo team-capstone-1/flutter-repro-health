@@ -18,26 +18,18 @@ class _RiwayatViewState extends State<RiwayatView> {
   @override
   void initState() {
     Provider.of<RiwayatViewModel>(context, listen: false).getTransaction();
-    Provider.of<RiwayatViewModel>(context, listen: false)
-        .getSuceesedTransactions();
-    Provider.of<RiwayatViewModel>(context, listen: false)
-        .getProcessedTransactions();
-    Provider.of<RiwayatViewModel>(context, listen: false)
-        .getCancelledTransactions();
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    var transactionProcessed =
-        Provider.of<RiwayatViewModel>(context, listen: false)
-            .getProcessedTransactions();
-    var transactionSuccesed =
-        Provider.of<RiwayatViewModel>(context, listen: false)
-            .getSuceesedTransactions();
-    var transactionCancelled =
-        Provider.of<RiwayatViewModel>(context, listen: false)
-            .getCancelledTransactions();
+    var controller = Provider.of<RiwayatViewModel>(context);
+
+    //^ Transaction [LIST] By Statuses
+    var transactionProcessed = controller.getProcessedTransactions();
+    var transactionSuccesed = controller.getSuceesedTransactions();
+    var transactionCancelled = controller.getCancelledTransactions();
 
     return DefaultTabController(
       length: 3,

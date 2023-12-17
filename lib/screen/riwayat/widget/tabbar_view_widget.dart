@@ -3,6 +3,7 @@ import 'package:reprohealth_app/constant/routes_navigation.dart';
 
 import 'package:reprohealth_app/models/riwayat_models/history_transaction_models.dart';
 import 'package:reprohealth_app/screen/riwayat/widget/appointment_list_item_widget.dart';
+import 'package:reprohealth_app/theme/theme.dart';
 
 class TabBarViewWidget extends StatelessWidget {
   const TabBarViewWidget({
@@ -40,8 +41,11 @@ class TabBarViewWidget extends StatelessWidget {
                       );
                     },
                   )
-                : const Center(
-                    child: Text('kosong'),
+                : Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height,
+                    color: grey10,
+                    alignment: Alignment.center,
                   ),
           ),
         ),
