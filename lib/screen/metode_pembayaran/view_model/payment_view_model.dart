@@ -54,21 +54,21 @@ class PaymentViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  // String? validateName(String? value) {
-  //   if (value == null || value.isEmpty) {
-  //     return 'Masukkan Nama';
-  //   }
-  //   return null;
-  // }
+  String? validateName(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Masukkan Nama';
+    }
+    return null;
+  }
 
-  // String? validateRekening(String? value) {
-  //   if (value == null || value.isEmpty) {
-  //     return 'Nomor rekening tidak boleh kosong';
-  //   } else if (value.length < 8) {
-  //     return 'Nomor rekening minimal 8 karakter';
-  //   }
-  //   return null;
-  // }
+  String? validateRekening(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Nomor rekening tidak boleh kosong';
+    } else if (value.length < 8) {
+      return 'Nomor rekening minimal 8 karakter';
+    }
+    return null;
+  }
 
   Future<void> showImagePicker({required BuildContext context}) async {
     await showModalBottomSheet(

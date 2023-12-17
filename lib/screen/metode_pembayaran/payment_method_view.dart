@@ -141,12 +141,7 @@ class _PaymentMethodState extends State<PaymentMethodView> {
                             controller: paymentViewModel.nameController,
                             hintText: 'Masukkan nama',
                             hinstStyle: regular12Grey200,
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Nama tidak boleh kosong';
-                              }
-                              return null;
-                            },
+                            validator: paymentViewModel.validateName,
                           ),
                           const SizedBox(
                             height: 16,
@@ -233,14 +228,7 @@ class _PaymentMethodState extends State<PaymentMethodView> {
                             controller: paymentViewModel.rekController,
                             hintText: 'Masukkan nomor rekening',
                             hinstStyle: regular12Grey200,
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Nomor rekening tidak boleh kosong';
-                              } else if (value.length < 8) {
-                                return 'Nomor rekening minimal 8 karakter';
-                              }
-                              return null;
-                            },
+                            validator: paymentViewModel.validateRekening,
                           ),
                           const SizedBox(
                             height: 16,
@@ -280,24 +268,14 @@ class _PaymentMethodState extends State<PaymentMethodView> {
                                           ),
                                         )
                                       : Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            const Icon(
-                                              Icons.file_upload_outlined,
-                                              size: 24,
-                                            ),
-                                            const SizedBox(
-                                              height: 10,
-                                            ),
-                                            Text(
-                                              "Unggah foto",
-                                              style: regular10Grey100,
-                                            )
-                                          ],
-                                        ),
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          const Icon(Icons.file_upload_outlined, size: 24,),
+                                          const SizedBox(height: 10,),
+                                          Text("Unggah foto", style: regular10Grey100,)
+                                        ],
+                                      ),
                                   Center(
                                     child: Container(
                                       padding: const EdgeInsets.symmetric(

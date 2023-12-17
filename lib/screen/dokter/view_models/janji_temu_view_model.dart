@@ -136,19 +136,62 @@ class JanjiTemuViewModel extends ChangeNotifier {
       }
     } catch (e) {
       if (context.mounted) {
-        showDialog<void>(
+        if (_selectedPayment.isNotEmpty == true) {
+          showDialog<void>(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Center(
+                  child: Text(
+                    'Dokter tidak tersedia',
+                    style: semiBold14Black,
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                content: Text(
+                  'Silahkan memilih tanggal lain untuk dapat melakukan janji temu dengan dokter!!',
+                  style: regular12Grey300,
+                  textAlign: TextAlign.center,
+                ),
+                actionsAlignment: MainAxisAlignment.center,
+                actions: <Widget>[
+                  SizedBox(
+                    height: 36,
+                    width: 110,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: green500,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      child: Text(
+                        'Ok',
+                        style: semiBold12Grey10,
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ),
+                ],
+              );
+            },
+          );
+        } else {
+          showDialog<void>(
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
               title: Center(
                 child: Text(
-                  'Dokter tidak tersedia',
+                  'Metode pembayaran tidak tersedia',
                   style: semiBold14Black,
                   textAlign: TextAlign.center,
                 ),
               ),
               content: Text(
-                'Silahkan memilih tanggal lain untuk dapat melakukan janji temu dengan dokter!!',
+                'Silahkan memilih metode pembayaran untuk dapat melakukan janji temu dengan dokter!!',
                 style: regular12Grey300,
                 textAlign: TextAlign.center,
               ),
@@ -177,6 +220,7 @@ class JanjiTemuViewModel extends ChangeNotifier {
             );
           },
         );
+        }
       }
       if (kDebugMode) {
         print(e);

@@ -19,16 +19,15 @@ class ChangeProfileView extends StatefulWidget {
   final String? nomorController;
   final num? beratController;
   final num? tinggiController;
-  const ChangeProfileView({
-    super.key,
-    this.idPatients,
-    this.date,
-    this.nameController,
-    this.nomorController,
-    this.beratController,
-    this.tinggiController,
-    this.gender,
-  });
+  const ChangeProfileView(
+      {super.key,
+      this.idPatients,
+      this.date,
+      this.nameController,
+      this.nomorController,
+      this.beratController,
+      this.tinggiController,
+      this.gender});
 
   @override
   State<ChangeProfileView> createState() => _ChangeProfileViewState();
@@ -44,6 +43,7 @@ class _ChangeProfileViewState extends State<ChangeProfileView> {
   late TextEditingController dateController;
 
   late final PutFamilyProfileViewModel updateProvider;
+  final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -79,104 +79,108 @@ class _ChangeProfileViewState extends State<ChangeProfileView> {
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        backgroundColor: const Color(0xffE9E9E9),
-        appBar: AppBar(
-          elevation: 0.0,
-          backgroundColor: grey10,
-          leading: IconButton(
-            icon: Icon(
-              Icons.arrow_back,
-              color: secondary,
+          resizeToAvoidBottomInset: false,
+          backgroundColor: const Color(0xffE9E9E9),
+          appBar: AppBar(
+            elevation: 0.0,
+            backgroundColor: grey10,
+            leading: IconButton(
+              icon: Icon(
+                Icons.arrow_back,
+                color: secondary,
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+                changeGenderViewModel.groupValue.value = "";
+              },
             ),
-            onPressed: () {
-              Navigator.pop(context);
-              changeGenderViewModel.groupValue.value = "";
-            },
+            titleSpacing: 0,
+            title: Text('Ubah Data Pribadi',
+                style: GoogleFonts.poppins(
+                  color: const Color(0xFF1E1E1E),
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),),
           ),
-          titleSpacing: 0,
-          title: Text('Ubah Data Pribadi',
-              style: GoogleFonts.poppins(
-                color: const Color(0xFF1E1E1E),
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-              )),
-        ),
-        body: Column(
-          children: [
-            Column(
+          body: Form(
+            key: _formKey,
+            child: Column(
               children: [
-                const SizedBox(height: 16),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Container(
-                    width: double.infinity,
-                    height: 16,
-                    decoration: const BoxDecoration(
-                      color: Color(0xFFFAFAFA),
+                Column(
+                  children: [
+                    const SizedBox(height: 16),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: Container(
+                        width: double.infinity,
+                        height: 16,
+                        decoration: const BoxDecoration(
+                          color: Color(0xFFFAFAFA),
+                        ),
+                      ),
                     ),
+                    ChangeDataProfile(
+                      controller1: nameController,
+                      controller2: nomorController,
+                      controller3: beratController,
+                      controller4: tinggiController,
+                      dateController: dateController,
+                      onChanged: (String? value) {
+                        changeGenderViewModel.groupValue.value = value ?? "";
+                      },
+                    ),
+                  ],
+                ),
+                const Spacer(),
+                Padding(
+                  padding: const EdgeInsets.only(
+                    bottom: 16,
+                    left: 16,
+                    right: 16,
                   ),
-                ),
-                ChangeDataProfile(
-                  controller1: nameController,
-                  controller2: nomorController,
-                  controller3: beratController,
-                  controller4: tinggiController,
-                  dateController: dateController,
-                  onChanged: (String? value) {
-                    changeGenderViewModel.groupValue.value = value ?? "";
-                  },
-                ),
+                  child: SizedBox(
+                    width: double.infinity,
+                    height: 40,
+                    child: ButtonWidget(
+                        title: "Simpan",
+                        onPressed: () {
+                          var updateProvider =
+                              Provider.of<PutFamilyProfileViewModel>(context,
+                                  listen: false);
+                          String formattedDate =
+                              DateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").format(
+                                  DateFormat('dd/MM/yyyy')
+                                      .parse(dateController.text)
+                                      .toLocal());
+                          if (_formKey.currentState!.validate()) {
+                            updateProvider.updateProfileData(
+                                context: context,
+                                idPatients: idPatients,
+                                name: nameController.text,
+                                nomor: nomorController.text,
+                                gender: changeGenderViewModel.groupValue.value,
+                                date: formattedDate,
+                                berat: num.parse(beratController.text),
+                                tinggi: num.parse(tinggiController.text));
+                            postFamilyProfile.nameController.clear();
+                            postFamilyProfile.nomorController.clear();
+                            postFamilyProfile.beratController.clear();
+                            postFamilyProfile.tinggiController.clear();
+                            changeGenderViewModel.groupValue.value = "";
+                            Navigator.pop(context);
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(CustomSnackBar(
+                              contentText: 'Profil berhasil diubah!',
+                              backgroundColor: positive,
+                            ));
+                          }
+                        },
+                        color: green500),
+                  ),
+                )
               ],
             ),
-            const Spacer(),
-            Padding(
-              padding: const EdgeInsets.only(
-                bottom: 16,
-                left: 16,
-                right: 16,
-              ),
-              child: SizedBox(
-                width: double.infinity,
-                height: 40,
-                child: ButtonWidget(
-                  title: "Simpan",
-                  onPressed: () {
-                    var updateProvider = Provider.of<PutFamilyProfileViewModel>(
-                        context,
-                        listen: false);
-                    String formattedDate =
-                        DateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").format(
-                            DateFormat('dd/MM/yyyy')
-                                .parse(dateController.text)
-                                .toLocal());
-                    updateProvider.updateProfileData(
-                        context: context,
-                        idPatients: idPatients,
-                        name: nameController.text,
-                        nomor: nomorController.text,
-                        gender: changeGenderViewModel.groupValue.value,
-                        date: formattedDate,
-                        berat: double.parse(beratController.text),
-                        tinggi: int.parse(tinggiController.text));
-                    postFamilyProfile.nameController.clear();
-                    postFamilyProfile.nomorController.clear();
-                    postFamilyProfile.beratController.clear();
-                    postFamilyProfile.tinggiController.clear();
-                    changeGenderViewModel.groupValue.value = "";
-                    Navigator.pop(context);
-                    ScaffoldMessenger.of(context).showSnackBar(CustomSnackBar(
-                      contentText: 'Profil berhasil diubah!',
-                      backgroundColor: positive,
-                    ));
-                  },
-                  color: green500,
-                ),
-              ),
-            )
-          ],
-        ),
-      ),
+          )),
     );
   }
 }

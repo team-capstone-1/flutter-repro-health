@@ -10,8 +10,8 @@ class PutFamilyProfileViewModel extends ChangeNotifier {
   String? date;
   String? name;
   String? nomor;
-  double? berat;
-  int? tinggi;
+  num? berat;
+  num? tinggi;
   String? gender;
   MultipartFile? profileImage;
 
@@ -20,8 +20,8 @@ class PutFamilyProfileViewModel extends ChangeNotifier {
     String? date,
     String? name,
     String? nomor,
-    double? berat,
-    int? tinggi,
+    num? berat,
+    num? tinggi,
     String? gender,
     required BuildContext context,
     required idPatients}) async {
