@@ -31,8 +31,8 @@ class ResponseDataProfile {
   String? profileImage;
   DateTime? dateOfBirth;
   String? relation;
-  double? weight;
-  int? height;
+  num? weight;
+  num? height;
   String? gender;
 
   ResponseDataProfile({

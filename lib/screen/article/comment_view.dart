@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:reprohealth_app/models/article_models.dart';
 import 'package:reprohealth_app/models/profile_models.dart';
 import 'package:reprohealth_app/screen/article/article_detail_view.dart';
-import 'package:reprohealth_app/services/article_services/article_services.dart';
-import 'package:reprohealth_app/services/profile_service/profile_service.dart';
+import 'package:reprohealth_app/screen/article/view_model/articel_view_model.dart';
 import 'package:reprohealth_app/theme/theme.dart';
 
 class CommentView extends StatefulWidget {
@@ -16,47 +16,10 @@ class CommentView extends StatefulWidget {
 
 class _CommentViewState extends State<CommentView> {
   String _sortingOption = 'Terbaru';
-  Future<ProfileModel?> getLoggedInPatient(BuildContext context) async {
-    try {
-      ProfileModel profile =
-          await ProfileService().getProfileModel(context: context);
-
-      if (profile.response != null && profile.response!.isNotEmpty) {
-        return profile;
-      } else {
-        print('Profile response is empty');
-        return null;
-      }
-    } catch (e) {
-      print('Failed to get logged-in patient data: $e');
-      return null;
-    }
-  }
-
-  Future<List<CommentModel>> fetchCommentsForArticle(
-      String articleId, ProfileModel? loggedInPatient) async {
-    try {
-      if (loggedInPatient != null) {
-        List<CommentModel> comments =
-            await ArticleServices().getComment(articleId);
-
-        for (CommentModel comment in comments) {
-          comment.patientDetails = loggedInPatient.response![0];
-        }
-
-        return comments;
-      } else {
-        throw Exception(
-            'Failed to fetch comments: Logged-in patient data is null');
-      }
-    } catch (e) {
-      print('Failed to fetch comments: $e');
-      return [];
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
+    final articleProvider = Provider.of<ArticleProvider>(context, listen: false);
     return Scaffold(
         appBar: AppBar(
           title: Text(
@@ -73,7 +36,7 @@ class _CommentViewState extends State<CommentView> {
           elevation: 0,
         ),
         body: FutureBuilder(
-            future: getLoggedInPatient(context),
+            future: articleProvider.getLoggedInPatient(context : context),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(child: CircularProgressIndicator());
