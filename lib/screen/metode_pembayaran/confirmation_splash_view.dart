@@ -16,7 +16,7 @@ class ConfirmationSplashView extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset(
-              Assets.assetsConfirmSplash,
+              Assets.assetsConfirmationSplash,
               width: 319,
               height: 303,
             ),

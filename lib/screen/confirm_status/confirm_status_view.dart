@@ -1,6 +1,6 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:reprohealth_app/component/button_component.dart';
+import 'package:reprohealth_app/constant/assets_constants.dart';
 import 'package:reprohealth_app/constant/routes_navigation.dart';
 import 'package:reprohealth_app/theme/theme.dart';
 
@@ -12,19 +12,16 @@ class ConfirmStatusView extends StatelessWidget {
     var status = ModalRoute.of(context)!.settings.arguments as String;
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-      ),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Container(
-              height: 300,
-              color: Colors.grey.shade300,
+            Image.asset(
+              Assets.assetsSucessedConfirm,
+              fit: BoxFit.contain,
+              height: 240,
             ),
             const SizedBox(height: 10),
             Text(
@@ -45,9 +42,6 @@ class ConfirmStatusView extends StatelessWidget {
                   RoutesNavigation.homeView,
                   (route) => false,
                 );
-                if (kDebugMode) {
-                  print('Lihat Transaksi');
-                }
               },
             ),
           ],
