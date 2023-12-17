@@ -5,12 +5,14 @@ import 'package:provider/provider.dart';
 import 'package:reprohealth_app/constant/routes_navigation.dart';
 import 'package:reprohealth_app/screen/appoinment/appoinment_view.dart';
 import 'package:reprohealth_app/screen/appoinment/view_models/appoinment_view_model.dart';
+import 'package:reprohealth_app/screen/appointment_detail_status/appointment_detail_status_view.dart';
 import 'package:reprohealth_app/screen/appointment_history_detail/appointment_history_details_view.dart';
 import 'package:reprohealth_app/screen/article/article_detail_view.dart';
 import 'package:reprohealth_app/screen/article/article_view.dart';
 import 'package:reprohealth_app/screen/article/bookmark_view.dart';
 import 'package:reprohealth_app/screen/article/comment_view.dart';
-import 'package:reprohealth_app/screen/article/view_model/article_view_model.dart';
+import 'package:reprohealth_app/screen/article/view_model/articel_view_model.dart';
+import 'package:reprohealth_app/screen/article/view_model/article_bookmark_view_model.dart';
 import 'package:reprohealth_app/screen/cancel_appointment_payment_at_clinic/cancel_appointment_payment_at_clinic_view.dart';
 import 'package:reprohealth_app/screen/cancel_appointment_payment_at_clinic/cancel_at_clinic_view_model/cancel_at_clinic_view_model.dart';
 import 'package:reprohealth_app/screen/choice/choice_view.dart';
@@ -31,8 +33,8 @@ import 'package:reprohealth_app/screen/forum/chat_bot_forum_view.dart';
 import 'package:reprohealth_app/screen/forum/create_forum_view.dart';
 import 'package:reprohealth_app/screen/forum/detail_forum_view.dart';
 import 'package:reprohealth_app/screen/forum/forum_view.dart';
-import 'package:reprohealth_app/screen/forum/view_model/create_forum_view_model.dart';
 import 'package:reprohealth_app/screen/forum/view_model/chatbot_view_model.dart';
+import 'package:reprohealth_app/screen/forum/view_model/create_forum_view_model.dart';
 import 'package:reprohealth_app/screen/forum/view_model/forum_view_model.dart';
 import 'package:reprohealth_app/screen/home/home_view.dart';
 import 'package:reprohealth_app/screen/home/home_view_model.dart';
@@ -170,6 +172,7 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => RiwayatViewModel()),
         ChangeNotifierProvider(create: (context) => PaymentViewModel()),
         ChangeNotifierProvider(create: (context) => CreateForumViewModel()),
+        ChangeNotifierProvider(create: (context) => ArticleProvider()),
         ChangeNotifierProvider(create: (context) => ArticleViewModel()),
       ],
       child: MaterialApp(
@@ -228,6 +231,7 @@ class MainApp extends StatelessWidget {
               const JadwalDokterView(),
           RoutesNavigation.janjiTemuView: (context) => const JanjiTemuView(),
 
+
           // Forum
           RoutesNavigation.chatBotForumView: (context) =>
               const ChatBotForumView(),
@@ -268,6 +272,8 @@ class MainApp extends StatelessWidget {
               const CancelAppointmentPaymentAtClicic(),
           RoutesNavigation.confirmStatusView: (context) =>
               const ConfirmStatusView(),
+          RoutesNavigation.appointmentDetailStatus: (context) =>
+              const AppointmentDetailStatusView(),
 
           // payment method
           RoutesNavigation.paymentMethodView: (context) =>

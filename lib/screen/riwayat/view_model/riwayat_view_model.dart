@@ -68,8 +68,15 @@ class RiwayatViewModel extends ChangeNotifier {
     return getTransactionsByStatus(statuses: [AppointmentStatus.batal]);
   }
 
+  //^ ON REFRESH PAGE
   Future<void> onRefresh() {
     return getTransaction();
+  }
+
+  //^ VISIBLE PAYMENT STATUS CONTAINER
+  bool visibleStatusContainer({required String? status}) {
+    return status == AppointmentStatus.menunggu ||
+        status == AppointmentStatus.proses;
   }
 
   //^ Convert IDR

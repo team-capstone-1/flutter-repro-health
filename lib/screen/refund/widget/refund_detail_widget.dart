@@ -15,6 +15,11 @@ class RefundDetailWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var controller = Provider.of<RiwayatViewModel>(
+      context,
+      listen: false,
+    );
+
     return Container(
       padding: const EdgeInsets.all(16),
       color: grey10,
@@ -37,10 +42,7 @@ class RefundDetailWidget extends StatelessWidget {
                 style: regular12Grey400,
               ),
               Text(
-                Provider.of<RiwayatViewModel>(context).convertToIdr(
-                  appointmentData?.total,
-                  2,
-                ),
+                controller.convertToIdr(appointmentData?.total, 2),
                 style: semiBold12Grey500,
               ),
             ],
@@ -56,7 +58,7 @@ class RefundDetailWidget extends StatelessWidget {
                 style: semiBold14Grey500,
               ),
               Text(
-                "${Provider.of<RiwayatViewModel>(context).convertToIdr(
+                "${controller.convertToIdr(
                   appointmentData!.total! - 5000,
                   2,
                 )}*",

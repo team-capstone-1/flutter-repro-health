@@ -20,14 +20,22 @@ class TooltipWidget extends StatelessWidget {
           ),
           const SizedBox(width: 8),
           JustTheTooltip(
+            isModal: true,
+            onShow: () {},
+            tailBuilder: (point1, point2, point3) {
+              return Path()
+                ..moveTo(point1.dx, point1.dy)
+                ..close();
+            },
             content: Container(
               padding: const EdgeInsets.all(16),
               child: const Text(
                 'Kamu hanya dapat mengganti jadwal sebanyak 1 kali setelah 1 minggu melakukan pemesanan janji temu',
               ),
             ),
-            child: const Icon(
+            child: Icon(
               Icons.info_outline,
+              color: grey300,
             ),
           )
         ],

@@ -11,7 +11,7 @@ class ShimmerLoadingWidget extends StatelessWidget {
     return ListView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      itemCount: 6,
+      itemCount: 14,
       itemBuilder: (context, index) {
         return Shimmer.fromColors(
           baseColor: grey50,

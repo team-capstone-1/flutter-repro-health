@@ -1,5 +1,5 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'package:reprohealth_app/constant/payment_method.dart';
 import 'package:reprohealth_app/constant/payment_status.dart';
@@ -7,6 +7,7 @@ import 'package:reprohealth_app/constant/routes_navigation.dart';
 import 'package:reprohealth_app/constant/appointment_status.dart';
 import 'package:reprohealth_app/models/riwayat_models/history_transaction_models.dart';
 import 'package:reprohealth_app/screen/dokter/view_models/janji_temu_view_model.dart';
+import 'package:reprohealth_app/screen/home/home_view_model.dart';
 
 import 'package:reprohealth_app/theme/theme.dart';
 import 'package:reprohealth_app/component/button_component.dart';
@@ -91,27 +92,35 @@ class AppointmentHistoryDetailsView extends StatelessWidget {
               //^ jika janji temu DIPROSES
               if (appointmentData.status == AppointmentStatus.menunggu ||
                   appointmentData.status == AppointmentStatus.proses) ...[
-                //jika pembayaran [TRANSFER MANUAL]
-                if (appointmentData.consultation?.paymentMethod ==
-                    PaymentMethod.transferManual) ...[
-                  //jika sudah berhasil bayar
-                  if (appointmentData.paymentStatus == PaymentStatus.done) ...[
-                    buildTwoActionButton(context, appointmentData)
+                // jika dokter bersedia
+                if (appointmentData.consultation?.doctorAvailable == true) ...[
+                  //jika pembayaran [TRANSFER MANUAL]
+                  if (appointmentData.consultation?.paymentMethod ==
+                      PaymentMethod.transferManual) ...[
+                    //jika sudah berhasil bayar
+                    if (appointmentData.paymentStatus ==
+                        PaymentStatus.done) ...[
+                      buildTwoActionButton(context, appointmentData)
 
-                    // jika user belum bayar
-                  ] else if (appointmentData.paymentStatus ==
-                      PaymentStatus.pending) ...[
-                    buildOneActionButton(context, appointmentData)
+                      // jika user belum bayar
+                    ] else if (appointmentData.paymentStatus ==
+                        PaymentStatus.pending) ...[
+                      buildOneActionButton(context, appointmentData)
 
-                    //jika user refund
+                      //jika user refund
+                    ] else ...[
+                      buildOneActionButton(context, appointmentData)
+                    ]
+
+                    // jika pembayaran [DIKLINIK]
                   ] else ...[
-                    buildOneActionButton(context, appointmentData)
-                  ]
+                    buildTwoActionButton(context, appointmentData)
+                  ],
 
-                  // jika pembayaran [DIKLINIK]
+                  // jika dokter tidak bersedia
                 ] else ...[
                   buildTwoActionButton(context, appointmentData)
-                ],
+                ]
 
                 //^ jika janji temu SELESAI
               ] else if (appointmentData.status ==
@@ -191,6 +200,7 @@ class AppointmentHistoryDetailsView extends StatelessWidget {
           // jika user belum bayar
           // dengan tipe pembayaran [TRANSFER MANUAL]
           if (appointmentData?.paymentStatus == PaymentStatus.pending) {
+            // route ke -> halaman payment
             Navigator.pushNamed(
               context,
               RoutesNavigation.paymentMethodView,
@@ -199,18 +209,10 @@ class AppointmentHistoryDetailsView extends StatelessWidget {
                 idProfile: appointmentData?.consultation?.patientId,
               ),
             );
-            if (kDebugMode) {
-              print(appointmentData?.id);
-            }
-            // if (kDebugMode) {
-            //   // print('Anda belum membayar tagihan');
-            //   // print('BAYAR');
-            //   // print('Pembayaran transfer manual');
-            //   // print('route kehalaman -> pembayaran');
-            // }
 
             // jika user refund
           } else if (appointmentData?.paymentStatus == PaymentStatus.refund) {
+            // route ke -> halaman detail refund
             Navigator.pushNamed(
               context,
               RoutesNavigation.refundDetailsView,
@@ -220,11 +222,16 @@ class AppointmentHistoryDetailsView extends StatelessWidget {
 
           //^ jika janji temu SELESAI
         } else if (appointmentData?.status == AppointmentStatus.selesai) {
-          if (kDebugMode) {
-            print('Janji Temu Selesai');
-            print('JANJI TEMU LAGI');
-            print('route kehalaman -> appointment');
-          }
+          // route ke -> halaman appointment
+          Provider.of<HomeViewModels>(
+            context,
+            listen: false,
+          ).updateIndex(0);
+          Navigator.pushNamedAndRemoveUntil(
+            context,
+            RoutesNavigation.homeView,
+            (route) => false,
+          );
 
           //^ jika janji temu BATAL
         } else {
@@ -232,12 +239,16 @@ class AppointmentHistoryDetailsView extends StatelessWidget {
           // terjadi ketika status appointmentnya == cancelled
           // TAPI paymentStatusnya == pending
           if (appointmentData?.paymentStatus == PaymentStatus.pending) {
-            if (kDebugMode) {
-              print('Transaksi gagal - anda belum membayar tagihan');
-              print('JANJI TEMU LAGI');
-              print('Pembayaran Diklinik');
-              print('route kehalaman -> appointment');
-            }
+            // route ke -> halaman appointment
+            Provider.of<HomeViewModels>(
+              context,
+              listen: false,
+            ).updateIndex(0);
+            Navigator.pushNamedAndRemoveUntil(
+              context,
+              RoutesNavigation.homeView,
+              (route) => false,
+            );
 
             //* JANJI TEMU DIBATALKAN
             // terjadi ketika status appointmentnya == cancelled
@@ -258,12 +269,16 @@ class AppointmentHistoryDetailsView extends StatelessWidget {
 
               // bayar diklinik
             } else {
-              if (kDebugMode) {
-                print('Janji temu dibatalkan - anda membatalkan janji temu');
-                print('JANJI TEMU LAGI');
-                print('Pembayaran diklinik');
-                print('route kehalaman -> appointment');
-              }
+              // route ke -> halaman appointment
+              Provider.of<HomeViewModels>(
+                context,
+                listen: false,
+              ).updateIndex(0);
+              Navigator.pushNamedAndRemoveUntil(
+                context,
+                RoutesNavigation.homeView,
+                (route) => false,
+              );
             }
           }
         }
@@ -287,7 +302,9 @@ class AppointmentHistoryDetailsView extends StatelessWidget {
             elevation: 0,
             backgroundColor: green500,
             labelText: Text(
-              "Ganti Jadwal",
+              appointmentData?.consultation?.doctorAvailable == true
+                  ? "Ganti Jadwal"
+                  : "Jadwal Ulang",
               style: semiBold12Primary,
               textAlign: TextAlign.center,
             ),
@@ -296,7 +313,7 @@ class AppointmentHistoryDetailsView extends StatelessWidget {
                     Navigator.pushNamed(
                       context,
                       RoutesNavigation.rescedhuleView,
-                      arguments: appointmentData ?? ResponseData(),
+                      arguments: appointmentData,
                     );
                   }
                 : null,

@@ -393,6 +393,12 @@ TextStyle semiBold10Negative = GoogleFonts.poppins(
   fontWeight: FontWeight.w600,
 );
 
+TextStyle semiBold10Green500 = GoogleFonts.poppins(
+  color: green500,
+  fontSize: 10,
+  fontWeight: FontWeight.w600,
+);
+
 TextStyle semiBold12Grey500 = GoogleFonts.poppins(
   color: grey500,
   fontSize: 12,

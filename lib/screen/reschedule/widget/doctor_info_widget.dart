@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:reprohealth_app/constant/assets_constants.dart';
 import 'package:reprohealth_app/screen/riwayat/view_model/riwayat_view_model.dart';
 
 import 'package:reprohealth_app/theme/theme.dart';
@@ -45,9 +46,10 @@ class DoctorInfoWidget extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              const Icon(
-                Icons.local_hospital_outlined,
-                color: Color(0xFF686868),
+              Image.asset(
+                Assets.assetsIconHospital,
+                width: 15,
+                height: 15,
               ),
               const SizedBox(width: 4),
               Text(
@@ -60,9 +62,10 @@ class DoctorInfoWidget extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              const Icon(
-                Icons.location_on_outlined,
-                color: Color(0xFF686868),
+              Image.asset(
+                Assets.assetsIconLocationOutlined,
+                width: 15,
+                height: 15,
               ),
               const SizedBox(width: 4),
               Text(
@@ -75,9 +78,10 @@ class DoctorInfoWidget extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              const Icon(
-                Icons.attach_money_outlined,
-                color: Color(0xFF686868),
+              Image.asset(
+                Assets.assetsPrice,
+                width: 15,
+                height: 15,
               ),
               const SizedBox(width: 4),
               Text(

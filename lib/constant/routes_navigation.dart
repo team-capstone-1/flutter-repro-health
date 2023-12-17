@@ -32,6 +32,7 @@ class RoutesNavigation {
   static const String mapsView = '/maps-view';
   static const String jadwalDokterView = '/jadwal-dokter-view';
   static const String janjiTemuView = '/janji-temu-view';
+  static const String appointmentDetailStatus = '/appointment-detail-status';
 
   // Forum
   static const String chatBotForumView = '/chatbot-bot-forum-view';

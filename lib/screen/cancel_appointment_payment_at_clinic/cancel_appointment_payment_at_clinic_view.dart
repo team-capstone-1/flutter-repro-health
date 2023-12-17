@@ -1,9 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:reprohealth_app/constant/assets_constants.dart';
 import 'package:reprohealth_app/screen/cancel_appointment_payment_at_clinic/cancel_at_clinic_view_model/cancel_at_clinic_view_model.dart';
-import 'package:reprohealth_app/screen/riwayat/view_model/riwayat_view_model.dart';
 
 import 'package:reprohealth_app/theme/theme.dart';
 import 'package:reprohealth_app/component/button_component.dart';
@@ -16,10 +17,6 @@ class CancelAppointmentPaymentAtClicic extends StatelessWidget {
   Widget build(BuildContext context) {
     final appointmentData =
         ModalRoute.of(context)?.settings.arguments as ResponseData;
-    var controller = Provider.of<RiwayatViewModel>(
-      context,
-      listen: false,
-    );
 
     return Scaffold(
       body: CustomScrollView(
@@ -52,14 +49,19 @@ class CancelAppointmentPaymentAtClicic extends StatelessWidget {
                 borderRadius: const BorderRadius.vertical(
                   bottom: Radius.circular(24),
                 ),
-                child: Image.network(
-                  appointmentData
-                              .consultation?.doctor?.profileImage?.isNotEmpty ==
-                          true
-                      ? appointmentData.consultation?.doctor?.profileImage ??
-                          '-'
-                      : controller.nullImage,
+                child: CachedNetworkImage(
                   fit: BoxFit.cover,
+                  imageUrl:
+                      appointmentData.consultation?.doctor?.profileImage ?? '-',
+                  placeholder: (context, url) => CircularProgressIndicator(
+                    color: grey400,
+                  ),
+                  errorWidget: (context, url, error) {
+                    return Image.asset(
+                      Assets.assetsNoProfile,
+                      fit: BoxFit.cover,
+                    );
+                  },
                 ),
               ),
             ),
@@ -196,14 +198,20 @@ class CancelAppointmentPaymentAtClicic extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            "Lokasi",
-                            style: regular12Grey400,
+                          Flexible(
+                            child: Text(
+                              "Lokasi",
+                              style: regular12Grey400,
+                            ),
                           ),
-                          Text(
-                            appointmentData.consultation?.clinic?.location ??
-                                "-",
-                            style: semiBold12Grey500,
+                          Flexible(
+                            flex: 2,
+                            child: Text(
+                              appointmentData.consultation?.clinic?.location ??
+                                  "-",
+                              style: semiBold12Grey500,
+                              textAlign: TextAlign.right,
+                            ),
                           ),
                         ],
                       ),
@@ -221,31 +229,33 @@ class CancelAppointmentPaymentAtClicic extends StatelessWidget {
 
       //^ ACTION BUTTON
       bottomSheet: Consumer<CancelAtClinicViewModel>(
-          builder: (context, controller, child) {
-        return Container(
-          width: MediaQuery.of(context).size.width,
-          padding: const EdgeInsets.all(16),
-          color: grey10,
-          child: ButtonComponent(
-            labelText: Text(
-              "Batalkan Jadwal",
-              style: semiBold12Primary,
-              textAlign: TextAlign.center,
+        builder: (context, controller, child) {
+          return Container(
+            width: MediaQuery.of(context).size.width,
+            padding: const EdgeInsets.all(16),
+            color: grey10,
+            child: ButtonComponent(
+              labelText: Text(
+                controller.isLoading ? "Proses ..." : "Batalkan Jadwal",
+                style:
+                    controller.isLoading ? semiBold12Grey300 : semiBold12Grey10,
+                textAlign: TextAlign.center,
+              ),
+              backgroundColor: controller.isLoading ? grey50 : negative,
+              elevation: 0,
+              onPressed: () {
+                // fungsi dijalankan ketika loading == false
+                if (controller.isLoading == false) {
+                  controller.cancelTransaction(
+                    idTransactions: appointmentData.id,
+                    context: context,
+                  );
+                }
+              },
             ),
-            backgroundColor: controller.isLoading ? grey50 : negative,
-            elevation: 0,
-            onPressed: () {
-              // fungsi dijalankan ketika loading == false
-              if (controller.isLoading == false) {
-                controller.cancelTransaction(
-                  idTransactions: appointmentData.id,
-                  context: context,
-                );
-              }
-            },
-          ),
-        );
-      }),
+          );
+        },
+      ),
     );
   }
 }
