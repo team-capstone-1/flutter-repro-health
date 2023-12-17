@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
@@ -126,13 +127,22 @@ class _MyProfileState extends State<MyProfile> {
                             children: [
                               Padding(
                                 padding: const EdgeInsets.all(16),
-                                child: CircleAvatar(
-                                  radius: 30,
-                                  backgroundColor: const Color(0xFFB9B9B9),
-                                  backgroundImage: myProfile?.profileImage != null
-                                      ? NetworkImage(myProfile!.profileImage!)
-                                      : null,
+                                child: ClipRRect(
+                                borderRadius: BorderRadius.circular(50),
+                                child: CachedNetworkImage(
+                                fit: BoxFit.cover,
+                                width: 60,
+                                height: 60,
+                                placeholder: (context, url) =>
+                                CircularProgressIndicator(
+                                  color: green500,
                                 ),
+                                imageUrl: myProfile?.profileImage?? "",
+                                errorWidget: (context, url, error) => Container(
+                                color: grey100,
+                              ),
+                              ),
+                            ),
                               ),
                               Positioned(
                                 left: 55,

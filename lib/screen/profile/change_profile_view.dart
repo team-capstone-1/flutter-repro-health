@@ -18,8 +18,8 @@ class ChangeProfileView extends StatefulWidget {
   final String? gender;
   final String? nameController;
   final String? nomorController;
-  final double? beratController;
-  final int? tinggiController;
+  final num? beratController;
+  final num? tinggiController;
   const ChangeProfileView({super.key, this.idPatients, this.date, this.nameController, this.nomorController, this.beratController, this.tinggiController, this.gender});
 
   @override

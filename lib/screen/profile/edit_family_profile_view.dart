@@ -20,8 +20,8 @@ class EditFamilyProfile extends StatefulWidget {
   final String? date;
   final String? nameController;
   final String? nomorController;
-  final double? beratController;
-  final int? tinggiController;
+  final num? beratController;
+  final num? tinggiController;
 
   const EditFamilyProfile({super.key, this.idPatients, this.nameController, this.nomorController, this.beratController, this.tinggiController, this.relation, this.date, this.gender});
 

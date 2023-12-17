@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:reprohealth_app/component/text_form_component.dart';
 import 'package:reprohealth_app/constant/routes_navigation.dart';
 import 'package:reprohealth_app/models/article_models.dart';
-import 'package:reprohealth_app/screen/article/view_model/article_view_model.dart';
+import 'package:reprohealth_app/screen/article/view_model/article_bookmark_view_model.dart';
 import 'package:reprohealth_app/screen/article/widgets/article_card.dart';
 import 'package:reprohealth_app/services/article_services/article_services.dart';
 import 'package:reprohealth_app/theme/theme.dart';
