@@ -187,7 +187,7 @@ class ChangeDataProfile extends StatelessWidget {
                     validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Masukkan berat badan!';
-                    } else if (value.contains(RegExp(r'[!\"#$%&*+,\-./()]+')) || !value.contains(RegExp(r'[0-9]')) || !value.contains(RegExp(r'[0-9]')) || value.contains(RegExp(r'[a-z]')) || value.contains(RegExp(r'[A-Z]'))|| int.parse(value) >= 300) {
+                    } else if (value.contains(RegExp(r'[!\"#$%&*+\-/()]+')) || !value.contains(RegExp(r'[0-9]')) || value.contains(RegExp(r'[a-z]')) || value.contains(RegExp(r'[A-Z]'))|| num.parse(value) >= 300) {
                       return 'Data yang dimasukkan tidak valid!';
                     }
                     return null;
@@ -202,7 +202,7 @@ class ChangeDataProfile extends StatelessWidget {
                     validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Masukkan tinggi badan!';
-                    } else if (value.contains(RegExp(r'[!\"#$%&*+,\-./()]+')) || !value.contains(RegExp(r'[0-9]')) || !value.contains(RegExp(r'[0-9]')) || value.contains(RegExp(r'[a-z]')) || value.contains(RegExp(r'[A-Z]'))|| int.parse(value) >= 300) {
+                    } else if (value.contains(RegExp(r'[!\"#$%&*+,\-./()]+')) || !value.contains(RegExp(r'[0-9]')) || value.contains(RegExp(r'[a-z]')) || value.contains(RegExp(r'[A-Z]'))|| int.parse(value) >= 300) {
                       return 'Data yang dimasukkan tidak valid!';
                     }
                     return null;
