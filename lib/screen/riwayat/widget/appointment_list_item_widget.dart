@@ -1,8 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
+import 'package:reprohealth_app/constant/assets_constants.dart';
 import 'package:reprohealth_app/constant/payment_status.dart';
-import 'package:reprohealth_app/screen/riwayat/view_model/riwayat_view_model.dart';
 
 import 'package:reprohealth_app/theme/theme.dart';
 import 'package:reprohealth_app/models/riwayat_models/history_transaction_models.dart';
@@ -22,7 +22,6 @@ class AppointmentListItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var concultation = appointmentData?.consultation;
-    var controller = Provider.of<RiwayatViewModel>(context);
 
     return Container(
       margin: const EdgeInsets.only(bottom: 4),
@@ -35,14 +34,24 @@ class AppointmentListItemWidget extends StatelessWidget {
             children: [
               //^ Foto Dokter
               ClipOval(
-                child: Image.network(
-                  concultation?.doctor?.profileImage?.isNotEmpty == true
-                      ? concultation?.doctor?.profileImage ??
-                          controller.nullImage
-                      : controller.nullImage,
+                child: CachedNetworkImage(
                   fit: BoxFit.cover,
-                  height: 45,
                   width: 45,
+                  height: 45,
+                  imageUrl:
+                      appointmentData?.consultation?.doctor?.profileImage ??
+                          '-',
+                  placeholder: (context, url) => CircularProgressIndicator(
+                    color: grey400,
+                  ),
+                  errorWidget: (context, url, error) {
+                    return Image.asset(
+                      Assets.assetsNoProfile,
+                      fit: BoxFit.cover,
+                      width: 45,
+                      height: 45,
+                    );
+                  },
                 ),
               ),
               const SizedBox(width: 8),
@@ -89,21 +98,29 @@ class AppointmentListItemWidget extends StatelessWidget {
                       ),
                       decoration: BoxDecoration(
                         color: () {
-                          // jika user sudah berhasil bayar
-                          if (appointmentData?.paymentStatus ==
-                              PaymentStatus.done) {
-                            return positive25;
+                          // jika dokter bersedia
+                          if (appointmentData?.consultation?.doctorAvailable ==
+                              true) {
+                            // jika user sudah berhasil bayar
+                            if (appointmentData?.paymentStatus ==
+                                PaymentStatus.done) {
+                              return positive25;
 
-                            // jika user belum bayar
-                            // dengan tipe pembayaran [TRANSFER MANUAL]
-                          } else if (appointmentData?.paymentStatus ==
-                              PaymentStatus.pending) {
-                            return warning25;
+                              // jika user belum bayar
+                              // dengan tipe pembayaran [TRANSFER MANUAL]
+                            } else if (appointmentData?.paymentStatus ==
+                                PaymentStatus.pending) {
+                              return warning25;
 
-                            // jika user refund
-                            // dengan tipe pembayaran [TRANSFER MANUAL]
+                              // jika user refund
+                              // dengan tipe pembayaran [TRANSFER MANUAL]
+                            } else {
+                              return negative25;
+                            }
+
+                            // jika dokter tidak bersedia
                           } else {
-                            return negative25;
+                            return warning25;
                           }
                         }(),
                         borderRadius: BorderRadius.circular(4),
@@ -111,38 +128,55 @@ class AppointmentListItemWidget extends StatelessWidget {
                       alignment: Alignment.center,
                       child: Text(
                         () {
-                          // jika user sudah berhasil bayar
-                          if (appointmentData?.paymentStatus ==
-                              PaymentStatus.done) {
-                            return 'Selesai';
+                          // jika dokter bersedia
+                          if (appointmentData?.consultation?.doctorAvailable ==
+                              true) {
+                            // jika user sudah berhasil bayar
+                            if (appointmentData?.paymentStatus ==
+                                PaymentStatus.done) {
+                              return 'Selesai';
 
-                            // jika user belum bayar
-                            // dengan tipe pembayaran [TRANSFER MANUAL]
-                          } else if (appointmentData?.paymentStatus ==
-                              PaymentStatus.pending) {
-                            return 'Tertunda';
+                              // jika user belum bayar
+                              // dengan tipe pembayaran [TRANSFER MANUAL]
+                            } else if (appointmentData?.paymentStatus ==
+                                PaymentStatus.pending) {
+                              return 'Tertunda';
 
-                            // jika user refund
-                            // dengan tipe pembayaran [TRANSFER MANUAL]
+                              // jika user refund
+                              // dengan tipe pembayaran [TRANSFER MANUAL]
+                            } else {
+                              return 'Refund';
+                            }
+
+                            // jika dokter tidak bersedia
                           } else {
-                            return 'Refund';
+                            return "Tertunda";
                           }
                         }(),
                         style: () {
-                          if (appointmentData?.paymentStatus ==
-                              PaymentStatus.done) {
-                            return semiBold10Positive;
+                          // jika dokter bersedia
+                          if (appointmentData?.consultation?.doctorAvailable ==
+                              true) {
+                            // jika user sudah bayar
+                            if (appointmentData?.paymentStatus ==
+                                PaymentStatus.done) {
+                              return semiBold10Positive;
 
-                            // jika user belum bayar
-                            // dengan tipe pembayaran [TRANSFER MANUAL]
-                          } else if (appointmentData?.paymentStatus ==
-                              PaymentStatus.pending) {
-                            return semiBold10Warning;
+                              // jika user belum bayar
+                              // dengan tipe pembayaran [TRANSFER MANUAL]
+                            } else if (appointmentData?.paymentStatus ==
+                                PaymentStatus.pending) {
+                              return semiBold10Warning;
 
-                            // jika user refund
-                            // dengan tipe pembayaran [TRANSFER MANUAL]
+                              // jika user refund
+                              // dengan tipe pembayaran [TRANSFER MANUAL]
+                            } else {
+                              return semiBold10Negative;
+                            }
+
+                            // jika dokter tidak bersedia
                           } else {
-                            return semiBold10Negative;
+                            return semiBold10Warning;
                           }
                         }(),
                       ),

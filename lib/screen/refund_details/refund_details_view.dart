@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:reprohealth_app/constant/assets_constants.dart';
 import 'package:reprohealth_app/models/riwayat_models/history_transaction_models.dart';
 
 import 'package:reprohealth_app/screen/riwayat/view_model/riwayat_view_model.dart';
@@ -14,7 +15,10 @@ class RefundDetailsView extends StatelessWidget {
   Widget build(BuildContext context) {
     var appointmentData =
         ModalRoute.of(context)?.settings.arguments as ResponseData?;
-    final controller = Provider.of<RiwayatViewModel>(context);
+    final controller = Provider.of<RiwayatViewModel>(
+      context,
+      listen: false,
+    );
 
     return Scaffold(
       appBar: AppBar(
@@ -41,9 +45,20 @@ class RefundDetailsView extends StatelessWidget {
                 children: [
                   //^ Gambar Ilustrasi
                   Container(
-                    color: grey100,
-                    width: MediaQuery.of(context).size.width,
                     height: 120,
+                    width: MediaQuery.of(context).size.width,
+                    alignment: Alignment.center,
+                    child: Image.asset(
+                      () {
+                        if (appointmentData?.refund?.first.status ==
+                            'processing') {
+                          return Assets.assetsRefundOnprocess;
+                        } else {
+                          return Assets.assetsRefundSuccesfull;
+                        }
+                      }(),
+                      fit: BoxFit.contain,
+                    ),
                   ),
                   const SizedBox(height: 16),
 

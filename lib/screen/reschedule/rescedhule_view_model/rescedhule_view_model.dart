@@ -38,7 +38,7 @@ class RescedhuleViewModel extends ChangeNotifier {
   //^ RESCEDHULE
   void rescedhule({
     required BuildContext context,
-    required String idTransactions,
+    required String? idTransactions,
   }) async {
     final services = RiwayatServices();
     // selectedDate + 1 hari untuk input ke DB
@@ -51,31 +51,37 @@ class RescedhuleViewModel extends ChangeNotifier {
 
     try {
       // tunda selama 4 detik sebelum route ke-> confirm status
-      await Future.delayed(const Duration(seconds: 4), () {
-        // req data
-        services.putReschedule(
-          idTransaction: idTransactions,
-          date: addSelectedDate,
-          session: _selectedSession,
-        );
+      await Future.delayed(const Duration(seconds: 4));
 
-        isLoading = false; // loading false
-        notifyListeners(); // proses selesai
+      // req data
+      services.putReschedule(
+        idTransaction: idTransactions,
+        date: addSelectedDate,
+        session: _selectedSession,
+      );
 
+      _selectedDate = null;
+      _selectedSession = null;
+
+      // route ke -> halaman konfirmasi
+      if (context.mounted) {
         Navigator.pushNamedAndRemoveUntil(
           context,
           RoutesNavigation.confirmStatusView,
-          (route) => route.isFirst,
-          arguments: "Berhasil Mengubah Jadwal",
+          (route) => false,
+          arguments: 'Berhasil Mengubah Jadwal',
         );
-      });
-      notifyListeners();
+      }
     } on DioException catch (e) {
+      throw Exception(e.response);
+    } finally {
       isLoading = false;
       notifyListeners();
-
-      throw Exception(e.response);
     }
+  }
+
+  bool isButtonValidate() {
+    return _selectedDate != null && _selectedSession?.isNotEmpty == true;
   }
 
   //^ HARI MINGGU DALAM SATU TAHUN

@@ -1,9 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter/foundation.dart';
 import 'package:date_picker_timeline/date_picker_widget.dart';
-import 'package:reprohealth_app/screen/riwayat/view_model/riwayat_view_model.dart';
+import 'package:reprohealth_app/component/button_component.dart';
+import 'package:reprohealth_app/constant/assets_constants.dart';
 
 import 'package:reprohealth_app/theme/theme.dart';
 import 'package:reprohealth_app/screen/reschedule/widget/tooltip_widget.dart';
@@ -21,10 +22,6 @@ class RescheduleView extends StatelessWidget {
     // arguments
     var appointmentData =
         ModalRoute.of(context)!.settings.arguments as ResponseData?;
-    var controller = Provider.of<RiwayatViewModel>(
-      context,
-      listen: false,
-    );
 
     return Scaffold(
       body: CustomScrollView(
@@ -55,14 +52,20 @@ class RescheduleView extends StatelessWidget {
                 borderRadius: const BorderRadius.vertical(
                   bottom: Radius.circular(24),
                 ),
-                child: Image.network(
-                  appointmentData?.consultation?.doctor?.profileImage
-                              ?.isNotEmpty ==
-                          true
-                      ? appointmentData?.consultation?.doctor?.profileImage ??
-                          '-'
-                      : controller.nullImage,
+                child: CachedNetworkImage(
                   fit: BoxFit.cover,
+                  imageUrl:
+                      appointmentData?.consultation?.doctor?.profileImage ??
+                          '-',
+                  placeholder: (context, url) => CircularProgressIndicator(
+                    color: grey400,
+                  ),
+                  errorWidget: (context, url, error) {
+                    return Image.asset(
+                      Assets.assetsNoProfile,
+                      fit: BoxFit.cover,
+                    );
+                  },
                 ),
               ),
             ),
@@ -95,17 +98,17 @@ class RescheduleView extends StatelessWidget {
                           const Duration(days: 1),
                         ), // start date
                         locale: "in_ID",
-                        initialSelectedDate: null,
-                        deactivatedColor: grey300,
+                        initialSelectedDate: DateTime.now(),
+                        deactivatedColor: grey200,
                         selectionColor: green500,
                         selectedTextColor: grey10,
                         inactiveDates: controller.getSundayHolidays(
-                          DateTime.now().year,
+                          DateTime.now().year, // 2023
                         ),
                         dayTextStyle: semiBold12Grey300,
                         dateTextStyle: semiBold16Grey300,
                         monthTextStyle: semiBold12Grey300,
-                        daysCount: 30,
+                        daysCount: 7,
                         onDateChange: (newDate) {
                           controller.setSelectedDate = newDate;
                         },
@@ -228,52 +231,33 @@ class RescheduleView extends StatelessWidget {
       //^ ACTION BUTTON
       bottomSheet: Consumer<RescedhuleViewModel>(
         builder: (context, controller, child) {
-          var idTransactions = appointmentData?.id;
+          var idTransactions = appointmentData?.id ?? '-';
 
           return Container(
             padding: const EdgeInsets.all(16),
             child: SizedBox(
               width: MediaQuery.of(context).size.width,
-              child: ElevatedButton(
-                onPressed: controller.selectedSession?.isNotEmpty == true &&
-                        controller.selectedDate != null
+              child: ButtonComponent(
+                labelText: Text(
+                  controller.isLoading ? "Proses ..." : "Ganti Jadwal",
+                  style: controller.isLoading
+                      ? semiBold12Grey300
+                      : semiBold12Grey10,
+                  textAlign: TextAlign.center,
+                ),
+                backgroundColor: controller.isLoading ? grey50 : green500,
+                elevation: 0,
+                onPressed: controller.isButtonValidate()
                     ? () async {
-                        // fungsi dijalankan ketika loading == false
+                        // fungsi dijalankan ketika isLoading == false
                         if (controller.isLoading == false) {
-                          if (kDebugMode) {
-                            print(controller.selectedDate);
-                            print(controller.selectedSession);
-                          }
-
-                          // put rescedhule
                           controller.rescedhule(
                             context: context,
-                            idTransactions: idTransactions ?? '-',
+                            idTransactions: idTransactions,
                           );
                         }
                       }
                     : null,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: controller.isLoading ? grey50 : green500,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  elevation: 0,
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 24,
-                    vertical: 16,
-                  ),
-                  child: controller.isLoading
-                      ? CircularProgressIndicator(
-                          color: grey100,
-                        )
-                      : Text(
-                          "Ganti Jadwal",
-                          style: semiBold12Grey10,
-                        ),
-                ),
               ),
             ),
           );

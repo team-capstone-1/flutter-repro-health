@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:reprohealth_app/constant/routes_navigation.dart';
 import 'package:reprohealth_app/screen/appoinment/appoinment_view.dart';
 import 'package:reprohealth_app/screen/appoinment/view_models/appoinment_view_model.dart';
+import 'package:reprohealth_app/screen/appointment_detail_status/appointment_detail_status_view.dart';
 import 'package:reprohealth_app/screen/appointment_history_detail/appointment_history_details_view.dart';
 import 'package:reprohealth_app/screen/article/article_detail_view.dart';
 import 'package:reprohealth_app/screen/article/article_view.dart';
@@ -268,6 +269,8 @@ class MainApp extends StatelessWidget {
               const CancelAppointmentPaymentAtClicic(),
           RoutesNavigation.confirmStatusView: (context) =>
               const ConfirmStatusView(),
+          RoutesNavigation.appointmentDetailStatus: (context) =>
+              const AppointmentDetailStatusView(),
 
           // payment method
           RoutesNavigation.paymentMethodView: (context) =>
