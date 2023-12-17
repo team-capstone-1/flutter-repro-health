@@ -167,7 +167,7 @@ class ArticleServices {
       }
 
       return CommentModel.fromJson(responseData);
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       if (e.response != null) {
         print('Failed to post comments: ${e.response?.data}');
       } else {
