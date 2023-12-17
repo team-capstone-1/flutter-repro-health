@@ -10,8 +10,8 @@ class ArticleProvider with ChangeNotifier {
   TextEditingController controller = TextEditingController();
 
   String formattedDateTime(DateTime dateTime) {
-    String formattedDate =
-        DateFormat('dd MMMM yyyy "pukul" HH:mm "WIB"').format(dateTime.toLocal());
+    String formattedDate = DateFormat('dd MMMM yyyy "pukul" HH:mm "WIB"')
+        .format(dateTime.toLocal());
     return 'Diunggah pada $formattedDate';
   }
 
@@ -24,7 +24,8 @@ class ArticleProvider with ChangeNotifier {
 
   Future<String?> getLoggedInPatientId(BuildContext context) async {
     try {
-      ProfileModel profile = await ProfileService().getProfileModel(context: context);
+      ProfileModel profile =
+          await ProfileService().getProfileModel(context: context);
 
       if (profile.response != null && profile.response!.isNotEmpty) {
         String? patientId = profile.response![0].id;
@@ -45,29 +46,34 @@ class ArticleProvider with ChangeNotifier {
     }
   }
 
-  Future<ProfileModel?> getLoggedInPatient({required BuildContext context,}) async {
-      try {
-        ProfileModel profile =
-            await ProfileService().getProfileModel(context: context);
+  Future<ProfileModel?> getLoggedInPatient({
+    required BuildContext context,
+  }) async {
+    try {
+      ProfileModel profile =
+          await ProfileService().getProfileModel(context: context);
 
-        if (profile.response != null && profile.response!.isNotEmpty) {
-          return profile;
-        } else {
-          print('Profile response is empty');
-          return null;
-        }
-      } catch (e) {
-        print('Failed to get logged-in patient data: $e');
+      if (profile.response != null && profile.response!.isNotEmpty) {
+        return profile;
+      } else {
+        print('Profile response is empty');
         return null;
       }
+    } catch (e) {
+      print('Failed to get logged-in patient data: $e');
+      return null;
     }
+  }
 
-  Future<List<CommentModel>> fetchCommentsForArticle(String articleId, BuildContext context) async {
+  Future<List<CommentModel>> fetchCommentsForArticle(
+      String articleId, BuildContext context) async {
     try {
-      ProfileModel? loggedInPatient = await getLoggedInPatient(context: context);
+      ProfileModel? loggedInPatient =
+          await getLoggedInPatient(context: context);
 
       if (loggedInPatient != null) {
-        List<CommentModel> comments = await ArticleServices().getComment(articleId);
+        List<CommentModel> comments =
+            await ArticleServices().getComment(articleId);
 
         for (CommentModel comment in comments) {
           comment.patientDetails = loggedInPatient.response![0];
@@ -75,7 +81,8 @@ class ArticleProvider with ChangeNotifier {
 
         return comments;
       } else {
-        throw Exception('Failed to fetch comments: Logged-in patient data is null');
+        throw Exception(
+            'Failed to fetch comments: Logged-in patient data is null');
       }
     } catch (e) {
       print('Failed to fetch comments: $e');
@@ -87,30 +94,26 @@ class ArticleProvider with ChangeNotifier {
       {required String articleId, required BuildContext context}) async {
     try {
       String? patientId = await getLoggedInPatientId(context);
-      String comment = controller.text.trim();
-        controller.clear();
-        notifyListeners();
+      String? comment = controller.text.trim();
+      controller.clear();
+      print(patientId);
+      print(comment);
+      notifyListeners();
 
       if (articleId != null && patientId != null && comment.isNotEmpty) {
-        CommentModel? newComment = await ArticleServices().postComment(
+        await ArticleServices().postComment(
           patientId: patientId,
           comment: comment,
           articleId: articleId,
         );
-
-        if (newComment != null) {
-          print('Comment posted successfully: ${newComment.comment}');
-          // Lakukan sesuatu dengan komentar baru jika diperlukan
-          controller.clear();
-          notifyListeners();
-        } else {
-          print('Failed to post comment: returned comment is null');
-        }
       } else {
-        print('Comment cannot be empty, or patient ID or article ID is missing');
+        print(
+            'Comment cannot be empty, or patient ID or article ID is missing');
       }
+      await fetchCommentsForArticle(articleId, context);
     } catch (e) {
-      print('Failed to post comment: $e');
+      print('halo 1 $e');
+      throw (e);
     }
   }
 }

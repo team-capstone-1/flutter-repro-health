@@ -122,8 +122,8 @@ class _ArticleViewState extends State<ArticleView> {
                                 await ArticleServices()
                                     .postBookmark(article.id ?? '');
 
+                                // Update bookmark state after successful removal
                                 setState(() {
-                                  // Toggle bookmark state
                                   articleViewModel.isBookmark[index] =
                                       !articleViewModel.isBookmark[index];
                                 });

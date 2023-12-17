@@ -59,15 +59,18 @@ class CommentModel {
   String comment;
   DateTime date;
   ResponseDataProfile? patientDetails;
+  String? patientProfile;
+  String? patientName;
 
-  CommentModel({
-    required this.id,
-    required this.articleId,
-    required this.patientId,
-    required this.comment,
-    required this.date,
-    this.patientDetails,
-  });
+  CommentModel(
+      {required this.id,
+      required this.articleId,
+      required this.patientId,
+      required this.comment,
+      required this.date,
+      this.patientDetails,
+      this.patientProfile,
+      this.patientName});
 
   factory CommentModel.fromJson(Map<String, dynamic> json) {
     return CommentModel(
@@ -81,6 +84,8 @@ class CommentModel {
               json['response']['patients'].isNotEmpty
           ? ResponseDataProfile.fromMap(json['response']['patients'][0])
           : null,
+      patientProfile: json['patient_profile'],
+      patientName: json['patient_name'],
     );
   }
 }

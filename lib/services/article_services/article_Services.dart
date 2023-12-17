@@ -119,20 +119,13 @@ class ArticleServices {
     }
   }
 
-  Future<CommentModel> postComment({
+  Future<void> postComment({
     required String patientId,
     required String comment,
     required String articleId,
   }) async {
     if (articleId == null) {
       print('Article ID is null');
-      return CommentModel(
-        id: '',
-        articleId: '',
-        patientId: '',
-        comment: '',
-        date: DateTime.now(),
-      );
     }
     if (articleId.isEmpty) {
       print('Article ID is empty or null');
@@ -162,16 +155,14 @@ class ArticleServices {
       print('Comment post response: $response');
 
       final responseData = response.data;
-      if (responseData == null) {
-        throw Exception('Comment post response is null');
-      }
-
-      return CommentModel.fromJson(responseData);
-    } on DioError catch (e) {
+      // if (responseData == null) {
+      //   throw Exception('Comment post response is null');
+      // }
+    } on DioException catch (e) {
       if (e.response != null) {
-        print('Failed to post comments: ${e.response?.data}');
+        print('Failed to post comments1: ${e.response?.data}');
       } else {
-        print('Failed to post comments: ${e.message}');
+        print('Failed to post comments2: ${e.message}');
       }
       throw Exception('Failed to post comment');
     }
