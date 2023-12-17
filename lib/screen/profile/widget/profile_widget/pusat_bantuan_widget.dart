@@ -108,7 +108,7 @@ class PusatBantuanWidget extends StatelessWidget {
                       onPressed: () async {
                         try {
                           final Email email = Email(
-                            subject: 'Saya ingin bertanya',
+                            subject: 'Saya ingin bertanya sesuatu',
                             recipients: ['reprohealth@gmail.com'],
                           );
                           await FlutterEmailSender.send(email);
