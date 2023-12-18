@@ -45,8 +45,6 @@ class _CommentViewState extends State<CommentView> {
                 return Text(
                     'Failed to load patient details: ${snapshot.error}');
               } else {
-                ProfileModel? loggedInPatient = snapshot.data;
-
                 final List<CommentModel> comments = ModalRoute.of(context)
                     ?.settings
                     .arguments as List<CommentModel>;

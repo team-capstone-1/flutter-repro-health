@@ -43,6 +43,8 @@ class ArticleViewModel with ChangeNotifier {
       notifyListeners();
     } catch (e) {
       print('Error checking bookmark status: $e');
+      isBookmark[index] = false;
+      notifyListeners();
     }
   }
 }

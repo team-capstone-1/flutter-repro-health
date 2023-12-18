@@ -18,6 +18,8 @@ class ArticleView extends StatefulWidget {
 class _ArticleViewState extends State<ArticleView> {
   late TextEditingController controller;
 
+  late Future<List<CommentModel>> future;
+
   @override
   void initState() {
     super.initState();
