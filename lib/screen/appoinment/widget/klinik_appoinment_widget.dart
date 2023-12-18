@@ -76,6 +76,8 @@ class KlinikAppoinmentWidget extends StatelessWidget {
                               child: CachedNetworkImage(
                                 fit: BoxFit.cover,
                                 imageUrl: clinics.image ?? '',
+                                width: 154,
+                                height: 80,
                                 placeholder: (context, url) =>
                                     const CircularProgressIndicator(),
                                 errorWidget: (context, url, error) =>

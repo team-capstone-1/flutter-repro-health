@@ -18,6 +18,8 @@ class ArticleView extends StatefulWidget {
 class _ArticleViewState extends State<ArticleView> {
   late TextEditingController controller;
 
+  late Future<List<CommentModel>> future;
+
   @override
   void initState() {
     super.initState();
@@ -122,10 +124,9 @@ class _ArticleViewState extends State<ArticleView> {
                                 await ArticleServices()
                                     .postBookmark(article.id ?? '');
 
+                                // Update bookmark state after successful removal
                                 setState(() {
-                                  // Toggle bookmark state
-                                  articleViewModel.isBookmark[index] =
-                                      !articleViewModel.isBookmark[index];
+                                  articleViewModel.isBookmark[index];
                                 });
                               } catch (e) {
                                 print('Failed to toggle bookmark: $e');

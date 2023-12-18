@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:reprohealth_app/constant/assets_constants.dart';
 import 'package:reprohealth_app/constant/routes_navigation.dart';
 import 'package:reprohealth_app/models/article_models.dart';
+import 'package:reprohealth_app/screen/article/view_model/articel_view_model.dart';
 import 'package:reprohealth_app/screen/article/widgets/article_card.dart';
 import 'package:reprohealth_app/screen/article/widgets/bottom_sheet.dart';
 import 'package:reprohealth_app/services/article_services/article_services.dart';

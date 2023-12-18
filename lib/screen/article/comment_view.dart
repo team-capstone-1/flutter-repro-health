@@ -19,7 +19,8 @@ class _CommentViewState extends State<CommentView> {
 
   @override
   Widget build(BuildContext context) {
-    final articleProvider = Provider.of<ArticleProvider>(context, listen: false);
+    final articleProvider =
+        Provider.of<ArticleProvider>(context, listen: false);
     return Scaffold(
         appBar: AppBar(
           title: Text(
@@ -36,7 +37,7 @@ class _CommentViewState extends State<CommentView> {
           elevation: 0,
         ),
         body: FutureBuilder(
-            future: articleProvider.getLoggedInPatient(context : context),
+            future: articleProvider.getLoggedInPatient(context: context),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(child: CircularProgressIndicator());
@@ -44,8 +45,6 @@ class _CommentViewState extends State<CommentView> {
                 return Text(
                     'Failed to load patient details: ${snapshot.error}');
               } else {
-                ProfileModel? loggedInPatient = snapshot.data;
-
                 final List<CommentModel> comments = ModalRoute.of(context)
                     ?.settings
                     .arguments as List<CommentModel>;
@@ -125,15 +124,11 @@ class _CommentViewState extends State<CommentView> {
                           itemBuilder: (context, index) {
                             CommentModel comment = comments[index];
 
-                            comment.patientDetails =
-                                loggedInPatient?.response?[0];
-
                             return Column(
                               children: [
                                 CommentCard(
-                                  image: comment.patientDetails?.profileImage ??
-                                      '',
-                                  name: comment.patientDetails?.name ?? '',
+                                  image: comment.patientProfile ?? '',
+                                  name: comment.patientName ?? '',
                                   date: DateFormat('dd MMMM yyyy')
                                       .format(comment.date.toLocal()),
                                   comment: comment.comment,
