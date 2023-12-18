@@ -8,7 +8,6 @@ class ArticleViewModel with ChangeNotifier {
   List<ArticleModels> bookmarkedItem = [];
   bool isLoading = false;
   String error = '';
-
   bool get hasError => error.isNotEmpty;
 
   Future<void> fetchArticles() async {
@@ -42,7 +41,8 @@ class ArticleViewModel with ChangeNotifier {
       isBookmark[index] = isBookmarked;
       notifyListeners();
     } catch (e) {
-      print('Error checking bookmark status: $e');
+      isBookmark[index] = false;
+      notifyListeners();
     }
   }
 }
