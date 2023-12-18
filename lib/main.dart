@@ -1,3 +1,7 @@
+// ignore_for_file: deprecated_member_use
+
+import 'package:device_preview/device_preview.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -5,12 +9,14 @@ import 'package:provider/provider.dart';
 import 'package:reprohealth_app/constant/routes_navigation.dart';
 import 'package:reprohealth_app/screen/appoinment/appoinment_view.dart';
 import 'package:reprohealth_app/screen/appoinment/view_models/appoinment_view_model.dart';
+import 'package:reprohealth_app/screen/appointment_detail_status/appointment_detail_status_view.dart';
 import 'package:reprohealth_app/screen/appointment_history_detail/appointment_history_details_view.dart';
 import 'package:reprohealth_app/screen/article/article_detail_view.dart';
 import 'package:reprohealth_app/screen/article/article_view.dart';
 import 'package:reprohealth_app/screen/article/bookmark_view.dart';
 import 'package:reprohealth_app/screen/article/comment_view.dart';
-import 'package:reprohealth_app/screen/article/view_model/article_view_model.dart';
+import 'package:reprohealth_app/screen/article/view_model/articel_view_model.dart';
+import 'package:reprohealth_app/screen/article/view_model/article_bookmark_view_model.dart';
 import 'package:reprohealth_app/screen/cancel_appointment_payment_at_clinic/cancel_appointment_payment_at_clinic_view.dart';
 import 'package:reprohealth_app/screen/cancel_appointment_payment_at_clinic/cancel_at_clinic_view_model/cancel_at_clinic_view_model.dart';
 import 'package:reprohealth_app/screen/choice/choice_view.dart';
@@ -31,8 +37,8 @@ import 'package:reprohealth_app/screen/forum/chat_bot_forum_view.dart';
 import 'package:reprohealth_app/screen/forum/create_forum_view.dart';
 import 'package:reprohealth_app/screen/forum/detail_forum_view.dart';
 import 'package:reprohealth_app/screen/forum/forum_view.dart';
-import 'package:reprohealth_app/screen/forum/view_model/create_forum_view_model.dart';
 import 'package:reprohealth_app/screen/forum/view_model/chatbot_view_model.dart';
+import 'package:reprohealth_app/screen/forum/view_model/create_forum_view_model.dart';
 import 'package:reprohealth_app/screen/forum/view_model/forum_view_model.dart';
 import 'package:reprohealth_app/screen/home/home_view.dart';
 import 'package:reprohealth_app/screen/home/home_view_model.dart';
@@ -88,11 +94,16 @@ import 'package:reprohealth_app/screen/spesialis/view_models.dart/detail_spesial
 import 'package:reprohealth_app/screen/spesialis/view_models.dart/specialist_view_model.dart';
 import 'package:reprohealth_app/screen/splash/splash_view.dart';
 import 'package:reprohealth_app/screen/splash/view_model/splash_view_model.dart';
+import 'package:shimmer/main.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initializeDateFormatting('id_ID', null).then(
     (_) => runApp(const MainApp()),
+  );
+  DevicePreview(
+    enabled: !kReleaseMode,
+    builder: (context) => MyApp(), // Wrap your app
   );
 }
 
@@ -170,9 +181,13 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => RiwayatViewModel()),
         ChangeNotifierProvider(create: (context) => PaymentViewModel()),
         ChangeNotifierProvider(create: (context) => CreateForumViewModel()),
+        ChangeNotifierProvider(create: (context) => ArticleProvider()),
         ChangeNotifierProvider(create: (context) => ArticleViewModel()),
       ],
       child: MaterialApp(
+        useInheritedMediaQuery: true,
+        locale: DevicePreview.locale(context),
+        builder: DevicePreview.appBuilder,
         localizationsDelegates: const [
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
@@ -268,6 +283,8 @@ class MainApp extends StatelessWidget {
               const CancelAppointmentPaymentAtClicic(),
           RoutesNavigation.confirmStatusView: (context) =>
               const ConfirmStatusView(),
+          RoutesNavigation.appointmentDetailStatus: (context) =>
+              const AppointmentDetailStatusView(),
 
           // payment method
           RoutesNavigation.paymentMethodView: (context) =>

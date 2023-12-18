@@ -13,87 +13,88 @@ class QuestionsList extends StatelessWidget {
     'Profile',
   ];
 
+  QuestionsList({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Row(
-        children: [
-          Container(
-            width: 24,
-            height: 24,
-            margin: const EdgeInsets.only(right: 8),
-            child: CircleAvatar(
-              child: Image.asset(
-                Assets.assetsAIProfile,
-              ),
+      children: [
+        Container(
+          width: 24,
+          height: 24,
+          margin: const EdgeInsets.only(right: 8),
+          child: CircleAvatar(
+            child: Image.asset(
+              Assets.assetsAiProfile,
             ),
           ),
-          Container(
-            height: 300,
-            width: 213,
-            decoration: BoxDecoration(
-                border: Border.all(width: 3, color: green500),
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(8),
-                )),
-            child: Column(
-              children: [
-                Container(
-                  decoration: BoxDecoration(
+        ),
+        Container(
+          height: 300,
+          width: 213,
+          decoration: BoxDecoration(
+              border: Border.all(width: 3, color: green500),
+              borderRadius: const BorderRadius.all(
+                Radius.circular(8),
+              )),
+          child: Column(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                    color: green500,
+                    border: Border.all(
                       color: green500,
-                      border: Border.all(
-                        color: green500,
-                      ),
-                      borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(4),
-                        topRight: Radius.circular(4),
-                      )),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      "Halo! Pilih kategori yang ingin kamu tanyakan atau ketik pertanyaanmu di chatbox.",
-                      style: semiBold12Grey5,
                     ),
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(4),
+                      topRight: Radius.circular(4),
+                    )),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    "Halo! Pilih kategori yang ingin kamu tanyakan atau ketik pertanyaanmu di chatbox.",
+                    style: semiBold12Grey5,
                   ),
                 ),
-                Expanded(
-                  child: Consumer<ChatbotViewModel>(
-                    builder: (context, categoryProvider, child) {
-                      return ListView.separated(
-                        itemCount: categoryProvider.categories.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          final category = categoryProvider.categories[index];
-                          return GestureDetector(
-                            onTap: () {
-                              categoryProvider.addCategoryToChat(category);
-                              print(category);
-                            },
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 12, vertical: 6),
-                                  child:
-                                      Text(category, style: semiBold12Green500),
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-                        separatorBuilder: (context, index) {
-                          return Divider(
-                            thickness: 1,
-                            color: green500,
-                          );
-                        },
-                      );
-                    },
-                  ),
+              ),
+              Expanded(
+                child: Consumer<ChatbotViewModel>(
+                  builder: (context, categoryProvider, child) {
+                    return ListView.separated(
+                      itemCount: categoryProvider.categories.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        final category = categoryProvider.categories[index];
+                        return GestureDetector(
+                          onTap: () {
+                            categoryProvider.addCategoryToChat(category);
+                          },
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 12, vertical: 6),
+                                child:
+                                    Text(category, style: semiBold12Green500),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                      separatorBuilder: (context, index) {
+                        return Divider(
+                          thickness: 1,
+                          color: green500,
+                        );
+                      },
+                    );
+                  },
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-        ],
-      );
+        ),
+      ],
+    );
   }
 }

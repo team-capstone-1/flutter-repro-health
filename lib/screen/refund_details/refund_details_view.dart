@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:reprohealth_app/constant/assets_constants.dart';
+import 'package:reprohealth_app/constant/routes_navigation.dart';
 import 'package:reprohealth_app/models/riwayat_models/history_transaction_models.dart';
 
 import 'package:reprohealth_app/screen/riwayat/view_model/riwayat_view_model.dart';
@@ -14,7 +16,10 @@ class RefundDetailsView extends StatelessWidget {
   Widget build(BuildContext context) {
     var appointmentData =
         ModalRoute.of(context)?.settings.arguments as ResponseData?;
-    final controller = Provider.of<RiwayatViewModel>(context);
+    final controller = Provider.of<RiwayatViewModel>(
+      context,
+      listen: false,
+    );
 
     return Scaffold(
       appBar: AppBar(
@@ -27,6 +32,15 @@ class RefundDetailsView extends StatelessWidget {
         iconTheme: IconThemeData(
           color: grey700,
         ),
+        leading: IconButton(
+            onPressed: () {
+              Navigator.pushNamedAndRemoveUntil(
+                context,
+                RoutesNavigation.homeView,
+                (route) => false,
+              );
+            },
+            icon: const Icon(Icons.arrow_back)),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -41,9 +55,25 @@ class RefundDetailsView extends StatelessWidget {
                 children: [
                   //^ Gambar Ilustrasi
                   Container(
-                    color: grey100,
-                    width: MediaQuery.of(context).size.width,
                     height: 120,
+                    width: MediaQuery.of(context).size.width,
+                    alignment: Alignment.center,
+                    child: appointmentData?.refund?.isNotEmpty == true
+                        ? Image.asset(
+                            () {
+                              if (appointmentData?.refund?.first.status ==
+                                  'processing') {
+                                return Assets.assetsRefundOnprocess;
+                              } else {
+                                return Assets.assetsRefundSuccesfull;
+                              }
+                            }(),
+                            fit: BoxFit.contain,
+                          )
+                        : Image.asset(
+                            Assets.assetsRefundOnprocess,
+                            fit: BoxFit.contain,
+                          ),
                   ),
                   const SizedBox(height: 16),
 

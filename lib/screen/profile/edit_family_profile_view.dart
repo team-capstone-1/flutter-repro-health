@@ -20,17 +20,25 @@ class EditFamilyProfile extends StatefulWidget {
   final String? date;
   final String? nameController;
   final String? nomorController;
-  final double? beratController;
-  final int? tinggiController;
+  final num? beratController;
+  final num? tinggiController;
 
-  const EditFamilyProfile({super.key, this.idPatients, this.nameController, this.nomorController, this.beratController, this.tinggiController, this.relation, this.date, this.gender});
+  const EditFamilyProfile(
+      {super.key,
+      this.idPatients,
+      this.nameController,
+      this.nomorController,
+      this.beratController,
+      this.tinggiController,
+      this.relation,
+      this.date,
+      this.gender});
 
   @override
   State<EditFamilyProfile> createState() => _EditFamilyProfileState();
 }
 
 class _EditFamilyProfileState extends State<EditFamilyProfile> {
-
   late String idPatients;
   late String relation;
   late String gender;
@@ -42,10 +50,10 @@ class _EditFamilyProfileState extends State<EditFamilyProfile> {
   late TextEditingController dateController;
 
   late final PutFamilyProfileViewModel updateProvider;
+  final _formKey = GlobalKey<FormState>();
 
- @override
-  void initState() {
-
+    @override
+    void initState() {
     super.initState();
     idPatients = widget.idPatients ?? "";
     relation = widget.relation ?? "";
@@ -53,17 +61,20 @@ class _EditFamilyProfileState extends State<EditFamilyProfile> {
     dateController = TextEditingController(text: widget.date ?? "");
     nameController = TextEditingController(text: widget.nameController);
     nomorController = TextEditingController(text: widget.nomorController);
-    beratController = TextEditingController(text: widget.beratController?.toString());
-    tinggiController = TextEditingController(text: widget.tinggiController?.toString());
-    Provider.of<GetFamilyProfileViewModel>(context, listen: false).fetchProfileDataId(context: context, idPatients: idPatients);
+    beratController =
+        TextEditingController(text: widget.beratController?.toString());
+    tinggiController =
+        TextEditingController(text: widget.tinggiController?.toString());
+    Provider.of<GetFamilyProfileViewModel>(context, listen: false)
+        .fetchProfileDataId(context: context, idPatients: idPatients);
     optionItemSelected = OptionItem(title: relation);
   }
 
   @override
-  void dispose() {  
+  void dispose() {
     nameController.dispose();
     nomorController.dispose();
-    dateController.dispose(); 
+    dateController.dispose();
     beratController.dispose();
     tinggiController.dispose();
     super.dispose();
@@ -101,186 +112,199 @@ class _EditFamilyProfileState extends State<EditFamilyProfile> {
             },
           ),
           titleSpacing: 0,
-          title: Text("Ubah Data Keluarga Saya",
-          style: semiBold16Primary4,
+          title: Text(
+            "Ubah Data Keluarga Saya",
+            style: semiBold16Primary4,
           ),
           actions: <Widget>[
             TextButton(
-              onPressed: () {
+                onPressed: () {
                   showDialog<void>(
-                      context: context,
-                      builder: (BuildContext context) => Dialog(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Container(
-                          width: 319,
-                          height: 191,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text(
-                                'Profil Keluarga Dihapus?',
-                                style: semiBold14Grey500,
-                                textAlign: TextAlign.center,
-                              ),
-                              SizedBox(height: 8,),
-                              Text(
-                                "Apakah Anda yakin akan menghapus profil ini?",
-                                style: semiBold12Grey500,
-                                textAlign: TextAlign.center,
-                              ),
-                              SizedBox(height: 24,),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  SizedBox(
-                                    width: 123.5,
-                                    height: 36,
-                                    child: ButtonWidget(
+                    context: context,
+                    builder: (BuildContext context) => Dialog(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Container(
+                        width: 319,
+                        height: 191,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Profil Keluarga Dihapus?',
+                              style: semiBold14Grey500,
+                              textAlign: TextAlign.center,
+                            ),
+                            const SizedBox(
+                              height: 8,
+                            ),
+                            Text(
+                              "Apakah Anda yakin akan menghapus profil ini?",
+                              style: semiBold12Grey500,
+                              textAlign: TextAlign.center,
+                            ),
+                            const SizedBox(
+                              height: 24,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SizedBox(
+                                  width: 123.5,
+                                  height: 36,
+                                  child: ButtonWidget(
                                       title: "Hapus",
                                       onPressed: () async {
-                                        Provider.of<DeleteProfileFamilyViewModel>(context, listen: false).deleteProfileById(context, idPatients);
-                                        changeGenderViewModel.groupValue.value = "";
+                                        Provider.of<DeleteProfileFamilyViewModel>(
+                                                context,
+                                                listen: false)
+                                            .deleteProfileById(
+                                                context, idPatients);
+                                        changeGenderViewModel.groupValue.value =
+                                            "";
                                         Navigator.pop(context);
                                         Navigator.pop(context);
-                                        ScaffoldMessenger.of(context).showSnackBar(
-                                          CustomSnackBar(
-                                            contentText: 'Profil keluarga berhasil dihapus!',
-                                            backgroundColor: positive,
-                                          )
-                                        );
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(CustomSnackBar(
+                                          contentText:
+                                              'Profil keluarga berhasil dihapus!',
+                                          backgroundColor: positive,
+                                        ));
                                       },
                                       color: negative),
-                                  ),
-                                  SizedBox(width: 8,),
-                                  SizedBox(
-                                    width: 123.5,
-                                    height: 36,
-                                      child: ButtonWidget(
-                                        title: "Batal",
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                        },
-                                        color: green500
-                                      ),
-                                    ),
-                                ],
-                              ),
-                            ],
-                          ),
+                                ),
+                                const SizedBox(
+                                  width: 8,
+                                ),
+                                SizedBox(
+                                  width: 123.5,
+                                  height: 36,
+                                  child: ButtonWidget(
+                                      title: "Batal",
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      color: green500),
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
                       ),
-                    );
-                  },
-              child: Text("Hapus",
-                style: semiBold16negative
-              )
-            )
+                    ),
+                  );
+                },
+                child: Text("Hapus", style: semiBold16negative))
           ],
         ),
-        body: Stack(
-          children: [
-            SingleChildScrollView(
-              child: Column(
-                children: <Widget> [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
-                    child: Container(
-                      width: double.infinity,
-                      decoration: const BoxDecoration(
-                        color: Color(0xFFFAFAFA),
-                        ),
-                      child: Center(
-                        child: Padding(
-                          padding: const EdgeInsets.only(right: 8, left: 8,),
-                          child: SelectDropList(
-                            space: 16,
-                            borderColor: grey200,
-                            dropboxborderColor: grey500,
-                            dropbBoxborderRadius: BorderRadius.circular(4),
-                            borderRadius: BorderRadius.circular(4),
-                            paddingLeft: 0,
-                            paddingRight: 0,
-                            paddingBottom: 0,
-                            itemSelected: optionItemSelected,
-                            dropListModel: dropListModel,
-                            showIcon: false,
-                            showArrowIcon: true,
-                            showBorder: true,
-                            heightBottomContainer: 166,
-                            paddingTop: 0,
-                            paddingDropItem: const EdgeInsets.only(left: 16, bottom: 16),
-                            suffixIcon: Icons.keyboard_arrow_down,
-                            containerPadding: const EdgeInsets.only(right: 16,),
-                            icon: const Icon(Icons.person, color: Colors.black),
-                            onOptionSelected: (optionItem) {
-                              optionItemSelected = optionItem;
-                              relation = optionItem.title;
-                              setState(() {});
-                              },
-                            ),
+        body: Form(
+          key: _formKey,
+          child: Stack(
+            children: [
+              SingleChildScrollView(
+                child: Column(
+                  children: <Widget> [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
+                      child: Container(
+                        width: double.infinity,
+                        decoration: const BoxDecoration(
+                          color: Color(0xFFFAFAFA),
                           ),
-                        )
+                        child: Center(
+                          child: Padding(
+                            padding: const EdgeInsets.only(right: 8, left: 8,),
+                            child: SelectDropList(
+                              space: 16,
+                              borderColor: grey200,
+                              dropboxborderColor: grey500,
+                              dropbBoxborderRadius: BorderRadius.circular(4),
+                              borderRadius: BorderRadius.circular(4),
+                              paddingLeft: 0,
+                              paddingRight: 0,
+                              paddingBottom: 0,
+                              itemSelected: optionItemSelected,
+                              dropListModel: dropListModel,
+                              showIcon: false,
+                              showArrowIcon: true,
+                              showBorder: true,
+                              heightBottomContainer: 166,
+                              paddingTop: 0,
+                              paddingDropItem: const EdgeInsets.only(left: 16, bottom: 16),
+                              suffixIcon: Icons.keyboard_arrow_down,
+                              containerPadding: const EdgeInsets.only(right: 16,),
+                              icon: const Icon(Icons.person, color: Colors.black),
+                              onOptionSelected: (optionItem) {
+                                optionItemSelected = optionItem;
+                                relation = optionItem.title;
+                                setState(() {});
+                                },
+                              ),
+                            ),
+                          )
+                        ),
                       ),
-                    ),
-                  ChangeDataProfile(
-                    controller1: nameController,
-                    controller2: nomorController,
-                    controller3: beratController,
-                    controller4: tinggiController,
-                    dateController: dateController,
-                    onChanged: (String? value) {
-                      changeGenderViewModel.groupValue.value = value?? "";
+                    ChangeDataProfile(
+                      controller1: nameController,
+                      controller2: nomorController,
+                      controller3: beratController,
+                      controller4: tinggiController,
+                      dateController: dateController,
+                      onChanged: (String? value) {
+                        changeGenderViewModel.groupValue.value = value?? "";
+                        },
+                      ),
+                    ],
+                  ),
+              ),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16 ,vertical: 16),
+                  child: SizedBox(
+                    width: double.infinity,
+                    height: 40,
+                    child: ButtonWidget(
+                      title: "Simpan",
+                      onPressed: () {
+                        var updateProvider = Provider.of<PutFamilyProfileViewModel>(context, listen: false);
+                        String formattedDate = DateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").format(DateFormat('dd/MM/yyyy').parse(dateController.text).toLocal());
+                        if (_formKey.currentState!.validate()) {
+                          updateProvider.updateProfileData(
+                          context:context, idPatients: idPatients,
+                          relation: relation,
+                          gender: changeGenderViewModel.groupValue.value,
+                          name: nameController.text,
+                          nomor: nomorController.text,
+                          date: formattedDate,
+                          berat: double.parse(beratController.text),
+                          tinggi: int.parse(tinggiController.text)
+                          );
+                          postFamilyProfile.nameController.clear();
+                          postFamilyProfile.nomorController.clear();
+                          postFamilyProfile.beratController.clear();
+                          postFamilyProfile.tinggiController.clear();
+                          changeGenderViewModel.groupValue.value = "";
+              
+                          postFamilyProfile.optionItemSelected = OptionItem(title: "Pilih Hubungan");
+                          Navigator.pop(context);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            CustomSnackBar(
+                              contentText: 'Profil keluarga berhasil diubah!',
+                              backgroundColor: positive,
+                            )
+                          );
+                        }
                       },
+                      color: green500,
                     ),
-                  ],
-                ),
-            ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16 ,vertical: 16),
-                child: SizedBox(
-                  width: double.infinity,
-                  height: 40,
-                  child: ButtonWidget(
-                    title: "Simpan",
-                    onPressed: () {
-                      var updateProvider = Provider.of<PutFamilyProfileViewModel>(context, listen: false);
-                      String formattedDate = DateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").format(DateFormat('dd/MM/yyyy').parse(dateController.text).toLocal());
-                      updateProvider.updateProfileData(
-                        context:context, idPatients: idPatients,
-                        relation: relation,
-                        gender: changeGenderViewModel.groupValue.value,
-                        name: nameController.text,
-                        nomor: nomorController.text,
-                        date: formattedDate,
-                        berat: double.parse(beratController.text),
-                        tinggi: int.parse(tinggiController.text)
-                        );
-                      postFamilyProfile.nameController.clear();
-                      postFamilyProfile.nomorController.clear();
-                      postFamilyProfile.beratController.clear();
-                      postFamilyProfile.tinggiController.clear();
-                      changeGenderViewModel.groupValue.value = "";
-    
-                      postFamilyProfile.optionItemSelected = OptionItem(title: "Pilih Hubungan");
-                      Navigator.pop(context);
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        CustomSnackBar(
-                          contentText: 'Profil keluarga berhasil diubah!',
-                          backgroundColor: positive,
-                        )
-                      );
-                    },
-                    color: green500,
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

@@ -1,6 +1,10 @@
 class Assets {
   Assets._();
 
+  /// Assets for assetsAiProfile
+  /// assets/ai_profile.png
+  static const String assetsAiProfile = "assets/ai_profile.png";
+
   /// Assets for assetsAppoinment
   /// assets/Appoinment.png
   static const String assetsAppoinment = "assets/Appoinment.png";
@@ -18,13 +22,22 @@ class Assets {
   /// assets/article_image.png
   static const String assetsArticleImage = "assets/article_image.png";
 
-  /// Assets for assetsAIProfile
-  /// assets/AI_Profile.png
-  static const String assetsAIProfile = "assets/ai_profile.png";
-
   /// Assets for assetsArticleThumbnail
   /// assets/article_thumbnail.png
   static const String assetsArticleThumbnail = "assets/article_thumbnail.png";
+
+  /// Assets for assetsBNI
+  /// assets/BNI.png
+  static const String assetsBNI = "assets/BNI.png";
+
+  /// Assets for assetsChatbotLogo
+  /// assets/chatbot_logo.png
+  static const String assetsChatbotLogo = "assets/chatbot_logo.png";
+
+  /// Assets for assetsConfirmationSplash
+  /// assets/confirmation_splash.png
+  static const String assetsConfirmationSplash =
+      "assets/confirmation_splash.png";
 
   /// Assets for assetsDoctorImage
   /// assets/doctor_image.png
@@ -52,6 +65,14 @@ class Assets {
   /// Assets for assetsEllips
   /// assets/ellips.png
   static const String assetsEllips = "assets/ellips.png";
+
+  /// Assets for assetsEmptyBookmark
+  /// assets/empty_bookmark.png
+  static const String assetsEmptyBookmark = "assets/empty_bookmark.png";
+
+  /// Assets for assetsEmptyTransactions
+  /// assets/empty_transactions.png
+  static const String assetsEmptyTransactions = "assets/empty_transactions.png";
 
   /// Assets for assetsForum
   /// assets/Forum.png
@@ -117,9 +138,18 @@ class Assets {
   /// assets/foto_spesialis9.png
   static const String assetsFotoSpesialis9 = "assets/foto_spesialis9.png";
 
+  /// Assets for assetsIconHospital
+  /// assets/icon_hospital.png
+  static const String assetsIconHospital = "assets/icon_hospital.png";
+
   /// Assets for assetsIconKlinik
   /// assets/icon_klinik.png
   static const String assetsIconKlinik = "assets/icon_klinik.png";
+
+  /// Assets for assetsIconLocationOutlined
+  /// assets/icon_location_outlined.png
+  static const String assetsIconLocationOutlined =
+      "assets/icon_location_outlined.png";
 
   /// Assets for assetsImageProfileDokterNuke
   /// assets/image_profile_dokter_nuke.png
@@ -163,6 +193,14 @@ class Assets {
   /// assets/next_icon.png
   static const String assetsNextIcon = "assets/next_icon.png";
 
+  /// Assets for assetsNoConnections
+  /// assets/no_connections.png
+  static const String assetsNoConnections = "assets/no_connections.png";
+
+  /// Assets for assetsNoProfileS
+  /// assets/no_profile.png
+  static const String assetsNoProfile = "assets/no_profile.png";
+
   /// Assets for assetsNotificationEmpty
   /// assets/NotificationEmpty.png
   static const String assetsNotificationEmpty = "assets/NotificationEmpty.png";
@@ -204,6 +242,14 @@ class Assets {
   /// assets/Profile.png
   static const String assetsProfile = "assets/Profile.png";
 
+  /// Assets for assetsRefundOnprocess
+  /// assets/refund_onprocess.png
+  static const String assetsRefundOnprocess = "assets/refund_onprocess.png";
+
+  /// Assets for assetsRefundSuccesfull
+  /// assets/refund_succesfull.png
+  static const String assetsRefundSuccesfull = "assets/refund_succesfull.png";
+
   /// Assets for assetsRiwayat
   /// assets/Riwayat.png
   static const String assetsRiwayat = "assets/Riwayat.png";
@@ -217,13 +263,11 @@ class Assets {
   /// assets/success_register.png
   static const String assetsSuccessRegister = "assets/success_register.png";
 
+  /// Assets for assetsSucessedConfirm
+  /// assets/sucessed_confirm.png
+  static const String assetsSucessedConfirm = "assets/sucessed_confirm.png";
+
   /// Assets for assetsTrashCan
   /// assets/trash_can.png
   static const String assetsTrashCan = "assets/trash_can.png";
-
-  static const String assetsBank = "assets/BNI.png";
-
-  static const String assetsConfirmSplash = 'assets/confirmation_splash.png';
-
-  static const String assetsEmptyBookmark = 'assets/empty_bookmark.png';
 }

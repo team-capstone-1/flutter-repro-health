@@ -62,19 +62,13 @@ class SpesialisAppoinmentWidget extends StatelessWidget {
                       );
                     },
                     child: Card(
-                      elevation: 2.0,
+                      color: grey10,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(4.0),
                       ),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          // Image.network(
-                          //   specialist.image ?? '',
-                          //   width: 50.0,
-                          //   height: 50.0,
-                          //   fit: BoxFit.cover,
-                          // ),
                           CachedNetworkImage(
                             fit: BoxFit.cover,
                             width: 50,

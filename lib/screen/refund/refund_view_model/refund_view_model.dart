@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 import 'package:reprohealth_app/constant/routes_navigation.dart';
@@ -99,12 +100,12 @@ class RefundViewModel extends ChangeNotifier {
         Navigator.pushNamedAndRemoveUntil(
           context,
           RoutesNavigation.refundDetailsView,
-          (route) => route.isFirst,
+          (route) => false,
           arguments: appointmentData,
         );
       }
-    } catch (e) {
-      throw Exception(e);
+    } on DioException catch (e) {
+      throw Exception('FAILED TO REFUND : ${e.response}');
     } finally {
       isLoading = false; // unLoadind state
       notifyListeners();

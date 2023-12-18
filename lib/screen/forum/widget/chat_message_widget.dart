@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:reprohealth_app/models/chat_bot_models.dart';
+import 'package:reprohealth_app/models/chatbot_models/chat_bot_models.dart';
 import 'package:reprohealth_app/theme/theme.dart';
 
 class ChatMessageWidget extends StatelessWidget {
@@ -15,7 +15,10 @@ class ChatMessageWidget extends StatelessWidget {
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 10),
         padding: const EdgeInsets.all(16),
-        color: chatBot == ChatBot.bot ? green500 : green200,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: chatBot == ChatBot.bot ? green500 : green200,
+        ),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

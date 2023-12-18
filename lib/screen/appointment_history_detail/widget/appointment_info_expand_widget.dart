@@ -66,13 +66,18 @@ class AppointmentInfoExpandWidget extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                "Lokasi",
-                style: regular12Grey400,
+              Flexible(
+                child: Text(
+                  "Lokasi",
+                  style: regular12Grey400,
+                ),
               ),
-              Text(
-                appointmentData.consultation?.clinic?.location ?? "-",
-                style: semiBold12Grey500,
+              Flexible(
+                flex: 2,
+                child: Text(
+                  appointmentData.consultation?.clinic?.location ?? "-",
+                  style: semiBold12Grey500,
+                ),
               ),
             ],
           ),

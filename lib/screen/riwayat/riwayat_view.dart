@@ -17,9 +17,11 @@ class RiwayatView extends StatefulWidget {
 class _RiwayatViewState extends State<RiwayatView> {
   @override
   void initState() {
-    Provider.of<RiwayatViewModel>(context, listen: false).getTransaction();
-
     super.initState();
+    Provider.of<RiwayatViewModel>(
+      context,
+      listen: false,
+    ).getTransaction();
   }
 
   @override
@@ -39,8 +41,8 @@ class _RiwayatViewState extends State<RiwayatView> {
             "Riwayat Transaksi",
             style: semiBold16Grey700,
           ),
-          backgroundColor: grey10,
           elevation: 0,
+          backgroundColor: grey10,
           iconTheme: IconThemeData(color: grey700),
           bottom: TabBar(
             labelColor: green800,
@@ -75,45 +77,31 @@ class _RiwayatViewState extends State<RiwayatView> {
             ],
           ),
         ),
+        backgroundColor: grey50,
         body: Consumer<RiwayatViewModel>(
-          builder: (context, riwayatViewModel, child) {
+          builder: (context, controller, child) {
             return TabBarView(
               children: [
                 //^ DI PROSES
-                if (riwayatViewModel.isLoading == false)
-                  RefreshIndicator(
-                    onRefresh: () => riwayatViewModel.onRefresh(),
-                    color: green500,
-                    child: TabBarViewWidget(
-                      transactionData: transactionProcessed,
-                      visibleStatusContainer: true,
-                    ),
+                if (controller.isLoading == false)
+                  TabBarViewWidget(
+                    transactionData: transactionProcessed,
                   )
                 else
                   const ShimmerLoadingWidget(),
 
                 //^ SELESAI
-                if (riwayatViewModel.isLoading == false)
-                  RefreshIndicator(
-                    onRefresh: () => riwayatViewModel.onRefresh(),
-                    color: green500,
-                    child: TabBarViewWidget(
-                      transactionData: transactionSuccesed,
-                      visibleStatusContainer: false,
-                    ),
+                if (controller.isLoading == false)
+                  TabBarViewWidget(
+                    transactionData: transactionSuccesed,
                   )
                 else
                   const ShimmerLoadingWidget(),
 
                 //^ BATAL
-                if (riwayatViewModel.isLoading == false)
-                  RefreshIndicator(
-                    onRefresh: () => riwayatViewModel.onRefresh(),
-                    color: green500,
-                    child: TabBarViewWidget(
-                      transactionData: transactionCancelled,
-                      visibleStatusContainer: false,
-                    ),
+                if (controller.isLoading == false)
+                  TabBarViewWidget(
+                    transactionData: transactionCancelled,
                   )
                 else
                   const ShimmerLoadingWidget(),
@@ -121,7 +109,6 @@ class _RiwayatViewState extends State<RiwayatView> {
             );
           },
         ),
-        backgroundColor: grey50,
       ),
     );
   }

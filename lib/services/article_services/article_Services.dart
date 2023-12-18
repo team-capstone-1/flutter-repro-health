@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:reprohealth_app/models/article_models.dart';
 import 'package:reprohealth_app/models/doctor_models/doctor_models.dart';
-import 'package:reprohealth_app/models/profile_models.dart';
+import 'package:reprohealth_app/models/profile_models/profile_models.dart';
 import 'package:reprohealth_app/utils/shared_preferences_utils.dart';
 
 class ArticleServices {
@@ -119,11 +119,14 @@ class ArticleServices {
     }
   }
 
-  Future<CommentModel> postComment({
+  Future<void> postComment({
     required String patientId,
     required String comment,
     required String articleId,
   }) async {
+    if (articleId == null) {
+      print('Article ID is null');
+    }
     if (articleId.isEmpty) {
       print('Article ID is empty or null');
       throw ArgumentError('Invalid article ID');
@@ -137,7 +140,10 @@ class ArticleServices {
     try {
       var response = await Dio().post(
         url,
-        data: {"comment": comment, "patient_id": patientId},
+        data: {
+          "comment": comment,
+          "patient_id": patientId,
+        },
         options: Options(
           headers: {
             'Content-Type': 'application/json',
@@ -149,16 +155,14 @@ class ArticleServices {
       print('Comment post response: $response');
 
       final responseData = response.data;
-      if (responseData == null) {
-        throw Exception('Comment post response is null');
-      }
-
-      return CommentModel.fromJson(responseData);
-    } on DioError catch (e) {
+      // if (responseData == null) {
+      //   throw Exception('Comment post response is null');
+      // }
+    } on DioException catch (e) {
       if (e.response != null) {
-        print('Failed to post comments: ${e.response?.data}');
+        print('Failed to post comments1: ${e.response?.data}');
       } else {
-        print('Failed to post comments: ${e.message}');
+        print('Failed to post comments2: ${e.message}');
       }
       throw Exception('Failed to post comment');
     }

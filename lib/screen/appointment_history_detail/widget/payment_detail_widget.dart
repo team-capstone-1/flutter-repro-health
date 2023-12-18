@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:reprohealth_app/constant/appointment_status.dart';
 import 'package:reprohealth_app/constant/payment_method.dart';
 
 import 'package:reprohealth_app/theme/theme.dart';
@@ -20,6 +21,7 @@ class PaymentDetailWidget extends StatelessWidget {
       context,
       listen: false,
     );
+    var size = MediaQuery.of(context).size;
 
     return Container(
       padding: const EdgeInsets.all(16),
@@ -38,28 +40,56 @@ class PaymentDetailWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Flexible(
-                child: Text(
-                  "Metode Pembayaran",
-                  style: regular12Grey500,
-                ),
+              Text(
+                "Metode Pembayaran",
+                style: regular12Grey500,
               ),
-              Flexible(
-                child: Text(
-                  () {
-                    // jika user bayar [TRANSFER MANUAL]
-                    if (appointmentData?.consultation?.paymentMethod ==
-                        PaymentMethod.transferManual) {
-                      return "Transfer Manual";
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                    () {
+                      // jika user bayar [TRANSFER MANUAL]
+                      if (appointmentData?.consultation?.paymentMethod ==
+                          PaymentMethod.transferManual) {
+                        return "Transfer Manual";
 
-                      // jika user bayar [DIKLINIK]
-                    } else {
-                      return "Bayar Diklinik";
-                    }
-                  }(),
-                  style: semiBold12Grey500,
-                  textAlign: TextAlign.right,
-                ),
+                        // jika user bayar [DIKLINIK]
+                      } else {
+                        return "Bayar Diklinik";
+                      }
+                    }(),
+                    style: semiBold12Grey500,
+                    textAlign: TextAlign.right,
+                  ),
+                  Visibility(
+                    visible:
+                        appointmentData?.status == AppointmentStatus.selesai,
+                    child: GestureDetector(
+                        onTap: () {
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return Container(
+                                margin: EdgeInsets.symmetric(
+                                  vertical: size.height / 4,
+                                  horizontal: 16,
+                                ),
+                                child: Image.network(
+                                  appointmentData?.payment?.first.image ?? '-',
+                                  fit: BoxFit.contain,
+                                ),
+                              );
+                            },
+                          );
+                        },
+                        child: Text(
+                          "Lihat bukti pembayaran",
+                          style: semiBold10Green500,
+                        )),
+                  ),
+                ],
               ),
             ],
           ),

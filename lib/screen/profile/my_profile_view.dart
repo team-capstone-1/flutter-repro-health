@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
@@ -50,32 +51,39 @@ class _MyProfileState extends State<MyProfile> {
         actions: <Widget>[
           TextButton(
             onPressed: () async {
-              await Provider.of<GetFamilyProfileViewModel>(context, listen: false)
+              await Provider.of<GetFamilyProfileViewModel>(context,
+                      listen: false)
                   .fetchProfileData(context: context);
               final myProfile =
                   Provider.of<GetFamilyProfileViewModel>(context, listen: false)
-                      .profileList?.response?.first;
+                      .profileList
+                      ?.response
+                      ?.first;
               if (myProfile != null) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ChangeProfileView(
-                      idPatients: myProfile.id,
-                      date: DateFormat('dd/MM/yyyy')
-                          .format(myProfile.dateOfBirth ?? DateTime.now()),
-                      nameController: myProfile.name,
-                      nomorController: myProfile.telephoneNumber,
-                      beratController: myProfile.weight,
-                      tinggiController: myProfile.height,
-                      gender: myProfile.gender,
+                if (context.mounted) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ChangeProfileView(
+                        idPatients: myProfile.id,
+                        date: DateFormat('dd/MM/yyyy')
+                            .format(myProfile.dateOfBirth ?? DateTime.now()),
+                        nameController: myProfile.name,
+                        nomorController: myProfile.telephoneNumber,
+                        beratController: myProfile.weight,
+                        tinggiController: myProfile.height,
+                        gender: myProfile.gender,
+                      ),
                     ),
-                  ),
-                );
+                  );
+                }
               } else {
-                Navigator.pushNamed(
-                  context,
-                  RoutesNavigation.changeProfileView,
-                );
+                if (context.mounted) {
+                  Navigator.pushNamed(
+                    context,
+                    RoutesNavigation.changeProfileView,
+                  );
+                }
               }
             },
             child: Text(
@@ -91,18 +99,21 @@ class _MyProfileState extends State<MyProfile> {
               getFamilyProfileViewModel.profileList?.response?.isEmpty ?? true
                   ? null
                   : getFamilyProfileViewModel.profileList!.response!.first;
-                  
-          final imagePicker = Provider.of<ImagePickerViewModel>(context, listen: false);
-          if (imagePicker.file != null) {
-          Future(() {
-          Provider.of<PutFamilyProfileViewModel>(context, listen: false).updateProfileImage(
-              imageFile: imagePicker.file,
-              idPatients: myProfile?.id ?? "",
-            );
 
-            Provider.of<ImagePickerViewModel>(context, listen: false).clearResult();
-          });
-        }
+          final imagePicker =
+              Provider.of<ImagePickerViewModel>(context, listen: false);
+          if (imagePicker.file != null) {
+            Future(() {
+              Provider.of<PutFamilyProfileViewModel>(context, listen: false)
+                  .updateProfileImage(
+                imageFile: imagePicker.file,
+                idPatients: myProfile?.id ?? "",
+              );
+
+              Provider.of<ImagePickerViewModel>(context, listen: false)
+                  .clearResult();
+            });
+          }
 
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
@@ -129,10 +140,11 @@ class _MyProfileState extends State<MyProfile> {
                                 child: CircleAvatar(
                                   radius: 30,
                                   backgroundColor: const Color(0xFFB9B9B9),
-                                  backgroundImage: myProfile?.profileImage != null
+                                  backgroundImage: myProfile?.profileImage !=
+                                          null
                                       ? NetworkImage(myProfile!.profileImage!)
                                       : null,
-                                ),
+                            ),
                               ),
                               Positioned(
                                 left: 55,
@@ -195,7 +207,8 @@ class _MyProfileState extends State<MyProfile> {
                     ),
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 16, horizontal: 16),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -218,7 +231,11 @@ class _MyProfileState extends State<MyProfile> {
                           style: regular12Grey200,
                         ),
                         Text(
-                          myProfile?.gender == "male" ? "Laki - laki" : (myProfile?.gender == "female" ? "Perempuan" : "-"),
+                          myProfile?.gender == "male"
+                              ? "Laki - laki"
+                              : (myProfile?.gender == "female"
+                                  ? "Perempuan"
+                                  : "-"),
                           style: semiBold14Grey500,
                         ),
                         const SizedBox(

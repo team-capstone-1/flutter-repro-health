@@ -110,7 +110,7 @@ class RincianPembayaran extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Image.asset(
-                Assets.assetsBank,
+                Assets.assetsBNI,
                 width: 66,
                 height: 33,
               ),
