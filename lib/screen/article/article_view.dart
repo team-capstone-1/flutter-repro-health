@@ -126,8 +126,7 @@ class _ArticleViewState extends State<ArticleView> {
 
                                 // Update bookmark state after successful removal
                                 setState(() {
-                                  articleViewModel.isBookmark[index] =
-                                      !articleViewModel.isBookmark[index];
+                                  articleViewModel.isBookmark[index];
                                 });
                               } catch (e) {
                                 print('Failed to toggle bookmark: $e');
