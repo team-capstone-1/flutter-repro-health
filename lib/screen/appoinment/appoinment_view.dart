@@ -12,6 +12,7 @@ import 'package:reprohealth_app/theme/theme.dart';
 class AppoinmentView extends StatelessWidget {
   const AppoinmentView({super.key});
 
+
   @override
   Widget build(BuildContext context) {
     Provider.of<AppoinmentViewModel>(context, listen: false).getClinicsList();

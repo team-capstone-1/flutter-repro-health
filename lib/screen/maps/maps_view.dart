@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:reprohealth_app/component/text_form_component.dart';
 import 'package:reprohealth_app/models/maps_models.dart';
+import 'package:reprohealth_app/screen/appoinment/view_models/appoinment_view_model.dart';
 import 'package:reprohealth_app/screen/maps/maps_view_models/maps_view_model.dart';
 import 'package:reprohealth_app/theme/theme.dart';
 
@@ -10,6 +11,7 @@ class MapsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var getLocation = Provider.of<AppoinmentViewModel>(context, listen: false);
     Provider.of<MapsViewModel>(context, listen: false)
         .filteredMapsData
         .addAll(mapsData);
@@ -26,8 +28,8 @@ class MapsView extends StatelessWidget {
         ),
         iconTheme: IconThemeData(color: primary4),
       ),
-      body: Consumer<MapsViewModel>(
-        builder: (context, mapsViewModel, child) {
+      body: Consumer<AppoinmentViewModel>(
+        builder: (context, appoinmentViewModel, child) {
           return Column(
             children: [
               Padding(
@@ -38,9 +40,9 @@ class MapsView extends StatelessWidget {
                   bottom: 12,
                 ),
                 child: TextFormComponent(
-                  controller: mapsViewModel.searchMapsController,
+                  controller: appoinmentViewModel.searchAppoinmentController,
                   onChanged: (query) {
-                    mapsViewModel.filterSearchMaps(query);
+                    appoinmentViewModel.filterSearchClinics(query);
                   },
                   hintText: 'Cari Lokasi..',
                   hinstStyle: semiBold12Green500,
@@ -56,7 +58,7 @@ class MapsView extends StatelessWidget {
                       color: green500,
                     ),
                     Text(
-                      'Jakarta Pusat',
+                      getLocation.currentPosition?? "-",
                       style: regular12Grey400,
                     ),
                   ],
@@ -69,32 +71,40 @@ class MapsView extends StatelessWidget {
                 ),
               ),
               Expanded(
-                child: mapsViewModel.filteredMapsData.isNotEmpty
+                child: appoinmentViewModel.filteredClinicsList.isNotEmpty
                     ? ListView.builder(
-                        itemCount: mapsViewModel.filteredMapsData.length,
+                        itemCount: appoinmentViewModel.filteredClinicsList.length,
                         itemBuilder: (BuildContext context, int index) {
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 16,
-                            ),
-                            child: ListTile(
-                              leading: CircleAvatar(
-                                backgroundColor: Colors.transparent,
-                                child: Icon(
-                                  mapsViewModel.filteredMapsData[index].icon,
-                                  color: grey500,
+                          final clinics = appoinmentViewModel.filteredClinicsList[index];
+                          return GestureDetector(
+                            onTap: () {
+                              appoinmentViewModel.openMap(
+                                double.parse(clinics.latitude?? "0.00"),
+                                double.parse(clinics.longitude?? "0.00"),
+                                );
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 16,
+                              ),
+                              child: ListTile(
+                                leading: CircleAvatar(
+                                  backgroundColor: Colors.transparent,
+                                  child: Icon(
+                                    Icons.location_on_outlined,
+                                    color: grey500,
+                                  ),
                                 ),
-                              ),
-                              title: Text(
-                                mapsViewModel
-                                    .filteredMapsData[index].namaStasiun,
-                                style: regular12Grey900,
-                              ),
-                              subtitle: Text(
-                                mapsViewModel.filteredMapsData[index].jalan,
-                                style: regular8Grey400,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
+                                title: Text(
+                                  appoinmentViewModel.filteredClinicsList[index].name?? "-",
+                                  style: regular12Grey900,
+                                ),
+                                subtitle: Text(
+                                  appoinmentViewModel.filteredClinicsList[index].location?? "-",
+                                  style: regular8Grey400,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
                               ),
                             ),
                           );
