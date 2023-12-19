@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:reprohealth_app/models/article_models.dart';
+import 'package:flutter/foundation.dart';
+import 'package:reprohealth_app/models/article_models/article_models.dart';
 import 'package:reprohealth_app/services/article_services/article_services.dart';
 
 class ArticleViewModel with ChangeNotifier {
@@ -8,7 +8,6 @@ class ArticleViewModel with ChangeNotifier {
   List<ArticleModels> bookmarkedItem = [];
   bool isLoading = false;
   String error = '';
-
   bool get hasError => error.isNotEmpty;
 
   Future<void> fetchArticles() async {
@@ -27,7 +26,9 @@ class ArticleViewModel with ChangeNotifier {
     } catch (e) {
       isLoading = false;
       error = 'Error fetching articles: $e';
-      print(error);
+      if (kDebugMode) {
+        print(error);
+      }
       notifyListeners();
     }
   }
@@ -42,7 +43,8 @@ class ArticleViewModel with ChangeNotifier {
       isBookmark[index] = isBookmarked;
       notifyListeners();
     } catch (e) {
-      print('Error checking bookmark status: $e');
+      isBookmark[index] = false;
+      notifyListeners();
     }
   }
 }

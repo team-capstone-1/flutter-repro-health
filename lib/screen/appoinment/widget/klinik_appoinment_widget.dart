@@ -70,56 +70,64 @@ class KlinikAppoinmentWidget extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Center(
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(4.0),
-                              child: CachedNetworkImage(
-                                fit: BoxFit.cover,
-                                imageUrl: clinics.image ?? '',
-                                placeholder: (context, url) =>
-                                    const CircularProgressIndicator(),
-                                errorWidget: (context, url, error) =>
-                                    const Center(
-                                  child: Icon(
-                                    Icons.error,
-                                    size: 50,
+                          Flexible(
+                            flex: 2,
+                            child: Center(
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(4.0),
+                                child: CachedNetworkImage(
+                                  fit: BoxFit.cover,
+                                  imageUrl: clinics.image ?? '',
+                                  width: 154,
+                                  height: 80,
+                                  placeholder: (context, url) =>
+                                      const CircularProgressIndicator(),
+                                  errorWidget: (context, url, error) =>
+                                      const Center(
+                                    child: Icon(
+                                      Icons.error,
+                                      size: 50,
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.all(8),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  clinics.name ?? '',
-                                  style: semiBold14Grey900,
-                                ),
-                                Text(
-                                  clinics.location ?? '',
-                                  style: regular10Grey900,
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                                const SizedBox(
-                                  height: 5,
-                                ),
-                                Row(
-                                  children: [
-                                    Icon(
-                                      Icons.location_on_outlined,
-                                      size: 10,
-                                      color: green500,
-                                    ),
-                                    Text(
-                                      "6 Km",
-                                      style: regular8Grey400,
-                                    ),
-                                  ],
-                                ),
-                              ],
+                          Flexible(
+                            flex: 2,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    clinics.name ?? '',
+                                    style: semiBold14Grey900,
+                                  ),
+                                  Text(
+                                    clinics.location ?? '',
+                                    style: regular10Grey900,
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  const SizedBox(
+                                    height: 5,
+                                  ),
+                                  Row(
+                                    children: [
+                                      Icon(
+                                        Icons.location_on_outlined,
+                                        size: 10,
+                                        color: green500,
+                                      ),
+                                      Text(
+                                        "6 Km",
+                                        style: regular8Grey400,
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ],

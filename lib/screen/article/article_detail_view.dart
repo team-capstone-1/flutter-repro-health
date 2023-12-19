@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:reprohealth_app/component/button_component.dart';
 import 'package:reprohealth_app/component/text_form_component.dart';
 import 'package:reprohealth_app/constant/routes_navigation.dart';
-import 'package:reprohealth_app/models/article_models.dart';
+import 'package:reprohealth_app/models/article_models/article_models.dart';
 import 'package:reprohealth_app/screen/article/view_model/articel_view_model.dart';
 import 'package:reprohealth_app/screen/article/widgets/comment_card.dart';
 import 'package:reprohealth_app/theme/theme.dart';

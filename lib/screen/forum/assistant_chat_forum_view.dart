@@ -88,55 +88,56 @@ class AssistantChatForumView extends StatelessWidget {
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Container(
-                    height: 50,
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: grey200,
-                        width: 2.0,
+                if (idSession == null)
+                  Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Container(
+                      height: 50,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: grey200,
+                          width: 2.0,
+                        ),
+                        borderRadius: BorderRadius.circular(8.0),
                       ),
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: TextField(
-                            textCapitalization: TextCapitalization.sentences,
-                            style: semiBold12Grey500,
-                            controller: chatProvider.chat,
-                            decoration: InputDecoration(
-                              fillColor: grey10,
-                              filled: true,
-                              hintText: 'Kirim pesan disini',
-                              labelStyle: regular14Grey200,
-                              hintStyle: TextStyle(
-                                color: grey200,
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: TextField(
+                              textCapitalization: TextCapitalization.sentences,
+                              style: semiBold12Grey500,
+                              controller: chatProvider.chat,
+                              decoration: InputDecoration(
+                                fillColor: grey10,
+                                filled: true,
+                                hintText: 'Kirim pesan disini',
+                                labelStyle: regular14Grey200,
+                                hintStyle: TextStyle(
+                                  color: grey200,
+                                ),
+                                border: InputBorder.none,
+                                focusedBorder: InputBorder.none,
+                                enabledBorder: InputBorder.none,
+                                errorBorder: InputBorder.none,
+                                disabledBorder: InputBorder.none,
                               ),
-                              border: InputBorder.none,
-                              focusedBorder: InputBorder.none,
-                              enabledBorder: InputBorder.none,
-                              errorBorder: InputBorder.none,
-                              disabledBorder: InputBorder.none,
                             ),
                           ),
-                        ),
-                        IconButton(
-                          icon: Icon(
-                            Icons.send_rounded,
-                            color: grey300,
+                          IconButton(
+                            icon: Icon(
+                              Icons.send_rounded,
+                              color: grey300,
+                            ),
+                            onPressed: () {
+                              if (chatProvider.chat.text.trim().isNotEmpty) {
+                                chatProvider.handleSendMessage();
+                              }
+                            },
                           ),
-                          onPressed: () {
-                            if (chatProvider.chat.text.trim().isNotEmpty) {
-                              chatProvider.handleSendMessage();
-                            }
-                          },
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
-                ),
               ],
             ),
           );

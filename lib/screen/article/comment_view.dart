@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:reprohealth_app/models/article_models.dart';
-import 'package:reprohealth_app/models/profile_models/profile_models.dart';
+import 'package:reprohealth_app/models/article_models/article_models.dart';
 import 'package:reprohealth_app/screen/article/view_model/articel_view_model.dart';
 import 'package:reprohealth_app/screen/article/widgets/comment_card.dart';
 import 'package:reprohealth_app/theme/theme.dart';
 
 class CommentView extends StatefulWidget {
-  const CommentView({Key? key});
+  const CommentView({super.key});
 
   @override
   State<CommentView> createState() => _CommentViewState();
@@ -44,8 +43,6 @@ class _CommentViewState extends State<CommentView> {
           } else if (snapshot.hasError || !snapshot.hasData) {
             return Text('Failed to load patient details: ${snapshot.error}');
           } else {
-            ProfileModel? loggedInPatient = snapshot.data;
-
             final List<CommentModel> comments = ModalRoute.of(context)
                 ?.settings
                 .arguments as List<CommentModel>;

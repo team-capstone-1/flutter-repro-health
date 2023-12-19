@@ -1,3 +1,7 @@
+// ignore_for_file: deprecated_member_use
+
+import 'package:device_preview/device_preview.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -88,11 +92,16 @@ import 'package:reprohealth_app/screen/spesialis/view_models.dart/detail_spesial
 import 'package:reprohealth_app/screen/spesialis/view_models.dart/specialist_view_model.dart';
 import 'package:reprohealth_app/screen/splash/splash_view.dart';
 import 'package:reprohealth_app/screen/splash/view_model/splash_view_model.dart';
+import 'package:shimmer/main.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initializeDateFormatting('id_ID', null).then(
     (_) => runApp(const MainApp()),
+  );
+  DevicePreview(
+    enabled: !kReleaseMode,
+    builder: (context) => const MyApp(), // Wrap your app
   );
 }
 
@@ -174,6 +183,9 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => ArticleViewModel()),
       ],
       child: MaterialApp(
+        useInheritedMediaQuery: true,
+        locale: DevicePreview.locale(context),
+        builder: DevicePreview.appBuilder,
         localizationsDelegates: const [
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,

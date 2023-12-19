@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:reprohealth_app/constant/routes_navigation.dart';
@@ -23,7 +24,9 @@ class LocationAppoinmentWidget extends StatelessWidget {
                 onTap: () {
                   appoinmentViewModel.location?.forEach(
                     (element) {
-                      print(element);
+                      if (kDebugMode) {
+                        print(element);
+                      }
                     },
                   );
                   Navigator.pushNamed(context, RoutesNavigation.mapsView);

@@ -1,14 +1,15 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:html/parser.dart';
 import 'package:intl/intl.dart';
-import 'package:reprohealth_app/models/article_models.dart';
+import 'package:reprohealth_app/models/article_models/article_models.dart';
 import 'package:reprohealth_app/models/profile_models/profile_models.dart';
 import 'package:reprohealth_app/services/article_services/article_services.dart';
 import 'package:reprohealth_app/services/profile_service/profile_service.dart';
 
 class ArticleProvider with ChangeNotifier {
   TextEditingController controller = TextEditingController();
-  
+
   bool? _isLoading;
   bool? get isLoading => _isLoading;
 
@@ -36,15 +37,21 @@ class ArticleProvider with ChangeNotifier {
         if (patientId != null && patientId.isNotEmpty) {
           return patientId;
         } else {
-          print('Patient ID is null or empty');
+          if (kDebugMode) {
+            print('Patient ID is null or empty');
+          }
           return null;
         }
       } else {
-        print('Profile response is empty');
+        if (kDebugMode) {
+          print('Profile response is empty');
+        }
         return null;
       }
     } catch (e) {
-      print('Failed to get logged-in patient ID: $e');
+      if (kDebugMode) {
+        print('Failed to get logged-in patient ID: $e');
+      }
       return null;
     }
   }
@@ -59,19 +66,23 @@ class ArticleProvider with ChangeNotifier {
       if (profile.response != null && profile.response!.isNotEmpty) {
         return profile;
       } else {
-        print('Profile response is empty');
+        if (kDebugMode) {
+          print('Profile response is empty');
+        }
         return null;
       }
     } catch (e) {
-      print('Failed to get logged-in patient data: $e');
+      if (kDebugMode) {
+        print('Failed to get logged-in patient data: $e');
+      }
       return null;
     }
   }
 
   Future<List<CommentModel>> fetchCommentsForArticle(
       String articleId, BuildContext context) async {
-        _isLoading = true;
-        notifyListeners(); 
+    _isLoading = true;
+    notifyListeners();
     try {
       ProfileModel? loggedInPatient =
           await getLoggedInPatient(context: context);
@@ -90,11 +101,13 @@ class ArticleProvider with ChangeNotifier {
             'Failed to fetch comments: Logged-in patient data is null');
       }
     } catch (e) {
-      print('Failed to fetch comments: $e');
+      if (kDebugMode) {
+        print('Failed to fetch comments: $e');
+      }
       return [];
     } finally {
       _isLoading = false;
-        notifyListeners();
+      notifyListeners();
     }
   }
 
@@ -104,8 +117,10 @@ class ArticleProvider with ChangeNotifier {
       String? patientId = await getLoggedInPatientId(context);
       String? comment = controller.text.trim();
       controller.clear();
-      print(patientId);
-      print(comment);
+      if (kDebugMode) {
+        print(patientId);
+        print(comment);
+      }
       notifyListeners();
 
       if (articleId != null && patientId != null && comment.isNotEmpty) {
@@ -115,13 +130,17 @@ class ArticleProvider with ChangeNotifier {
           articleId: articleId,
         );
       } else {
-        print(
+        if (kDebugMode) {
+          print(
             'Comment cannot be empty, or patient ID or article ID is missing');
+        }
       }
       await fetchCommentsForArticle(articleId, context);
     } catch (e) {
-      print('halo 1 $e');
-      throw (e);
+      if (kDebugMode) {
+        print('halo 1 $e');
+      }
+      throw Exception(e);
     }
   }
 }
