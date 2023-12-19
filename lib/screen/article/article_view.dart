@@ -17,6 +17,11 @@ class ArticleView extends StatefulWidget {
 
 class _ArticleViewState extends State<ArticleView> {
   late TextEditingController controller;
+  
+  Future<void> _refresh() async {
+    // Implement your refresh logic here, for example, refetch articles.
+    Provider.of<ArticleViewModel>(context, listen: false).fetchArticles();
+  }
 
   @override
   void initState() {
@@ -50,103 +55,106 @@ class _ArticleViewState extends State<ArticleView> {
         backgroundColor: grey10,
       ),
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(
-                top: 24,
-                left: 16,
-                right: 16,
-                bottom: 24,
+        child: RefreshIndicator(
+          onRefresh: _refresh,
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(
+                  top: 24,
+                  left: 16,
+                  right: 16,
+                  bottom: 24,
+                ),
+                child: TextFormComponent(
+                  controller: controller,
+                  hintText: 'Cari Artikel',
+                  hinstStyle: regular14Grey400,
+                  prefixIcon: Icons.search,
+                  onChanged: (query) {
+                    setState(() {});
+                  },
+                ),
               ),
-              child: TextFormComponent(
-                controller: controller,
-                hintText: 'Cari Artikel',
-                hinstStyle: regular14Grey400,
-                prefixIcon: Icons.search,
-                onChanged: (query) {
-                  setState(() {});
-                },
-              ),
-            ),
-            Consumer<ArticleViewModel>(
-              builder: (context, articleViewModel, child) {
-                if (articleViewModel.isLoading) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                } else if (articleViewModel.hasError) {
-                  return Center(
-                      child: Text('Error: ${articleViewModel.error}'));
-                } else if (articleViewModel.articles.isEmpty) {
-                  return const Center(
-                    child: Text(
-                      'Tidak ada artikel',
-                    ),
-                  );
-                } else {
-                  String query = controller.text.toLowerCase();
-                  List<ArticleModels> filteredArticles = articleViewModel
-                      .articles
-                      .where((articles) =>
-                          articles.title.toLowerCase().contains(query))
-                      .toList();
-                  return ListView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: filteredArticles.length,
-                    itemBuilder: (context, index) {
-                      final article = filteredArticles[index];
-
-                      // Call checkBookmarkedStatus when building each item
-                      articleViewModel.checkBookmarkedStatus(index, article);
-
-                      return Padding(
-                        padding: const EdgeInsets.all(16),
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.pushNamed(
-                              context,
-                              RoutesNavigation.articleDetailView,
-                              arguments: article,
-                            );
-                          },
-                          child: ArticleCard(
-                            image: article.image,
-                            title: article.title,
-                            doctorImage: article.doctor?.profileImage ?? '',
-                            doctorName: article.doctor?.name ?? '',
-                            date: article.date,
-                            onPressedIcon: () async {
-                              try {
-                                await ArticleServices()
-                                    .postBookmark(article.id ?? '');
-
-                                setState(() {
-                                  // Toggle bookmark state
-                                  articleViewModel.isBookmark[index] =
-                                      !articleViewModel.isBookmark[index];
-                                });
-                              } catch (e) {
-                                print('Failed to toggle bookmark: $e');
-                              }
+              Consumer<ArticleViewModel>(
+                builder: (context, articleViewModel, child) {
+                  if (articleViewModel.isLoading) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else if (articleViewModel.hasError) {
+                    return Center(
+                        child: Text('Error: ${articleViewModel.error}'));
+                  } else if (articleViewModel.articles.isEmpty) {
+                    return const Center(
+                      child: Text(
+                        'Tidak ada artikel',
+                      ),
+                    );
+                  } else {
+                    String query = controller.text.toLowerCase();
+                    List<ArticleModels> filteredArticles = articleViewModel
+                        .articles
+                        .where((articles) =>
+                            articles.title.toLowerCase().contains(query))
+                        .toList();
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: filteredArticles.length,
+                      itemBuilder: (context, index) {
+                        final article = filteredArticles[index];
+        
+                        // Call checkBookmarkedStatus when building each item
+                        articleViewModel.checkBookmarkedStatus(index, article);
+        
+                        return Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.pushNamed(
+                                context,
+                                RoutesNavigation.articleDetailView,
+                                arguments: article,
+                              );
                             },
-                            showIcon: true,
-                            isSelected: articleViewModel.isBookmark[index],
-                            selectedIcon: Icon(Icons.bookmark, color: green600),
-                            unselectedIcon: Icon(
-                              Icons.bookmark_add_outlined,
-                              color: green600,
+                            child: ArticleCard(
+                              image: article.image,
+                              title: article.title,
+                              doctorImage: article.doctor?.profileImage ?? '',
+                              doctorName: article.doctor?.name ?? '',
+                              date: article.date,
+                              onPressedIcon: () async {
+                                try {
+                                  await ArticleServices()
+                                      .postBookmark(article.id ?? '');
+        
+                                  // Update bookmark state after successful removal
+                                  setState(() {
+                                    articleViewModel.isBookmark[index] =
+                                        !articleViewModel.isBookmark[index];
+                                  });
+                                } catch (e) {
+                                  print('Failed to toggle bookmark: $e');
+                                }
+                              },
+                              showIcon: true,
+                              isSelected: articleViewModel.isBookmark[index],
+                              selectedIcon: Icon(Icons.bookmark, color: green600),
+                              unselectedIcon: Icon(
+                                Icons.bookmark_add_outlined,
+                                color: green600,
+                              ),
                             ),
                           ),
-                        ),
-                      );
-                    },
-                  );
-                }
-              },
-            ),
-          ],
+                        );
+                      },
+                    );
+                  }
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );

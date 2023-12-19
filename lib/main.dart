@@ -43,8 +43,6 @@ import 'package:reprohealth_app/screen/klinik/klinik_view.dart';
 import 'package:reprohealth_app/screen/klinik/search_klinik_view.dart';
 import 'package:reprohealth_app/screen/klinik/view_models/clinics_view_model.dart';
 import 'package:reprohealth_app/screen/klinik/view_models/search_klinik_view_model.dart';
-import 'package:reprohealth_app/screen/location/detail_location_view.dart';
-import 'package:reprohealth_app/screen/location/location_view.dart';
 import 'package:reprohealth_app/screen/login/login_view.dart';
 import 'package:reprohealth_app/screen/login/view_model/login_view_model.dart';
 import 'package:reprohealth_app/screen/maps/maps_view.dart';
@@ -222,15 +220,11 @@ class MainApp extends StatelessWidget {
               const SearchKlinikView(),
           RoutesNavigation.detailDokterView: (context) =>
               const DetailDokterView(),
-          RoutesNavigation.locationView: (context) => const LocationView(),
-          RoutesNavigation.detailLocationView: (context) =>
-              const DetailLocationView(),
           RoutesNavigation.appoinmentView: (context) => const AppoinmentView(),
           RoutesNavigation.mapsView: (context) => const MapsView(),
           RoutesNavigation.jadwalDokterView: (context) =>
               const JadwalDokterView(),
           RoutesNavigation.janjiTemuView: (context) => const JanjiTemuView(),
-
 
           // Forum
           RoutesNavigation.chatBotForumView: (context) =>

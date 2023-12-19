@@ -15,6 +15,7 @@ class AppoinmentView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Provider.of<AppoinmentViewModel>(context, listen: false).getClinicsList();
+    Provider.of<AppoinmentViewModel>(context, listen: false).getLocation();
     Provider.of<AppoinmentViewModel>(context, listen: false)
         .getSpecialistList();
     return Scaffold(
