@@ -53,8 +53,10 @@ class KlinikAppoinmentWidget extends StatelessWidget {
                 itemCount: filteredClinicsData.length.clamp(0, 2),
                 itemBuilder: (BuildContext context, int index) {
                   final clinics = filteredClinicsData[index];
+                  appoinmentViewModel.getDistance(index: index);
                   return GestureDetector(
                     onTap: () {
+                      print(appoinmentViewModel.distance);
                       Navigator.pushNamed(
                         context,
                         RoutesNavigation.detailKlinikView,
@@ -116,7 +118,9 @@ class KlinikAppoinmentWidget extends StatelessWidget {
                                       color: green500,
                                     ),
                                     Text(
-                                      "6 Km",
+                                      appoinmentViewModel.distance == null
+                                      ? "0 km"
+                                      :"${(appoinmentViewModel.distance! / 1000).toStringAsFixed(1) } km",
                                       style: regular8Grey400,
                                     ),
                                   ],

@@ -4,10 +4,8 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:reprohealth_app/models/clinics_models/clinics_models.dart';
 import 'package:reprohealth_app/models/specialist_models/specialist_models.dart';
-import 'package:reprohealth_app/screen/profile/widget/profile_widget/snackbar_widget.dart';
 import 'package:reprohealth_app/services/clinics_services/clinics_services.dart';
 import 'package:reprohealth_app/services/specialist_services/specialist_services.dart';
-import 'package:reprohealth_app/theme/theme.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -22,6 +20,9 @@ class AppoinmentViewModel extends ChangeNotifier {
 
   String? _currentPosition = "-";
   String? get currentPosition => _currentPosition;
+
+  double? _distance;
+  double? get distance => _distance;
 
   AppoinmentViewModel() {
     getClinicsList();
@@ -77,8 +78,10 @@ class AppoinmentViewModel extends ChangeNotifier {
     if (query.isNotEmpty) {
       searchResults = clinicsList?.response
               ?.where((data) =>
-                (data.name?.toLowerCase().contains(query.toLowerCase()) ?? false) ||
-                (data.location?.toLowerCase().contains(query.toLowerCase()) ?? false))
+                  (data.name?.toLowerCase().contains(query.toLowerCase()) ??
+                      false) ||
+                  (data.location?.toLowerCase().contains(query.toLowerCase()) ??
+                      false))
               .toList() ??
           [];
     } else {
@@ -108,7 +111,7 @@ class AppoinmentViewModel extends ChangeNotifier {
   }
 
   // Location
-  Future<Map<String, dynamic>> determinePosition(BuildContext context) async {
+  Future<Map<String, dynamic>> determinePosition() async {
     bool serviceEnabled;
     LocationPermission permission;
 
@@ -146,13 +149,6 @@ class AppoinmentViewModel extends ChangeNotifier {
 
     if (permission == LocationPermission.deniedForever) {
       // Permissions are denied forever, handle appropriately.
-      ScaffoldMessenger.of(context).showSnackBar(
-          CustomSnackBar(
-            contentText:
-                'Gagal mendapatkan lokasi. Aktifkan izin lokasi di pengaturan!',
-            backgroundColor: negative,
-          ),
-        );
 
       return {
         "message":
@@ -171,8 +167,8 @@ class AppoinmentViewModel extends ChangeNotifier {
     };
   }
 
-  Future<void> getLocation(BuildContext context) async {
-    Map<String, dynamic> responseData = await determinePosition(context);
+  Future<void> getLocation() async {
+    Map<String, dynamic> responseData = await determinePosition();
 
     if (responseData['error'] != true) {
       //^ KONVERSI TITIK KOORDINAT KE BENTUK ALAMAT
@@ -180,14 +176,12 @@ class AppoinmentViewModel extends ChangeNotifier {
       _location = await placemarkFromCoordinates(
         position.latitude,
         position.longitude,
-      ).then(
-        (List<Placemark> listPlacemark) {
-          Placemark placemark = listPlacemark.first;
-          _currentPosition = "${placemark.subAdministrativeArea}";
-          notifyListeners();
-          return _location;
-        }
-        );
+      ).then((List<Placemark> listPlacemark) {
+        Placemark placemark = listPlacemark.first;
+        _currentPosition = "${placemark.subAdministrativeArea}";
+        notifyListeners();
+        return _location;
+      });
     } else {
       if (kDebugMode) {
         print('Gagal mendapatkan lokasi');
@@ -199,11 +193,26 @@ class AppoinmentViewModel extends ChangeNotifier {
   }
 
   Future<void> openMap(double latitude, double longitude) async {
-    String googleUrl = 'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
+    String googleUrl =
+        'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
     if (await launch(googleUrl)) {
       await launch(googleUrl);
     } else {
       throw 'Could not open the map.';
     }
+  }
+
+  Future<double> getDistance({required int index}) async {
+    Map<String, dynamic> responseData = await determinePosition();
+    Position position = responseData['position'];
+    double distance = Geolocator.distanceBetween(
+      double.parse(_clinicsList?.response?[index].latitude ?? "0.00"),
+      double.parse(_clinicsList?.response?[index].longitude ?? "0.00"),
+      position.latitude,
+      position.longitude,
+    );
+    _distance = distance;
+    notifyListeners();
+    return distance;
   }
 }

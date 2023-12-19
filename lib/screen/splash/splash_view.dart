@@ -12,7 +12,7 @@ class SplashView extends StatelessWidget {
   Widget build(BuildContext context) {
     Future.delayed(const Duration(seconds: 3), () {
       Provider.of<SplashViewModel>(context, listen: false).checkLogin(context);
-      Provider.of<AppoinmentViewModel>(context, listen: false).determinePosition(context);
+      Provider.of<AppoinmentViewModel>(context, listen: false).determinePosition();
     });
 
     return Scaffold(

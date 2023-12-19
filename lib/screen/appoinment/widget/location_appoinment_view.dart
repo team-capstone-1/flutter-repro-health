@@ -9,7 +9,7 @@ class LocationAppoinmentWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Provider.of<AppoinmentViewModel>(context, listen: false).getLocation(context);
+    Provider.of<AppoinmentViewModel>(context, listen: false).getLocation();
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: Row(
@@ -21,7 +21,7 @@ class LocationAppoinmentWidget extends StatelessWidget {
           GestureDetector(
             onTap: () {
               Navigator.pushNamed(context, RoutesNavigation.mapsView);
-              Provider.of<AppoinmentViewModel>(context, listen: false).getLocation(context);
+              Provider.of<AppoinmentViewModel>(context, listen: false).getLocation();
             },
             child: Consumer<AppoinmentViewModel>(
               builder: (context, getAdrress, child) {
