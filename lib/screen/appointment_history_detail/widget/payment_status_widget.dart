@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:reprohealth_app/constant/appointment_status.dart';
-import 'package:reprohealth_app/constant/assets_constants.dart';
 import 'package:reprohealth_app/constant/payment_method.dart';
 import 'package:reprohealth_app/constant/payment_status.dart';
 import 'package:reprohealth_app/models/riwayat_models/history_transaction_models.dart';
-
 import 'package:reprohealth_app/theme/theme.dart';
 
 class PaymentStatusWidget extends StatelessWidget {
@@ -61,25 +59,13 @@ class PaymentStatusWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  appointmentData?.invoice ?? "-",
+                  'Lihat Invoice',
                   style: regular14Grey400,
                 ),
                 const SizedBox(height: 12),
-                GestureDetector(
-                  onTap: () {
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        return AlertDialog(
-                          content: Image.asset(Assets.assetsNoProfile),
-                        );
-                      },
-                    );
-                  },
-                  child: Text(
-                    'Lihat Invoice',
-                    style: semiBold12Green500,
-                  ),
+                Text(
+                  appointmentData?.invoice ?? "-",
+                  style: semiBold12Green500
                 ),
               ],
             ),

@@ -10,36 +10,31 @@ class LocationAppoinmentWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<AppoinmentViewModel>(
-      builder: (context, appoinmentViewModel, child) {
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          child: Row(
-            children: [
-              Icon(
-                Icons.location_on_outlined,
-                color: green500,
-              ),
-              GestureDetector(
-                onTap: () {
-                  appoinmentViewModel.location?.forEach(
-                    (element) {
-                      if (kDebugMode) {
-                        print(element);
-                      }
-                    },
-                  );
-                  Navigator.pushNamed(context, RoutesNavigation.mapsView);
-                },
-                child: Text(
-                  'Jakarta Pusat',
-                  style: regular12Grey400,
-                ),
-              ),
-            ],
+    Provider.of<AppoinmentViewModel>(context, listen: false).getLocation();
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      child: Row(
+        children: [
+          Icon(
+            Icons.location_on_outlined,
+            color: green500,
           ),
-        );
-      },
+          GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(context, RoutesNavigation.mapsView);
+              Provider.of<AppoinmentViewModel>(context, listen: false).getLocation();
+            },
+            child: Consumer<AppoinmentViewModel>(
+              builder: (context, getAdrress, child) {
+                return Text(
+                  getAdrress.currentPosition ?? "-",
+                  style: regular12Grey400,
+                );
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

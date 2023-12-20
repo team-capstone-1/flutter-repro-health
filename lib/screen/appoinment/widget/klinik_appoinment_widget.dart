@@ -53,8 +53,10 @@ class KlinikAppoinmentWidget extends StatelessWidget {
                 itemCount: filteredClinicsData.length.clamp(0, 2),
                 itemBuilder: (BuildContext context, int index) {
                   final clinics = filteredClinicsData[index];
+                  appoinmentViewModel.getDistance(index: index);
                   return GestureDetector(
                     onTap: () {
+                      print(appoinmentViewModel.distance);
                       Navigator.pushNamed(
                         context,
                         RoutesNavigation.detailKlinikView,
@@ -93,41 +95,40 @@ class KlinikAppoinmentWidget extends StatelessWidget {
                               ),
                             ),
                           ),
-                          Flexible(
-                            flex: 2,
-                            child: Padding(
-                              padding: const EdgeInsets.all(8),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    clinics.name ?? '',
-                                    style: semiBold14Grey900,
-                                  ),
-                                  Text(
-                                    clinics.location ?? '',
-                                    style: regular10Grey900,
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                  const SizedBox(
-                                    height: 5,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Icon(
-                                        Icons.location_on_outlined,
-                                        size: 10,
-                                        color: green500,
-                                      ),
-                                      Text(
-                                        "6 Km",
-                                        style: regular8Grey400,
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
+                          Padding(
+                            padding: const EdgeInsets.all(8),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  clinics.name ?? '',
+                                  style: semiBold14Grey900,
+                                ),
+                                Text(
+                                  clinics.location ?? '',
+                                  style: regular10Grey900,
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                const SizedBox(
+                                  height: 5,
+                                ),
+                                Row(
+                                  children: [
+                                    Icon(
+                                      Icons.location_on_outlined,
+                                      size: 10,
+                                      color: green500,
+                                    ),
+                                    Text(
+                                      appoinmentViewModel.distance == null
+                                      ? "0 km"
+                                      :"${(appoinmentViewModel.distance! / 1000).toStringAsFixed(1) } km",
+                                      style: regular8Grey400,
+                                    ),
+                                  ],
+                                ),
+                              ],
                             ),
                           ),
                         ],

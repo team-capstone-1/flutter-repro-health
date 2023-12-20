@@ -7,6 +7,7 @@ import 'package:reprohealth_app/models/specialist_models/specialist_models.dart'
 import 'package:reprohealth_app/services/clinics_services/clinics_services.dart';
 import 'package:reprohealth_app/services/specialist_services/specialist_services.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AppoinmentViewModel extends ChangeNotifier {
   final TextEditingController _searchAppoinmentController =
@@ -16,6 +17,12 @@ class AppoinmentViewModel extends ChangeNotifier {
 
   final _searchController = BehaviorSubject<String>.seeded('');
   Stream<String> get searchStream => _searchController.stream;
+
+  String? _currentPosition = "-";
+  String? get currentPosition => _currentPosition;
+
+  double? _distance;
+  double? get distance => _distance;
 
   AppoinmentViewModel() {
     getClinicsList();
@@ -71,8 +78,10 @@ class AppoinmentViewModel extends ChangeNotifier {
     if (query.isNotEmpty) {
       searchResults = clinicsList?.response
               ?.where((data) =>
-                  data.name?.toLowerCase().contains(query.toLowerCase()) ??
-                  false)
+                  (data.name?.toLowerCase().contains(query.toLowerCase()) ??
+                      false) ||
+                  (data.location?.toLowerCase().contains(query.toLowerCase()) ??
+                      false))
               .toList() ??
           [];
     } else {
@@ -112,6 +121,8 @@ class AppoinmentViewModel extends ChangeNotifier {
       // Location services are not enabled don't continue
       // accessing the position and request users of the
       // App to enable the location services.
+      print("Lokasi tidak aktif");
+      permission = await Geolocator.requestPermission();
 
       return {
         "message": "Tidak dapat mengambil lokasi pada device ini",
@@ -165,14 +176,43 @@ class AppoinmentViewModel extends ChangeNotifier {
       _location = await placemarkFromCoordinates(
         position.latitude,
         position.longitude,
-      );
+      ).then((List<Placemark> listPlacemark) {
+        Placemark placemark = listPlacemark.first;
+        _currentPosition = "${placemark.subAdministrativeArea}";
+        notifyListeners();
+        return _location;
+      });
     } else {
       if (kDebugMode) {
         print('Gagal mendapatkan lokasi');
       }
     }
     if (kDebugMode) {
-      print('Location ${_location?.first.street}');
+      print(_currentPosition);
     }
+  }
+
+  Future<void> openMap(double latitude, double longitude) async {
+    String googleUrl =
+        'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
+    if (await launch(googleUrl)) {
+      await launch(googleUrl);
+    } else {
+      throw 'Could not open the map.';
+    }
+  }
+
+  Future<double> getDistance({required int index}) async {
+    Map<String, dynamic> responseData = await determinePosition();
+    Position position = responseData['position'];
+    double distance = Geolocator.distanceBetween(
+      double.parse(_clinicsList?.response?[index].latitude ?? "0.00"),
+      double.parse(_clinicsList?.response?[index].longitude ?? "0.00"),
+      position.latitude,
+      position.longitude,
+    );
+    _distance = distance;
+    notifyListeners();
+    return distance;
   }
 }

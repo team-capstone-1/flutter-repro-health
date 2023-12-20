@@ -151,18 +151,30 @@ class DetailForumView extends StatelessWidget {
                     children: [
                       ClipRRect(
                         borderRadius: BorderRadius.circular(50),
-                        child: CachedNetworkImage(
-                          fit: BoxFit.cover,
-                          width: 40,
-                          imageUrl: detailForum?.patientProfile ?? '',
-                          placeholder: (context, url) =>
-                              const CircularProgressIndicator(),
-                          errorWidget: (context, url, error) => Center(
-                            child: Image.network(
-                              'https://buffer.com/cdn-cgi/image/w=1000,fit=contain,q=90,f=auto/library/content/images/size/w1200/2023/10/free-images.jpg',
-                            ),
-                          ),
-                        ),
+                        child: detailForum?.anonymous == true
+                            ? CachedNetworkImage(
+                                fit: BoxFit.cover,
+                                width: 40,
+                                imageUrl:
+                                    "https://www.google.com/url?sa=i&url=https%3A%2F%2Fen.m.wikipedia.org%2Fwiki%2FFile%3ASample_User_Icon.png&psig=AOvVaw1QWRook5-tuF1FiqeXl2En&ust=1703133454135000&source=images&cd=vfe&ved=0CBEQjRxqFwoTCKCcltaYnYMDFQAAAAAdAAAAABAE",
+                                placeholder: (context, url) =>
+                                    const CircularProgressIndicator(),
+                                errorWidget: (context, url, error) => const Center(
+                                  child: Icon(Icons.error)
+                                ),
+                              )
+                            : CachedNetworkImage(
+                                fit: BoxFit.cover,
+                                width: 40,
+                                imageUrl: detailForum?.patientProfile ?? '',
+                                placeholder: (context, url) =>
+                                    const CircularProgressIndicator(),
+                                errorWidget: (context, url, error) => Center(
+                                  child: Image.network(
+                                    'https://buffer.com/cdn-cgi/image/w=1000,fit=contain,q=90,f=auto/library/content/images/size/w1200/2023/10/free-images.jpg',
+                                  ),
+                                ),
+                              ),
                       ),
                       const SizedBox(
                         width: 8,

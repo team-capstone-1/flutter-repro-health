@@ -9,15 +9,27 @@ import 'package:reprohealth_app/screen/appoinment/widget/spesialis_appointment_w
 import 'package:reprohealth_app/screen/appoinment/widget/text_field_appointment_widget.dart';
 import 'package:reprohealth_app/theme/theme.dart';
 
-class AppoinmentView extends StatelessWidget {
+class AppoinmentView extends StatefulWidget {
   const AppoinmentView({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  State<AppoinmentView> createState() => _AppoinmentViewState();
+}
+
+class _AppoinmentViewState extends State<AppoinmentView> {
+
+  @override
+  void initState() {
     Provider.of<AppoinmentViewModel>(context, listen: false).getClinicsList();
     Provider.of<AppoinmentViewModel>(context, listen: false).getLocation();
     Provider.of<AppoinmentViewModel>(context, listen: false)
         .getSpecialistList();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
